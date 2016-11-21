@@ -6,24 +6,17 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.google.geo.mapping.Activator
 Bundle-Vendor: Condast
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Import-Package: org.condast.commons,
+Import-Package: com.google.gson,
+ org.condast.commons,
  org.condast.commons.ds,
  org.condast.commons.strings,
  org.osgi.framework;version="1.3.0",
  org.slf4j;version="1.7.2"
 Bundle-ActivationPolicy: lazy
-Bundle-ClassPath: lib/geocoder-java-0.16.jar,
- .,
- lib/gson-2.7.jar
+Bundle-ClassPath: .,
+ lib/geocoder-java-0.16.jar
 Export-Package: com.google.code.geocoder,
  com.google.code.geocoder.model,
- com.google.gson,
- com.google.gson.annotations,
- com.google.gson.internal,
- com.google.gson.internal.bind,
- com.google.gson.internal.bind.util,
- com.google.gson.reflect,
- com.google.gson.stream,
  org.google.geo.mapping,
  org.google.geo.mapping.geocoder
 Service-Component: OSGI-INF/fillmapprovider.xml

@@ -18,6 +18,7 @@ public class TilesAndPixelsModel {
 	
 	public enum Functions{
 		SET_TILE_SIZE,
+		SET_LOCATION,
 		CREATE_LOCATION_INFO,
 		ALERT_ZOOM;;
 		
@@ -73,7 +74,15 @@ public class TilesAndPixelsModel {
 	public void synchronize(){
 		browser.executeQuery();
 	}
-	
+
+	public void setLocation( LngLat lnglat, int zoom ){
+		String[] params=  new String[3];
+		params[0] = String.valueOf( lnglat.getLatitude() );
+		params[1] = String.valueOf( lnglat.getLongtitude() );
+		params[2] = String.valueOf( zoom );
+		browser.setQuery(Functions.SET_LOCATION.toString(), params);
+	}
+
 	public void createLocationInfo( String name, String description, LngLat lnglat, int zoom ){
 		String[] params=  new String[5];
 		params[0] = name;
