@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?artifactRepository version='1.1.0'?>
+<artifacts size='1'>
+  <artifact classifier='osgi.bundle' id='org.google.geo.mapping' version='1.0.0.201611152019'>
+    <properties size='5'>
+      <property name='artifact.size' value='997135'/>
+      <property name='download.size' value='997135'/>
+      <property name='maven-groupId' value='org.condast.commons'/>
+      <property name='maven-artifactId' value='org.google.geo.mapping'/>
+      <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+    </properties>
+  </artifact>
+</artifacts>

@@ -1,0 +1,22 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.equinox.http.registry.resources">
+      <resource
+            alias="/geo"
+            base-name="/web">
+      </resource>
+      <resource
+            alias="/georesources"
+            base-name="/resources">
+      </resource>
+   </extension>
+   <extension
+         point="org.eclipse.equinox.http.registry.servlets">
+      <servlet
+            alias="/geo/GeoCoderServlet"
+            class="org.google.geo.mapping.ui.servlet.GeoCoderServlet">
+      </servlet>
+   </extension>
+ </plugin>

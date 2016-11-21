@@ -1,0 +1,4 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<site>
+   <feature url="features/org.condast.commons.feature_1.0.0.201611152019.jar" id="org.condast.commons.feature" version="1.0.0.201611152019"/>
+</site>

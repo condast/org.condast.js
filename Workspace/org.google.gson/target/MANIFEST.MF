@@ -1,0 +1,15 @@
+Manifest-Version: 1.0
+Bundle-SymbolicName: org.google.gson
+Export-Package: com.google.gson,com.google.gson.annotations,com.google
+ .gson.internal,com.google.gson.internal.bind,com.google.gson.internal
+ .bind.util,com.google.gson.reflect,com.google.gson.stream
+Bundle-Name: Gson Parser
+Bundle-Version: 1.0.0.201611152019
+Bundle-ClassPath: lib/gson-2.7.jar,.
+Bundle-ManifestVersion: 2
+Bundle-Activator: org.condast.gson.Activator
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-ActivationPolicy: lazy
+Bundle-Vendor: Condast
+Import-Package: org.osgi.framework;version="1.3.0"
+

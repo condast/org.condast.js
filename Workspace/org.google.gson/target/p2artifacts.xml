@@ -1,0 +1,13 @@
+<?xml version='1.0' encoding='UTF-8'?>
+<?artifactRepository version='1.1.0'?>
+<artifacts size='1'>
+  <artifact classifier='osgi.bundle' id='org.google.gson' version='1.0.0.201611152019'>
+    <properties size='5'>
+      <property name='artifact.size' value='809105'/>
+      <property name='download.size' value='809105'/>
+      <property name='maven-groupId' value='org.condast.commons'/>
+      <property name='maven-artifactId' value='org.google.gson'/>
+      <property name='maven-version' value='1.0.0-SNAPSHOT'/>
+    </properties>
+  </artifact>
+</artifacts>
