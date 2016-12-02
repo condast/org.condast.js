@@ -1,10 +1,19 @@
+bin/
+target/
+tmp/
+features/
+plugins/
+
 *.class
+*.tmp
+artifacts.jar
+content.jar
 
 # Mobile Tools for Java (J2ME)
 .mtj.tmp/
+.settings
 
 # Package Files #
-*.jar
 *.war
 *.ear
 
