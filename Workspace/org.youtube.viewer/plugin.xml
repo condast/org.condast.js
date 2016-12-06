@@ -8,15 +8,15 @@
             base-name="/web">
       </resource>
       <resource
-            alias="/ytresources"
-            base-name="/resources">
+            alias="/ytresources2"
+            base-name="/resources2">
       </resource>
    </extension>
    <extension
          point="org.eclipse.equinox.http.registry.servlets">
       <servlet
             alias="/youtube/servlet"
-            class="org.youtube.player.servlet.YouTubeServlet">
+            class="org.youtube.player.servlet.YouTubeServlet2">
       </servlet>
    </extension>
  </plugin>

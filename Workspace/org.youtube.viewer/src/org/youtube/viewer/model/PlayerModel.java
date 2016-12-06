@@ -41,7 +41,8 @@ public class PlayerModel extends AbstractModel{
 		params[1] = String.valueOf( height );
 		params[2] = videoId;
 		params[3] = String.valueOf( interval );
-		getBrowser().setQuery(Functions.INITIALISE.toString(), params );
+		String initializeFunction = Functions.INITIALISE.toString();
+		getBrowser().setQuery(initializeFunction, params );
 	}	
 
 	public double getCurrentTime(){

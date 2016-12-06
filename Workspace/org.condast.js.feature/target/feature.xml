@@ -1,8 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <feature
-      id="org.condast.commons.feature"
-      label="Feature"
-      version="1.0.0.201611152019">
+      id="org.condast.js.feature"
+      label="JavaScript Support Feature"
+      version="1.0.0.201612061619">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
@@ -20,87 +20,61 @@
       <import plugin="org.eclipse.equinox.preferences"/>
       <import plugin="org.eclipse.osgi.services"/>
       <import plugin="org.eclipse.osgi"/>
-      <import plugin="javax.servlet"/>
-      <import plugin="org.apache.commons.codec"/>
-      <import plugin="org.eclipse.core.runtime"/>
-      <import plugin="org.eclipse.equinox.security"/>
-      <import plugin="org.eclipse.rap.jface"/>
-      <import plugin="org.eclipse.rap.rwt"/>
-      <import plugin="javax.persistence"/>
-      <import plugin="org.eclipse.core.runtime" version="3.9.100" match="greaterOrEqual"/>
-      <import plugin="org.eclipse.core.commands"/>
       <import plugin="org.slf4j.api"/>
+      <import plugin="javax.servlet"/>
       <import plugin="org.eclipse.equinox.http.registry"/>
+      <import plugin="org.eclipse.rap.rwt"/>
+      <import plugin="org.apache.httpcomponents.httpcore"/>
+      <import plugin="org.apache.httpcomponents.httpclient"/>
    </requires>
 
    <plugin
          id="org.condast.commons"
          download-size="69"
          install-size="113"
-         version="1.0.0.201611152019"
-         unpack="false"/>
-
-   <plugin
-         id="org.condast.commons.authentication"
-         download-size="61"
-         install-size="107"
-         version="1.0.0.201611152019"
-         unpack="false"/>
-
-   <plugin
-         id="org.condast.commons.persistence"
-         download-size="13"
-         install-size="21"
-         version="1.0.0.201611152019"
-         unpack="false"/>
-
-   <plugin
-         id="org.condast.commons.ui"
-         download-size="261"
-         install-size="422"
-         version="1.0.0.201611152019"
-         unpack="false"/>
-
-   <plugin
-         id="org.condast.reporting"
-         download-size="7"
-         install-size="8"
-         version="1.0.0.201611152019"
+         version="1.0.0.201612061619"
          unpack="false"/>
 
    <plugin
          id="org.google.geo.mapping"
-         download-size="973"
-         install-size="1065"
-         version="1.0.0.201611152019"
+         download-size="52"
+         install-size="78"
+         version="1.0.0.201612061619"
          unpack="false"/>
 
    <plugin
          id="org.google.geo.mapping.ui"
-         download-size="61"
+         download-size="62"
          install-size="141"
-         version="1.0.0.201611152019"
+         version="1.0.0.201612061619"
          unpack="false"/>
 
    <plugin
          id="org.google.gson"
-         download-size="790"
-         install-size="853"
-         version="1.0.0.201611152019"
+         download-size="206"
+         install-size="228"
+         version="1.0.0.201612061619"
          unpack="false"/>
 
    <plugin
          id="org.youtube.viewer"
          download-size="62"
          install-size="140"
-         version="1.0.0.201611152019"
+         version="1.0.0.201612061619"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.nebula.widgets.oscilloscope"
-         download-size="38"
-         install-size="75"
-         version="1.0.0.201611152019"
+         download-size="28"
+         install-size="55"
+         version="1.0.0.201612061619"
+         unpack="false"/>
+
+   <plugin
+         id="org.condast.postcode.api"
+         download-size="15"
+         install-size="24"
+         version="1.0.0.201612061619"
          unpack="false"/>
 
 </feature>

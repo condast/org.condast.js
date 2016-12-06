@@ -4,10 +4,10 @@
 	<modelVersion>4.0.0</modelVersion>
 
 	<parent>
-		<groupId>org.condast.commons</groupId>
-		<artifactId>org.condast.commons.parent</artifactId>
+		<groupId>org.condast.js</groupId>
+		<artifactId>org.condast.js.parent</artifactId>
 		<version>1.0.0-SNAPSHOT</version>
-        <relativePath>../../org.condast.commons.project</relativePath>
+        <relativePath>../../org.condast.js.project</relativePath>
 	</parent>
 
 	<artifactId>org.eclipse.nebula.widgets.oscilloscope</artifactId>

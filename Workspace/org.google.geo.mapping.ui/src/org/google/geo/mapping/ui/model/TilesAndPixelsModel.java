@@ -90,6 +90,7 @@ public class TilesAndPixelsModel {
 		params[2] = String.valueOf( lnglat.getLatitude() );
 		params[3] = String.valueOf( lnglat.getLongtitude() );
 		params[4] = String.valueOf( zoom );
+		logger.info("locationinfo: " + params[0] +" " + params[1] +" "+ params[2] +" "+ params[3] +" "+ params[4]);
 		browser.setQuery(Functions.CREATE_LOCATION_INFO.toString(), params);
 	}
 

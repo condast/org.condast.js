@@ -6,12 +6,7 @@ import org.eclipse.swt.widgets.Display;
 
 public interface IOscilloscopeDispatcher {
 
-	/**
-	 * This set of values will draw a figure that is similar to the heart beat
-	 * that you see on hospital monitors.
-	 */
-	public static final int[] HEARTBEAT = new int[] { 2, 10, 2, -16, 16, 44, 49, 44, 32, 14, -16, -38, -49, -47, -32,
-			-10, 8, 6, 6, -2, 6, 4, 2, 0, 0, 6, 8, 6 };
+	
 
 
 	/**
@@ -56,7 +51,7 @@ public interface IOscilloscopeDispatcher {
 	 * @return the image stored in {@link #BACKGROUND_MONITOR}. Override to
 	 *         supply your own Image.
 	 */
-	Image getBackgroundImage();
+	Image getBackgroundImage(boolean sizeMonitor);
 
 	/**
 	 * Override this to set the offset of the scope line in percentages where
@@ -74,7 +69,7 @@ public interface IOscilloscopeDispatcher {
 	 * @see Oscilloscope#setTailFade(int, int)
 	 * @see #getTailSize()
 	 */
-	boolean getFade();
+	boolean isFade();
 
 	/**
 	 * This method returns the {@link Oscilloscope}.
@@ -216,5 +211,15 @@ public interface IOscilloscopeDispatcher {
 	 * @see Oscilloscope#setConnect(int, boolean)
 	 */
 	boolean mustConnect();
+
+	int getLineWidth();
+
+	boolean isTailSizeMax();
+
+	int getSteadyPosition();
+
+	int getTailFade();
+
+	int getTailSize();
 
 }

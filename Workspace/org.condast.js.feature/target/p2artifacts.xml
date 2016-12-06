@@ -1,12 +1,12 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <?artifactRepository version='1.1.0'?>
 <artifacts size='1'>
-  <artifact classifier='org.eclipse.update.feature' id='org.condast.commons.feature' version='1.0.0.201611152019'>
+  <artifact classifier='org.eclipse.update.feature' id='org.condast.js.feature' version='1.0.0.201612061619'>
     <properties size='6'>
-      <property name='artifact.size' value='1086'/>
-      <property name='download.size' value='1086'/>
-      <property name='maven-groupId' value='org.condast.commons'/>
-      <property name='maven-artifactId' value='org.condast.commons.feature'/>
+      <property name='artifact.size' value='995'/>
+      <property name='download.size' value='995'/>
+      <property name='maven-groupId' value='org.condast.js'/>
+      <property name='maven-artifactId' value='org.condast.js.feature'/>
       <property name='maven-version' value='1.0.0-SNAPSHOT'/>
       <property name='download.contentType' value='application/zip'/>
     </properties>

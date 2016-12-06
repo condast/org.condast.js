@@ -1,31 +1,27 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <units size='1'>
-  <unit id='org.google.geo.mapping' version='1.0.0.201611152019'>
-    <update id='org.google.geo.mapping' range='[0.0.0,1.0.0.201611152019)' severity='0'/>
+  <unit id='org.google.geo.mapping' version='1.0.0.201612061619'>
+    <update id='org.google.geo.mapping' range='[0.0.0,1.0.0.201612061619)' severity='0'/>
     <properties size='5'>
       <property name='org.eclipse.equinox.p2.name' value='Servlet For Entry Profile Data'/>
       <property name='org.eclipse.equinox.p2.provider' value='Condast'/>
-      <property name='maven-groupId' value='org.condast.commons'/>
+      <property name='maven-groupId' value='org.condast.js'/>
       <property name='maven-artifactId' value='org.google.geo.mapping'/>
       <property name='maven-version' value='1.0.0-SNAPSHOT'/>
     </properties>
-    <provides size='14'>
-      <provided namespace='org.eclipse.equinox.p2.iu' name='org.google.geo.mapping' version='1.0.0.201611152019'/>
-      <provided namespace='osgi.bundle' name='org.google.geo.mapping' version='1.0.0.201611152019'/>
+    <provides size='9'>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='org.google.geo.mapping' version='1.0.0.201612061619'/>
+      <provided namespace='osgi.bundle' name='org.google.geo.mapping' version='1.0.0.201612061619'/>
       <provided namespace='java.package' name='com.google.code.geocoder' version='0.0.0'/>
       <provided namespace='java.package' name='com.google.code.geocoder.model' version='0.0.0'/>
-      <provided namespace='java.package' name='com.google.gson' version='0.0.0'/>
-      <provided namespace='java.package' name='com.google.gson.annotations' version='0.0.0'/>
-      <provided namespace='java.package' name='com.google.gson.internal' version='0.0.0'/>
-      <provided namespace='java.package' name='com.google.gson.internal.bind' version='0.0.0'/>
-      <provided namespace='java.package' name='com.google.gson.internal.bind.util' version='0.0.0'/>
-      <provided namespace='java.package' name='com.google.gson.reflect' version='0.0.0'/>
-      <provided namespace='java.package' name='com.google.gson.stream' version='0.0.0'/>
       <provided namespace='java.package' name='org.google.geo.mapping' version='0.0.0'/>
+      <provided namespace='java.package' name='org.google.geo.mapping.builder' version='0.0.0'/>
       <provided namespace='java.package' name='org.google.geo.mapping.geocoder' version='0.0.0'/>
+      <provided namespace='java.package' name='org.google.geo.mapping.model' version='0.0.0'/>
       <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
     </provides>
-    <requires size='5'>
+    <requires size='6'>
+      <required namespace='java.package' name='com.google.gson' range='0.0.0'/>
       <required namespace='java.package' name='org.condast.commons' range='0.0.0'/>
       <required namespace='java.package' name='org.condast.commons.ds' range='0.0.0'/>
       <required namespace='java.package' name='org.condast.commons.strings' range='0.0.0'/>
@@ -33,13 +29,13 @@
       <required namespace='java.package' name='org.slf4j' range='1.7.2'/>
     </requires>
     <artifacts size='1'>
-      <artifact classifier='osgi.bundle' id='org.google.geo.mapping' version='1.0.0.201611152019'/>
+      <artifact classifier='osgi.bundle' id='org.google.geo.mapping' version='1.0.0.201612061619'/>
     </artifacts>
     <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
     <touchpointData size='1'>
       <instructions size='1'>
         <instruction key='manifest'>
-          Bundle-SymbolicName: org.google.geo.mapping;singleton:=true&#xA;Bundle-Version: 1.0.0.201611152019&#xA;
+          Bundle-SymbolicName: org.google.geo.mapping;singleton:=true&#xA;Bundle-Version: 1.0.0.201612061619&#xA;
         </instruction>
       </instructions>
     </touchpointData>

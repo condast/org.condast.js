@@ -52,60 +52,10 @@ import org.eclipse.swt.graphics.Image;
  * @author Wim Jongman
  * 
  */
-public class OscilloscopeDispatcher implements IOscilloscopeDispatcher {
+public class OscilloscopeDispatcher implements IOscilloscopeDispatcher {	
 
-	/**
-	 * Plays a sound clip.
-	 * 
-	 */
-	public class SoundClip {
-		Clip clip = null;
-		String oldFile = "";
-
-		/**
-		 * Returns the clip so you can control it.
-		 * 
-		 * @return the Clip
-		 */
-		public Clip getClip() {
-			return this.clip;
-		}
-
-		/**
-		 * Creates a clip from the passed sound file and plays it. If the clip
-		 * is currently playing then the method returns, get the clip with
-		 * {@link #getClip()} to control it.
-		 * 
-		 * @param file
-		 * @param loopCount
-		 */
-		public void playClip(File file, int loopCount) {
-
-			if (file == null)
-				return;
-
-			try {
-
-				if ((this.clip == null) || !file.getAbsolutePath().equals(this.oldFile)) {
-					this.oldFile = file.getAbsolutePath();
-					this.clip = AudioSystem.getClip();
-					this.clip.open(AudioSystem.getAudioInputStream(file));
-				}
-				if (this.clip.isActive())
-					return;
-				// clip.stop(); << Alternative
-
-				this.clip.setFramePosition(0);
-				this.clip.loop(loopCount);
-
-			} catch (Exception e) {
-				e.printStackTrace();
-			}
-		}
-	}
-
-	private final SoundClip clipper = new SoundClip();
-
+	private static final boolean IS_SMALL_MONITOR = true;
+	
 	/**
 	 * Contains a small image that can serve as the background of the scope.
 	 */
@@ -168,6 +118,8 @@ public class OscilloscopeDispatcher implements IOscilloscopeDispatcher {
 	private boolean stop;
 
 	private boolean isRunning;
+	
+	private final SoundClip clipper = new SoundClip();
 
 	/**
 	 * @param channel
@@ -284,7 +236,7 @@ public class OscilloscopeDispatcher implements IOscilloscopeDispatcher {
 	/* (non-Javadoc)
 	 * @see org.eclipse.nebula.widgets.oscilloscope.multichannel.IOscilloscopeDispatcher#getBackgroundImage()
 	 */
-	public Image getBackgroundImage() {
+	public Image getBackgroundImage(boolean sizeMonitor) {
 
 		if (this.backgroundImage == null) {
 			byte[] bytes = new byte[OscilloscopeDispatcher.BACKGROUND_MONITOR.length];
@@ -300,7 +252,8 @@ public class OscilloscopeDispatcher implements IOscilloscopeDispatcher {
 	 * @see org.eclipse.nebula.widgets.oscilloscope.multichannel.IOscilloscopeDispatcher#getBaseOffset()
 	 */
 	public int getBaseOffset() {
-		return Oscilloscope.BASE_CENTER;
+		//return Oscilloscope.BASE_OFFSET;
+		return 0;
 	}
 
 	/* (non-Javadoc)
@@ -334,7 +287,7 @@ public class OscilloscopeDispatcher implements IOscilloscopeDispatcher {
 	/* (non-Javadoc)
 	 * @see org.eclipse.nebula.widgets.oscilloscope.multichannel.IOscilloscopeDispatcher#getFade()
 	 */
-	public boolean getFade() {
+	public boolean isFade() {
 		return true;
 
 	}
@@ -424,7 +377,8 @@ public class OscilloscopeDispatcher implements IOscilloscopeDispatcher {
 	 * @see Oscilloscope#setTailFade(int, int)
 	 */
 	public int getTailFade() {
-		return Oscilloscope.TAILFADE_DEFAULT;
+		//return Oscilloscope.TAILFADE_DEFAULT;
+		return 0;
 	}
 
 	/**
@@ -432,7 +386,8 @@ public class OscilloscopeDispatcher implements IOscilloscopeDispatcher {
 	 * @see Oscilloscope#setTailSize(int, int)
 	 */
 	public int getTailSize() {
-		return Oscilloscope.TAILSIZE_DEFAULT;
+		//return Oscilloscope.TAILSIZE_DEFAULT;
+		return 0;
 	}
 
 	/* (non-Javadoc)
@@ -442,88 +397,14 @@ public class OscilloscopeDispatcher implements IOscilloscopeDispatcher {
 		return channel;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.eclipse.nebula.widgets.oscilloscope.multichannel.IOscilloscopeDispatcher#hookAfterDraw(org.eclipse.nebula.widgets.oscilloscope.multichannel.Oscilloscope, int)
-	 */
-	public void hookAfterDraw(Oscilloscope oscilloscope, int counter) {
-
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.nebula.widgets.oscilloscope.multichannel.IOscilloscopeDispatcher#hookBeforeDraw(org.eclipse.nebula.widgets.oscilloscope.multichannel.Oscilloscope, int)
-	 */
-	public void hookBeforeDraw(Oscilloscope oscilloscope, int counter) {
-		if (counter == getPulse() - 1) {
-			hookChangeAttributes();
-		}
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.nebula.widgets.oscilloscope.multichannel.IOscilloscopeDispatcher#hookChangeAttributes()
-	 */
-	public void hookChangeAttributes() {
-		//
-		getOscilloscope().setBackgroundImage(getBackgroundImage());
-
-		for (int i = 0; i < getOscilloscope().getChannels(); i++) {
-
-			getOscilloscope().setPercentage(i, isPercentage());
-			getOscilloscope().setTailSize(i, isTailSizeMax() ? Oscilloscope.TAILSIZE_MAX : getTailSize());
-			getOscilloscope().setSteady(i, isSteady(), getSteadyPosition());
-			getOscilloscope().setFade(i, getFade());
-			getOscilloscope().setTailFade(i, getTailFade());
-			getOscilloscope().setConnect(i, mustConnect());
-			getOscilloscope().setLineWidth(i, getLineWidth());
-			getOscilloscope().setBaseOffset(i, getBaseOffset());
-		}
-
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.nebula.widgets.oscilloscope.multichannel.IOscilloscopeDispatcher#hookPulse(org.eclipse.nebula.widgets.oscilloscope.multichannel.Oscilloscope, int)
-	 */
-	public void hookPulse(Oscilloscope oscilloscope, int pulse) {
-
-		if (isServiceActive()) {
-			getOscilloscope().setForeground(getActiveForegoundColor());
-
-			hookSetValues(pulse);
-
-			if (isSoundRequired()) {
-				getSoundClip().playClip(getActiveSoundfile(), 0);
-			}
-
-		} else {
-
-			if (isSoundRequired()) {
-				getSoundClip().playClip(getInactiveSoundfile(), 0);
-			}
-
-			getOscilloscope().setForeground(getInactiveForegoundColor());
-		}
-
-	}
+	
 
 	/* (non-Javadoc)
 	 * @see org.eclipse.nebula.widgets.oscilloscope.multichannel.IOscilloscopeDispatcher#hookSetValues(int)
 	 */
 	public void hookSetValues(int pulse) {
 
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.nebula.widgets.oscilloscope.multichannel.IOscilloscopeDispatcher#init()
-	 */
-	public void init() {
-		hookChangeAttributes();
-	}
-
-	/* (non-Javadoc)
-	 * @see org.eclipse.nebula.widgets.oscilloscope.multichannel.IOscilloscopeDispatcher#isPercentage()
-	 */
-	public boolean isPercentage() {
-		return true;
-	}
+	}	
 
 	/**
 	 * A helper method to indicate if something that you are measuring is
@@ -567,5 +448,132 @@ public class OscilloscopeDispatcher implements IOscilloscopeDispatcher {
 	 */
 	public boolean mustConnect() {
 		return false;
+	}	
+	
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.nebula.widgets.oscilloscope.multichannel.IOscilloscopeDispatcher#isPercentage()
+	 */
+	public boolean isPercentage() {
+		return true;
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.nebula.widgets.oscilloscope.multichannel.IOscilloscopeDispatcher#init()
+	 */
+	public void init() {
+		hookChangeAttributes();
+	}
+	
+	/* (non-Javadoc)
+	 * @see org.eclipse.nebula.widgets.oscilloscope.multichannel.IOscilloscopeDispatcher#hookAfterDraw(org.eclipse.nebula.widgets.oscilloscope.multichannel.Oscilloscope, int)
+	 */
+	public void hookAfterDraw(Oscilloscope oscilloscope, int counter) {
+
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.nebula.widgets.oscilloscope.multichannel.IOscilloscopeDispatcher#hookBeforeDraw(org.eclipse.nebula.widgets.oscilloscope.multichannel.Oscilloscope, int)
+	 */
+	public void hookBeforeDraw(Oscilloscope oscilloscope, int counter) {
+		if (counter == getPulse() - 1) {
+			hookChangeAttributes();
+		}
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.nebula.widgets.oscilloscope.multichannel.IOscilloscopeDispatcher#hookChangeAttributes()
+	 */
+	public void hookChangeAttributes() {
+		//
+		getOscilloscope().setBackgroundImage(getBackgroundImage(IS_SMALL_MONITOR));
+
+		for (int i = 0; i < getOscilloscope().getChannels(); i++) {
+
+			getOscilloscope().setPercentage(i, isPercentage());
+			//getOscilloscope().setTailSize(i, isTailSizeMax() ? Oscilloscope.TAILSIZE_MAX : getTailSize());
+			getOscilloscope().setSteady(i, isSteady(), getSteadyPosition());
+			getOscilloscope().setFade(i, isFade());
+			getOscilloscope().setTailFade(i, getTailFade());
+			getOscilloscope().setConnect(i, mustConnect());
+			getOscilloscope().setLineWidth(i, getLineWidth());
+			getOscilloscope().setBaseOffset(i, getBaseOffset());
+		}
+
+	}
+
+	/* (non-Javadoc)
+	 * @see org.eclipse.nebula.widgets.oscilloscope.multichannel.IOscilloscopeDispatcher#hookPulse(org.eclipse.nebula.widgets.oscilloscope.multichannel.Oscilloscope, int)
+	 */
+	public void hookPulse(Oscilloscope oscilloscope, int pulse) {
+
+		if (isServiceActive()) {
+			getOscilloscope().setForeground(getActiveForegoundColor());
+
+			hookSetValues(pulse);
+
+			if (isSoundRequired()) {
+				getSoundClip().playClip(getActiveSoundfile(), 0);
+			}
+
+		} else {
+
+			if (isSoundRequired()) {
+				getSoundClip().playClip(getInactiveSoundfile(), 0);
+			}
+
+			getOscilloscope().setForeground(getInactiveForegoundColor());
+		}
+
+	}
+	
+	/**
+	 * Plays a sound clip.
+	 * 
+	 */
+	public class SoundClip {
+		Clip clip = null;
+		String oldFile = "";
+
+		/**
+		 * Returns the clip so you can control it.
+		 * 
+		 * @return the Clip
+		 */
+		public Clip getClip() {
+			return this.clip;
+		}
+
+		/**
+		 * Creates a clip from the passed sound file and plays it. If the clip
+		 * is currently playing then the method returns, get the clip with
+		 * {@link #getClip()} to control it.
+		 * 
+		 * @param file
+		 * @param loopCount
+		 */
+		public void playClip(File file, int loopCount) {
+
+			if (file == null)
+				return;
+
+			try {
+
+				if ((this.clip == null) || !file.getAbsolutePath().equals(this.oldFile)) {
+					this.oldFile = file.getAbsolutePath();
+					this.clip = AudioSystem.getClip();
+					this.clip.open(AudioSystem.getAudioInputStream(file));
+				}
+				if (this.clip.isActive())
+					return;
+				// clip.stop(); << Alternative
+
+				this.clip.setFramePosition(0);
+				this.clip.loop(loopCount);
+
+			} catch (Exception e) {
+				e.printStackTrace();
+			}
+		}
 	}
 }

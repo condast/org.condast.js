@@ -33,6 +33,12 @@ public class GeoCoderParser {
 		listeners = new ArrayList<IGeoResultListener>();
 	}
 
+	public GeoCoderParser( String clientId, String clientKey ) {
+		this.clientId = clientId;
+		this.clientKey = clientKey;
+		listeners = new ArrayList<IGeoResultListener>();
+	}
+
 	public void addlistener( IGeoResultListener listener ){
 		this.listeners.add( listener );
 	}
@@ -56,6 +62,22 @@ public class GeoCoderParser {
 			listener.notifyGeoResult(event);
 	}
 
+	public GeocodeResponse parseRequest( GeocoderRequest request ) throws IOException{
+		Geocoder geocoder = new Geocoder(); 		
+		return geocoder.geocode( request);
+	}
+
+	public void notifyListeners( GeocodeResponse response ){
+		for( GeocoderResult result: response.getResults()){
+			notifylisteners( result );
+			for( GeocoderAddressComponent gcac: result.getAddressComponents()){
+				notifylisteners( gcac);
+			}
+			GeocoderGeometry geometry = result.getGeometry();
+			notifylisteners(geometry);
+		}
+	}
+	
 	public GeocodeResponse getAddress( String language, String region, String postalcode, String number ) throws IOException{
 		Geocoder geocoder = new Geocoder(); 
 		String address = postalcode + ", " + number;

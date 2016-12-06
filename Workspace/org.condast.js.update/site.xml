@@ -1,4 +1,4 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
-   <feature url="features/org.condast.commons.feature_1.0.0.qualifier.jar" id="org.condast.commons.feature" version="1.0.0.qualifier"/>
+   <feature url="features/org.condast.js.feature_1.0.0.qualifier.jar" id="org.condast.js.feature" version="1.0.0.qualifier"/>
 </site>

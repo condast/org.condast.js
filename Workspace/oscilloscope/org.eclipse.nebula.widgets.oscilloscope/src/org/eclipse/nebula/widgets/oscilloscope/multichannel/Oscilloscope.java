@@ -36,15 +36,143 @@ import org.eclipse.swt.widgets.Composite;
  * 
  */
 public class Oscilloscope extends Plotter {
-	private static final long serialVersionUID = 1L;
+	private static final long serialVersionUID = 1L;	
 
-	private class Data {
+	/**
+	 * The default tail fade percentage
+	 */
+	public static final int PROGRESSION_DEFAULT = 1;	
 
-		private IOscilloscopeDispatcher dispatcher;
-		private ArrayList<OscilloscopeStackAdapter> stackListeners;
-		private IntegerFiFoCircularStack stack;
-		private int progression = PROGRESSION_DEFAULT;
+	private Channel[] chan;
+
+	private int width;
+
+	/**
+	 * Creates a scope with one channel.
+	 * 
+	 * @param parent
+	 * @param style
+	 */
+	public Oscilloscope(Composite parent, int style) {
+		this(1, null, parent, style);
 	}
+
+	/**
+	 * Creates a scope with <code>channels</code> channels.
+	 * 
+	 * @param channels
+	 * @param parent
+	 * @param style
+	 */
+	public Oscilloscope(int channels, Composite parent, int style) {
+		this(channels, null, parent, style);
+	}
+
+	/**
+	 * Creates a new scope with <code>channels</code> channels and adds attaches
+	 * it to the supplied <code>dispatcher</code>.
+	 * 
+	 * @param channels
+	 * @param dispatcher
+	 *            may be null
+	 * @param parent
+	 * @param style
+	 */
+	public Oscilloscope(int channels, IOscilloscopeDispatcher dispatcher, Composite parent, int style) {
+		super(channels, parent, style);
+
+		chan = new Channel[channels];
+
+		for (int i = 0; i < chan.length; i++) {
+			chan[i] = new Channel();
+			if (dispatcher == null) {
+				chan[i].dispatcher = new OscilloscopeDispatcher(i, this);
+			} else {
+				chan[i].dispatcher = dispatcher;
+				dispatcher.setOscilloscope(this);
+			}
+		}
+	}
+
+	/**
+	 * Adds a new stack listener to the collection of stack listeners. Adding
+	 * the same listener twice will have no effect.
+	 * <p/>
+	 * This method can be called outside of the UI thread.
+	 * 
+	 * @param listener
+	 */
+	public synchronized void addStackListener(int channel, OscilloscopeStackAdapter listener) {
+		if (chan[channel].stackListeners == null) {
+			chan[channel].stackListeners = new ArrayList<OscilloscopeStackAdapter>();
+		}
+		if (!chan[channel].stackListeners.contains(listener)) {
+			chan[channel].stackListeners.add(listener);
+		}
+	}
+	
+	/**
+	 * Removes a stack listener from the collection of stack listeners. This
+	 * method can be called outside of the UI thread.
+	 * 
+	 * @param listener
+	 */
+	public void removeStackListener(int channel, OscilloscopeStackAdapter listener) {
+		if (chan[channel].stackListeners != null) {
+			chan[channel].stackListeners.remove(listener);
+			if (chan[channel].stackListeners.size() == 0) {
+				synchronized (chan[channel].stackListeners) {
+					chan[channel].stackListeners = null;
+				}
+			}
+		}
+	}	
+
+	/**
+	 * This method can be called outside of the UI thread.
+	 * 
+	 * @param channel
+	 * @return the dispatcher associated with this channel.
+	 */
+	public IOscilloscopeDispatcher getDispatcher(int channel) {
+		return chan[channel].dispatcher;
+	}
+	
+	/**
+	 * Sets the dispatcher that is associated with the supplied channel. This
+	 * method can be called outside of the UI thread.
+	 * 
+	 * @param channel
+	 * @param dispatcher
+	 */
+	public void setDispatcher(int channel, IOscilloscopeDispatcher dispatcher) {
+		chan[channel].dispatcher = dispatcher;
+	}
+	
+	public static Oscilloscope createDefaultOscilloscope(Oscilloscope scope){
+
+		int i=0;
+		
+		if(scope.getDispatcher(i)!=null){
+			scope.setPercentage(i, scope.getDispatcher(i).isPercentage());//true
+			scope.setTailSize(i, scope.getDispatcher(i).isTailSizeMax() ? Oscilloscope.TAILSIZE_MAX : scope.getDispatcher(i).getTailSize());//default 25
+			scope.setSteady(i, scope.getDispatcher(i).isSteady(), scope.getDispatcher(i).getSteadyPosition());//false, 200
+			scope.setFade(i, scope.getDispatcher(i).isFade());//true
+			scope.setTailFade(i, scope.getDispatcher(i).getTailFade());//25
+			scope.setConnect(i, scope.getDispatcher(i).mustConnect());//false
+			scope.setLineWidth(i, scope.getDispatcher(i).getLineWidth());//1
+			scope.setBaseOffset(i, scope.getDispatcher(i).getBaseOffset());//75
+		}
+		
+		scope.setForeground(i, scope.getForeground(i));//color white
+		scope.setRange(scope.getRangeLowValue(), scope.getRangeHighValue());//-100,100
+		scope.setChannelName(i,scope.getChannelName(i));//new String()
+		scope.setProgression(i, scope.getProgression(i));//1
+		
+		return scope;
+		
+	}
+	
 
 	/**
 	 * This method can be called outside of the UI thread.
@@ -69,9 +197,112 @@ public class Oscilloscope extends Plotter {
 		if (progression > 0) {
 			chan[channel].progression = progression;
 		}
+	}	
+	
 
+	/**
+	 * Sets a bunch of values that will be drawn. See
+	 * {@link #setValue(int, int)} for details.
+	 * <p/>
+	 * This method can be called outside of the UI thread.
+	 * 
+	 * @param channel
+	 * @param values
+	 * 
+	 * @see #setValue(int, int)
+	 */
+	public synchronized void setValues(int channel, int[] values) {
+		checkWidget();
+
+		if (getBounds().width <= 0)
+			return;
+
+		if (!super.isVisible())
+			return;
+
+		if (this.chan[channel].stack == null)
+			this.chan[channel].stack = new IntegerFiFoCircularStack(width);
+
+		for (int i = 0; i < values.length; i++) {
+			this.chan[channel].stack.push(values[i]);
+		}
 	}
 
+	private void notifyListeners(int channel) {
+		if (chan[channel].stackListeners == null || chan[channel].stackListeners.size() == 0) {
+			return;
+		}
+		for (int i = 0; i < chan[channel].stackListeners.size(); i++) {
+			chan[channel].stackListeners.get(i).stackEmpty(this, channel);
+		}
+	}
+
+	@Override
+	protected void paintControl(PaintEvent e) {
+		super.paintControl(e);
+		for (int c = 0; c < chan.length; c++) {
+			for (int progress = 0; progress < getProgression(c); progress++) {
+				if( chan[c].stack == null )
+					continue;
+				if (chan[c].stack.isEmpty() && chan[c].stackListeners != null) {
+					notifyListeners(c);
+				}
+				setValue(c, chan[c].stack.popNegate(0));
+			}	
+		}
+	}
+	
+	public boolean needsRedraw() {
+		checkWidget();
+		return isDisposed() ? false : true;
+	}
+	
+	@Override
+	public Point computeSize(int wHint, int hHint, boolean changed) {
+		checkWidget();
+
+		int width;
+		int height;
+
+		if (wHint != SWT.DEFAULT) {
+			width = wHint;
+		} else {
+			width = DEFAULT_WIDTH;
+		}
+
+		if (hHint != SWT.DEFAULT) {
+			height = hHint;
+		} else {
+			height = DEFAULT_HEIGHT;
+		}
+
+		return new Point(width + 2, height + 2);
+	}	
+
+	@Override
+	protected void controlResized(ControlEvent e) {
+		super.controlResized(e);
+		width = getSize().x;
+
+		if (width > 1) {
+			for (int c = 0; c < this.chan.length; c++) {
+				if (this.chan[c].stack == null) {
+					this.chan[c].stack = new IntegerFiFoCircularStack(width);
+				} else {
+					this.chan[c].stack = new IntegerFiFoCircularStack(width, this.chan[c].stack);
+				}
+			}
+		}
+	}
+	
+	private class Channel {
+
+		private IOscilloscopeDispatcher dispatcher;
+		private ArrayList<OscilloscopeStackAdapter> stackListeners;
+		private IntegerFiFoCircularStack stack;
+		private int progression = PROGRESSION_DEFAULT;
+	}
+	
 	/**
 	 * The stack can hold a limited number of values but will never overflow.
 	 * Think of the stack as a tube with a given length. If you push too many
@@ -225,210 +456,6 @@ public class Oscilloscope extends Plotter {
 			}
 
 			stack[top++] = value;
-		}
-	}
-
-	private Data[] chan;
-
-	private int width;
-
-	/**
-	 * Creates a scope with one channel.
-	 * 
-	 * @param parent
-	 * @param style
-	 */
-	public Oscilloscope(Composite parent, int style) {
-		this(1, null, parent, style);
-	}
-
-	/**
-	 * Creates a scope with <code>channels</code> channels.
-	 * 
-	 * @param channels
-	 * @param parent
-	 * @param style
-	 */
-	public Oscilloscope(int channels, Composite parent, int style) {
-		this(channels, null, parent, style);
-	}
-
-	/**
-	 * Creates a new scope with <code>channels</code> channels and adds attaches
-	 * it to the supplied <code>dispatcher</code>.
-	 * 
-	 * @param channels
-	 * @param dispatcher
-	 *            may be null
-	 * @param parent
-	 * @param style
-	 */
-	public Oscilloscope(int channels, IOscilloscopeDispatcher dispatcher, Composite parent, int style) {
-		super(channels, parent, style);
-
-		chan = new Data[channels];
-
-		for (int i = 0; i < chan.length; i++) {
-			chan[i] = new Data();
-			if (dispatcher == null) {
-				chan[i].dispatcher = new OscilloscopeDispatcher(i, this);
-			} else {
-				chan[i].dispatcher = dispatcher;
-				dispatcher.setOscilloscope(this);
-			}
-		}
-	}
-
-	/**
-	 * Adds a new stack listener to the collection of stack listeners. Adding
-	 * the same listener twice will have no effect.
-	 * <p/>
-	 * This method can be called outside of the UI thread.
-	 * 
-	 * @param listener
-	 */
-	public synchronized void addStackListener(int channel, OscilloscopeStackAdapter listener) {
-		if (chan[channel].stackListeners == null) {
-			chan[channel].stackListeners = new ArrayList<OscilloscopeStackAdapter>();
-		}
-		if (!chan[channel].stackListeners.contains(listener)) {
-			chan[channel].stackListeners.add(listener);
-		}
-	}
-
-	@Override
-	public Point computeSize(int wHint, int hHint, boolean changed) {
-		checkWidget();
-
-		int width;
-		int height;
-
-		if (wHint != SWT.DEFAULT) {
-			width = wHint;
-		} else {
-			width = DEFAULT_WIDTH;
-		}
-
-		if (hHint != SWT.DEFAULT) {
-			height = hHint;
-		} else {
-			height = DEFAULT_HEIGHT;
-		}
-
-		return new Point(width + 2, height + 2);
-	}
-
-	/**
-	 * This method can be called outside of the UI thread.
-	 * 
-	 * @param channel
-	 * @return the dispatcher associated with this channel.
-	 */
-	public IOscilloscopeDispatcher getDispatcher(int channel) {
-		return chan[channel].dispatcher;
-	}
-
-	public boolean needsRedraw() {
-		checkWidget();
-		return isDisposed() ? false : true;
-	}
-
-	private void notifyListeners(int channel) {
-		if (chan[channel].stackListeners == null || chan[channel].stackListeners.size() == 0) {
-			return;
-		}
-		for (int i = 0; i < chan[channel].stackListeners.size(); i++) {
-			chan[channel].stackListeners.get(i).stackEmpty(this, channel);
-		}
-	}
-
-	protected void paintControl(PaintEvent e) {
-		super.paintControl(e);
-		for (int c = 0; c < chan.length; c++) {
-			for (int progress = 0; progress < getProgression(c); progress++) {
-				if( chan[c].stack == null )
-					continue;
-				if (chan[c].stack.isEmpty() && chan[c].stackListeners != null) {
-					notifyListeners(c);
-				}
-				setValue(c, chan[c].stack.popNegate(0));
-			}
-			// I think the next code can be removed
-			// if (getTailSize(c) <= 0) {
-			// chan[c].stack.popNegate(0);
-			// continue;
-			// }
-		}
-	}
-
-	/**
-	 * Removes a stack listener from the collection of stack listeners. This
-	 * method can be called outside of the UI thread.
-	 * 
-	 * @param listener
-	 */
-	public void removeStackListener(int channel, OscilloscopeStackAdapter listener) {
-		if (chan[channel].stackListeners != null) {
-			chan[channel].stackListeners.remove(listener);
-			if (chan[channel].stackListeners.size() == 0) {
-				synchronized (chan[channel].stackListeners) {
-					chan[channel].stackListeners = null;
-				}
-			}
-		}
-	}
-
-	/**
-	 * Sets the dispatcher that is associated with the supplied channel. This
-	 * method can be called outside of the UI thread.
-	 * 
-	 * @param channel
-	 * @param dispatcher
-	 */
-	public void setDispatcher(int channel, IOscilloscopeDispatcher dispatcher) {
-		chan[channel].dispatcher = dispatcher;
-	}
-
-	/**
-	 * Sets a bunch of values that will be drawn. See
-	 * {@link #setValue(int, int)} for details.
-	 * <p/>
-	 * This method can be called outside of the UI thread.
-	 * 
-	 * @param channel
-	 * @param values
-	 * 
-	 * @see #setValue(int, int)
-	 */
-	public synchronized void setValues(int channel, int[] values) {
-		checkWidget();
-
-		if (getBounds().width <= 0)
-			return;
-
-		if (!super.isVisible())
-			return;
-
-		if (this.chan[channel].stack == null)
-			this.chan[channel].stack = new IntegerFiFoCircularStack(width);
-
-		for (int i = 0; i < values.length; i++) {
-			this.chan[channel].stack.push(values[i]);
-		}
-	}
-
-	protected void controlResized(ControlEvent e) {
-		super.controlResized(e);
-		width = getSize().x;
-
-		if (width > 1) {
-			for (int c = 0; c < this.chan.length; c++) {
-				if (this.chan[c].stack == null) {
-					this.chan[c].stack = new IntegerFiFoCircularStack(width);
-				} else {
-					this.chan[c].stack = new IntegerFiFoCircularStack(width, this.chan[c].stack);
-				}
-			}
 		}
 	}
 }

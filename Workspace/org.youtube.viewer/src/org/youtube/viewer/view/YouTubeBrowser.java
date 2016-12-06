@@ -15,7 +15,6 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.youtube.viewer.servlet.PlayerSession;
 import org.youtube.viewer.session.ISessionListener;
-import org.youtube.viewer.view.IEvaluationListener.EvaluationEvents;
 
 public class YouTubeBrowser extends Browser {
 	private static final long serialVersionUID = -7462050265419768312L;
@@ -30,6 +29,7 @@ public class YouTubeBrowser extends Browser {
 	private PlayerSession session = PlayerSession.getInstance();
 
 	private boolean ready;
+	
 	private ProgressListener listener = new ProgressListener(){
 		private static final long serialVersionUID = 1L;
 
@@ -138,13 +138,13 @@ public class YouTubeBrowser extends Browser {
 
 				@Override
 				public void evaluationSucceeded(Object result) {
-					notifyEvaluation( new EvaluationEvent<Map<String, String>>( browser, EvaluationEvents.SUCCEEDED ));
-					logger.info("EXECUTION SUCCEEDED");
+					//notifyEvaluation( new EvaluationEvent<Map<String, String>>( browser, EvaluationEvents.SUCCEEDED ));
+					logger.info("EXECUTION SUCCEEDED FROM BROWSERCALLBACK");
 				}
 				@Override
 				public void evaluationFailed(Exception exception) {
-					notifyEvaluation( new EvaluationEvent<Map<String, String>>( browser, EvaluationEvents.FAILED ));
-					logger.warning("EXECUTION FAILED");
+					//notifyEvaluation( new EvaluationEvent<Map<String, String>>( browser, EvaluationEvents.FAILED ));
+					logger.warning("EXECUTION FAILED FROM BROWSERCALLBACK");
 				}
 			};
 			return callback;
