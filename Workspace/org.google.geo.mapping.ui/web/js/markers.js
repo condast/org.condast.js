@@ -1,3 +1,6 @@
+var markers = [];
+var mindex = 0;
+
 function createMarker( name, latitude, longtitude, image ){
 	var location = new google.maps.LatLng(latitude, longtitude);
     //var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
@@ -7,11 +10,12 @@ function createMarker( name, latitude, longtitude, image ){
       map: map,
       icon: image
     });
-    
+   
     marker.addListener('click', function() {
     	send( 'TYPE', 'marker:' + name );
-      });
-    return marker;
+    });
+    markers[mindex++] = marker;
+   return marker;
 }
 
 //Adds a marker to the map.
@@ -32,7 +36,7 @@ function addMarker(name, latitude, longtitude ) {
 	});
     marker.addListener('click', function() {
     	send( 'TYPE', 'marker:' + name );
-      });
+    });
 }
 
 // Sets the map on all markers in the array.
@@ -50,6 +54,20 @@ function clearMarkers() {
 // Shows any markers currently in the array.
 function showMarkers() {
   setMapOnAll(map);
+}
+
+function fitBounds( zoom ) {
+	var bounds = new google.maps.LatLngBounds();
+	center = bounds.getCenter();
+	$.each(markers, function (index, marker) {
+		bounds.extend(marker.position);
+	});
+	map.fitBounds(bounds);
+	
+	var listener = google.maps.event.addListener(map, "idle", function() { 
+		map.setZoom( parseInt( zoom )); 
+		google.maps.event.removeListener(listener); 
+	});
 }
 
 // Deletes all markers in the array by removing references to them.

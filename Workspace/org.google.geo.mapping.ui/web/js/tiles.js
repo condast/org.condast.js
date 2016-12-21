@@ -6,6 +6,12 @@ function setTileSize( tile ){
 	tileSize = tile;
 }
 
+function setLocation( latitude, longtitude, zoom ){
+	var location = new google.maps.LatLng( latitude, longtitude);
+    map.setZoom( zoom );
+	map.setCenter( location);	
+}
+
 function createLocationInfo( name, description, latitude, longtitude, zoom ){
 	var location = new google.maps.LatLng(latitude, longtitude);
 	var coordInfoWindow = new google.maps.InfoWindow();
