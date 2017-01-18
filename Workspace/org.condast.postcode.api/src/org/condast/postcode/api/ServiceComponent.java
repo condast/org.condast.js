@@ -2,6 +2,7 @@ package org.condast.postcode.api;
 
 import java.util.Map;
 
+import org.condast.commons.ds.FillMapException;
 import org.condast.commons.ds.IFillMapProvider;
 import org.condast.postcode.api.model.AddressFillMap;
 
@@ -22,7 +23,7 @@ public class ServiceComponent implements IFillMapProvider<String>{
 	}
 
 	@Override
-	public Map<String, String> fillMap( String request, String[] params, String[] keys) {
+	public Map<String, String> fillMap( String request, String[] params, String[] keys) throws FillMapException {
 		Requests req = Requests.valueOf( request );
 		Map<String, String> results = null;
 		switch( req ){

@@ -10,6 +10,7 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.condast.commons.Utils;
+import org.condast.commons.ds.FillMapException;
 import org.condast.commons.ds.IFillMapProvider;
 import org.condast.commons.strings.StringStyler;
 
@@ -125,7 +126,7 @@ public class AddressFillMap implements IFillMapProvider<String>{
 	}
 
 	@Override
-	public Map<String, String> fillMap(String request, String[] params, String[] keys) {
+	public Map<String, String> fillMap(String request, String[] params, String[] keys) throws FillMapException {
 		this.keyset.clear();
 		if( Utils.assertNull( request ) || ( !request.equals(id )))
 			return null;
@@ -205,7 +206,7 @@ public class AddressFillMap implements IFillMapProvider<String>{
 		}
 	}
 	
-	private class PostCodeException extends RuntimeException{
+	private class PostCodeException extends FillMapException{
 		private static final long serialVersionUID = 1L;
 
 		private String exceptionId;
