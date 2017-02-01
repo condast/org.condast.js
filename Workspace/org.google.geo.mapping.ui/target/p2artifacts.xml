@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <?artifactRepository version='1.1.0'?>
 <artifacts size='1'>
-  <artifact classifier='osgi.bundle' id='org.google.geo.mapping.ui' version='1.0.0.201701271527'>
+  <artifact classifier='osgi.bundle' id='org.google.geo.mapping.ui' version='1.0.0.201701301621'>
     <properties size='5'>
       <property name='artifact.size' value='64167'/>
       <property name='download.size' value='64167'/>
