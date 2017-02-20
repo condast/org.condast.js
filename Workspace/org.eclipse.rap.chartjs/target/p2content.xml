@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <units size='1'>
-  <unit id='org.eclipse.rap.chartjs' version='1.0.0.201702131658' singleton='false'>
-    <update id='org.eclipse.rap.chartjs' range='[0.0.0,1.0.0.201702131658)' severity='0'/>
+  <unit id='org.eclipse.rap.chartjs' version='1.0.0.201702171514' singleton='false'>
+    <update id='org.eclipse.rap.chartjs' range='[0.0.0,1.0.0.201702171514)' severity='0'/>
     <properties size='4'>
       <property name='org.eclipse.equinox.p2.name' value='Chartjs'/>
       <property name='maven-groupId' value='org.condast.js'/>
@@ -9,8 +9,8 @@
       <property name='maven-version' value='1.0.0-SNAPSHOT'/>
     </properties>
     <provides size='4'>
-      <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.rap.chartjs' version='1.0.0.201702131658'/>
-      <provided namespace='osgi.bundle' name='org.eclipse.rap.chartjs' version='1.0.0.201702131658'/>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.rap.chartjs' version='1.0.0.201702171514'/>
+      <provided namespace='osgi.bundle' name='org.eclipse.rap.chartjs' version='1.0.0.201702171514'/>
       <provided namespace='java.package' name='org.eclipse.rap.chartjs' version='0.0.0'/>
       <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
     </provides>
@@ -18,13 +18,13 @@
       <required namespace='osgi.bundle' name='org.eclipse.rap.rwt' range='3.0.0'/>
     </requires>
     <artifacts size='1'>
-      <artifact classifier='osgi.bundle' id='org.eclipse.rap.chartjs' version='1.0.0.201702131658'/>
+      <artifact classifier='osgi.bundle' id='org.eclipse.rap.chartjs' version='1.0.0.201702171514'/>
     </artifacts>
     <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
     <touchpointData size='1'>
       <instructions size='1'>
         <instruction key='manifest'>
-          Bundle-SymbolicName: org.eclipse.rap.chartjs&#xA;Bundle-Version: 1.0.0.201702131658&#xA;
+          Bundle-SymbolicName: org.eclipse.rap.chartjs&#xA;Bundle-Version: 1.0.0.201702171514&#xA;
         </instruction>
       </instructions>
     </touchpointData>

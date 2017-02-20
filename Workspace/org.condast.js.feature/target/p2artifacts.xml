@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <?artifactRepository version='1.1.0'?>
 <artifacts size='1'>
-  <artifact classifier='org.eclipse.update.feature' id='org.condast.js.feature' version='1.0.0.201702131658'>
+  <artifact classifier='org.eclipse.update.feature' id='org.condast.js.feature' version='1.0.0.201702171514'>
     <properties size='6'>
-      <property name='artifact.size' value='995'/>
-      <property name='download.size' value='995'/>
+      <property name='artifact.size' value='994'/>
+      <property name='download.size' value='994'/>
       <property name='maven-groupId' value='org.condast.js'/>
       <property name='maven-artifactId' value='org.condast.js.feature'/>
       <property name='maven-version' value='1.0.0-SNAPSHOT'/>

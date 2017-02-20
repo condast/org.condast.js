@@ -133,6 +133,8 @@ public class AddressFillMap implements IFillMapProvider<String>{
 		if( !Utils.assertNull(keys ))
 			this.keyset.addAll( Arrays.asList( keys ));
 		results = new HashMap<String, String>();
+		if( Utils.assertNull( params[3]))
+			return results;
 		String[] split = params[3].split(S_REGEX_SPLIT_ALPHA_NUMERIC);
 		String extension = (split.length == 1 )?null: split[1];
 		try {
