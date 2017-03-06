@@ -1,21 +1,24 @@
-package org.google.geo.mapping.ui.view;
+package org.google.geo.mapping.ui.controller;
 
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 
 import org.eclipse.rap.rwt.widgets.BrowserCallback;
 import org.eclipse.swt.browser.Browser;
-import org.eclipse.swt.browser.BrowserFunction;
-import org.eclipse.swt.widgets.Composite;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 import org.google.geo.mapping.ui.servlet.GeocoderSession;
 import org.google.geo.mapping.ui.session.ISessionListener;
+import org.google.geo.mapping.ui.view.EvaluationEvent;
+import org.google.geo.mapping.ui.view.IEvaluationListener;
 import org.google.geo.mapping.ui.view.IEvaluationListener.EvaluationEvents;
 
-public class GeoCoderBrowser extends Browser {
-	private static final long serialVersionUID = -7462050265419768312L;
+public class GeoCoderController{
 
 	public static final String S_INDEX_HTML = "/geo/index.html";
 	public static final String S_JS_EXECUTED = "jsExecuted";
@@ -23,18 +26,57 @@ public class GeoCoderBrowser extends Browser {
 	private Collection<IEvaluationListener<Map<String, String>>> listeners;
 
 	private CommandController controller;
+	private Browser browser;
 
 	private GeocoderSession session = GeocoderSession.getInstance();
 
 	private Logger logger = Logger.getLogger( this.getClass().getName());
-		
-	public GeoCoderBrowser(Composite parent, int style) {
-		super(parent, style);
-		this.controller = new CommandController(this);
+	
+	private DisposeListener dl = new DisposeListener() {
+		private static final long serialVersionUID = 1L;
+
+		@Override
+		public void widgetDisposed(DisposeEvent event) {
+			session.dispose();
+		}
+	};
+	
+	private Lock lock;
+	private BrowserCallback getCallBack(){
+		BrowserCallback callback = new BrowserCallback() {
+
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void evaluationSucceeded(Object result) {
+				notifyEvaluation( new EvaluationEvent<Map<String, String>>( browser, EvaluationEvents.SUCCEEDED ));
+				logger.info("EXECUTION SUCCEEDED");
+			}
+			@Override
+			public void evaluationFailed(Exception exception) {
+				notifyEvaluation( new EvaluationEvent<Map<String, String>>( browser, EvaluationEvents.FAILED ));
+				logger.warning("EXECUTION FAILED");
+			}
+		};
+		browser.getDisplay().asyncExec( new Runnable(){
+
+			@Override
+			public void run() {
+				lock.unlock();			
+			}
+		});
+		return callback;
+	}
+
+	public GeoCoderController( Browser browser ) {
+		this.controller = new CommandController();
+		lock = new ReentrantLock();
+		this.browser = browser;
+		this.browser.addDisposeListener( dl );
 		listeners = new ArrayList<IEvaluationListener<Map<String, String>>>();
-		session.init(parent.getDisplay());
+		session.init(browser.getDisplay());
 		session.start();
-		super.setUrl( S_INDEX_HTML);
+		browser.setUrl( S_INDEX_HTML);
 	}
 
 	public void addSessionListener( ISessionListener<Map<String, String>> listener ){
@@ -80,45 +122,17 @@ public class GeoCoderBrowser extends Browser {
     	controller.executeQuery();
     }
 
-    @Override
-	public Object evaluate( final String query ){
-  		  evaluate( query, controller.getCallBack() );
+ 	public Object evaluate( final String query ){
+  		  browser.evaluate( query, getCallBack() );
  		  return true;
     }
 	
-	@Override
-	public void dispose() {
-		session.dispose();
-		super.dispose();
-	}
-
 	private class CommandController{
 
-		private GeoCoderBrowser browser;
 		private LinkedList<Map.Entry<String, String[]>> commands;
 				
-		public CommandController( GeoCoderBrowser browser) {
+		public CommandController() {
 			commands = new LinkedList<Map.Entry<String, String[]>>();
-			this.browser = browser;
-		}
-
-		public BrowserCallback getCallBack(){
-			BrowserCallback callback = new BrowserCallback() {
-
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void evaluationSucceeded(Object result) {
-					notifyEvaluation( new EvaluationEvent<Map<String, String>>( browser, EvaluationEvents.SUCCEEDED ));
-					logger.info("EXECUTION SUCCEEDED");
-				}
-				@Override
-				public void evaluationFailed(Exception exception) {
-					notifyEvaluation( new EvaluationEvent<Map<String, String>>( browser, EvaluationEvents.FAILED ));
-					logger.warning("EXECUTION FAILED");
-				}
-			};
-			return callback;
 		}
 
 		/**
@@ -157,6 +171,7 @@ public class GeoCoderBrowser extends Browser {
 				buffer.append( setFunction(command.getKey(), command.getValue()));
 				buffer.append(" ");
 			}
+			lock.lock();
 			evaluate(buffer.toString());
 		}
 
@@ -178,19 +193,6 @@ public class GeoCoderBrowser extends Browser {
 			buffer.append(");");
 			logger.info("EXECUTING: " + buffer.toString() );
 			return buffer.toString();
-		}
-		
-		private class JSExecuted extends BrowserFunction{
-
-			public JSExecuted(Browser browser) {
-				super(browser, S_JS_EXECUTED);
-			}
-
-			@Override
-			public Object function(Object[] arguments) {
-				// TODO Auto-generated method stub
-				return super.function(arguments);
-			}
 		}
 	}
 }

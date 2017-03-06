@@ -7,8 +7,8 @@ import java.util.Map;
 
 import org.condast.commons.lnglat.LngLat;
 import org.condast.commons.strings.StringStyler;
+import org.google.geo.mapping.ui.controller.GeoCoderController;
 import org.google.geo.mapping.ui.view.EvaluationEvent;
-import org.google.geo.mapping.ui.view.GeoCoderBrowser;
 import org.google.geo.mapping.ui.view.IEvaluationListener;
 
 public class MarkerModel {
@@ -30,7 +30,7 @@ public class MarkerModel {
 	
 	private Collection<LngLat> data;
 	
-	private GeoCoderBrowser browser;
+	private GeoCoderController controller;
 	
 	private IEvaluationListener<Map<String,String>> listener = new IEvaluationListener<Map<String, String>>(){
 
@@ -39,23 +39,23 @@ public class MarkerModel {
 		}
 	};
 	
-	public MarkerModel( GeoCoderBrowser browser ) {
+	public MarkerModel( GeoCoderController controller ) {
 		this.data = new HashSet<LngLat>();
-		this.browser = browser;
-		this.browser.addEvaluationListener( listener );
+		this.controller = controller;
+		this.controller.addEvaluationListener( listener );
 	}
 
 	public void clearMarkers() {
-		browser.setQuery(Functions.CLEAR_MARKERS.toString() );
+		controller.setQuery(Functions.CLEAR_MARKERS.toString() );
 	}	
 
 	public void showMarkers() {
-		browser.setQuery(Functions.SHOW_MARKERS.toString() );
+		controller.setQuery(Functions.SHOW_MARKERS.toString() );
 	}	
 
 	public void deleteMarkers() {
 		data.clear();
-		browser.setQuery(Functions.DELETE_MARKERS.toString() );
+		controller.setQuery(Functions.DELETE_MARKERS.toString() );
 	}	
 
 	public void createMarkers( String id, LngLat lnglat, String image) {
@@ -66,7 +66,7 @@ public class MarkerModel {
 		params[2] = df.format( lnglat.getLongtitude() );
 		params[3] = image;
 		data.add( lnglat );
-		browser.setQuery(Functions.CREATE_MARKER.toString(), params );
+		controller.setQuery(Functions.CREATE_MARKER.toString(), params );
 	}	
 
 	public void addEaterMarker( LngLat lnglat ) {
@@ -92,12 +92,12 @@ public class MarkerModel {
 		params[1] = df.format( lnglat.getLatitude() );
 		params[2] = df.format( lnglat.getLongtitude() );
 		data.add( lnglat );
-		browser.setQuery( function.toString(), params);
+		controller.setQuery( function.toString(), params);
 	}	
 
 	public void removeMarker( String id ) {
 		data.remove( id );
-		browser.setQuery(Functions.CLEAR_MARKERS.toString() );
+		controller.setQuery(Functions.CLEAR_MARKERS.toString() );
 		for( LngLat lnglat: data )
 			addMarker(lnglat.getId(), lnglat.getLatitude(), lnglat.getLongtitude());
 	}	
@@ -105,10 +105,10 @@ public class MarkerModel {
 	public void fitBounds( int zoom  ) {
 		String[] params=  new String[1];
 		params[0] = String.valueOf( zoom );
-		browser.setQuery( Functions.FIT_BOUNDS.toString(), params );
+		controller.setQuery( Functions.FIT_BOUNDS.toString(), params );
 	}
 
 	public void synchronize(){
-		browser.executeQuery();
+		controller.executeQuery();
 	}
 }
