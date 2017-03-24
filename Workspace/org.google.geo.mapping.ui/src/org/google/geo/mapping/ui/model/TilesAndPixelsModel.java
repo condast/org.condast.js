@@ -78,7 +78,7 @@ public class TilesAndPixelsModel {
 	public void setLocation( LngLat lnglat, int zoom ){
 		String[] params=  new String[3];
 		params[0] = String.valueOf( lnglat.getLatitude() );
-		params[1] = String.valueOf( lnglat.getLongtitude() );
+		params[1] = String.valueOf( lnglat.getLongitude() );
 		params[2] = String.valueOf( zoom );
 		browser.setQuery(Functions.SET_LOCATION.toString(), params);
 	}
@@ -88,7 +88,7 @@ public class TilesAndPixelsModel {
 		params[0] = name;
 		params[1] = description;
 		params[2] = String.valueOf( lnglat.getLatitude() );
-		params[3] = String.valueOf( lnglat.getLongtitude() );
+		params[3] = String.valueOf( lnglat.getLongitude() );
 		params[4] = String.valueOf( zoom );
 		logger.info("locationinfo: " + params[0] +" " + params[1] +" "+ params[2] +" "+ params[3] +" "+ params[4]);
 		browser.setQuery(Functions.CREATE_LOCATION_INFO.toString(), params);

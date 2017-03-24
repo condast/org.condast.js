@@ -14,6 +14,12 @@ import org.google.geo.mapping.ui.servlet.GeocoderSession;
 import org.google.geo.mapping.ui.session.ISessionListener;
 import org.google.geo.mapping.ui.view.IEvaluationListener.EvaluationEvents;
 
+/**
+ * : use GeoCoderController instead
+ * @author Kees
+ *
+ */
+@Deprecated
 public class GeoCoderBrowser extends Browser {
 	private static final long serialVersionUID = -7462050265419768312L;
 

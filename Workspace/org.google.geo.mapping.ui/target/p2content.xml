@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <units size='1'>
-  <unit id='org.google.geo.mapping.ui' version='1.0.0.201702171514'>
-    <update id='org.google.geo.mapping.ui' range='[0.0.0,1.0.0.201702171514)' severity='0'/>
+  <unit id='org.google.geo.mapping.ui' version='1.0.0.201703241627'>
+    <update id='org.google.geo.mapping.ui' range='[0.0.0,1.0.0.201703241627)' severity='0'/>
     <properties size='5'>
       <property name='org.eclipse.equinox.p2.name' value='GeoMapping UI'/>
       <property name='org.eclipse.equinox.p2.provider' value='Condast'/>
@@ -9,15 +9,16 @@
       <property name='maven-artifactId' value='org.google.geo.mapping.ui'/>
       <property name='maven-version' value='1.0.0-SNAPSHOT'/>
     </properties>
-    <provides size='6'>
-      <provided namespace='org.eclipse.equinox.p2.iu' name='org.google.geo.mapping.ui' version='1.0.0.201702171514'/>
-      <provided namespace='osgi.bundle' name='org.google.geo.mapping.ui' version='1.0.0.201702171514'/>
+    <provides size='7'>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='org.google.geo.mapping.ui' version='1.0.0.201703241627'/>
+      <provided namespace='osgi.bundle' name='org.google.geo.mapping.ui' version='1.0.0.201703241627'/>
+      <provided namespace='java.package' name='org.google.geo.mapping.ui.controller' version='0.0.0'/>
       <provided namespace='java.package' name='org.google.geo.mapping.ui.model' version='0.0.0'/>
       <provided namespace='java.package' name='org.google.geo.mapping.ui.session' version='0.0.0'/>
       <provided namespace='java.package' name='org.google.geo.mapping.ui.view' version='0.0.0'/>
       <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
     </provides>
-    <requires size='14'>
+    <requires size='15'>
       <required namespace='java.package' name='javax.servlet' range='2.6.0'/>
       <required namespace='java.package' name='javax.servlet.http' range='2.6.0'/>
       <required namespace='java.package' name='org.condast.commons' range='0.0.0'/>
@@ -28,19 +29,20 @@
       <required namespace='java.package' name='org.eclipse.rap.rwt.widgets' range='3.0.2'/>
       <required namespace='java.package' name='org.eclipse.swt' range='0.0.0'/>
       <required namespace='java.package' name='org.eclipse.swt.browser' range='0.0.0'/>
+      <required namespace='java.package' name='org.eclipse.swt.events' range='0.0.0'/>
       <required namespace='java.package' name='org.eclipse.swt.graphics' range='0.0.0'/>
       <required namespace='java.package' name='org.eclipse.swt.layout' range='0.0.0'/>
       <required namespace='java.package' name='org.eclipse.swt.widgets' range='0.0.0'/>
       <required namespace='java.package' name='org.osgi.framework' range='1.3.0'/>
     </requires>
     <artifacts size='1'>
-      <artifact classifier='osgi.bundle' id='org.google.geo.mapping.ui' version='1.0.0.201702171514'/>
+      <artifact classifier='osgi.bundle' id='org.google.geo.mapping.ui' version='1.0.0.201703241627'/>
     </artifacts>
     <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
     <touchpointData size='1'>
       <instructions size='1'>
         <instruction key='manifest'>
-          Bundle-SymbolicName: org.google.geo.mapping.ui;singleton:=true&#xA;Bundle-Version: 1.0.0.201702171514&#xA;
+          Bundle-SymbolicName: org.google.geo.mapping.ui;singleton:=true&#xA;Bundle-Version: 1.0.0.201703241627&#xA;
         </instruction>
       </instructions>
     </touchpointData>

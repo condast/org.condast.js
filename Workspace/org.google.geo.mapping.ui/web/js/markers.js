@@ -1,12 +1,11 @@
 var markers = [];
 var mindex = 0;
 
-function createMarker( name, latitude, longtitude, image ){
-	var location = new google.maps.LatLng(latitude, longtitude);
-    //var image = 'https://developers.google.com/maps/documentation/javascript/examples/full/images/beachflag.png';
-    var marker = new google.maps.Marker({
+function createMarker( name, latitude, longitude, image ){
+	var location = new google.maps.LatLng(latitude, longitude);
+ 	var marker = new google.maps.Marker({
       position: location,
-      label: name,
+      label: 'name',
       map: map,
       icon: image
     });
@@ -14,19 +13,20 @@ function createMarker( name, latitude, longtitude, image ){
     marker.addListener('click', function() {
     	send( 'TYPE', 'marker:' + name );
     });
-    markers[mindex++] = marker;
+   markers[mindex++] = marker;
+   send('CREATE_MARKER', 'COMPLETE');
    return marker;
 }
 
 //Adds a marker to the map.
-function addEaterMarker(name, latitude, longtitude ) {
+function addEaterMarker(name, latitude, longitude ) {
     var image = 'images/restaurant-32.png';
-    var marker = createMarker( name, latitude, longtitude, image );
+    var marker = createMarker( name, latitude, longitude, image );
 }
 
 //Adds a marker to the map.
-function addMarker(name, latitude, longtitude ) {
-	var location = new google.maps.LatLng(latitude, longtitude);
+function addMarker(name, latitude, longitude ) {
+	var location = new google.maps.LatLng(latitude, longitude);
 	// Add the marker at the clicked location, and add the next-available label
 	// from the array of alphabetical characters.
 	var marker = new google.maps.Marker({
@@ -34,9 +34,11 @@ function addMarker(name, latitude, longtitude ) {
 		label: name,
 		map: map
 	});
+	console.log( "Add marker: " + name + "[" + latitude + "," + longitude + "]");
     marker.addListener('click', function() {
     	send( 'TYPE', 'marker:' + name );
     });
+	send('ADD_MARKER', 'COMPLETE');
 }
 
 // Sets the map on all markers in the array.

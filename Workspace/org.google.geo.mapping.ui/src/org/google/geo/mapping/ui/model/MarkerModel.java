@@ -59,12 +59,7 @@ public class MarkerModel {
 	}	
 
 	public void createMarkers( String id, LngLat lnglat, String image) {
-		String[] params=  new String[4];
-		params[0] = lnglat.getId();
-		DecimalFormat df = new DecimalFormat("#.########");
-		params[1] = df.format( lnglat.getLatitude() );
-		params[2] = df.format( lnglat.getLongtitude() );
-		params[3] = image;
+		String[] params = fillLngLatParams(4, lnglat);
 		data.add( lnglat );
 		controller.setQuery(Functions.CREATE_MARKER.toString(), params );
 	}	
@@ -78,7 +73,7 @@ public class MarkerModel {
 	}
 
 	public void addMarker( String id, LngLat lnglat ) {
-		this.addMarker( Functions.ADD_MARKER, new LngLat( id, lnglat.getLatitude(), lnglat.getLongtitude() ));
+		this.addMarker( Functions.ADD_MARKER, new LngLat( id, lnglat.getLatitude(), lnglat.getLongitude() ));
 	}
 
 	public void addMarker( LngLat lnglat ) {
@@ -86,20 +81,15 @@ public class MarkerModel {
 	}
 
 	protected void addMarker( Functions function, LngLat lnglat ) {
-		String[] params=  new String[3];
-		params[0] = lnglat.getId();
-		DecimalFormat df = new DecimalFormat("#.########");
-		params[1] = df.format( lnglat.getLatitude() );
-		params[2] = df.format( lnglat.getLongtitude() );
 		data.add( lnglat );
-		controller.setQuery( function.toString(), params);
+		controller.setQuery( function.toString(), getLngLatParams(lnglat));
 	}	
 
 	public void removeMarker( String id ) {
 		data.remove( id );
 		controller.setQuery(Functions.CLEAR_MARKERS.toString() );
 		for( LngLat lnglat: data )
-			addMarker(lnglat.getId(), lnglat.getLatitude(), lnglat.getLongtitude());
+			addMarker(lnglat.getId(), lnglat.getLatitude(), lnglat.getLongitude());
 	}	
 
 	public void fitBounds( int zoom  ) {
@@ -111,4 +101,18 @@ public class MarkerModel {
 	public void synchronize(){
 		controller.executeQuery();
 	}
+	
+	private static String[] getLngLatParams( LngLat lnglat ){
+		return fillLngLatParams(3, lnglat);
+	}
+
+	private static String[]fillLngLatParams( int size, LngLat lnglat ){
+		String[] params = new String[size];
+		params[0] = lnglat.getId();
+		DecimalFormat df = new DecimalFormat("#.########");
+		params[1] = df.format( lnglat.getLatitude() ).replace(",", ".");
+		params[2] = df.format( lnglat.getLongitude() ).replace(",", ".");
+		return params;
+	}
+
 }
