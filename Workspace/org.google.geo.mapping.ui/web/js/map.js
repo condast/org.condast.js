@@ -1,22 +1,17 @@
 var map;
+var initialised = false;
 
 function initMap() {
 	map = new google.maps.Map(document.getElementById('map'), {
 		center: {lat: 52.0930043, lng: 5.0704121},
 		zoom: 17
 	});
-	sendInit( 'INIT', 'done')
+	initialised = true;
+	return initialised;
 }
 
-/**
- * Send the given coordinates to the servlet
- * @param coordinates
- */
-function sendInit( tp, e ){
-	var tkn = 9812365834502354646;
-	$.get("GeoCoderServlet", { token: tkn, type: tp, data: e }).done( function(data) {
-		  console.log("data sent: " + data);
-	});
+function isInitialised(){
+	return initialised;
 }
 
 /**

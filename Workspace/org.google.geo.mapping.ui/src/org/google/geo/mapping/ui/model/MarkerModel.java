@@ -3,15 +3,19 @@ package org.google.geo.mapping.ui.model;
 import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.HashSet;
-import java.util.Map;
 
 import org.condast.commons.lnglat.LngLat;
 import org.condast.commons.strings.StringStyler;
+import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.browser.BrowserFunction;
 import org.google.geo.mapping.ui.controller.GeoCoderController;
 import org.google.geo.mapping.ui.view.EvaluationEvent;
-import org.google.geo.mapping.ui.view.IEvaluationListener;
+import org.google.geo.mapping.ui.view.IEvaluationListener.EvaluationEvents;
 
 public class MarkerModel {
+
+	private static String S_MARKER_CLICKED_ID = "MarkerClickedId";
+	private static String S_MARKER_CLICKED = "onMarkerClicked";
 
 	public enum Functions{
 		CREATE_MARKER,
@@ -31,18 +35,12 @@ public class MarkerModel {
 	private Collection<LngLat> data;
 	
 	private GeoCoderController controller;
-	
-	private IEvaluationListener<Map<String,String>> listener = new IEvaluationListener<Map<String, String>>(){
-
-		@Override
-		public void notifyEvaluation(EvaluationEvent<Map<String,String>> event) {
-		}
-	};
-	
+	private BrowserFunction markerClicked;
+		
 	public MarkerModel( GeoCoderController controller ) {
 		this.data = new HashSet<LngLat>();
 		this.controller = controller;
-		this.controller.addEvaluationListener( listener );
+		this.markerClicked = new MarkerClicked( this.controller.getBrowser() );	
 	}
 
 	public void clearMarkers() {
@@ -102,6 +100,10 @@ public class MarkerModel {
 		controller.executeQuery();
 	}
 	
+	public void dispose(){
+		this.markerClicked.dispose();
+	}
+	
 	private static String[] getLngLatParams( LngLat lnglat ){
 		return fillLngLatParams(3, lnglat);
 	}
@@ -115,4 +117,17 @@ public class MarkerModel {
 		return params;
 	}
 
+	private class MarkerClicked extends BrowserFunction{
+		
+		MarkerClicked(Browser browser) {
+			super(browser, S_MARKER_CLICKED);
+		}
+
+		@Override
+		public Object function(Object[] arguments) {
+			System.out.println("marker Clicked");
+			controller.notifyEvaluation( new EvaluationEvent<Object[]>( this, S_MARKER_CLICKED_ID, EvaluationEvents.EVENT, arguments ));
+			return super.function(arguments);
+		}	
+	}
 }

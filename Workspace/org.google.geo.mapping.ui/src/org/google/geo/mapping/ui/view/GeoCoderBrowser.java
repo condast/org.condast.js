@@ -6,13 +6,11 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.eclipse.rap.rwt.widgets.BrowserCallback;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.BrowserFunction;
 import org.eclipse.swt.widgets.Composite;
 import org.google.geo.mapping.ui.servlet.GeocoderSession;
 import org.google.geo.mapping.ui.session.ISessionListener;
-import org.google.geo.mapping.ui.view.IEvaluationListener.EvaluationEvents;
 
 /**
  * : use GeoCoderController instead
@@ -85,12 +83,6 @@ public class GeoCoderBrowser extends Browser {
     	controller.setQuery(function, params);
     	controller.executeQuery();
     }
-
-    @Override
-	public Object evaluate( final String query ){
-  		  evaluate( query, controller.getCallBack() );
- 		  return true;
-    }
 	
 	@Override
 	public void dispose() {
@@ -106,25 +98,6 @@ public class GeoCoderBrowser extends Browser {
 		public CommandController( GeoCoderBrowser browser) {
 			commands = new LinkedList<Map.Entry<String, String[]>>();
 			this.browser = browser;
-		}
-
-		public BrowserCallback getCallBack(){
-			BrowserCallback callback = new BrowserCallback() {
-
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void evaluationSucceeded(Object result) {
-					notifyEvaluation( new EvaluationEvent<Map<String, String>>( browser, EvaluationEvents.SUCCEEDED ));
-					logger.info("EXECUTION SUCCEEDED");
-				}
-				@Override
-				public void evaluationFailed(Exception exception) {
-					notifyEvaluation( new EvaluationEvent<Map<String, String>>( browser, EvaluationEvents.FAILED ));
-					logger.warning("EXECUTION FAILED");
-				}
-			};
-			return callback;
 		}
 
 		/**

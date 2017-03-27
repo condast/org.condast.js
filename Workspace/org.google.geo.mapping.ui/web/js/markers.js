@@ -5,13 +5,13 @@ function createMarker( name, latitude, longitude, image ){
 	var location = new google.maps.LatLng(latitude, longitude);
  	var marker = new google.maps.Marker({
       position: location,
-      label: 'name',
+      label: name,
       map: map,
       icon: image
     });
    
     marker.addListener('click', function() {
-    	send( 'TYPE', 'marker:' + name );
+    	onMarkerClicked( 'MARKER', name );
     });
    markers[mindex++] = marker;
    send('CREATE_MARKER', 'COMPLETE');
@@ -34,9 +34,8 @@ function addMarker(name, latitude, longitude ) {
 		label: name,
 		map: map
 	});
-	console.log( "Add marker: " + name + "[" + latitude + "," + longitude + "]");
     marker.addListener('click', function() {
-    	send( 'TYPE', 'marker:' + name );
+    	onMarkerClicked( 'MARKER', name );
     });
 	send('ADD_MARKER', 'COMPLETE');
 }

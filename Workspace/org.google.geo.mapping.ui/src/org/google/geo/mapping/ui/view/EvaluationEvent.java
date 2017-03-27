@@ -2,7 +2,6 @@ package org.google.geo.mapping.ui.view;
 
 import java.util.EventObject;
 
-import org.eclipse.swt.browser.Browser;
 import org.google.geo.mapping.ui.view.IEvaluationListener.EvaluationEvents;
 
 public class EvaluationEvent<T extends Object> extends EventObject {
@@ -10,16 +9,22 @@ public class EvaluationEvent<T extends Object> extends EventObject {
 
 	private EvaluationEvents ee;
 	
+	private String id;
 	private T data;
 
-	public EvaluationEvent( Browser arg0, EvaluationEvents ee ) {
-		this( arg0, null, ee );
+	public EvaluationEvent( Object arg0, String id, EvaluationEvents ee ) {
+		this( arg0, id, ee, null );
 	}
 	
-	public EvaluationEvent( Browser arg0, T data, EvaluationEvents ee ) {
+	public EvaluationEvent( Object arg0, String id, EvaluationEvents ee, T data ) {
 		super(arg0);
+		this.id = id;
 		this.ee = ee;
 		this.data = data;
+	}
+
+	public String getId() {
+		return id;
 	}
 
 	public T getData() {
