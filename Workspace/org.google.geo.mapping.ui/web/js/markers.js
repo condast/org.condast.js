@@ -11,17 +11,16 @@ function createMarker( name, latitude, longitude, image ){
     });
    
     marker.addListener('click', function() {
-    	onMarkerClicked( 'MARKER', name );
+    	onMarkerClicked( 'MARKER_CLICKED', name );
     });
-   markers[mindex++] = marker;
+   //markers[mindex++] = marker;
    send('CREATE_MARKER', 'COMPLETE');
    return marker;
 }
 
 //Adds a marker to the map.
-function addEaterMarker(name, latitude, longitude ) {
-    var image = 'images/restaurant-32.png';
-    var marker = createMarker( name, latitude, longitude, image );
+function addMarker(name, latitude, longitude, image ) {
+    createMarker( name, latitude, longitude, image );
 }
 
 //Adds a marker to the map.
@@ -35,7 +34,7 @@ function addMarker(name, latitude, longitude ) {
 		map: map
 	});
     marker.addListener('click', function() {
-    	onMarkerClicked( 'MARKER', name );
+    	onMarkerClicked( 'MARKER_CLICKED', name );
     });
 	send('ADD_MARKER', 'COMPLETE');
 }

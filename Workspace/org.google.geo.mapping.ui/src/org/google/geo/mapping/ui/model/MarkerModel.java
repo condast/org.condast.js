@@ -25,7 +25,8 @@ public class MarkerModel {
 		CLEAR_MARKERS,
 		SHOW_MARKERS,
 		FIT_BOUNDS,
-		DELETE_MARKERS;
+		DELETE_MARKERS,
+		MARKER_CLICKED;
 		
 		public String toString(){
 			return StringStyler.toMethodString( super.toString());
@@ -58,13 +59,10 @@ public class MarkerModel {
 
 	public void createMarkers( String id, LngLat lnglat, String image) {
 		String[] params = fillLngLatParams(4, lnglat);
+		params[3] = image;
 		data.add( lnglat );
 		controller.setQuery(Functions.CREATE_MARKER.toString(), params );
 	}	
-
-	public void addEaterMarker( LngLat lnglat ) {
-		this.addMarker( Functions.ADD_EATER_MARKER, lnglat );
-	}
 
 	public void addMarker( String id, double latitude, double longtitude ) {
 		this.addMarker( Functions.ADD_MARKER, new LngLat( id, latitude, longtitude ));
@@ -76,6 +74,13 @@ public class MarkerModel {
 
 	public void addMarker( LngLat lnglat ) {
 		this.addMarker( Functions.ADD_MARKER, lnglat );
+	}
+
+	public void addMarker( LngLat lnglat, String image ) {
+		String[] params = fillLngLatParams(4, lnglat);
+		params[3] = image;
+		data.add( lnglat );
+		controller.setQuery(Functions.ADD_MARKER.toString(), params );
 	}
 
 	protected void addMarker( Functions function, LngLat lnglat ) {

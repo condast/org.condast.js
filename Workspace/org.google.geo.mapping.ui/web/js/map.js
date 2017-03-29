@@ -20,10 +20,5 @@ function isInitialised(){
  */
 function send( tp, e ){
 	var tkn = 9812365834502354646;
-    try{
-    	jsExecuted( tp, tkn, e, true );
-		console.log("callback: " + tp);
-    }catch(err){
-    	console.log( err );
-    }
+    console.log( tp );
 }

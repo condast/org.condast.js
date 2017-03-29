@@ -7,9 +7,5 @@
             alias="/geo"
             base-name="/web">
       </resource>
-      <resource
-            alias="/georesources"
-            base-name="/resources">
-      </resource>
    </extension>
  </plugin>
