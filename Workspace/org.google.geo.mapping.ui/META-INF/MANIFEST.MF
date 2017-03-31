@@ -23,6 +23,7 @@ Import-Package: javax.servlet;version="2.6.0",
  org.osgi.framework;version="1.3.0"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.google.geo.mapping.ui.controller,
+ org.google.geo.mapping.ui.images,
  org.google.geo.mapping.ui.model,
  org.google.geo.mapping.ui.session,
  org.google.geo.mapping.ui.view

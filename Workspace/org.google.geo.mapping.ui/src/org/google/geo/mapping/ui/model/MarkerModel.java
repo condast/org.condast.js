@@ -21,6 +21,7 @@ public class MarkerModel {
 		CREATE_MARKER,
 		ADD_EATER_MARKER,
 		ADD_MARKER,
+		ADD_MARKER_WITH_IMAGE,
 		REMOVE_MARKER,
 		CLEAR_MARKERS,
 		SHOW_MARKERS,
@@ -80,7 +81,7 @@ public class MarkerModel {
 		String[] params = fillLngLatParams(4, lnglat);
 		params[3] = image;
 		data.add( lnglat );
-		controller.setQuery(Functions.ADD_MARKER.toString(), params );
+		controller.setQuery(Functions.ADD_MARKER_WITH_IMAGE.toString(), params );
 	}
 
 	protected void addMarker( Functions function, LngLat lnglat ) {

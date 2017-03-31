@@ -13,13 +13,13 @@ function createMarker( name, latitude, longitude, image ){
     marker.addListener('click', function() {
     	onMarkerClicked( 'MARKER_CLICKED', name );
     });
-   //markers[mindex++] = marker;
+   markers[mindex++] = marker;
    send('CREATE_MARKER', 'COMPLETE');
    return marker;
 }
 
 //Adds a marker to the map.
-function addMarker(name, latitude, longitude, image ) {
+function addMarkerWithImage(name, latitude, longitude, image ) {
     createMarker( name, latitude, longitude, image );
 }
 
@@ -40,7 +40,7 @@ function addMarker(name, latitude, longitude ) {
 }
 
 // Sets the map on all markers in the array.
-function setMapOnAll(map) {
+function setMapOnAll() {
   for (var i = 0; i < markers.length; i++) {
     markers[i].setMap(map);
   }
