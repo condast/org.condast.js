@@ -49,6 +49,7 @@ function setMapOnAll() {
 // Removes the markers from the map, but keeps them in the array.
 function clearMarkers() {
   setMapOnAll(null);
+  markers = [];
 }
 
 // Shows any markers currently in the array.
