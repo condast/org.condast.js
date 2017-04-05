@@ -7,9 +7,9 @@ import java.util.logging.Logger;
 
 import org.condast.commons.lnglat.LngLat;
 import org.condast.commons.strings.StringStyler;
+import org.google.geo.mapping.ui.controller.GeoCoderController;
 import org.google.geo.mapping.ui.session.ISessionListener;
 import org.google.geo.mapping.ui.view.EvaluationEvent;
-import org.google.geo.mapping.ui.view.GeoCoderBrowser;
 import org.google.geo.mapping.ui.view.IEvaluationListener;
 
 public class TilesAndPixelsModel {
@@ -27,7 +27,7 @@ public class TilesAndPixelsModel {
 		}
 	}
 
-	private GeoCoderBrowser browser;
+	private GeoCoderController controller;
 	
 	private int tileSize;
 	private Collection<ISessionListener<Map<String, String>>> listeners;
@@ -43,11 +43,11 @@ public class TilesAndPixelsModel {
 	};
 	
 
-	public TilesAndPixelsModel( GeoCoderBrowser browser ) {
+	public TilesAndPixelsModel( GeoCoderController controller ) {
 		super();
-		this.browser = browser;
+		this.controller = controller;
 		this.listeners = new ArrayList<ISessionListener<Map<String, String>>>();
-		this.browser.addEvaluationListener( listener );
+		//this.controller.addEvaluationListener( listener );
 		//this.browser.addSessionListener( slistener);
 		this.tileSize = DEFAULT_TILE_SIZE;
 	}
@@ -68,11 +68,11 @@ public class TilesAndPixelsModel {
 		this.tileSize = tileSize;
 		String[] params=  new String[1];
 		params[0] = String.valueOf( tileSize );		
-		browser.setQuery(Functions.SET_TILE_SIZE.toString(), params);
+		controller.setQuery(Functions.SET_TILE_SIZE.toString(), params);
 	}
 
 	public void synchronize(){
-		browser.executeQuery();
+		controller.executeQuery();
 	}
 
 	public void setLocation( LngLat lnglat, int zoom ){
@@ -80,7 +80,7 @@ public class TilesAndPixelsModel {
 		params[0] = String.valueOf( lnglat.getLatitude() );
 		params[1] = String.valueOf( lnglat.getLongitude() );
 		params[2] = String.valueOf( zoom );
-		browser.setQuery(Functions.SET_LOCATION.toString(), params);
+		controller.setQuery(Functions.SET_LOCATION.toString(), params);
 	}
 
 	public void createLocationInfo( String name, String description, LngLat lnglat, int zoom ){
@@ -91,11 +91,11 @@ public class TilesAndPixelsModel {
 		params[3] = String.valueOf( lnglat.getLongitude() );
 		params[4] = String.valueOf( zoom );
 		logger.info("locationinfo: " + params[0] +" " + params[1] +" "+ params[2] +" "+ params[3] +" "+ params[4]);
-		browser.setQuery(Functions.CREATE_LOCATION_INFO.toString(), params);
+		controller.setQuery(Functions.CREATE_LOCATION_INFO.toString(), params);
 	}
 
 	public void alertZoom(){
-		browser.setQuery(Functions.ALERT_ZOOM.toString());
+		controller.setQuery(Functions.ALERT_ZOOM.toString());
 	}
 
 }
