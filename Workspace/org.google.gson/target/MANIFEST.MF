@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-SymbolicName: org.google.gson
 Export-Package: com.google.gson
 Bundle-Name: Gson Parser
-Bundle-Version: 1.0.0.201704031054
+Bundle-Version: 1.0.0.201704031108
 Bundle-ClassPath: .,lib/gson-2.7.jar
 Bundle-ManifestVersion: 2
 Bundle-Activator: org.condast.gson.Activator

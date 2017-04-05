@@ -1,0 +1,14 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: OpenLayer Map Tools (version 4.0.1)
+Bundle-SymbolicName: org.openlayer.map;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Condast
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Import-Package: org.condast.commons.lnglat,
+ org.condast.commons.strings,
+ org.condast.js.commons.controller,
+ org.condast.js.commons.eval,
+ org.eclipse.swt.browser
+Export-Package: org.openlayer.map.controller,
+ org.openlayer.map.model
