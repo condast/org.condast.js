@@ -56,7 +56,7 @@
   <modules>
     <!-- <module>../org.condast.js</module> -->
     <module>../org.eclipse.rap.chartjs</module>
-    <module>../org.google.gson</module>
+    
     <module>../org.google.geo.mapping</module>
     <module>../org.google.geo.mapping.ui</module>
     <module>../org.condast.postcode.api</module>
