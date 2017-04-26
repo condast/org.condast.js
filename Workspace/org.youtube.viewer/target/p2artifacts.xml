@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <?artifactRepository version='1.1.0'?>
 <artifacts size='1'>
-  <artifact classifier='osgi.bundle' id='org.youtube.viewer' version='1.0.0.201704260833'>
+  <artifact classifier='osgi.bundle' id='org.youtube.viewer' version='1.0.0.201704261248'>
     <properties size='5'>
       <property name='artifact.size' value='64154'/>
       <property name='download.size' value='64154'/>

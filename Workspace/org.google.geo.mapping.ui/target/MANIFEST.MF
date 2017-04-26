@@ -4,7 +4,7 @@ Export-Package: org.google.geo.mapping.ui.controller,org.google.geo.ma
  pping.ui.images,org.google.geo.mapping.ui.model,org.google.geo.mappin
  g.ui.session,org.google.geo.mapping.ui.view
 Bundle-Name: GeoMapping UI
-Bundle-Version: 1.0.0.201704260833
+Bundle-Version: 1.0.0.201704261248
 Bundle-ManifestVersion: 2
 Bundle-Activator: org.google.geo.mapping.ui.Activator
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
