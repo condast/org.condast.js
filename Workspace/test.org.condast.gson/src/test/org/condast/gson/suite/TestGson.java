@@ -17,10 +17,10 @@ import org.condast.commons.na.model.IApplicationPerson;
 import org.condast.commons.na.questionaire.IQuestion;
 import org.condast.commons.na.questionaire.IQuestionaire;
 
-import nl.cultuurinzicht.servlet.controller.QuestionnaireController;
-import nl.cultuurinzicht.servlet.parser.QuestionnaireParser;
 import nl.eetmee.commons.profile.def.IProfile;
 import nl.eetmee.commons.profile.utils.ProfileAttributes;
+import nl.eetmee.vastegast.servlet.controller.QuestionnaireController;
+import nl.eetmee.vastegast.servlet.parser.QuestionnaireParser;
 
 public class TestGson {
 

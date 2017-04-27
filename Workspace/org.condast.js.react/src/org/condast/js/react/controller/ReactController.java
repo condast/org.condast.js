@@ -25,7 +25,12 @@ public class ReactController extends AbstractJavascriptController{
 	public ReactController( Browser browser ) {
 		super( browser, S_INITIALISTED_ID, S_INDEX_HTML );
 	}
-	
+
+	@Override
+	protected void onLoadCompleted() {
+		logger.info("COMPLETED");
+	}
+
 	public void addWidgets( InputStream in ) {
 		super.getBrowser().evaluate( parse(in));
 	}

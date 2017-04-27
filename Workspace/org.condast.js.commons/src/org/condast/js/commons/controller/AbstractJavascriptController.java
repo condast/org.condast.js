@@ -1,12 +1,11 @@
 package org.condast.js.commons.controller;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
+import java.util.Scanner;
 import java.util.logging.Logger;
 
 import org.condast.commons.Utils;
@@ -18,11 +17,14 @@ import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
 
-public abstract class AbstractJavascriptController{
+public abstract class AbstractJavascriptController implements IJavascriptController{
 
 	public static final String S_IS_INITIALISTED = "isInitialised";
 	
-	private static final int DEFAULT_INIT_DELAY = 1500;
+	public enum LoadTypes{
+		URL,
+		TEXT;
+	}
 	
 	private Collection<IEvaluationListener<Object[]>> listeners;
 
@@ -53,55 +55,91 @@ public abstract class AbstractJavascriptController{
 		return callback;
 	}
 
-	protected AbstractJavascriptController( Browser browser, String id, String url ) {
+	protected AbstractJavascriptController( Browser browser, String id ) {
 		this.id = id;
 		this.initialised = false;
 		this.browser = browser;
 		listeners = new ArrayList<IEvaluationListener<Object[]>>();
 		this.controller = new CommandController( );
-		browser.setUrl( url);
 		browser.addProgressListener( new ProgressListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void completed(ProgressEvent event) {
-				initComposite();
+				onLoadCompleted();
+				initialised = true;
+				controller.executeQuery();
 			}
 			
 			@Override
 			public void changed(ProgressEvent event) {
-				// TODO Auto-generated method stub
-				
+				onLoadChanged();
 			}
 		});
 	}
 
+	protected AbstractJavascriptController( Browser browser, String id, String url ) {
+		this( browser, id, LoadTypes.URL, url );
+	}
+	
+	protected AbstractJavascriptController( Browser browser, String id, LoadTypes type, String url ) {
+		this( browser, id );
+		setBrowser( type, url );
+	}
+
+	protected AbstractJavascriptController( Browser browser, String id, InputStream in ) {
+		this( browser, id );
+		setBrowser( in );
+	}
+
+	protected abstract void onLoadCompleted();
+
+	protected void onLoadChanged(){ /* DEFAULT NOTHING */ }
+
+	
 	/**
 	 * Initialise the composite
 	 */
 	protected void initComposite(){
-		controller.performInit( DEFAULT_INIT_DELAY);		
+		controller.executeQuery();
 	}
 
-	/**
-	 * Initialise the composite
+	/* (non-Javadoc)
+	 * @see org.condast.js.commons.controller.IJavascriptController#isInitialised()
 	 */
-	protected void initComposite( int delay ){
-		controller.performInit( delay );		
-	}
-
+	@Override
 	public boolean isInitialised() {
 		return initialised;
 	}
 
-	public Browser getBrowser(){
+	protected void setBrowser( LoadTypes type, String content ){
+		if( LoadTypes.URL.equals( type ))
+			browser.setUrl( content );
+		else{
+			browser.setText( content );
+		}
+	}
+	
+	protected void setBrowser( final InputStream in ){
+		browser.setText( readInput(in));	
+	}
+	
+	protected Browser getBrowser(){
 		return browser;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.condast.js.commons.controller.IJavascriptController#addEvaluationListener(org.condast.js.commons.eval.IEvaluationListener)
+	 */
+	@Override
 	public void addEvaluationListener( IEvaluationListener<Object[]> listener ){
 		this.listeners.add(listener);
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.condast.js.commons.controller.IJavascriptController#removeEvaluationListener(org.condast.js.commons.eval.IEvaluationListener)
+	 */
+	@Override
 	public void removeEvaluationListener( IEvaluationListener<Object[]> listener ){
 		this.listeners.remove(listener);
 	}
@@ -133,39 +171,35 @@ public abstract class AbstractJavascriptController{
 		controller.executeQuery();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.condast.js.commons.controller.IJavascriptController#evaluate(java.lang.String)
+	 */
+	@Override
 	public Object evaluate( final String query ){
 		browser.evaluate( query, getCallBack() );
 		return true;
+	}
+	
+	protected String readInput( InputStream in ){
+		StringBuffer buffer = new StringBuffer();
+		Scanner scanner = new Scanner( in );
+		try{
+		while( scanner.hasNextLine() )
+			buffer.append( scanner.nextLine() );
+		}
+		finally{
+			scanner.close();
+		}
+		return buffer.toString();
+		
 	}
 
 	private class CommandController{
 
 		private LinkedList<Map.Entry<String, String[]>> commands;
 	
-		private ScheduledExecutorService scheduler; 
-		private Runnable runnable = new Runnable(){
-
-			@Override
-			public void run() {
-				browser.getDisplay().asyncExec( new Runnable(){
-
-					@Override
-					public void run() {
-						try{
-							executeQuery();
-							initialised = true;
-						}
-						catch( Exception ex ){
-							ex.printStackTrace();
-						}
-					}					
-				});
-			}	
-		};
-
 		private CommandController() {
 			commands = new LinkedList<Map.Entry<String, String[]>>();
-			scheduler = Executors.newScheduledThreadPool(1);
 		}
 
 		/**
@@ -194,10 +228,6 @@ public abstract class AbstractJavascriptController{
 				}
 			});
 		}	
-		
-		private void start( int delay){
-			scheduler.schedule(runnable, delay, TimeUnit.MILLISECONDS);
-		}
 		
 		private final synchronized void executeQuery(){
 			if( commands.isEmpty() )
@@ -231,18 +261,6 @@ public abstract class AbstractJavascriptController{
 			buffer.append(");");
 			logger.info("EXECUTING: " + buffer.toString() );
 			return buffer.toString();
-		}
-		
-		/**
-		 * initialise the browser. The delay is needed to synchronise the web page
-		 * with the additional commands that may be required to fill the screen. The more
-		 * additional commands, the more delay is needed. If the initialisation is too short,
-		 * the browser will throw an exception with the message (EXECUTION FAILED); 
-		 * @param delay
-		 */
-		private final void performInit( int delay ){
-			setQuery( S_IS_INITIALISTED, null );
-			start( delay );
 		}
 	}
 }

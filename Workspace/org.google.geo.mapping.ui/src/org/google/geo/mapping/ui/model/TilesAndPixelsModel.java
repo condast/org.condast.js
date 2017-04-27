@@ -7,10 +7,10 @@ import java.util.logging.Logger;
 
 import org.condast.commons.lnglat.LngLat;
 import org.condast.commons.strings.StringStyler;
+import org.condast.js.commons.eval.EvaluationEvent;
+import org.condast.js.commons.eval.IEvaluationListener;
+import org.condast.js.commons.session.ISessionListener;
 import org.google.geo.mapping.ui.controller.GeoCoderController;
-import org.google.geo.mapping.ui.session.ISessionListener;
-import org.google.geo.mapping.ui.view.EvaluationEvent;
-import org.google.geo.mapping.ui.view.IEvaluationListener;
 
 public class TilesAndPixelsModel {
 

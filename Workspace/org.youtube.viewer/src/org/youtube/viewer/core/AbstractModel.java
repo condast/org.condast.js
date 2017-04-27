@@ -4,12 +4,12 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Map;
 
+import org.condast.js.commons.eval.EvaluationEvent;
+import org.condast.js.commons.eval.IEvaluationListener;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.BrowserFunction;
 import org.youtube.viewer.core.IBrowserListener.BrowserEvents;
-import org.youtube.viewer.view.EvaluationEvent;
 import org.youtube.viewer.view.YouTubeBrowser;
-import org.youtube.viewer.view.IEvaluationListener;
 
 public abstract class AbstractModel {
 	

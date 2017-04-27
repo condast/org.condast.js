@@ -1,8 +1,13 @@
 package org.condast.js.swt;
 
 import java.io.InputStream;
+import java.util.HashMap;
+import java.util.Map;
 
 import org.condast.commons.lnglat.LngLat;
+import org.condast.js.bootstrap.controller.BootstrapController;
+import org.condast.js.bootstrap.controller.BootstrapController.Pages;
+import org.condast.js.commons.controller.IJavascriptController;
 import org.condast.js.react.controller.ReactController;
 import org.eclipse.rap.rwt.RWT;
 import org.eclipse.swt.SWT;
@@ -37,6 +42,8 @@ public class FrontEndComposite extends Composite {
 	private static final String TAB_TEXT_GEO_BROWSER = "Geo Browser";
 	private static final String TAB_TEXT_REACT_BROWSER = "React Browser";
 	private static final String TAB_TEXT_OPEN_LAYER_BROWSER = "OpenLayer Browser";
+	private static final String TAB_TEXT_BOOTSTRAP_BROWSER = "Bootstrap Browser";
+	private static final String TAB_TEXT_BARE_BOOTSTRAP_BROWSER = "Bootstrap Bare Template";
 	
 	//Text fields
 	private enum Fields{
@@ -50,7 +57,9 @@ public class FrontEndComposite extends Composite {
 	public enum Tabs{
 		REACT(0),
 		GEO_BROWSER(1),
-		OPEN_LAYER(2);
+		OPEN_LAYER(2),
+		BOOTSTRAP(3),
+		BOOTSTRAP_BARE(4);
 		
 		private int index;
 		
@@ -79,12 +88,11 @@ public class FrontEndComposite extends Composite {
 	private Text text_id;
 	private Composite selected;
 	
-	private GeoCoderController geoController;
-	private ReactController reactController;
-	private OpenLayerController olController;
+	private Map<Tabs,IJavascriptController> controllers;
 	
 	public FrontEndComposite( Composite parent, int style) {
 		super(parent, style);
+		controllers = new HashMap<Tabs,IJavascriptController>();
 		this.createComposite( parent, style );
 		this.initComposite();
 	}
@@ -135,22 +143,34 @@ public class FrontEndComposite extends Composite {
 		});	
 		
 		Browser browser = new Browser( tabFolder, SWT.NONE );
-		reactController = new ReactController(browser);
+		controllers.put( Tabs.REACT, new ReactController(browser));
 		CTabItem item = new CTabItem(tabFolder, SWT.NONE);
 		item.setText( TAB_TEXT_REACT_BROWSER);
 		selected = browser;
 		item.setControl( selected );
 				
 		browser = new Browser( tabFolder, SWT.NONE );
-		geoController = new GeoCoderController(browser);
+		controllers.put( Tabs.GEO_BROWSER, new GeoCoderController(browser));
 		item = new CTabItem(tabFolder, SWT.NONE);
 		item.setText( TAB_TEXT_GEO_BROWSER);
 		item.setControl( browser );	
 
 		browser = new Browser( tabFolder, SWT.NONE );
-		olController = new OpenLayerController(browser);
+		controllers.put( Tabs.OPEN_LAYER, new OpenLayerController(browser));
 		item = new CTabItem(tabFolder, SWT.NONE);
-		item.setText( TAB_TEXT_OPEN_LAYER_BROWSER);
+		item.setText( TAB_TEXT_OPEN_LAYER_BROWSER );
+		item.setControl( browser );	
+
+		browser = new Browser( tabFolder, SWT.NONE );
+		controllers.put( Tabs.BOOTSTRAP, new BootstrapController(browser));
+		item = new CTabItem(tabFolder, SWT.NONE);
+		item.setText( TAB_TEXT_BOOTSTRAP_BROWSER );
+		item.setControl( browser );	
+
+		browser = new Browser( tabFolder, SWT.NONE );
+		controllers.put( Tabs.BOOTSTRAP_BARE, new BootstrapController(browser));
+		item = new CTabItem(tabFolder, SWT.NONE);
+		item.setText( TAB_TEXT_BARE_BOOTSTRAP_BROWSER );
 		item.setControl( browser );	
 
 		tabFolder.setSelection(0);
@@ -165,17 +185,20 @@ public class FrontEndComposite extends Composite {
 	protected void setSelected(){
 		selected = (Composite) tabFolder.getSelection().getControl();
 		Tabs tab = Tabs.getTab( tabFolder.getSelectionIndex());
+		InputStream in = null;
 		switch( tab){
 		case REACT:
-			InputStream in = this.getClass().getResourceAsStream( "/script/view.js" );
+			in = this.getClass().getResourceAsStream( "/script/view.js" );
 			//reactController.addWidgets( in );			
 
 			in = this.getClass().getResourceAsStream( "/script/contacts.js" );
+			ReactController reactController = (ReactController) controllers.get( Tabs.REACT );
 			reactController.render( in );	
 			break;
 
 		case GEO_BROWSER:
-			MarkerModel mm = new MarkerModel( this.geoController );
+			GeoCoderController geoController = (GeoCoderController) controllers.get( Tabs.GEO_BROWSER );
+			MarkerModel mm = new MarkerModel( geoController );
 			mm.addMarker( new LngLat(51.910d, 4.4120d) , "images/restaurant-32.png");
 			mm.addMarker( new LngLat(51.910d, 4.4120d));
 			mm.fitBounds(13);
@@ -184,7 +207,8 @@ public class FrontEndComposite extends Composite {
 			break;
 
 		case OPEN_LAYER:
-			TransformModel tm = new TransformModel( this.olController );
+			OpenLayerController olController = (OpenLayerController) controllers.get( Tabs.OPEN_LAYER );
+			TransformModel tm = new TransformModel( olController );
 			tm.doPan( new LngLat( 4.3d, 52.4d));
 			//tm.doRotate(0.5f);
 			//mm.addMarker( new LngLat(51.910d, 4.4120d));
@@ -192,7 +216,14 @@ public class FrontEndComposite extends Composite {
 			tm.synchronize();
 			//this.olController.initComposite();
 			break;
-
+		case BOOTSTRAP:
+			BootstrapController btController = (BootstrapController) controllers.get( Tabs.BOOTSTRAP );
+			btController.setBrowser( Pages.INDEX );
+			break;
+		case BOOTSTRAP_BARE:
+			btController = (BootstrapController) controllers.get( Tabs.BOOTSTRAP_BARE );
+			btController.setBrowser( Pages.BARE );
+			break;
 		default:
 			break;
 		}
