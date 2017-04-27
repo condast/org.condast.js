@@ -1,10 +1,9 @@
 Manifest-Version: 1.0
 Bundle-SymbolicName: org.google.geo.mapping.ui;singleton:=true
 Export-Package: org.google.geo.mapping.ui.controller,org.google.geo.ma
- pping.ui.images,org.google.geo.mapping.ui.model,org.google.geo.mappin
- g.ui.session,org.google.geo.mapping.ui.view
+ pping.ui.images,org.google.geo.mapping.ui.model
 Bundle-Name: GeoMapping UI
-Bundle-Version: 1.0.0.201704271156
+Bundle-Version: 1.0.0.201704271635
 Bundle-ManifestVersion: 2
 Bundle-Activator: org.google.geo.mapping.ui.Activator
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
@@ -12,9 +11,8 @@ Bundle-ActivationPolicy: lazy
 Bundle-Vendor: Condast
 Import-Package: javax.servlet;version="2.6.0",javax.servlet.http;versi
  on="2.6.0",org.condast.commons,org.condast.commons.lnglat,org.condast
- .commons.strings,org.eclipse.equinox.http.registry;version="1.0.0",or
- g.eclipse.rap.rwt.service;version="3.1.0",org.eclipse.rap.rwt.widgets
- ;version="3.0.2",org.eclipse.swt,org.eclipse.swt.browser,org.eclipse.
- swt.events,org.eclipse.swt.graphics,org.eclipse.swt.layout,org.eclips
- e.swt.widgets,org.osgi.framework;version="1.3.0"
+ .commons.strings,org.condast.js.commons.controller,org.condast.js.com
+ mons.eval,org.condast.js.commons.session,org.eclipse.equinox.http.reg
+ istry;version="1.0.0",org.eclipse.swt.browser,org.eclipse.swt.graphic
+ s,org.osgi.framework;version="1.3.0"
 
