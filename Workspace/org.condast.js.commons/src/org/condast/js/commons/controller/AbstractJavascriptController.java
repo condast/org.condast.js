@@ -1,9 +1,11 @@
 package org.condast.js.commons.controller;
 
+import java.io.InputStream;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map;
+import java.util.Scanner;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
@@ -18,11 +20,16 @@ import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
 
-public abstract class AbstractJavascriptController{
+public abstract class AbstractJavascriptController implements IJavascriptController{
 
 	public static final String S_IS_INITIALISTED = "isInitialised";
 	
 	private static final int DEFAULT_INIT_DELAY = 1500;
+	
+	public enum LoadTypes{
+		URL,
+		TEXT;
+	}
 	
 	private Collection<IEvaluationListener<Object[]>> listeners;
 
@@ -53,28 +60,53 @@ public abstract class AbstractJavascriptController{
 		return callback;
 	}
 
-	protected AbstractJavascriptController( Browser browser, String id, String url ) {
+	protected AbstractJavascriptController( Browser browser, String id ) {
 		this.id = id;
 		this.initialised = false;
 		this.browser = browser;
 		listeners = new ArrayList<IEvaluationListener<Object[]>>();
 		this.controller = new CommandController( );
-		browser.setUrl( url);
 		browser.addProgressListener( new ProgressListener() {
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void completed(ProgressEvent event) {
-				initComposite();
+				onLoadCompleted();
+				getBrowser().getDisplay().asyncExec( new Runnable(){
+
+					@Override
+					public void run() {
+						getBrowser().evaluate("var init=true");
+						logger.info( getBrowser().getUrl());
+					}
+					
+				});
 			}
 			
 			@Override
 			public void changed(ProgressEvent event) {
-				// TODO Auto-generated method stub
-				
+				onLoadChanged();
 			}
 		});
 	}
+
+	protected AbstractJavascriptController( Browser browser, String id, String url ) {
+		this( browser, id, LoadTypes.URL, url );
+	}
+	
+	protected AbstractJavascriptController( Browser browser, String id, LoadTypes type, String url ) {
+		this( browser, id );
+		setBrowser( type, url );
+	}
+
+	protected AbstractJavascriptController( Browser browser, String id, InputStream in ) {
+		this( browser, id );
+		setBrowser( in );
+	}
+
+	protected abstract void onLoadCompleted();
+
+	protected void onLoadChanged(){ /* DEFAULT NOTHING */ }
 
 	/**
 	 * Initialise the composite
@@ -90,18 +122,42 @@ public abstract class AbstractJavascriptController{
 		controller.performInit( delay );		
 	}
 
+	/* (non-Javadoc)
+	 * @see org.condast.js.commons.controller.IJavascriptController#isInitialised()
+	 */
+	@Override
 	public boolean isInitialised() {
 		return initialised;
 	}
 
-	public Browser getBrowser(){
+	protected void setBrowser( LoadTypes type, String content ){
+		if( LoadTypes.URL.equals( type ))
+			browser.setUrl( content );
+		else{
+			browser.setText( content );
+		}
+	}
+	
+	protected void setBrowser( final InputStream in ){
+		browser.setText( readInput(in));	
+	}
+	
+	protected Browser getBrowser(){
 		return browser;
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.condast.js.commons.controller.IJavascriptController#addEvaluationListener(org.condast.js.commons.eval.IEvaluationListener)
+	 */
+	@Override
 	public void addEvaluationListener( IEvaluationListener<Object[]> listener ){
 		this.listeners.add(listener);
 	}
 	
+	/* (non-Javadoc)
+	 * @see org.condast.js.commons.controller.IJavascriptController#removeEvaluationListener(org.condast.js.commons.eval.IEvaluationListener)
+	 */
+	@Override
 	public void removeEvaluationListener( IEvaluationListener<Object[]> listener ){
 		this.listeners.remove(listener);
 	}
@@ -133,9 +189,27 @@ public abstract class AbstractJavascriptController{
 		controller.executeQuery();
 	}
 
+	/* (non-Javadoc)
+	 * @see org.condast.js.commons.controller.IJavascriptController#evaluate(java.lang.String)
+	 */
+	@Override
 	public Object evaluate( final String query ){
 		browser.evaluate( query, getCallBack() );
 		return true;
+	}
+	
+	private String readInput( InputStream in ){
+		StringBuffer buffer = new StringBuffer();
+		Scanner scanner = new Scanner( in );
+		try{
+		while( scanner.hasNextLine() )
+			buffer.append( scanner.nextLine() );
+		}
+		finally{
+			scanner.close();
+		}
+		return buffer.toString();
+		
 	}
 
 	private class CommandController{

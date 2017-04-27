@@ -1,4 +1,4 @@
-package org.condast.js.react.controller;
+package org.condast.js.bootstrap.controller;
 
 import java.io.InputStream;
 import java.util.Scanner;
@@ -8,10 +8,12 @@ import org.condast.commons.strings.StringUtils;
 import org.condast.js.commons.controller.AbstractJavascriptController;
 import org.eclipse.swt.browser.Browser;
 
-public class ReactController extends AbstractJavascriptController{
+public class BootstrapController extends AbstractJavascriptController{
 
-	public static final String S_INDEX_HTML = "/react/index.html";
-	public static final String S_INITIALISTED_ID = "ReactInitialisedId";
+	public static final String S_INDEX_HTML = "/resources/minimal.html";
+	public static final String S_BARE_HTML = "/resources/minimal2.html";
+
+	public static final String S_INITIALISTED_ID = "BootstrapInitialisedId";
 	public static final String S_IS_INITIALISTED = "isInitialised";
 
 	public static final String S_COMMENT_LINE = "//";
@@ -20,10 +22,26 @@ public class ReactController extends AbstractJavascriptController{
 	public static final String S_SCRIPT_START = "<script>";
 	public static final String S_SCRIPT_END = "</script>";
 	
+	public enum Pages{
+		MINIMAL,
+		MINIMAL2,
+		INDEX,
+		BARE;
+
+		@Override
+		public String toString() {
+			return "/resources/" + name().toLowerCase() + ".html";
+		}
+	}
+	
 	private Logger logger = Logger.getLogger( this.getClass().getName() );
 
-	public ReactController( Browser browser ) {
-		super( browser, S_INITIALISTED_ID, S_INDEX_HTML );
+	public BootstrapController( Browser browser ) {
+		super( browser, S_INITIALISTED_ID );
+	}
+
+	public void setBrowser( Pages page ) {
+		super.setBrowser( BootstrapController.class.getResourceAsStream( page.toString() ));
 	}
 
 	@Override

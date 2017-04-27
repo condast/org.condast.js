@@ -10,13 +10,14 @@ import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import org.condast.commons.Utils;
+import org.condast.js.commons.controller.IJavascriptController;
+import org.condast.js.commons.eval.EvaluationEvent;
+import org.condast.js.commons.eval.IEvaluationListener;
+import org.condast.js.commons.eval.IEvaluationListener.EvaluationEvents;
 import org.eclipse.rap.rwt.widgets.BrowserCallback;
 import org.eclipse.swt.browser.Browser;
-import org.google.geo.mapping.ui.view.EvaluationEvent;
-import org.google.geo.mapping.ui.view.IEvaluationListener;
-import org.google.geo.mapping.ui.view.IEvaluationListener.EvaluationEvents;
 
-public class GeoCoderController{
+public class GeoCoderController implements IJavascriptController{
 
 	public static final String S_INDEX_HTML = "/geo/index.html";
 	public static final String S_INITIALISTED_ID = "MapInitialisedId";

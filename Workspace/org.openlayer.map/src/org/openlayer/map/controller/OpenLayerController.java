@@ -18,8 +18,18 @@ public class OpenLayerController extends AbstractJavascriptController{
 	}
 
 	@Override
+	protected void onLoadCompleted() {
+		logger.info("COMPLETED");
+	}
+
+	@Override
 	protected void initComposite() {
 		// TODO Auto-generated method stub
 		super.initComposite();
+	}
+
+	@Override
+	public Browser getBrowser() {
+		return super.getBrowser();
 	}
 }

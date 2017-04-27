@@ -6,11 +6,11 @@ import java.util.HashSet;
 
 import org.condast.commons.lnglat.LngLat;
 import org.condast.commons.strings.StringStyler;
+import org.condast.js.commons.eval.EvaluationEvent;
+import org.condast.js.commons.eval.IEvaluationListener.EvaluationEvents;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.BrowserFunction;
 import org.google.geo.mapping.ui.controller.GeoCoderController;
-import org.google.geo.mapping.ui.view.EvaluationEvent;
-import org.google.geo.mapping.ui.view.IEvaluationListener.EvaluationEvents;
 
 public class MarkerModel {
 
