@@ -6,6 +6,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.condast.js.commons.eval.EvaluationEvent;
+import org.condast.js.commons.eval.IEvaluationListener;
 import org.eclipse.rap.rwt.widgets.BrowserCallback;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;

@@ -14,6 +14,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
+import org.eclipse.swt.widgets.Combo;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Label;
@@ -22,6 +23,7 @@ import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.custom.CTabFolder;
 import org.eclipse.swt.custom.CTabItem;
 import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Text;
 import org.google.geo.mapping.ui.controller.GeoCoderController;
 import org.google.geo.mapping.ui.model.MarkerModel;
@@ -82,11 +84,14 @@ public class FrontEndComposite extends Composite {
 	
 	private Composite body;
 	
+	private Combo choices;
+	
 	private CTabFolder tabFolder;
 	
 	private Composite comp_info;
 	private Text text_id;
 	private Composite selected;
+	private Tabs tab;
 	
 	private Map<Tabs,IJavascriptController> controllers;
 	
@@ -112,6 +117,32 @@ public class FrontEndComposite extends Composite {
 		lblTitle.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
 		this.lblTitle.setData( RWT.CUSTOM_VARIANT, RWT_FRONTEND_TITLE );	
 		this.lblTitle.setText( Fields.TITLE.toString() );
+		
+		this.choices = new Combo( titleComposite, SWT.NONE );
+		this.choices.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 2, 1));
+		this.choices.setData( RWT.CUSTOM_VARIANT, RWT_FRONTEND_TITLE );	
+		this.choices.setEnabled(false);
+		this.choices.setVisible(false);
+		this.choices.addSelectionListener( new SelectionAdapter(){
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				switch( tab){
+				case REACT:
+					break;
+				case BOOTSTRAP:
+				case BOOTSTRAP_BARE:
+					BootstrapController btController = (BootstrapController) controllers.get( Tabs.BOOTSTRAP_BARE );
+					btController.setBrowser( Pages.values()[choices.getSelectionIndex()]);
+					tabFolder.layout(true);
+					break;
+				default:
+					break;
+				}
+				super.widgetSelected(e);
+			}	
+		});
 		
 		comp_info = new Composite(titleComposite, SWT.NONE);
 		comp_info.setData(RWT.CUSTOM_VARIANT, RWT_FRONTEND );	
@@ -184,7 +215,7 @@ public class FrontEndComposite extends Composite {
 	
 	protected void setSelected(){
 		selected = (Composite) tabFolder.getSelection().getControl();
-		Tabs tab = Tabs.getTab( tabFolder.getSelectionIndex());
+		tab = Tabs.getTab( tabFolder.getSelectionIndex());
 		InputStream in = null;
 		switch( tab){
 		case REACT:
@@ -217,14 +248,24 @@ public class FrontEndComposite extends Composite {
 			//this.olController.initComposite();
 			break;
 		case BOOTSTRAP:
+			this.choices.setEnabled(true);
+			this.choices.setVisible(true);
+			this.choices.setItems( Pages.getItems());
+			this.choices.select(Pages.BARE.ordinal());
 			BootstrapController btController = (BootstrapController) controllers.get( Tabs.BOOTSTRAP );
 			btController.setBrowser( Pages.INDEX );
 			break;
 		case BOOTSTRAP_BARE:
+			this.choices.setEnabled(true);
+			this.choices.setVisible(true);
 			btController = (BootstrapController) controllers.get( Tabs.BOOTSTRAP_BARE );
 			btController.setBrowser( Pages.BARE );
+			this.choices.setItems( Pages.getItems());
+			this.choices.select(Pages.BARE.ordinal());
 			break;
 		default:
+			this.choices.setEnabled(false);
+			this.choices.setVisible(false);
 			break;
 		}
 		//selected.initComposite();

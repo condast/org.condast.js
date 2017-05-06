@@ -2,7 +2,8 @@ package org.google.geo.mapping.ui.servlet;
 
 import java.util.Map;
 
-import org.google.geo.mapping.ui.session.AbstractPushSession;
+import org.condast.js.commons.session.AbstractPushSession;
+
 
 public class GeocoderSession extends AbstractPushSession<Map<String, String>> {
 

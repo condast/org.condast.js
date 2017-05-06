@@ -26,11 +26,35 @@ public class BootstrapController extends AbstractJavascriptController{
 		MINIMAL,
 		MINIMAL2,
 		INDEX,
-		BARE;
+		BARE,
+		BLOG,
+		CAROUSEL,
+		COVER,
+		DASHBOARD,
+		GRID,
+		JUMBOTRON,
+		JUMBOTRON_NARROW,
+		NAVBAR,
+		NAVBAR_FIXED_TOP,
+		NAVBAR_STATIC_TOP;
 
 		@Override
 		public String toString() {
-			return "/resources/" + name().toLowerCase() + ".html";
+			String str = "/resources/" + name().toLowerCase(); 
+			str = str.replaceAll("_", "-");
+			if( ordinal() < BLOG.ordinal() )
+				str += ".html";
+			else
+				str += "/index.html";
+			return str;
+		}
+
+		public static String[] getItems(){
+			String[] items = new String[ values().length ];
+			for( int i=0; i< items.length; i++ ){
+				items[i] = Pages.values()[i].name();
+			}
+			return items;
 		}
 	}
 	
@@ -102,6 +126,10 @@ public class BootstrapController extends AbstractJavascriptController{
 		}
 		logger.info( buffer.toString());
 		return buffer.toString();
+	}
+	
+	public void setPage( Pages page ){
+		setBrowser( LoadTypes.TEXT, page.toString());
 	}
 
 }

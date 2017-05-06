@@ -6,9 +6,6 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
-import java.util.concurrent.Executors;
-import java.util.concurrent.ScheduledExecutorService;
-import java.util.concurrent.TimeUnit;
 import java.util.logging.Logger;
 
 import org.condast.commons.Utils;
@@ -23,8 +20,6 @@ import org.eclipse.swt.browser.ProgressListener;
 public abstract class AbstractJavascriptController implements IJavascriptController{
 
 	public static final String S_IS_INITIALISTED = "isInitialised";
-	
-	private static final int DEFAULT_INIT_DELAY = 1500;
 	
 	public enum LoadTypes{
 		URL,
@@ -48,7 +43,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			@Override
 			public void evaluationSucceeded(Object result) {
 				notifyEvaluation( new EvaluationEvent<Object[]>( browser, id, EvaluationEvents.SUCCEEDED ));
-				logger.info("EXECUTION SUCCEEDED");
+				logger.fine("EXECUTION SUCCEEDED");
 			}
 			@Override
 			public void evaluationFailed(Exception exception) {
@@ -60,8 +55,8 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		return callback;
 	}
 
-	protected AbstractJavascriptController( Browser browser, String id ) {
-		this.id = id;
+	protected AbstractJavascriptController( Browser browser, String idn ) {
+		this.id = idn;
 		this.initialised = false;
 		this.browser = browser;
 		listeners = new ArrayList<IEvaluationListener<Object[]>>();
@@ -72,20 +67,15 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			@Override
 			public void completed(ProgressEvent event) {
 				onLoadCompleted();
-				getBrowser().getDisplay().asyncExec( new Runnable(){
-
-					@Override
-					public void run() {
-						getBrowser().evaluate("var init=true");
-						logger.info( getBrowser().getUrl());
-					}
-					
-				});
+				initialised = true;
+				notifyEvaluation( new EvaluationEvent<Object[]>( getBrowser(), id, EvaluationEvents.INITIALISED ));
+				controller.executeQuery();
 			}
 			
 			@Override
 			public void changed(ProgressEvent event) {
 				onLoadChanged();
+				notifyEvaluation( new EvaluationEvent<Object[]>( getBrowser(), id, EvaluationEvents.CHANGED ));
 			}
 		});
 	}
@@ -108,18 +98,12 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 
 	protected void onLoadChanged(){ /* DEFAULT NOTHING */ }
 
+	
 	/**
 	 * Initialise the composite
 	 */
 	protected void initComposite(){
-		controller.performInit( DEFAULT_INIT_DELAY);		
-	}
-
-	/**
-	 * Initialise the composite
-	 */
-	protected void initComposite( int delay ){
-		controller.performInit( delay );		
+		controller.executeQuery();
 	}
 
 	/* (non-Javadoc)
@@ -198,7 +182,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		return true;
 	}
 	
-	private String readInput( InputStream in ){
+	protected String readInput( InputStream in ){
 		StringBuffer buffer = new StringBuffer();
 		Scanner scanner = new Scanner( in );
 		try{
@@ -216,30 +200,8 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 
 		private LinkedList<Map.Entry<String, String[]>> commands;
 	
-		private ScheduledExecutorService scheduler; 
-		private Runnable runnable = new Runnable(){
-
-			@Override
-			public void run() {
-				browser.getDisplay().asyncExec( new Runnable(){
-
-					@Override
-					public void run() {
-						try{
-							executeQuery();
-							initialised = true;
-						}
-						catch( Exception ex ){
-							ex.printStackTrace();
-						}
-					}					
-				});
-			}	
-		};
-
 		private CommandController() {
 			commands = new LinkedList<Map.Entry<String, String[]>>();
-			scheduler = Executors.newScheduledThreadPool(1);
 		}
 
 		/**
@@ -268,10 +230,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 				}
 			});
 		}	
-		
-		private void start( int delay){
-			scheduler.schedule(runnable, delay, TimeUnit.MILLISECONDS);
-		}
 		
 		private final synchronized void executeQuery(){
 			if( commands.isEmpty() )
@@ -305,18 +263,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			buffer.append(");");
 			logger.info("EXECUTING: " + buffer.toString() );
 			return buffer.toString();
-		}
-		
-		/**
-		 * initialise the browser. The delay is needed to synchronise the web page
-		 * with the additional commands that may be required to fill the screen. The more
-		 * additional commands, the more delay is needed. If the initialisation is too short,
-		 * the browser will throw an exception with the message (EXECUTION FAILED); 
-		 * @param delay
-		 */
-		private final void performInit( int delay ){
-			setQuery( S_IS_INITIALISTED, null );
-			start( delay );
 		}
 	}
 }
