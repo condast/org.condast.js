@@ -1,26 +1,29 @@
 var markers = [];
-var mindex = 0;
 
 function createMarker( name, latitude, longitude, image ){
 	var location = new google.maps.LatLng(latitude, longitude);
- 	var marker = new google.maps.Marker({
-      position: location,
-      label: name,
-      map: map,
-      icon: image
-    });
-   
-    marker.addListener('click', function() {
-    	onMarkerClicked( 'MARKER_CLICKED', name );
-    });
-   markers[mindex++] = marker;
-   send('CREATE_MARKER', 'COMPLETE');
-   return marker;
+	var marker = new google.maps.Marker({
+		position: location,
+		label: name,
+		icon: image,
+		map: map
+	});
+	markers.push( marker );
+	google.maps.event.addListener(marker,'click', function() {
+		var index = markers.indexOf( marker );
+		onMarkerClicked( 'MARKER_CLICKED', name, index.toString() );
+	});
+	send('CREATE_MARKER', 'COMPLETE');
+	return marker;
+}
+
+function setMarkerIcon( index, image ){
+	markers[index].setIcon( image );
 }
 
 //Adds a marker to the map.
 function addMarkerWithImage(name, latitude, longitude, image ) {
-    createMarker( name, latitude, longitude, image );
+	createMarker( name, latitude, longitude, image );
 }
 
 //Adds a marker to the map.
@@ -33,28 +36,31 @@ function addMarker(name, latitude, longitude ) {
 		label: name,
 		map: map
 	});
-    marker.addListener('click', function() {
-    	onMarkerClicked( 'MARKER_CLICKED', name );
-    });
+	markers.push( marker );
+	google.maps.event.addListener(marker,'click', function() {
+		var index = markers.indexOf( marker );
+		onMarkerClicked( 'MARKER_CLICKED', name, index.toString() );
+	});
 	send('ADD_MARKER', 'COMPLETE');
 }
 
-// Sets the map on all markers in the array.
+//Sets the map on all markers in the array.
 function setMapOnAll() {
-  for (var i = 0; i < markers.length; i++) {
-    markers[i].setMap(map);
-  }
+	for (var i = 0; i < markers.length; i++) {
+		markers[i].setMap(map);
+	}
 }
 
-// Removes the markers from the map, but keeps them in the array.
+//Removes the markers from the map, but keeps them in the array.
 function clearMarkers() {
-  setMapOnAll(null);
-  markers = [];
+	for (var i = 0; i < markers.length; i++) {
+		markers[i].setMap(null);
+	}
 }
 
-// Shows any markers currently in the array.
+//Shows any markers currently in the array.
 function showMarkers() {
-  setMapOnAll(map);
+	setMapOnAll(map);
 }
 
 function fitBounds( zoom ) {
@@ -64,15 +70,15 @@ function fitBounds( zoom ) {
 		bounds.extend(marker.position);
 	});
 	map.fitBounds(bounds);
-	
+
 	var listener = google.maps.event.addListener(map, "idle", function() { 
 		map.setZoom( parseInt( zoom )); 
 		google.maps.event.removeListener(listener); 
 	});
 }
 
-// Deletes all markers in the array by removing references to them.
+//Deletes all markers in the array by removing references to them.
 function deleteMarkers() {
-  clearMarkers();
-  markers = [];
+	clearMarkers();
+	markers = [];
 }

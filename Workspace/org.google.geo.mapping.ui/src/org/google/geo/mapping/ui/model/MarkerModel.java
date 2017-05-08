@@ -25,6 +25,7 @@ public class MarkerModel {
 		REMOVE_MARKER,
 		CLEAR_MARKERS,
 		SHOW_MARKERS,
+		SET_MARKER_ICON,
 		FIT_BOUNDS,
 		DELETE_MARKERS,
 		MARKER_CLICKED;
@@ -96,6 +97,18 @@ public class MarkerModel {
 			addMarker(lnglat.getId(), lnglat.getLatitude(), lnglat.getLongitude());
 	}	
 
+	/**
+	 * Set the icon of the given marker to the selected image
+	 * @param index
+	 * @param image
+	 */
+	public void setMarkerIcon( int index, String image ){
+		String[] params=  new String[2];
+		params[0] = String.valueOf( index );
+		params[1] = image;
+		controller.setQuery(Functions.SET_MARKER_ICON.toString(), params );		
+	}
+	
 	public void fitBounds( int zoom  ) {
 		String[] params=  new String[1];
 		params[0] = String.valueOf( zoom );
@@ -131,7 +144,6 @@ public class MarkerModel {
 
 		@Override
 		public Object function(Object[] arguments) {
-			System.out.println("marker Clicked");
 			controller.notifyEvaluation( new EvaluationEvent<Object[]>( this, S_MARKER_CLICKED_ID, EvaluationEvents.EVENT, arguments ));
 			return super.function(arguments);
 		}	

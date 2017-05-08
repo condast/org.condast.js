@@ -6,6 +6,7 @@ import java.util.Collection;
 import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.Stack;
 import java.util.logging.Logger;
 
 import org.condast.commons.Utils;
@@ -46,12 +47,18 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			public void evaluationSucceeded(Object result) {
 				notifyEvaluation( new EvaluationEvent<Object[]>( browser, id, EvaluationEvents.SUCCEEDED ));
 				logger.fine("EXECUTION SUCCEEDED");
+				controller.clear();
 			}
 			@Override
 			public void evaluationFailed(Exception exception) {
 				notifyEvaluation( new EvaluationEvent<Object[]>( browser, id, EvaluationEvents.FAILED ));
-				logger.warning("EXECUTION FAILED");
+				StringBuffer buffer = new StringBuffer();
+				buffer.append( "EXECUTION FAILED: \n" );
+				buffer.append( controller.retrieve() );
+				logger.warning(buffer.toString());
+				
 				exception.printStackTrace();
+				controller.clear();
 			}
 		};
 		return callback;
@@ -211,11 +218,22 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	private class CommandController{
 
 		private LinkedList<Map.Entry<String, String[]>> commands;
+		
+		private Stack<String> history;
 	
 		private CommandController() {
 			commands = new LinkedList<Map.Entry<String, String[]>>();
+			history = new Stack<String>();
 		}
 
+		private void clear(){
+			this.history.clear();
+		}
+		
+		private String retrieve(){
+			return history.pop();
+		}
+		
 		/**
 		 * Set a query. It will be carried out as soon as possible
 		 * @param function
@@ -252,9 +270,21 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 				buffer.append( setFunction(command.getKey(), command.getValue()));
 				buffer.append(" ");
 			}
+			history.push( prettyCode( buffer.toString() ));
 			evaluate(buffer.toString());
 		}
 
+		/**
+		 * Create a pretty code of the javascript by putting in line breaks and tabs
+		 * @param code
+		 * @return
+		 */
+		protected String prettyCode( String code ){
+			String retval = code.replace("; ", ";");
+			retval = code.replace(";", ";\n\t");
+			return "\t" + retval + "\n";
+		}
+		
 	    /**
 		 * Create the correct string from the function enum
 		 * @param function
