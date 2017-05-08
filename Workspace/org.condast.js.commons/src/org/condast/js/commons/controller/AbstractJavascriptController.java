@@ -16,6 +16,8 @@ import org.eclipse.rap.rwt.widgets.BrowserCallback;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
+import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 
 public abstract class AbstractJavascriptController implements IJavascriptController{
 
@@ -43,7 +45,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			@Override
 			public void evaluationSucceeded(Object result) {
 				notifyEvaluation( new EvaluationEvent<Object[]>( browser, id, EvaluationEvents.SUCCEEDED ));
-				logger.info("EXECUTION SUCCEEDED");
+				logger.fine("EXECUTION SUCCEEDED");
 			}
 			@Override
 			public void evaluationFailed(Exception exception) {
@@ -54,11 +56,22 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		};
 		return callback;
 	}
+	
+	private DisposeListener dl = new DisposeListener(){
+		private static final long serialVersionUID = 1L;
 
-	protected AbstractJavascriptController( Browser browser, String id ) {
-		this.id = id;
+		@Override
+		public void widgetDisposed(DisposeEvent event) {
+			listeners.clear();
+		}
+		
+	};
+
+	protected AbstractJavascriptController( Browser browser, String idn ) {
+		this.id = idn;
 		this.initialised = false;
 		this.browser = browser;
+		this.browser.addDisposeListener(dl);
 		listeners = new ArrayList<IEvaluationListener<Object[]>>();
 		this.controller = new CommandController( );
 		browser.addProgressListener( new ProgressListener() {
@@ -68,12 +81,14 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			public void completed(ProgressEvent event) {
 				onLoadCompleted();
 				initialised = true;
+				notifyEvaluation( new EvaluationEvent<Object[]>( getBrowser(), id, EvaluationEvents.INITIALISED ));
 				controller.executeQuery();
 			}
 			
 			@Override
 			public void changed(ProgressEvent event) {
 				onLoadChanged();
+				notifyEvaluation( new EvaluationEvent<Object[]>( getBrowser(), id, EvaluationEvents.CHANGED ));
 			}
 		});
 	}
@@ -191,9 +206,8 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			scanner.close();
 		}
 		return buffer.toString();
-		
 	}
-
+	
 	private class CommandController{
 
 		private LinkedList<Map.Entry<String, String[]>> commands;

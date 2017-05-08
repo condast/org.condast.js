@@ -12,5 +12,6 @@ Import-Package: org.condast.commons,
  org.eclipse.rap.rwt.service;version="3.1.0",
  org.eclipse.rap.rwt.widgets;version="3.1.0",
  org.eclipse.swt.browser,
+ org.eclipse.swt.events,
  org.eclipse.swt.graphics,
  org.eclipse.swt.widgets
