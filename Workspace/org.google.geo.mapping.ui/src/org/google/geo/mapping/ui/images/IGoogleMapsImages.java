@@ -8,7 +8,7 @@ public interface IGoogleMapsImages {
 	
 	public enum MarkerImages{
 		BLUE,
-		BROW,
+		BROWN,
 		DARKGREEN,
 		GREEN,
 		ORANGE,

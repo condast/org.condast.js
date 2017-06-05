@@ -1,7 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <units size='2'>
-  <unit id='org.condast.js.feature.feature.group' version='1.0.0.201705091350' singleton='false'>
-    <update id='org.condast.js.feature.feature.group' range='[0.0.0,1.0.0.201705091350)' severity='0'/>
+  <unit id='org.condast.js.feature.feature.group' version='1.0.0.201705311615' singleton='false'>
+    <update id='org.condast.js.feature.feature.group' range='[0.0.0,1.0.0.201705311615)' severity='0'/>
     <properties size='7'>
       <property name='org.eclipse.equinox.p2.name' value='JavaScript Support Feature'/>
       <property name='org.eclipse.equinox.p2.description' value='[Enter Feature Description here.]'/>
@@ -12,7 +12,7 @@
       <property name='maven-version' value='1.0.0-SNAPSHOT'/>
     </properties>
     <provides size='1'>
-      <provided namespace='org.eclipse.equinox.p2.iu' name='org.condast.js.feature.feature.group' version='1.0.0.201705091350'/>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='org.condast.js.feature.feature.group' version='1.0.0.201705311615'/>
     </provides>
     <requires size='17'>
       <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.equinox.preferences' range='0.0.0'/>
@@ -24,14 +24,14 @@
       <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.rap.rwt' range='0.0.0'/>
       <required namespace='org.eclipse.equinox.p2.iu' name='org.apache.httpcomponents.httpcore' range='0.0.0'/>
       <required namespace='org.eclipse.equinox.p2.iu' name='org.apache.httpcomponents.httpclient' range='0.0.0'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.condast.commons' range='[1.0.0.201705091350,1.0.0.201705091350]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.google.geo.mapping' range='[1.0.0.201705091350,1.0.0.201705091350]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.google.geo.mapping.ui' range='[1.0.0.201705091350,1.0.0.201705091350]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.youtube.viewer' range='[1.0.0.201705091350,1.0.0.201705091350]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.nebula.widgets.oscilloscope' range='[1.0.0.201705091350,1.0.0.201705091350]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.condast.postcode.api' range='[1.0.0.201705091350,1.0.0.201705091350]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.condast.js.commons' range='[1.0.0.201705091350,1.0.0.201705091350]'/>
-      <required namespace='org.eclipse.equinox.p2.iu' name='org.condast.js.feature.feature.jar' range='[1.0.0.201705091350,1.0.0.201705091350]'>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.condast.commons' range='[1.0.0.201705311615,1.0.0.201705311615]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.google.geo.mapping' range='[1.0.0.201705311615,1.0.0.201705311615]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.google.geo.mapping.ui' range='[1.0.0.201705311615,1.0.0.201705311615]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.youtube.viewer' range='[1.0.0.201705311615,1.0.0.201705311615]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.nebula.widgets.oscilloscope' range='[1.0.0.201705311615,1.0.0.201705311615]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.condast.postcode.api' range='[1.0.0.201705311615,1.0.0.201705311615]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.condast.js.commons' range='[1.0.0.201705311615,1.0.0.201705311615]'/>
+      <required namespace='org.eclipse.equinox.p2.iu' name='org.condast.js.feature.feature.jar' range='[1.0.0.201705311615,1.0.0.201705311615]'>
         <filter>
           (org.eclipse.update.install.features=true)
         </filter>
@@ -47,7 +47,7 @@
       [Enter Copyright Description here.]
     </copyright>
   </unit>
-  <unit id='org.condast.js.feature.feature.jar' version='1.0.0.201705091350'>
+  <unit id='org.condast.js.feature.feature.jar' version='1.0.0.201705311615'>
     <properties size='6'>
       <property name='org.eclipse.equinox.p2.name' value='JavaScript Support Feature'/>
       <property name='org.eclipse.equinox.p2.description' value='[Enter Feature Description here.]'/>
@@ -57,15 +57,15 @@
       <property name='maven-version' value='1.0.0-SNAPSHOT'/>
     </properties>
     <provides size='3'>
-      <provided namespace='org.eclipse.equinox.p2.iu' name='org.condast.js.feature.feature.jar' version='1.0.0.201705091350'/>
+      <provided namespace='org.eclipse.equinox.p2.iu' name='org.condast.js.feature.feature.jar' version='1.0.0.201705311615'/>
       <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='feature' version='1.0.0'/>
-      <provided namespace='org.eclipse.update.feature' name='org.condast.js.feature' version='1.0.0.201705091350'/>
+      <provided namespace='org.eclipse.update.feature' name='org.condast.js.feature' version='1.0.0.201705311615'/>
     </provides>
     <filter>
       (org.eclipse.update.install.features=true)
     </filter>
     <artifacts size='1'>
-      <artifact classifier='org.eclipse.update.feature' id='org.condast.js.feature' version='1.0.0.201705091350'/>
+      <artifact classifier='org.eclipse.update.feature' id='org.condast.js.feature' version='1.0.0.201705311615'/>
     </artifacts>
     <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
     <touchpointData size='1'>

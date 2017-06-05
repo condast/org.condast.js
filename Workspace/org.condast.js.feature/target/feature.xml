@@ -2,7 +2,7 @@
 <feature
       id="org.condast.js.feature"
       label="JavaScript Support Feature"
-      version="1.0.0.201705091350">
+      version="1.0.0.201705311615">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
@@ -30,51 +30,51 @@
 
    <plugin
          id="org.condast.commons"
-         download-size="82"
-         install-size="137"
-         version="1.0.0.201705091350"
+         download-size="91"
+         install-size="152"
+         version="1.0.0.201705311615"
          unpack="false"/>
 
    <plugin
          id="org.google.geo.mapping"
          download-size="52"
          install-size="79"
-         version="1.0.0.201705091350"
+         version="1.0.0.201705311615"
          unpack="false"/>
 
    <plugin
          id="org.google.geo.mapping.ui"
          download-size="428"
          install-size="907"
-         version="1.0.0.201705091350"
+         version="1.0.0.201705311615"
          unpack="false"/>
 
    <plugin
          id="org.youtube.viewer"
          download-size="60"
          install-size="136"
-         version="1.0.0.201705091350"
+         version="1.0.0.201705311615"
          unpack="false"/>
 
    <plugin
          id="org.eclipse.nebula.widgets.oscilloscope"
          download-size="28"
          install-size="55"
-         version="1.0.0.201705091350"
+         version="1.0.0.201705311615"
          unpack="false"/>
 
    <plugin
          id="org.condast.postcode.api"
          download-size="15"
          install-size="25"
-         version="1.0.0.201705091350"
+         version="1.0.0.201705311615"
          unpack="false"/>
 
    <plugin
          id="org.condast.js.commons"
          download-size="23"
          install-size="42"
-         version="1.0.0.201705091350"
+         version="1.0.0.201705311615"
          unpack="false"/>
 
 </feature>
