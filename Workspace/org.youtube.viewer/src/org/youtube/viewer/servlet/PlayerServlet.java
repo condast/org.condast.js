@@ -55,12 +55,4 @@ public class PlayerServlet extends HttpServlet {
 		session = PlayerSession.getInstance();	
 		session.addData( map );
 	}
-
-	@Override
-	public void doPost(HttpServletRequest req, HttpServletResponse resp)
-			throws ServletException, IOException {
-		// TODO Auto-generated method stub
-		super.doPost(req, resp);
-	}
-
 }

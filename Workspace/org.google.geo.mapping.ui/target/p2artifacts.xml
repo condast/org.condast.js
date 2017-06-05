@@ -1,10 +1,10 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <?artifactRepository version='1.1.0'?>
 <artifacts size='1'>
-  <artifact classifier='osgi.bundle' id='org.google.geo.mapping.ui' version='1.0.0.201705311615'>
+  <artifact classifier='osgi.bundle' id='org.google.geo.mapping.ui' version='1.0.0.201706051522'>
     <properties size='5'>
-      <property name='artifact.size' value='438491'/>
-      <property name='download.size' value='438491'/>
+      <property name='artifact.size' value='438493'/>
+      <property name='download.size' value='438493'/>
       <property name='maven-groupId' value='org.condast.js'/>
       <property name='maven-artifactId' value='org.google.geo.mapping.ui'/>
       <property name='maven-version' value='1.0.0-SNAPSHOT'/>
