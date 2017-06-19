@@ -3,7 +3,7 @@ Bundle-SymbolicName: org.youtube.viewer;singleton:=true
 Export-Package: org.youtube.viewer.core,org.youtube.viewer.model,org.y
  outube.viewer.session,org.youtube.viewer.view
 Bundle-Name: YouTube Viewer Bundle
-Bundle-Version: 1.0.0.201706051522
+Bundle-Version: 1.0.0.201706211930
 Bundle-ManifestVersion: 2
 Bundle-Activator: org.youtube.viewer.Activator
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7

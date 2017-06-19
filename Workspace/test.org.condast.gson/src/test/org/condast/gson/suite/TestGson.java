@@ -77,7 +77,7 @@ public class TestGson {
 		finally{
 			in.close();
 		}
-		
+
 		logger.info( qa.toString() );
 
 		for( IQuestion question: qa.getQuestions() ){
