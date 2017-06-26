@@ -27,7 +27,7 @@ public class TestGson {
 	public static final String S_FILE_LOCATION = "P:/Workspaces/eetMee/eetmee/questionaire_v4.txt";
 	public static final String S_FILE_LOCATION_2 = "P:/Workspaces/eetMee/eetmee/file.json";
 	public static final String S_FILE_LOCATION_3 = "P:/Workspaces/eetMee/eetmee/questions.json";
-	public static final String S_FILE_LOCATION_4 = "P:/Workspaces/eetMee/eetmee/eetmee-0410.json";
+	public static final String S_FILE_LOCATION_4 = "P:/Workspaces/eetMee/eetmee/eetmee-0626.json";
 
 	public static final String S_ENTRY_RESET = "?reset=true";
 
