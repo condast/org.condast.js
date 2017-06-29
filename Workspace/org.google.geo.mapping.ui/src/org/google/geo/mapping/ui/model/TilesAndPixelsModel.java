@@ -7,8 +7,6 @@ import java.util.logging.Logger;
 
 import org.condast.commons.lnglat.LngLat;
 import org.condast.commons.strings.StringStyler;
-import org.condast.js.commons.eval.EvaluationEvent;
-import org.condast.js.commons.eval.IEvaluationListener;
 import org.condast.js.commons.session.ISessionListener;
 import org.google.geo.mapping.ui.controller.GeoCoderController;
 
@@ -19,6 +17,7 @@ public class TilesAndPixelsModel {
 	public enum Functions{
 		SET_TILE_SIZE,
 		SET_LOCATION,
+		SET_ZOOM,
 		CREATE_LOCATION_INFO,
 		ALERT_ZOOM;;
 		
@@ -32,23 +31,12 @@ public class TilesAndPixelsModel {
 	private int tileSize;
 	private Collection<ISessionListener<Map<String, String>>> listeners;
 	
-	private Logger logger = Logger.getLogger( this.getClass().getName() );
-	
-	private IEvaluationListener<Map<String,String>> listener = new IEvaluationListener<Map<String, String>>(){
-
-		@Override
-		public void notifyEvaluation(EvaluationEvent<Map<String,String>> event) {
-		
-			logger.info( "query performed: " + event.getEvaluationEvent());}
-	};
-	
+	private Logger logger = Logger.getLogger( this.getClass().getName() );	
 
 	public TilesAndPixelsModel( GeoCoderController controller ) {
 		super();
 		this.controller = controller;
 		this.listeners = new ArrayList<ISessionListener<Map<String, String>>>();
-		//this.controller.addEvaluationListener( listener );
-		//this.browser.addSessionListener( slistener);
 		this.tileSize = DEFAULT_TILE_SIZE;
 	}
 
@@ -81,6 +69,12 @@ public class TilesAndPixelsModel {
 		params[1] = String.valueOf( lnglat.getLongitude() );
 		params[2] = String.valueOf( zoom );
 		controller.setQuery(Functions.SET_LOCATION.toString(), params);
+	}
+
+	public void setZoom( int zoom ){
+		String[] params=  new String[1];
+		params[0] = String.valueOf( zoom );
+		controller.setQuery(Functions.SET_ZOOM.toString(), params);
 	}
 
 	public void createLocationInfo( String name, String description, LngLat lnglat, int zoom ){

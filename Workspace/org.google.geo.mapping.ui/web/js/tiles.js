@@ -8,8 +8,17 @@ function setTileSize( tile ){
 
 function setLocation( latitude, longtitude, zoom ){
 	var location = new google.maps.LatLng( latitude, longtitude);
-    map.setZoom( zoom );
+    map.setZoom( parseInt( zoom ));
 	map.setCenter( location);	
+}
+
+/**
+ * Set the zoom (1 = world)
+ * @param zoom
+ * @returns
+ */
+function setZoom( zoom ){
+    map.setZoom( parseInt( zoom ));	
 }
 
 function createLocationInfo( name, description, latitude, longtitude, zoom ){
