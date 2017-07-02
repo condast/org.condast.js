@@ -19,10 +19,10 @@
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>  
         <luna-update-repo.url>http://download.eclipse.org/eclipse/updates/4.6</luna-update-repo.url>
         <rap-repo.url>http://download.eclipse.org/rt/rap/3.1/</rap-repo.url>
-        <condast-repo.url>file:${generics}/Root/Workspace/alpha.root.cultuurinzicht.update/</condast-repo.url>
         <condast-commons>file:${generics}/org.condast.commons/Workspace/</condast-commons>
         <condast-js>file:${generics}/org.condast.js/Workspace/</condast-js>
-        <!-- <condast-repo.url>file:P:/Windows/KenniscentrumRDM/Workspace/org.rdm.update</condast-repo.url> -->
+        <!-- <condast-repo.url>file:${generics}/Root/Workspace/alpha.root.cultuurinzicht.update/</condast-repo.url>-->
+        <condast-repo.url>file:P:/Windows/KenniscentrumRDM/Workspace/org.rdm.update</condast-repo.url>
     </properties>
 
     <repositories>
@@ -60,6 +60,7 @@
     <module>../org.google.geo.mapping</module>
     <module>../org.google.geo.mapping.ui</module>
     <module>../org.condast.postcode.api</module>
+    <module>../org.openlayer.map</module>
     <module>../org.youtube.viewer</module>
     <module>../oscilloscope/org.eclipse.nebula.widgets.oscilloscope</module>
     <module>../org.condast.js.feature</module>

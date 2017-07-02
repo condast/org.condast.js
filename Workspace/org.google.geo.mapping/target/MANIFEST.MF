@@ -12,7 +12,7 @@ Export-Package: com.google.code.geocoder,com.google.code.geocoder.mode
  l,org.google.geo.mapping,org.google.geo.mapping.builder,org.google.ge
  o.mapping.geocoder,org.google.geo.mapping.model
 Bundle-Name: Servlet For Entry Profile Data
-Bundle-Version: 1.0.0.201706211930
+Bundle-Version: 1.0.0.201707012207
 Bundle-ClassPath: .,lib/geocoder-java-0.16.jar
 Bundle-Activator: org.google.geo.mapping.Activator
 

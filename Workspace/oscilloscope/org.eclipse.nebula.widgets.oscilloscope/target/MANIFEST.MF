@@ -4,7 +4,7 @@ Export-Package: org.eclipse.nebula.widgets.oscilloscope.multichannel;
  uses:="org.eclipse.swt.events,  org.eclipse.swt.graphics,  org.eclips
  e.swt.widgets,  javax.sound.sampled"
 Bundle-Name: Oscilloscope
-Bundle-Version: 1.0.0.201706211930
+Bundle-Version: 1.0.0.201707012207
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: J2SE-1.5
 Bundle-Vendor: Eclipse Nebula

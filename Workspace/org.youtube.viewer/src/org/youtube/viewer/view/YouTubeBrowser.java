@@ -56,7 +56,6 @@ public class YouTubeBrowser extends Browser {
 		this.browser = this;
 		this.browser.addProgressListener(listener);
 		this.controller = new CommandController(this);
-		this.browser.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true));
 		listeners = new ArrayList<IEvaluationListener<Map<String, String>>>();
 		session.init(parent.getDisplay());
 		session.start();
