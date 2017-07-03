@@ -5,7 +5,8 @@ Bundle-SymbolicName: org.openlayer.map;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Condast
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Import-Package: org.condast.commons.lnglat,
+Import-Package: javax.servlet;version="2.6.0",
+ org.condast.commons.lnglat,
  org.condast.commons.strings,
  org.condast.js.commons.controller,
  org.condast.js.commons.eval,
