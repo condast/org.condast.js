@@ -5,7 +5,7 @@ import java.util.Collection;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.condast.commons.lnglat.LngLat;
+import org.condast.commons.lnglat.LatLng;
 import org.condast.commons.strings.StringStyler;
 import org.condast.js.commons.session.ISessionListener;
 import org.google.geo.mapping.ui.controller.GeoCoderController;
@@ -63,7 +63,7 @@ public class TilesAndPixelsModel {
 		controller.executeQuery();
 	}
 
-	public void setLocation( LngLat lnglat, int zoom ){
+	public void setLocation( LatLng lnglat, int zoom ){
 		String[] params=  new String[3];
 		params[0] = String.valueOf( lnglat.getLatitude() );
 		params[1] = String.valueOf( lnglat.getLongitude() );
@@ -77,7 +77,7 @@ public class TilesAndPixelsModel {
 		controller.setQuery(Functions.SET_ZOOM.toString(), params);
 	}
 
-	public void createLocationInfo( String name, String description, LngLat lnglat, int zoom ){
+	public void createLocationInfo( String name, String description, LatLng lnglat, int zoom ){
 		String[] params=  new String[5];
 		params[0] = name;
 		params[1] = description;

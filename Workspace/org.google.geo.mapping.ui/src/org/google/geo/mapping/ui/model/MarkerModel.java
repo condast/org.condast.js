@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.HashSet;
 
-import org.condast.commons.lnglat.LngLat;
+import org.condast.commons.lnglat.LatLng;
 import org.condast.commons.strings.StringStyler;
 import org.condast.js.commons.eval.EvaluationEvent;
 import org.condast.js.commons.eval.IEvaluationListener.EvaluationEvents;
@@ -35,13 +35,13 @@ public class MarkerModel {
 		}
 	}
 	
-	private Collection<LngLat> data;
+	private Collection<LatLng> data;
 	
 	private GeoCoderController controller;
 	private BrowserFunction markerClicked;
 		
 	public MarkerModel( GeoCoderController controller ) {
-		this.data = new HashSet<LngLat>();
+		this.data = new HashSet<LatLng>();
 		this.controller = controller;
 		this.markerClicked = new MarkerClicked( this.controller.getBrowser() );	
 	}
@@ -59,7 +59,7 @@ public class MarkerModel {
 		controller.setQuery(Functions.DELETE_MARKERS.toString() );
 	}	
 
-	public void createMarkers( String id, LngLat lnglat, String image) {
+	public void createMarkers( String id, LatLng lnglat, String image) {
 		String[] params = fillLngLatParams(4, lnglat);
 		params[3] = image;
 		data.add( lnglat );
@@ -67,25 +67,25 @@ public class MarkerModel {
 	}	
 
 	public void addMarker( String id, double latitude, double longtitude ) {
-		this.addMarker( Functions.ADD_MARKER, new LngLat( id, latitude, longtitude ));
+		this.addMarker( Functions.ADD_MARKER, new LatLng( id, latitude, longtitude ));
 	}
 
-	public void addMarker( String id, LngLat lnglat ) {
-		this.addMarker( Functions.ADD_MARKER, new LngLat( id, lnglat.getLatitude(), lnglat.getLongitude() ));
+	public void addMarker( String id, LatLng lnglat ) {
+		this.addMarker( Functions.ADD_MARKER, new LatLng( id, lnglat.getLatitude(), lnglat.getLongitude() ));
 	}
 
-	public void addMarker( LngLat lnglat ) {
+	public void addMarker( LatLng lnglat ) {
 		this.addMarker( Functions.ADD_MARKER, lnglat );
 	}
 
-	public void addMarker( LngLat lnglat, String image ) {
+	public void addMarker( LatLng lnglat, String image ) {
 		String[] params = fillLngLatParams(4, lnglat);
 		params[3] = image;
 		data.add( lnglat );
 		controller.setQuery(Functions.ADD_MARKER_WITH_IMAGE.toString(), params );
 	}
 
-	protected void addMarker( Functions function, LngLat lnglat ) {
+	protected void addMarker( Functions function, LatLng lnglat ) {
 		data.add( lnglat );
 		controller.setQuery( function.toString(), getLngLatParams(lnglat));
 	}	
@@ -93,7 +93,7 @@ public class MarkerModel {
 	public void removeMarker( String id ) {
 		data.remove( id );
 		controller.setQuery(Functions.CLEAR_MARKERS.toString() );
-		for( LngLat lnglat: data )
+		for( LatLng lnglat: data )
 			addMarker(lnglat.getId(), lnglat.getLatitude(), lnglat.getLongitude());
 	}	
 
@@ -123,11 +123,11 @@ public class MarkerModel {
 		this.markerClicked.dispose();
 	}
 	
-	private static String[] getLngLatParams( LngLat lnglat ){
+	private static String[] getLngLatParams( LatLng lnglat ){
 		return fillLngLatParams(3, lnglat);
 	}
 
-	private static String[]fillLngLatParams( int size, LngLat lnglat ){
+	private static String[]fillLngLatParams( int size, LatLng lnglat ){
 		String[] params = new String[size];
 		params[0] = lnglat.getId();
 		DecimalFormat df = new DecimalFormat("#.########");

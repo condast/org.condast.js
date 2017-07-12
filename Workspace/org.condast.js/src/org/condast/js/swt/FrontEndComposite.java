@@ -4,7 +4,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.condast.commons.lnglat.LngLat;
+import org.condast.commons.lnglat.LatLng;
 import org.condast.js.bootstrap.controller.BootstrapController;
 import org.condast.js.bootstrap.controller.BootstrapController.Pages;
 import org.condast.js.commons.controller.IJavascriptController;
@@ -230,8 +230,8 @@ public class FrontEndComposite extends Composite {
 		case GEO_BROWSER:
 			GeoCoderController geoController = (GeoCoderController) controllers.get( Tabs.GEO_BROWSER );
 			MarkerModel mm = new MarkerModel( geoController );
-			mm.addMarker( new LngLat(51.910d, 4.4120d) , "images/restaurant-32.png");
-			mm.addMarker( new LngLat(51.910d, 4.4120d));
+			mm.addMarker( new LatLng(51.910d, 4.4120d) , "images/restaurant-32.png");
+			mm.addMarker( new LatLng(51.910d, 4.4120d));
 			mm.fitBounds(13);
 			mm.synchronize();
 			//this.geoController.initComposite();
@@ -240,7 +240,7 @@ public class FrontEndComposite extends Composite {
 		case OPEN_LAYER:
 			OpenLayerController olController = (OpenLayerController) controllers.get( Tabs.OPEN_LAYER );
 			TransformModel tm = new TransformModel( olController );
-			tm.doPan( new LngLat( 4.3d, 52.4d));
+			tm.doPan( new LatLng( 4.3d, 52.4d));
 			//tm.doRotate(0.5f);
 			//mm.addMarker( new LngLat(51.910d, 4.4120d));
 			//mm.fitBounds(13);

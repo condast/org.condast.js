@@ -2,7 +2,7 @@ package org.openlayer.map.model;
 
 import java.text.DecimalFormat;
 
-import org.condast.commons.lnglat.LngLat;
+import org.condast.commons.lnglat.LatLng;
 import org.condast.commons.strings.StringStyler;
 import org.condast.js.commons.eval.EvaluationEvent;
 import org.condast.js.commons.eval.IEvaluationListener.EvaluationEvents;
@@ -34,12 +34,12 @@ public class TransformModel {
 		this.markerClicked = new MarkerClicked( this.controller.getBrowser() );	
 	}
 
-	public void doPan( LngLat lnglat) {
+	public void doPan( LatLng lnglat) {
 		String[] params = fillLngLatParams(3, lnglat);
 		controller.setQuery(Functions.DO_PAN.toString(), params );
 	}	
 
-	public void doBounce( LngLat lnglat) {
+	public void doBounce( LatLng lnglat) {
 		String[] params = fillLngLatParams(3, lnglat);
 		controller.setQuery(Functions.DO_BOUNCE.toString(), params );
 	}	
@@ -64,7 +64,7 @@ public class TransformModel {
 		this.markerClicked.dispose();
 	}
 	
-	private static String[]fillLngLatParams( int size, LngLat lnglat ){
+	private static String[]fillLngLatParams( int size, LatLng lnglat ){
 		String[] params = new String[size];
 		params[0] = lnglat.getId();
 		DecimalFormat df = new DecimalFormat("#.########");
