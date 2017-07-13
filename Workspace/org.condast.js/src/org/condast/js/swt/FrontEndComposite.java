@@ -4,7 +4,7 @@ import java.io.InputStream;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.condast.commons.lnglat.LatLng;
+import org.condast.commons.latlng.LatLng;
 import org.condast.js.bootstrap.controller.BootstrapController;
 import org.condast.js.bootstrap.controller.BootstrapController.Pages;
 import org.condast.js.commons.controller.IJavascriptController;

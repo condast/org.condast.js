@@ -4,7 +4,7 @@ import java.text.DecimalFormat;
 import java.util.Collection;
 import java.util.HashSet;
 
-import org.condast.commons.lnglat.LatLng;
+import org.condast.commons.latlng.LatLng;
 import org.condast.commons.strings.StringStyler;
 import org.condast.js.commons.eval.EvaluationEvent;
 import org.condast.js.commons.eval.IEvaluationListener.EvaluationEvents;
