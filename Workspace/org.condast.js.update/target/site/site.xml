@@ -1,4 +1,8 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <site>
+<<<<<<< HEAD
    <feature url="features/org.condast.js.feature_1.0.0.201707132141.jar" id="org.condast.js.feature" version="1.0.0.201707132141"/>
+=======
+   <feature url="features/org.condast.js.feature_1.0.0.201707171718.jar" id="org.condast.js.feature" version="1.0.0.201707171718"/>
+>>>>>>> refs/remotes/origin/keesp
 </site>

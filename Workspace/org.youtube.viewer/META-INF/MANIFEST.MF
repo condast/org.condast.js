@@ -9,7 +9,10 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: javax.servlet;version="2.6.0",
  javax.servlet.http;version="2.6.0",
  org.condast.commons,
+<<<<<<< HEAD
  org.condast.commons.latlng,
+=======
+>>>>>>> refs/remotes/origin/keesp
  org.condast.commons.strings,
  org.condast.js.commons.eval,
  org.eclipse.equinox.http.registry;version="1.0.0",

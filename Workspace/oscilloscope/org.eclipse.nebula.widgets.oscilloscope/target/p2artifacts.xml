@@ -1,10 +1,14 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <?artifactRepository version='1.1.0'?>
 <artifacts size='1'>
+<<<<<<< HEAD
   <artifact classifier='osgi.bundle' id='org.eclipse.nebula.widgets.oscilloscope' version='1.0.0.201707132141'>
+=======
+  <artifact classifier='osgi.bundle' id='org.eclipse.nebula.widgets.oscilloscope' version='1.0.0.201707171718'>
+>>>>>>> refs/remotes/origin/keesp
     <properties size='5'>
-      <property name='artifact.size' value='28706'/>
-      <property name='download.size' value='28706'/>
+      <property name='artifact.size' value='28703'/>
+      <property name='download.size' value='28703'/>
       <property name='maven-groupId' value='org.condast.js'/>
       <property name='maven-artifactId' value='org.eclipse.nebula.widgets.oscilloscope'/>
       <property name='maven-version' value='1.0.0-SNAPSHOT'/>
