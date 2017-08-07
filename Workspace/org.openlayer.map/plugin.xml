@@ -8,15 +8,16 @@
             base-name="/web">
       </resource>
    </extension>
-     <extension
-           id="mapFilter"
-           point="org.eclipse.equinox.http.registry.filters">
-        <filter
-              alias="/openlayer"
-              class="org.openlayer.map.servlet.MapFilter">
-           <init-param
-                 name="testParam"
-                 value="test param value">
-           </init-param>
-        </filter>
-     </extension> </plugin>
+   <extension
+         id="mapFilter"
+         point="org.eclipse.equinox.http.registry.filters">
+      <filter
+            alias="/openlayer"
+            class="org.openlayer.map.servlet.MapFilter">
+         <init-param
+               name="testParam"
+               value="test param value">
+         </init-param>
+      </filter>
+    </extension> 
+</plugin>
