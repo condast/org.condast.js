@@ -1,12 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <units size='1'>
-<<<<<<< HEAD
-  <unit id='org.eclipse.rap.chartjs' version='1.0.0.201707132141' singleton='false'>
-    <update id='org.eclipse.rap.chartjs' range='[0.0.0,1.0.0.201707132141)' severity='0'/>
-=======
-  <unit id='org.eclipse.rap.chartjs' version='1.0.0.201707171718' singleton='false'>
-    <update id='org.eclipse.rap.chartjs' range='[0.0.0,1.0.0.201707171718)' severity='0'/>
->>>>>>> refs/remotes/origin/keesp
+  <unit id='org.eclipse.rap.chartjs' version='1.0.0.201708181351' singleton='false'>
+    <update id='org.eclipse.rap.chartjs' range='[0.0.0,1.0.0.201708181351)' severity='0'/>
     <properties size='4'>
       <property name='org.eclipse.equinox.p2.name' value='Chartjs'/>
       <property name='maven-groupId' value='org.condast.js'/>
@@ -14,13 +9,8 @@
       <property name='maven-version' value='1.0.0-SNAPSHOT'/>
     </properties>
     <provides size='4'>
-<<<<<<< HEAD
-      <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.rap.chartjs' version='1.0.0.201707132141'/>
-      <provided namespace='osgi.bundle' name='org.eclipse.rap.chartjs' version='1.0.0.201707132141'/>
-=======
-      <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.rap.chartjs' version='1.0.0.201707171718'/>
-      <provided namespace='osgi.bundle' name='org.eclipse.rap.chartjs' version='1.0.0.201707171718'/>
->>>>>>> refs/remotes/origin/keesp
+      <provided namespace='org.eclipse.equinox.p2.iu' name='org.eclipse.rap.chartjs' version='1.0.0.201708181351'/>
+      <provided namespace='osgi.bundle' name='org.eclipse.rap.chartjs' version='1.0.0.201708181351'/>
       <provided namespace='java.package' name='org.eclipse.rap.chartjs' version='0.0.0'/>
       <provided namespace='org.eclipse.equinox.p2.eclipse.type' name='bundle' version='1.0.0'/>
     </provides>
@@ -28,21 +18,13 @@
       <required namespace='osgi.bundle' name='org.eclipse.rap.rwt' range='3.0.0'/>
     </requires>
     <artifacts size='1'>
-<<<<<<< HEAD
-      <artifact classifier='osgi.bundle' id='org.eclipse.rap.chartjs' version='1.0.0.201707132141'/>
-=======
-      <artifact classifier='osgi.bundle' id='org.eclipse.rap.chartjs' version='1.0.0.201707171718'/>
->>>>>>> refs/remotes/origin/keesp
+      <artifact classifier='osgi.bundle' id='org.eclipse.rap.chartjs' version='1.0.0.201708181351'/>
     </artifacts>
     <touchpoint id='org.eclipse.equinox.p2.osgi' version='1.0.0'/>
     <touchpointData size='1'>
       <instructions size='1'>
         <instruction key='manifest'>
-<<<<<<< HEAD
-          Bundle-SymbolicName: org.eclipse.rap.chartjs&#xA;Bundle-Version: 1.0.0.201707132141&#xA;
-=======
-          Bundle-SymbolicName: org.eclipse.rap.chartjs&#xA;Bundle-Version: 1.0.0.201707171718&#xA;
->>>>>>> refs/remotes/origin/keesp
+          Bundle-SymbolicName: org.eclipse.rap.chartjs&#xA;Bundle-Version: 1.0.0.201708181351&#xA;
         </instruction>
       </instructions>
     </touchpointData>
