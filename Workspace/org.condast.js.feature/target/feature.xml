@@ -2,11 +2,7 @@
 <feature
       id="org.condast.js.feature"
       label="JavaScript Support Feature"
-<<<<<<< HEAD
-      version="1.0.0.201707132141">
-=======
-      version="1.0.0.201707171718">
->>>>>>> refs/remotes/origin/keesp
+      version="1.0.0.201708181351">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
@@ -34,57 +30,37 @@
 
    <plugin
          id="org.condast.commons"
-         download-size="97"
-         install-size="163"
-<<<<<<< HEAD
-         version="1.0.0.201707132133"
-=======
-         version="1.0.0.201707171718"
->>>>>>> refs/remotes/origin/keesp
+         download-size="101"
+         install-size="169"
+         version="1.0.0.201708181342"
          unpack="false"/>
 
    <plugin
          id="org.google.geo.mapping"
          download-size="52"
          install-size="79"
-<<<<<<< HEAD
-         version="1.0.0.201707132141"
-=======
-         version="1.0.0.201707171718"
->>>>>>> refs/remotes/origin/keesp
+         version="1.0.0.201708181351"
          unpack="false"/>
 
    <plugin
          id="org.google.geo.mapping.ui"
          download-size="427"
          install-size="905"
-<<<<<<< HEAD
-         version="1.0.0.201707132141"
-=======
-         version="1.0.0.201707171718"
->>>>>>> refs/remotes/origin/keesp
+         version="1.0.0.201708181351"
          unpack="false"/>
 
    <plugin
          id="org.condast.js.commons"
          download-size="23"
          install-size="42"
-<<<<<<< HEAD
-         version="1.0.0.201707132141"
-=======
-         version="1.0.0.201707171718"
->>>>>>> refs/remotes/origin/keesp
+         version="1.0.0.201708181351"
          unpack="false"/>
 
    <plugin
          id="org.openlayer.map"
          download-size="993"
          install-size="3919"
-<<<<<<< HEAD
-         version="1.0.0.201707132141"
-=======
-         version="1.0.0.201707171718"
->>>>>>> refs/remotes/origin/keesp
+         version="1.0.0.201708181351"
          unpack="false"/>
 
 </feature>
