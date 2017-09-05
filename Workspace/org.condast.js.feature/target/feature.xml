@@ -2,7 +2,7 @@
 <feature
       id="org.condast.js.feature"
       label="JavaScript Support Feature"
-      version="1.0.0.201708181351">
+      version="1.0.0.201709051445">
 
    <description url="http://www.example.com/description">
       [Enter Feature Description here.]
@@ -30,37 +30,37 @@
 
    <plugin
          id="org.condast.commons"
-         download-size="101"
-         install-size="169"
-         version="1.0.0.201708181342"
+         download-size="105"
+         install-size="176"
+         version="1.0.0.201709051445"
          unpack="false"/>
 
    <plugin
          id="org.google.geo.mapping"
          download-size="52"
          install-size="79"
-         version="1.0.0.201708181351"
+         version="1.0.0.201709051445"
          unpack="false"/>
 
    <plugin
          id="org.google.geo.mapping.ui"
          download-size="427"
          install-size="905"
-         version="1.0.0.201708181351"
+         version="1.0.0.201709051445"
          unpack="false"/>
 
    <plugin
          id="org.condast.js.commons"
          download-size="23"
          install-size="42"
-         version="1.0.0.201708181351"
+         version="1.0.0.201709051445"
          unpack="false"/>
 
    <plugin
          id="org.openlayer.map"
          download-size="993"
          install-size="3919"
-         version="1.0.0.201708181351"
+         version="1.0.0.201709051445"
          unpack="false"/>
 
 </feature>
