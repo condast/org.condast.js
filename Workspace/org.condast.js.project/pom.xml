@@ -13,22 +13,22 @@
 
     <properties>
         <tycho.version>0.26.0</tycho.version>
-        <generics>P:/GitHub/Root/Workspace</generics>
+        <generics>P:/GitHub</generics>
         <project-root>P:/GitHub/org.condast.commons</project-root>
         <workspace-root>P:/Windows/Condast/Workspace/org.condast.commons</workspace-root>
+        <virgo-root>file:${generics}/Root/Workspace/Virgo</virgo-root>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>  
-        <luna-update-repo.url>http://download.eclipse.org/eclipse/updates/4.6</luna-update-repo.url>
+        <neon-update-repo.url>http://download.eclipse.org/eclipse/updates/4.6</neon-update-repo.url>
         <rap-repo.url>http://download.eclipse.org/rt/rap/3.1/</rap-repo.url>
-        <condast-commons>file:${generics}/org.condast.commons/Workspace/</condast-commons>
+        <condast-commons>file:${generics}/org.condast.commons/Workspace</condast-commons>
         <condast-js>file:${generics}/org.condast.js/Workspace/</condast-js>
-        <condast-repo.url>file:${generics}/alpha.root.cultuurinzicht.update</condast-repo.url>
-         <!-- <condast-repo.url>file:P:/Windows/KenniscentrumRDM/Workspace/org.rdm.update</condast-repo.url>-->
-    </properties>
+        <condast-repo.url>${virgo-root}/alpha.condast.root.update</condast-repo.url>
+   </properties>
 
     <repositories>
         <repository>
-            <id>luna-update</id>
-            <url>${luna-update-repo.url}</url>
+            <id>neon-update</id>
+            <url>${neon-update-repo.url}</url>
             <layout>p2</layout>
         </repository>
         <repository>
