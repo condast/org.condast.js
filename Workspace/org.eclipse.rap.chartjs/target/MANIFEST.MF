@@ -2,7 +2,7 @@ Manifest-Version: 1.0
 Bundle-SymbolicName: org.eclipse.rap.chartjs
 Export-Package: org.eclipse.rap.chartjs
 Bundle-Name: Chartjs
-Bundle-Version: 1.0.0.201709051445
+Bundle-Version: 1.0.0.201709081448
 Require-Bundle: org.eclipse.rap.rwt;bundle-version="3.0.0"
 Bundle-ManifestVersion: 2
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
