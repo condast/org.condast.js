@@ -1,0 +1,17 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Common JavaScript Support
+Bundle-SymbolicName: org.condast.js.commons
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Condast
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Export-Package: org.condast.js.commons.controller,
+ org.condast.js.commons.eval,
+ org.condast.js.commons.session
+Import-Package: org.condast.commons,
+ org.eclipse.rap.rwt.service;version="3.1.0",
+ org.eclipse.rap.rwt.widgets;version="3.1.0",
+ org.eclipse.swt.browser,
+ org.eclipse.swt.events,
+ org.eclipse.swt.graphics,
+ org.eclipse.swt.widgets
