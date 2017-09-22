@@ -1,0 +1,66 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.condast.js.feature"
+      label="JavaScript Support Feature"
+      version="1.0.0.qualifier">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <requires>
+      <import plugin="org.eclipse.equinox.preferences"/>
+      <import plugin="org.eclipse.osgi.services"/>
+      <import plugin="org.eclipse.osgi"/>
+      <import plugin="org.slf4j.api"/>
+      <import plugin="javax.servlet"/>
+      <import plugin="org.eclipse.equinox.http.registry"/>
+      <import plugin="org.eclipse.rap.rwt"/>
+      <import plugin="org.apache.httpcomponents.httpcore"/>
+      <import plugin="org.apache.httpcomponents.httpclient"/>
+   </requires>
+
+   <plugin
+         id="org.condast.commons"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.google.geo.mapping"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.google.geo.mapping.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.condast.js.commons"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.openlayer.map"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>
