@@ -180,6 +180,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	 * @param function
 	 * @param params
 	 */
+    @Override
 	public synchronized void setQuery( String function ){
 		setQuery( function, new String[0]);
 	}

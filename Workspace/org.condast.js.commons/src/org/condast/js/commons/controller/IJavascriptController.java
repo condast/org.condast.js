@@ -12,4 +12,6 @@ public interface IJavascriptController {
 
 	Object evaluate(String query);
 
+	void setQuery(String function);
+
 }
