@@ -108,10 +108,10 @@ public class GeoView {
 	}
 
 	public String jump(){
-		String[] params = new String[2];
-		params[0] = String.valueOf( this.latlng.getLongitude());
-		params[1] = String.valueOf( this.latlng.getLatitude() );
-		//params[2] = String.valueOf( this.zoom );
+		String[] params = new String[3];
+		params[1] = String.valueOf( this.latlng.getLongitude());
+		params[0] = String.valueOf( this.latlng.getLatitude() );
+		params[2] = String.valueOf( this.zoom );
 		String query = "jump";
 		
 		controller.setQuery( query, params );

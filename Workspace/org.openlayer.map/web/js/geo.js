@@ -1,49 +1,45 @@
-var layer = new ol.layer.Tile({source: new ol.source.OSM()});
-
-var view = new ol.View({	
-	  center: [6.15388, 52.24966],
-   	  zoom: 6
-   	}
-);
-
-var map = new ol.Map({ 
-	controls: ol.control.defaults().extend([
-	    new ol.control.FullScreen()
-	]),
-	layers: [layer],
-	target: 'map',
-	view: view
-});
-
 //The features are not added to a regular vector layer/source,
 //but to a feature overlay which holds a collection of features.
 //This collection is passed to the modify and also the draw
 //interaction, so that both can add or modify features.
-var featureOverlay = new ol.FeatureOverlay({
-	style: new ol.style.Style({
+var overlayStyle = new ol.style.Style({
+	fill: new ol.style.Fill({
+		color: 'rgba(255, 255, 255, 0.2)'
+	}),
+	stroke: new ol.style.Stroke({
+		color: '#ffcc33',
+		width: 2
+	}),
+	image: new ol.style.Circle({
+		radius: 7,
 		fill: new ol.style.Fill({
-			color: 'rgba(255, 255, 255, 0.2)'
-		}),
-		stroke: new ol.style.Stroke({
-			color: '#ffcc33',
-			width: 2
-		}),
-		image: new ol.style.Circle({
-			radius: 7,
-			fill: new ol.style.Fill({
-				color: '#ffcc33'
-			})
+			color: '#ffcc33'
 		})
 	})
-	}
-);
+});
+	
+var collection = new ol.Collection();
+var featureOverlay = new ol.layer.Vector({
+  map: map,
+  source: new ol.source.Vector({
+    features: collection,
+    useSpatialIndex: false // optional, might improve performance
+  }),
+  style: overlayStyle,
+  updateWhileAnimating: true, // optional, for instant visual feedback
+  updateWhileInteracting: true // optional, for instant visual feedback
+});
 featureOverlay.setMap(map);
+
+var select = new ol.interaction.Select({
+	  wrapX: false
+});
 
 //the SHIFT key must be pressed to delete vertices, so
 //that new vertices can be drawn at the same position
 //of existing vertices
 var modify = new ol.interaction.Modify({
-	features: featureOverlay.getFeatures(),
+	features: select.getFeatures(),
 	deleteCondition: function(event) {
 		return ol.events.condition.shiftKeyOnly(event) &&
 			ol.events.condition.singleClick(event);
@@ -51,6 +47,7 @@ var modify = new ol.interaction.Modify({
 	}
 );
 map.addInteraction(modify);
+
 
 var draw; // global so we can remove it later
 var pointDraw;
@@ -87,7 +84,7 @@ function sendCoordinates( tp, e ){
 
 function addInteraction( tp) {
 	var drw = new ol.interaction.Draw({
-		features: featureOverlay.getFeatures(),
+		features: select.getFeatures(),
 		type: (tp)
 	    }
     );
@@ -109,7 +106,6 @@ function typeSelect( type ){
 }
 
 function jump( lon, lat, zoom) {
-	alert('hoi");
 	try{
 		var lonlat = ol.proj.transform( [lon, lat], 'EPSG:4326', 'EPSG:3857' );
 		view.setCenter( lonlat );
@@ -120,7 +116,7 @@ function jump( lon, lat, zoom) {
 }
  
 function zoom( zoom ){
-    view.setZoom( zoom );
+    view.setZoom( parseInt( zoom ));
 }
 
 function zoomin(){

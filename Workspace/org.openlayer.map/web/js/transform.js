@@ -27,7 +27,7 @@ function doPan( latitude, longitude ) {
 
     //alert(ol.animation);
 	// pan from the current center
-	var pan = ol.View#animate.pan({
+	var pan = ol.animation.pan({
 		source: map.getView().getCenter()
 	});
     alert(pan);

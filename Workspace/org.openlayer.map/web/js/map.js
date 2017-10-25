@@ -37,4 +37,4 @@ var map = new ol.Map({
 	controls: [control],
 	overlays: [overlay],
 	view: view
-});    
+}); 
