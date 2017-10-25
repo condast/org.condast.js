@@ -171,7 +171,8 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			listener.notifyEvaluation(ee);
 	}
 
-    public synchronized void setQuery( String function, String[] params ){
+    @Override
+	public synchronized void setQuery( String function, String[] params ){
     	controller.setQuery(function, params);
     }
 
@@ -185,7 +186,8 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		setQuery( function, new String[0]);
 	}
 
-	public synchronized void executeQuery(){
+	@Override
+    public synchronized void executeQuery(){
 		controller.executeQuery();
 	}
 

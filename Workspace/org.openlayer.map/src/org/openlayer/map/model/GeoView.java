@@ -15,6 +15,10 @@ public class GeoView {
 	private int zoom;
 	
 	private IJavascriptController controller;
+
+	public GeoView( IJavascriptController controller) {
+		this( controller, null );
+	}
 	
 	public GeoView( IJavascriptController controller, LatLng latlng) {
 		super();
@@ -42,6 +46,10 @@ public class GeoView {
 	public void setLatitude( double latitude ){
 		this.latlng = new LatLng( latitude, latlng.getLongitude() );
 		jump();		
+	}
+
+	public void setLatlng(LatLng latlng) {
+		this.latlng = latlng;
 	}
 
 	public String up(){
@@ -73,20 +81,26 @@ public class GeoView {
 	}
 
 	public String zoom(){
-		String query = "zoom(" + this.zoom + ");";
-		controller.setQuery( query );
+		String[] params = new String[1];
+		params[0] = String.valueOf( this.zoom );
+		String query = "zoom";
+		controller.setQuery( query, params );
 		return query;
 	}
 
 	public String zoomout() {
 		this.zoom ++;
-		return zoom();
+		String query = "zoomout";
+		controller.setQuery( query );
+		return query;
 	}
 
 	public String zoomin() {
 		if( this.zoom > 0)
 			this.zoom--;
-		return zoom();
+		String query = "zoomin";
+		controller.setQuery( query );
+		return query;
 	}
 
 	public String init(){
@@ -94,8 +108,18 @@ public class GeoView {
 	}
 
 	public String jump(){
-		String query = "jump(" + this.latlng.getLongitude() + ", " + this.latlng.getLatitude() + ");";
-		controller.setQuery( query );
+		String[] params = new String[2];
+		params[0] = String.valueOf( this.latlng.getLongitude());
+		params[1] = String.valueOf( this.latlng.getLatitude() );
+		//params[2] = String.valueOf( this.zoom );
+		String query = "jump";
+		
+		controller.setQuery( query, params );
 		return query;
 	}
+	
+	public void synchronize(){
+		controller.executeQuery();
+	}
+
 }
