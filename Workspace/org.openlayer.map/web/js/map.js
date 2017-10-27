@@ -14,7 +14,7 @@ var interaction = new ol.interaction.DragRotateAndZoom();
 // create a control to add to the map that isn't there by default
 var control = new ol.control.FullScreen();
 
-// center on london, transforming to map projection
+// center on RDM, transforming to map projection
 var center = ol.proj.transform([4.912, 51.743], 'EPSG:4326', 'EPSG:3857');
 
 // an overlay to position at the center
@@ -26,7 +26,7 @@ var overlay = new ol.Overlay({
 // view, starting at the center
 var view = new ol.View({
 	center: center,
-	zoom: 6
+	zoom: 17
 });
 
 // finally, the map with our custom interactions, controls and overlays

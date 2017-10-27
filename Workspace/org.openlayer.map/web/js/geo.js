@@ -18,6 +18,7 @@ var overlayStyle = new ol.style.Style({
 	})
 });
 	
+
 var collection = new ol.Collection();
 var featureOverlay = new ol.layer.Vector({
   map: map,
@@ -47,7 +48,6 @@ var modify = new ol.interaction.Modify({
 	}
 );
 map.addInteraction(modify);
-
 
 var draw; // global so we can remove it later
 var pointDraw;
@@ -105,16 +105,14 @@ function typeSelect( type ){
   }
 }
 
-function jump( lon, lat, zoom) {
-	try{
-		var lonlat = ol.proj.transform( [lon, lat], 'EPSG:4326', 'EPSG:3857' );
-		view.setCenter( lonlat );
-	}
-	catch( err ){
-		alert( err );
-	}
+function jump( lat, lon, zoom) {
+	var lt = parseFloat( lat );
+	var ln = parseFloat( lon );
+	var center = ol.proj.transform( [ln, lt], 'EPSG:4326', 'EPSG:3857' );
+	view.setCenter( center );
+	view.setZoom( parseInt( zoom ));
 }
- 
+
 function zoom( zoom ){
     view.setZoom( parseInt( zoom ));
 }
@@ -125,6 +123,6 @@ function zoomin(){
 
 function zoomout(){
     view.setZoom( view.getZoom() + 1);
-}          
+}
 
 initInteraction();

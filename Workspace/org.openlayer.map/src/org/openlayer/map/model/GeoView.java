@@ -6,7 +6,7 @@ import org.condast.js.commons.controller.IJavascriptController;
 public class GeoView {
 
 
-	public static final int DEF_ZOOM = 17;
+	public static final int DEF_ZOOM = 7;
 	
 	public static final float DEF_HORIZONTAL = 0.001f;
 	public static final float DEF_VERTICAL = 0.001f;
@@ -88,14 +88,14 @@ public class GeoView {
 		return query;
 	}
 
-	public String zoomout() {
+	public String zoomin() {
 		this.zoom ++;
 		String query = "zoomout";
 		controller.setQuery( query );
 		return query;
 	}
 
-	public String zoomin() {
+	public String zoomout() {
 		if( this.zoom > 0)
 			this.zoom--;
 		String query = "zoomin";
@@ -104,16 +104,15 @@ public class GeoView {
 	}
 
 	public String init(){
-		return jump() + zoom();
+		return jump();
 	}
 
 	public String jump(){
 		String[] params = new String[3];
-		params[1] = String.valueOf( this.latlng.getLongitude());
 		params[0] = String.valueOf( this.latlng.getLatitude() );
+		params[1] = String.valueOf( this.latlng.getLongitude());
 		params[2] = String.valueOf( this.zoom );
 		String query = "jump";
-		
 		controller.setQuery( query, params );
 		return query;
 	}
