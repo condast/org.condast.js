@@ -5,7 +5,6 @@ import org.condast.js.commons.controller.IJavascriptController;
 
 public class GeoView {
 
-
 	public static final int DEF_ZOOM = 7;
 	
 	public static final float DEF_HORIZONTAL = 0.001f;
@@ -120,5 +119,4 @@ public class GeoView {
 	public void synchronize(){
 		controller.executeQuery();
 	}
-
 }

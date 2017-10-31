@@ -17,5 +17,4 @@ public interface IJavascriptController {
 	void executeQuery();
 
 	void setQuery(String function, String[] params);
-
 }

@@ -15,6 +15,7 @@ import org.condast.js.commons.eval.IEvaluationListener;
 import org.condast.js.commons.eval.IEvaluationListener.EvaluationEvents;
 import org.eclipse.rap.rwt.widgets.BrowserCallback;
 import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.browser.BrowserFunction;
 import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.events.DisposeEvent;
@@ -195,6 +196,16 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		controller.setQuery(function, params);
 		controller.executeQuery();
 	}
+	
+	/**
+	 * Create a default call back function for javascript handling
+	 * @param id
+	 * @param name
+	 * @return
+	 */
+	protected BrowserFunction createCallBackFunction( String id, String name ){
+		return new JavaScriptCallBack(browser, name, id);
+	}
 
 	/* (non-Javadoc)
 	 * @see org.condast.js.commons.controller.IJavascriptController#evaluate(java.lang.String)
@@ -310,4 +321,26 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			return buffer.toString();
 		}
 	}
+	
+	/**
+	 * a default browser function that ca be added to javascript code for call back
+	 * @author Kees
+	 *
+	 */
+	private class JavaScriptCallBack extends BrowserFunction{
+		
+		private String id;
+		
+		private JavaScriptCallBack(Browser browser, String name, String id ) {
+			super(browser, name);
+			this.id = id;
+		}
+
+		@Override
+		public Object function(Object[] arguments) {
+			notifyEvaluation( new EvaluationEvent<Object[]>( this, id, EvaluationEvents.EVENT, arguments ));
+			return super.function(arguments);
+		}	
+	}
+
 }

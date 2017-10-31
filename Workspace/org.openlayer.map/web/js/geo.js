@@ -75,11 +75,9 @@ function initInteraction() {
 function sendCoordinates( tp, e ){
 	var geometry = e.feature.getGeometry();
 	var coords = geometry.getCoordinates();  
-	var str = ol.proj.transform( coords, 'EPSG:3857', 'EPSG:4326');
-	$.get("MapServlet", { type: tp, style: geometry.getType(), coordinates: escape( str )}).done( function(data) {
-		  alert(data);
-	});
-	console.log( tp, str );	
+	var lnglat = ol.proj.transform( coords, 'EPSG:3857', 'EPSG:4326');
+	onCallBack( tp, geometry.getType(), lnglat );
+	console.log( tp, lnglat );	
 }
 
 function addInteraction( tp) {
