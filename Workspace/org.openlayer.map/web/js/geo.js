@@ -77,7 +77,6 @@ function sendCoordinates( tp, e ){
 	var coords = geometry.getCoordinates();  
 	var lnglat = ol.proj.transform( coords, 'EPSG:3857', 'EPSG:4326');
 	onCallBack( tp, geometry.getType(), lnglat );
-	console.log( tp, lnglat );	
 }
 
 function addInteraction( tp) {
