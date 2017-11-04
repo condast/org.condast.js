@@ -342,5 +342,4 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			return super.function(arguments);
 		}	
 	}
-
 }

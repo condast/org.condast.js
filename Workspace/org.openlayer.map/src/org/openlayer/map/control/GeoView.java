@@ -1,4 +1,4 @@
-package org.openlayer.map.model;
+package org.openlayer.map.control;
 
 import org.condast.commons.latlng.LatLng;
 import org.condast.js.commons.controller.IJavascriptController;

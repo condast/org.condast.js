@@ -1,4 +1,4 @@
-package org.openlayer.map.model;
+package org.openlayer.map.control;
 
 import java.text.DecimalFormat;
 

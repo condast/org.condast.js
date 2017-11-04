@@ -3,6 +3,8 @@ var coords, length, width;
 var field_stroke;
 var field_style;
 
+var field_features = [];
+
 /**
  * Set the stroke of the shape (line)
  * @param line
@@ -37,20 +39,17 @@ function setField( latitude, longitude, lngth, wdth ){
 	length = parseFloat( lngth );
 	width = parseFloat( wdth );
 
-	console.log( length + ",  " + width );
 	setStroke('red', '2');
-	//field_stroke = new ol.style.Stroke({color: 'black', width: 1});
-	var angle = Math.PI / 4 ;
+	var angle = Math.PI / 120 ;
 	setStyle('4', length, width, angle);
 
 	var feature =  new ol.Feature(new ol.geom.Point(coords));
 	feature.setStyle( field_style );
 	
-	var shapes = new Array(1);
-	shapes[0] = feature;
+	field_features.push( feature );
 
 	var shape_source = new ol.source.Vector({
-        features: shapes
+        features: field_features
     });
 
     var fieldLayer = new ol.layer.Vector({
@@ -58,33 +57,44 @@ function setField( latitude, longitude, lngth, wdth ){
     });
 	
     map.addLayer( fieldLayer );
-}
+ }
 
 function setLineStyle( colour, wdth ){
+	setStroke(wdth);
 	field_style = new ol.style.Style({
 		color: colour,
 		stroke: field_stroke
 	});
 }
 
+/**
+ * Draw a lint withe the given name between the two latlng coordinates
+ * @param name
+ * @param lat1
+ * @param lon1
+ * @param lat2
+ * @param lon2
+ * @returns
+ */
 function drawLine( name, lat1, lon1, lat2, lon2 ){
-	var linearr = new Array(2);
+	var points = [];
 	var lat = parseFloat( lat1 );
 	var lon = parseFloat( lon1 );
-	coords = ol.proj.transform( [lon, lat], 'EPSG:4326', 'EPSG:3857' );
-	linearr[0] = coords;
+	var point1 = [lon, lat];
+	points.push( point1);
 
 	lat = parseFloat( lat2 );
 	lon = parseFloat( lon2 );
-	coords = ol.proj.transform( [lon, lat], 'EPSG:4326', 'EPSG:3857' );
+	var point2 = [lon, lat];
+	points.push( point2);
 
-	var lineString = new ol.geom.LineString(coords);
-	// transform to EPSG:3857
-	//lineString.transform('EPSG:4326', 'EPSG:3857');
-	setLineStyle('blue', 3);
+	var lineString = new ol.geom.LineString( points );
+	lineString.transform('EPSG:4326', 'EPSG:3857');
+	setLineStyle('cyan', 1);
 	
 	// create the feature
 	var feature = new ol.Feature({
+	    geometry: lineString,
 	    name: name
 	});	
 
