@@ -1,11 +1,7 @@
 <?xml version='1.0' encoding='UTF-8'?>
 <?artifactRepository version='1.1.0'?>
 <artifacts size='1'>
-<<<<<<< HEAD
-  <artifact classifier='osgi.bundle' id='org.eclipse.nebula.widgets.oscilloscope' version='1.0.0.201711061218'>
-=======
-  <artifact classifier='osgi.bundle' id='org.eclipse.nebula.widgets.oscilloscope' version='1.0.0.201711051452'>
->>>>>>> refs/remotes/origin/keesp
+  <artifact classifier='osgi.bundle' id='org.eclipse.nebula.widgets.oscilloscope' version='1.0.0.201711070932'>
     <properties size='5'>
       <property name='artifact.size' value='28703'/>
       <property name='download.size' value='28703'/>
