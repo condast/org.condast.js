@@ -17,16 +17,16 @@ function setStroke( colour, wdth ){
 	field_stroke = new ol.style.Stroke({color: colour, width: width})	
 }
 
-function setStyle( pnts, lngth, wdth, angle ){
+function setStyle( pnts, lngth, wdth, angl ){
 	var length = parseFloat( lngth );
 	var width = parseFloat( wdth );
+	var angle = parseFloat( angl );
 	var points = parseInt( pnts );
 	field_style = new ol.style.Style({
 		image: new ol.style.RegularShape({
 			stroke: field_stroke,
 			points: points,
 			radius: length,
-			radius2: width,
 			angle: angle
 		})
 	});
@@ -36,13 +36,6 @@ function setField( latitude, longitude, lngth, wdth ){
 	var lat = parseFloat( latitude );
 	var lon = parseFloat( longitude );
 	coords = ol.proj.transform( [lon, lat], 'EPSG:4326', 'EPSG:3857' );
-	length = parseFloat( lngth );
-	width = parseFloat( wdth );
-
-	setStroke('red', '2');
-	var angle = Math.PI / 120 ;
-	setStyle('4', length, width, angle);
-
 	var feature =  new ol.Feature(new ol.geom.Point(coords));
 	feature.setStyle( field_style );
 	

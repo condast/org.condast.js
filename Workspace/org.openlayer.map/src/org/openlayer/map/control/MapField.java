@@ -30,7 +30,27 @@ public class MapField {
 	public Field getField() {
 		return field;
 	}
-		
+
+	public String setStroke( String colour, int width ){
+		String[] params = new String[2];
+		params[0] = String.valueOf( colour );
+		params[1] = String.valueOf( width );
+		String query = Commands.SET_STROKE.toString();
+		controller.setQuery( query, params );
+		return query;		
+	}
+
+	public String setStyle( int points, int length, int width, double angle ){
+		String[] params = new String[4];
+		params[0] = String.valueOf( points );
+		params[1] = String.valueOf( length );
+		params[2] = String.valueOf( width );
+		params[3] = String.valueOf( angle );
+		String query = Commands.SET_STYLE.toString();
+		controller.setQuery( query, params );
+		return query;		
+	}
+	
 	public String setField( Field field ){
 		this.field = field;
 		String[] params = new String[4];
