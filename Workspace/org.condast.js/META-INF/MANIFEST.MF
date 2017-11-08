@@ -34,6 +34,6 @@ Import-Package: org.condast.commons,
  org.eclipse.swt.widgets,
  org.google.geo.mapping.ui.controller,
  org.google.geo.mapping.ui.model,
- org.openlayer.map.controller,
- org.openlayer.map.model
+ org.openlayer.map.control,
+ org.openlayer.map.controller
 Bundle-ActivationPolicy: lazy

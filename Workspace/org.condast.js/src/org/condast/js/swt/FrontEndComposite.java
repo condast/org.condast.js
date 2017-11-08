@@ -27,9 +27,9 @@ import org.eclipse.swt.events.SelectionEvent;
 import org.eclipse.swt.widgets.Text;
 import org.google.geo.mapping.ui.controller.GeoCoderController;
 import org.google.geo.mapping.ui.model.MarkerModel;
+import org.openlayer.map.control.TransformModel;
 //import org.satr.pronto.ProntoLanguage;
 import org.openlayer.map.controller.OpenLayerController;
-import org.openlayer.map.model.TransformModel;
 
 /**
  * @author Kees
