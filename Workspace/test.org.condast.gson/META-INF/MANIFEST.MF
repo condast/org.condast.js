@@ -6,7 +6,12 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: test.org.condast.gson.Activator
 Bundle-Vendor: Condast
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Import-Package: org.apache.commons.codec.binary;version="1.6.0",
+Import-Package: nl.eetmee.commons.profile.def,
+ nl.eetmee.commons.profile.utils,
+ nl.eetmee.commons.service,
+ nl.eetmee.vastegast.servlet.controller,
+ nl.eetmee.vastegast.servlet.parser,
+ org.apache.commons.codec.binary;version="1.6.0",
  org.apache.commons.io;version="1.4.0",
  org.condast.commons,
  org.condast.commons.na.model,

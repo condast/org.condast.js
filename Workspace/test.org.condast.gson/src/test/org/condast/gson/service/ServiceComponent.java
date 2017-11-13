@@ -6,7 +6,6 @@ import java.util.Collection;
 import java.util.logging.Logger;
 
 import org.condast.commons.na.model.IApplication;
-import org.condast.commons.na.model.ICode;
 import org.condast.commons.persistence.service.IPersistencyController;
 import org.condast.commons.ui.factory.ICompositeFactory;
 import org.eclipse.jface.wizard.IWizard;
@@ -110,45 +109,5 @@ public class ServiceComponent extends AbstractCFServiceComponent<Object>{
 	 */
 	public static IPersistencyController<?, IApplication> getController( ISupportedServices.Controllers contr ){
 		return component.getService().getController( contr.name() );
-	}
-	
-	private static class Application implements IApplication{
-
-		private ApplicationTypes type;
-		private int code;
-		private String refinement;
-		
-		
-		Application( ApplicationTypes type, String refinement, int code ) {
-			super();
-			this.type = type;
-			this.code = code;
-			this.refinement = refinement;
-		}
-
-		@Override
-		public int getCode() {
-			return code;
-		}
-
-		@Override
-		public ApplicationTypes getType() {
-			return type;
-		}
-
-		@Override
-		public void setType(ApplicationTypes type) {
-			this.type = type;
-		}
-
-		@Override
-		public String getRefinement() {
-			return refinement;
-		}
-
-		@Override
-		public int compareTo(ICode o) {
-			return ( this.code - o.getCode());
-		}
 	}
 }
