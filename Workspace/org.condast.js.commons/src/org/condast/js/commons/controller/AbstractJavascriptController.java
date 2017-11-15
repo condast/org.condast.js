@@ -212,10 +212,16 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	 */
 	@Override
 	public Object evaluate( final String query ){
-		browser.evaluate( query, getCallBack() );
+		try{
+			browser.evaluate( query, getCallBack() );
+		}
+		catch( IllegalStateException se ){
+			logger.warning( se.getMessage() + ": " + query );
+			return false;
+		}
 		return true;
 	}
-	
+
 	protected String readInput( InputStream in ){
 		StringBuffer buffer = new StringBuffer();
 		Scanner scanner = new Scanner( in );
@@ -317,7 +323,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 				}
 			}
 			buffer.append(");");
-			logger.info("EXECUTING: " + buffer.toString() );
+			logger.fine("EXECUTING: " + buffer.toString() );
 			return buffer.toString();
 		}
 	}
