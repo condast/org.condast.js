@@ -2,6 +2,8 @@ package org.openlayer.map.control;
 
 import org.condast.commons.strings.StringStyler;
 import org.condast.js.commons.controller.IJavascriptController;
+import org.condast.js.commons.eval.EvaluationEvent;
+import org.condast.js.commons.eval.IEvaluationListener.EvaluationEvents;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.BrowserFunction;
 

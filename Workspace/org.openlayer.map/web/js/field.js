@@ -83,7 +83,6 @@ function drawLine( name, lat1, lon1, lat2, lon2 ){
 
 	var lineString = new ol.geom.LineString( points );
 	lineString.transform('EPSG:4326', 'EPSG:3857');
-	setLineStyle('cyan', 1);
 	
 	// create the feature
 	var feature = new ol.Feature({

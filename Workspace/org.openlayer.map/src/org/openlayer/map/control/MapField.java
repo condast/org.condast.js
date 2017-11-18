@@ -10,6 +10,7 @@ public class MapField {
 	public enum Commands{
 		SET_STROKE,
 		SET_STYLE,
+		SET_LINE_STYLE,
 		SET_FIELD,
 		DRAW_LINE;
 
@@ -50,7 +51,16 @@ public class MapField {
 		controller.setQuery( query, params );
 		return query;		
 	}
-	
+
+	public String setLineStyle( String colour, int width ){
+		String[] params = new String[2];
+		params[0] = colour;
+		params[1] = String.valueOf( width );
+		String query = Commands.SET_LINE_STYLE.toString();
+		controller.setQuery( query, params );
+		return query;		
+	}
+
 	public String setField( Field field ){
 		this.field = field;
 		String[] params = new String[4];
