@@ -1,7 +1,7 @@
 package org.openlayer.map.control;
 
-import org.condast.commons.latlng.Field;
-import org.condast.commons.latlng.LatLng;
+import org.condast.commons.data.latlng.Field;
+import org.condast.commons.data.latlng.LatLng;
 import org.condast.commons.strings.StringStyler;
 import org.condast.js.commons.controller.IJavascriptController;
 

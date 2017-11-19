@@ -2,7 +2,7 @@ package org.openlayer.map.control;
 
 import java.text.DecimalFormat;
 
-import org.condast.commons.latlng.LatLng;
+import org.condast.commons.data.latlng.LatLng;
 import org.condast.commons.strings.StringStyler;
 import org.condast.js.commons.eval.EvaluationEvent;
 import org.condast.js.commons.eval.IEvaluationListener.EvaluationEvents;

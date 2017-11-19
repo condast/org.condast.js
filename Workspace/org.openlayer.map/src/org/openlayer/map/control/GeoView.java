@@ -1,6 +1,6 @@
 package org.openlayer.map.control;
 
-import org.condast.commons.latlng.LatLng;
+import org.condast.commons.data.latlng.LatLng;
 import org.condast.js.commons.controller.IJavascriptController;
 
 public class GeoView {

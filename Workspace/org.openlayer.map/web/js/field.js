@@ -61,7 +61,7 @@ function setLineStyle( colour, wdth ){
 }
 
 /**
- * Draw a lint withe the given name between the two latlng coordinates
+ * Draw a lint with the given name between the two latlng coordinates
  * @param name
  * @param lat1
  * @param lon1

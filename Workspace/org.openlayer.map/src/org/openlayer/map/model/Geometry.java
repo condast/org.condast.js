@@ -3,7 +3,7 @@ package org.openlayer.map.model;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.condast.commons.latlng.LatLng;
+import org.condast.commons.data.latlng.LatLng;
 
 public class Geometry {
 
