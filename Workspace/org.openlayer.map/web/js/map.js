@@ -20,6 +20,7 @@ var map = new ol.Map({
 		source: new ol.source.OSM()
 	})
 	],
+	interactions: null,
 	controls: ol.control.defaults({
 		attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
 			collapsible: false
