@@ -53,9 +53,8 @@ function setField( latitude, longitude, lngth, wdth ){
  }
 
 function setLineStyle( colour, wdth ){
-	setStroke(wdth);
+	setStroke(colour, wdth);
 	field_style = new ol.style.Style({
-		color: colour,
 		stroke: field_stroke
 	});
 }
@@ -87,6 +86,7 @@ function drawLine( name, lat1, lon1, lat2, lon2 ){
 	// create the feature
 	var feature = new ol.Feature({
 	    geometry: lineString,
+		style: [field_style],
 	    name: name
 	});	
 
@@ -95,8 +95,7 @@ function drawLine( name, lat1, lon1, lat2, lon2 ){
 	});
 
 	var vector = new ol.layer.Vector({
-		source: source,
-		style: [field_style]
+		source: source
 	});
 
 	map.addLayer( vector );
