@@ -20,6 +20,15 @@ var map = new ol.Map({
 		source: new ol.source.OSM()
 	})
 	],
+	interactions: ol.interaction.defaults({
+	    doubleClickZoom :false,
+	    dragAndDrop: false,
+	    keyboardPan: false,
+	    keyboardZoom: false,
+	    mouseWheelZoom: false,
+	    pointer: false,
+	    select: false
+	}),
 	controls: ol.control.defaults({
 		attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
 			collapsible: false

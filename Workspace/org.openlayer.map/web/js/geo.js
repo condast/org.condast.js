@@ -54,7 +54,7 @@ var pointDraw;
 var pointer = 0;
 
 function initInteraction() {
-	draw = addInteraction( 'LineString' );
+	draw = new ol.interaction.Draw( 'LineString' );
 	draw.on('drawend', function(e) {
 		sendCoordinates( 'drawend', e );
 	});
