@@ -73,10 +73,15 @@ function initInteraction() {
  * @param coordinates
  */
 function sendCoordinates( tp, e ){
-	var geometry = e.feature.getGeometry();
-	var coords = geometry.getCoordinates();  
-	var lnglat = ol.proj.transform( coords, 'EPSG:3857', 'EPSG:4326');
-	onCallBack( tp, geometry.getType(), lnglat );
+	try{
+		var geometry = e.feature.getGeometry();
+		var coords = geometry.getCoordinates();  
+		var lnglat = ol.proj.transform( coords, 'EPSG:3857', 'EPSG:4326');
+		onCallBack( tp, geometry.getType(), lnglat );
+	}
+	catch( e ){
+		console.log(e);
+	}
 }
 
 function addInteraction( tp) {
