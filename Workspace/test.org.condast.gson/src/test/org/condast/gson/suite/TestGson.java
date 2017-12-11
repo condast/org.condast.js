@@ -85,7 +85,7 @@ public class TestGson {
 		
 		IApplicationPerson[] ap = QuestionnaireController.createApplicationPerson(qa );
 		IProfile profile = QuestionnaireController.createProfile(ap, qa );
-		logger.info( ProfileAttributes.printProfile(profile));
+		logger.info( ProfileAttributes.printProfile(profile, true));
 	}
 	
 	private void testGSonToDevelop( String urlbase ) throws MalformedURLException{
