@@ -46,12 +46,7 @@
             <url>${condast-commons}/org.condast.commons.update/target/site</url>
             <layout>p2</layout>
         </repository>
-          <repository>
-            <id>org-condast-js</id>
-            <url>${condast-js}/org.condast.js.update/target/site</url>
-            <layout>p2</layout>
-        </repository>
-    </repositories>
+   </repositories>
 
   <modules>
     <!-- <module>../org.condast.js</module> -->
