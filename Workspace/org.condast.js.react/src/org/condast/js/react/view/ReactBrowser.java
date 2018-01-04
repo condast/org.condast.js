@@ -6,6 +6,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import org.condast.commons.ui.session.PushSession;
 import org.condast.js.commons.eval.EvaluationEvent;
 import org.condast.js.commons.eval.IEvaluationListener;
 import org.eclipse.rap.rwt.widgets.BrowserCallback;
@@ -14,7 +15,6 @@ import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.condast.js.commons.session.ISessionListener;
-import org.condast.js.commons.session.PushSession;
 import org.condast.js.commons.eval.IEvaluationListener.EvaluationEvents;
 
 public class ReactBrowser extends Browser {
@@ -43,11 +43,11 @@ public class ReactBrowser extends Browser {
 	}
 
 	public void addSessionListener( ISessionListener<Map<String, String>> listener ){
-		this.session.addSessionListener(listener);
+		this.session.addSessionListener((org.condast.commons.ui.session.ISessionListener<Map<String, String>>) listener);
 	}
 	
 	public void removeSesionListener( ISessionListener<Map<String, String>> listener ){
-		this.session.removeSessionListener(listener);
+		this.session.removeSessionListener((org.condast.commons.ui.session.ISessionListener<Map<String, String>>) listener);
 	}
 
 	public void addEvaluationListener( IEvaluationListener<Map<String, String>> listener ){
@@ -114,12 +114,12 @@ public class ReactBrowser extends Browser {
 
 				@Override
 				public void evaluationSucceeded(Object result) {
-					notifyEvaluation( new EvaluationEvent<Map<String, String>>( browser, EvaluationEvents.SUCCEEDED ));
+					notifyEvaluation( new EvaluationEvent<Map<String, String>>( browser, ""/* TODO remove*/, EvaluationEvents.SUCCEEDED ));
 					logger.info("EXECUTION SUCCEEDED");
 				}
 				@Override
 				public void evaluationFailed(Exception exception) {
-					notifyEvaluation( new EvaluationEvent<Map<String, String>>( browser, EvaluationEvents.FAILED ));
+					notifyEvaluation( new EvaluationEvent<Map<String, String>>( browser, ""/* TODO remove*/, EvaluationEvents.FAILED ));
 					logger.warning("EXECUTION FAILED");
 				}
 			};

@@ -13,12 +13,15 @@ import java.util.logging.Logger;
 
 import org.apache.commons.codec.binary.Base64OutputStream;
 import org.apache.commons.io.IOUtils;
+import org.condast.commons.na.model.IApplication;
+import org.condast.commons.na.model.IApplication.ApplicationTypes;
 import org.condast.commons.na.model.IApplicationPerson;
 import org.condast.commons.na.questionaire.IQuestion;
 import org.condast.commons.na.questionaire.IQuestionaire;
+import nl.eetmee.commons.admin.Application;
 import nl.eetmee.commons.profile.def.IProfile;
 import nl.eetmee.commons.profile.utils.ProfileAttributes;
-import nl.eetmee.vastegast.servlet.controller.QuestionnaireController;
+import nl.eetmee.vastegast.servlet.internal.core.QuestionnaireController;
 import nl.eetmee.vastegast.servlet.parser.QuestionnaireParser;
 
 public class TestGson {
@@ -82,8 +85,8 @@ public class TestGson {
 		for( IQuestion question: qa.getQuestions() ){
 			logger.info( question.toString() );
 		}
-		
-		IApplicationPerson[] ap = QuestionnaireController.createApplicationPerson(qa );
+		IApplication application = new Application( ApplicationTypes.VASTE_GAST, "Utrecht" );
+		IApplicationPerson[] ap = QuestionnaireController.createApplicationPerson(application, qa );
 		IProfile profile = QuestionnaireController.createProfile(ap, qa );
 		logger.info( ProfileAttributes.printProfile(profile, true));
 	}
