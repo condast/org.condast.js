@@ -49,16 +49,4 @@ public class Preferences extends AbstractStore<String, Object>{
 	public void setROrganisation(String organisation) {
 		super.putSettings( Attributes.COMPANY.name(), organisation );
 	}
-
-	@Override
-	public Object getSettings(Enum<?> key) {
-		// TODO Auto-generated method stub
-		return null;
-	}
-
-	@Override
-	public void putSettings(Enum<?> name, Object value) {
-		// TODO Auto-generated method stub
-		
-	}
 }
