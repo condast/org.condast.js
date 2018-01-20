@@ -2,10 +2,6 @@ package org.openlayer.map.control;
 
 import org.condast.commons.strings.StringStyler;
 import org.condast.js.commons.controller.IJavascriptController;
-import org.condast.js.commons.eval.EvaluationEvent;
-import org.condast.js.commons.eval.IEvaluationListener.EvaluationEvents;
-import org.eclipse.swt.browser.Browser;
-import org.eclipse.swt.browser.BrowserFunction;
 
 import com.google.gson.Gson;
 
@@ -52,6 +48,7 @@ public class GeoJson {
 	 * @author Kees
 	 *
 	 */
+/*
 	private class StyleCallBack extends BrowserFunction{
 		
 		private String id;
@@ -67,5 +64,5 @@ public class GeoJson {
 			return super.function(arguments);
 		}	
 	}
-
+*/
 }

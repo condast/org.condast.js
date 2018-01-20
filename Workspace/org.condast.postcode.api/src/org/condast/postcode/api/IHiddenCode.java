@@ -1,6 +1,5 @@
 package org.condast.postcode.api;
 
-
 /**
  * provides imports that are only indirectly referenced
  * @author Kees
@@ -8,7 +7,6 @@ package org.condast.postcode.api;
  */
 import com.google.gson.*;
 import javax.security.*;
-
 
 @SuppressWarnings("unused")
 public interface IHiddenCode {

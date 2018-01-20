@@ -7,7 +7,14 @@ public class Style {
 	
 	protected Style(Stroke stroke) {
 		super();
-		stroke = stroke;
+		this.stroke = stroke;
 	}
 
+	public Stroke getStroke() {
+		return stroke;
+	}
+
+	public double getWidth() {
+		return width;
+	}
 }

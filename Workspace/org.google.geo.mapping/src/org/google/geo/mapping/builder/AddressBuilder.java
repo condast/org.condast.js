@@ -18,7 +18,7 @@ import com.google.code.geocoder.model.LatLng;
 
 public class AddressBuilder extends AbstractGeoBuilder<Map<String, String>> {
 
-	private static enum AddressAttributes{
+	public static enum AddressAttributes{
 		STREET,
 		STREET_EXTENSION,
 		NUMBER,

@@ -168,6 +168,7 @@ public class FrontEndComposite extends Composite {
 		tabFolder.addSelectionListener(new SelectionAdapter() {
 			private static final long serialVersionUID = 1L;
 
+			@Override
 			public void widgetSelected(org.eclipse.swt.events.SelectionEvent event) {
 				setSelected();
 			}

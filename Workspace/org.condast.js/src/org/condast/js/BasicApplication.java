@@ -11,7 +11,8 @@ import org.eclipse.rap.rwt.client.WebClient;
 
 public class BasicApplication implements ApplicationConfiguration {
 
-    public void configure(Application application) {
+    @Override
+	public void configure(Application application) {
         Map<String, String> properties = new HashMap<String, String>();
         properties.put(WebClient.PAGE_TITLE, "React Application");
         application.setOperationMode( OperationMode.SWT_COMPATIBILITY );       

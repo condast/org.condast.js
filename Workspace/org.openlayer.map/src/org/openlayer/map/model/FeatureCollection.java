@@ -41,16 +41,17 @@ public class FeatureCollection {
 
 	private class Crs{
 
-		private String type;
+		//private String type;
 		private Map<String, String> properties;
 
 		protected Crs(String type, Schemes scheme) {
 			super();
-			this.type = type;
+			//this.type = type;
 			this.properties = new HashMap<String, String>();
 			this.properties.put("name", scheme.toString());
 		}
 
+		/*
 		public String getType() {
 			return type;
 		}
@@ -58,5 +59,6 @@ public class FeatureCollection {
 		public Map<String, String> getCoordinates() {
 			return properties;
 		}
+		*/
 	}
 }

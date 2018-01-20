@@ -37,6 +37,7 @@ public abstract class AbstractPushSession<T> {
 	}
 
 	private Runnable runnable = new Runnable() {
+		@Override
 		public synchronized void run() {
 			while(!refresh){
 				try{
@@ -49,6 +50,7 @@ public abstract class AbstractPushSession<T> {
 			if(( display == null ) || ( display.isDisposed()))
 				return;
 			display.asyncExec( new Runnable() {
+				@Override
 				public void run() {
 					if( dispose )
 						return;

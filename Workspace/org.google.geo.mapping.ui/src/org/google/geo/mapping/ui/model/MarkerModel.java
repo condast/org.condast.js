@@ -6,6 +6,7 @@ import java.util.HashSet;
 
 import org.condast.commons.data.latlng.LatLng;
 import org.condast.commons.strings.StringStyler;
+import org.condast.commons.strings.StringUtils;
 import org.condast.js.commons.eval.EvaluationEvent;
 import org.condast.js.commons.eval.IEvaluationListener.EvaluationEvents;
 import org.eclipse.swt.browser.Browser;
@@ -91,10 +92,13 @@ public class MarkerModel {
 	}	
 
 	public void removeMarker( String id ) {
-		data.remove( id );
+		if( StringUtils.isEmpty(id))
+			return;
 		controller.setQuery(Functions.CLEAR_MARKERS.toString() );
-		for( LatLng lnglat: data )
-			addMarker(lnglat.getId(), lnglat.getLatitude(), lnglat.getLongitude());
+		for( LatLng lnglat: data ) {
+			if( !lnglat.getId().equals(id))
+				addMarker(lnglat.getId(), lnglat.getLatitude(), lnglat.getLongitude());
+		}
 	}	
 
 	/**

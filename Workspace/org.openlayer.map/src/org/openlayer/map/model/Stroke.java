@@ -16,4 +16,16 @@ public class Stroke {
 		this.width = width;
 		this.lineDash = lineDash;
 	}
+
+	public String getColor() {
+		return Color;
+	}
+
+	public double getWidth() {
+		return width;
+	}
+
+	public int getLineDash() {
+		return lineDash;
+	}
 }

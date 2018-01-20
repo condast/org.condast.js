@@ -27,6 +27,7 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 
 
+@SuppressWarnings("deprecation")
 public class Chart extends Canvas {
 
   /**
