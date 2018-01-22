@@ -17,7 +17,7 @@ import org.condast.commons.na.model.IApplication;
 import org.condast.commons.na.model.IApplication.ApplicationTypes;
 import org.condast.commons.na.model.IApplicationPerson;
 import org.condast.commons.na.questionaire.IQuestion;
-import org.condast.commons.na.questionaire.IQuestionaire;
+import org.condast.commons.na.questionaire.IQuestionnaire;
 import nl.eetmee.commons.admin.Application;
 import nl.eetmee.commons.profile.def.IProfile;
 import nl.eetmee.commons.profile.utils.ProfileAttributes;
@@ -46,7 +46,7 @@ public class TestGson {
 	}
 
 	private void testGson( String str ) throws Exception{
-		IQuestionaire qa = QuestionnaireParser.parse( str );
+		IQuestionnaire qa = QuestionnaireParser.parse( str );
 	}
 
 	private void testBase64( String fileName ) throws Exception{
@@ -71,7 +71,7 @@ public class TestGson {
 			throw new NullPointerException();
 		}
 		InputStream in = file.toURI().toURL().openStream();
-		IQuestionaire qa = null;
+		IQuestionnaire qa = null;
 		try{
 			QuestionnaireParser parser = new QuestionnaireParser( in );
 			qa = parser.parse();
