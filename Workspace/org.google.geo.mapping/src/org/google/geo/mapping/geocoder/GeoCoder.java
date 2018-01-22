@@ -24,6 +24,7 @@ public class GeoCoder {
 				setAddress( address).
 				setLanguage( language).getGeocoderRequest(); 
 		GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
+		geocoderResponse.getResults();
 	}
 
 	public void getAddressFromAPI( String language, String address ) throws IOException, InvalidKeyException{
@@ -31,6 +32,7 @@ public class GeoCoder {
 		GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().
 				setAddress( address).
 				setLanguage( language).getGeocoderRequest(); 
-		GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest); 	}
-
+		GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
+		geocoderResponse.getResults();
+	}
 }

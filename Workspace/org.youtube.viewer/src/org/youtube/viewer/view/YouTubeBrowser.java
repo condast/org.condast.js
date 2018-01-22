@@ -9,11 +9,9 @@ import java.util.logging.Logger;
 import org.condast.js.commons.eval.EvaluationEvent;
 import org.condast.js.commons.eval.IEvaluationListener;
 import org.eclipse.rap.rwt.widgets.BrowserCallback;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
-import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.youtube.viewer.servlet.PlayerSession;
 import org.youtube.viewer.session.ISessionListener;
@@ -124,11 +122,11 @@ public class YouTubeBrowser extends Browser {
 
 	private class CommandController{
 
-		private YouTubeBrowser browser;
+		//private YouTubeBrowser browser;
 		private LinkedList<Map.Entry<String, String[]>> commands;
 		
 		public CommandController( YouTubeBrowser browser) {
-			this.browser = browser;
+			//this.browser = browser;
 			commands = new LinkedList<Map.Entry<String, String[]>>();
 		}
 

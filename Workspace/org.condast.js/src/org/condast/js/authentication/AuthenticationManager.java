@@ -77,7 +77,7 @@ public class AuthenticationManager extends AbstractAuthenticationCompositeManage
 		
 		screensaver.setBackgroundImage( ReactImages.getScreenSaver(parent));
 
-		AuthenticationGroup composite =  (AuthenticationGroup) new AuthenticationGroup(screensaver, SWT.NONE);
+		AuthenticationGroup composite =  new AuthenticationGroup(screensaver, SWT.NONE);
 		composite.setLayoutData( new GridData( SWT.CENTER, SWT.CENTER, true, true ));
 		composite.setText("Login for FieldLab RDM");
 		composite.setImage(ReactImages.getImage( Images.AQUABOT ));
@@ -114,7 +114,7 @@ public class AuthenticationManager extends AbstractAuthenticationCompositeManage
 					
 					if( !prefs.isLoggedin() )
 						return;
-					AuthenticationManager.clearParent( getParent());
+					AbstractAuthenticationCompositeManager.clearParent( getParent());
 					manager.createEntryComposite( getParent());
 				} catch (LoginException e) {
 					e.printStackTrace();

@@ -1,17 +1,11 @@
 package org.condast.js.swt;
 
-import java.util.Map;
-
-import org.condast.js.commons.eval.EvaluationEvent;
-import org.condast.js.commons.eval.IEvaluationListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
-import org.eclipse.swt.widgets.Display;
 import org.google.geo.mapping.ui.controller.GeoCoderController;
-import org.google.geo.mapping.ui.model.MarkerModel;
 import org.google.geo.mapping.ui.model.TilesAndPixelsModel;
 
 public class ReactComposite extends Composite {
@@ -20,6 +14,7 @@ public class ReactComposite extends Composite {
 
 	private GeoCoderController geoController;
 	private Browser browser;
+	/*
 	private IEvaluationListener<Map<String,String>> elistener = new IEvaluationListener<Map<String,String>>() {
 
 		@Override
@@ -30,7 +25,7 @@ public class ReactComposite extends Composite {
 				public void run() {
 					if( EvaluationEvents.SUCCEEDED.equals( event.getEvaluationEvent() )){
 						MarkerModel mmodel = new MarkerModel( geoController );
-						TilesAndPixelsModel tpm = new TilesAndPixelsModel( geoController );
+						//TilesAndPixelsModel tpm = new TilesAndPixelsModel( geoController );
 						//tpm.createLocationInfo("sensor", "", lnglat, 15);
 						mmodel.synchronize();
 					}
@@ -38,6 +33,7 @@ public class ReactComposite extends Composite {
 			});			
 		}
 	};
+	*/
 	
 	/**
 	 * Create the composite.
@@ -60,7 +56,7 @@ public class ReactComposite extends Composite {
 		tpm.setTileSize(40);
 		//tpm.setLocation( new LngLat( sensor.getLatitude(), sensor.getLongitude()), 10);
 		
-		MarkerModel mmodel = new MarkerModel( geoController );
+		//MarkerModel mmodel = new MarkerModel( geoController );
 		
 		tpm.synchronize();
 	}

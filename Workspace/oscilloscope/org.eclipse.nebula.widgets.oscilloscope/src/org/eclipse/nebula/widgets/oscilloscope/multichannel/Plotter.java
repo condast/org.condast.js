@@ -25,7 +25,6 @@ import org.eclipse.swt.widgets.Canvas;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
 
-@SuppressWarnings("synthetic-access")
 public class Plotter extends Canvas {
 	private static final long serialVersionUID = 1L;
 	
