@@ -20,7 +20,6 @@ var map = new ol.Map({
 		source: new ol.source.OSM()
 	})
 	],
-<<<<<<< HEAD
 	interactions: ol.interaction.defaults({
 	    doubleClickZoom :false,
 	    dragAndDrop: false,
@@ -30,9 +29,6 @@ var map = new ol.Map({
 	    pointer: false,
 	    select: false
 	}),
-=======
-	interactions: null,
->>>>>>> refs/remotes/origin/keesp
 	controls: ol.control.defaults({
 		attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
 			collapsible: false
