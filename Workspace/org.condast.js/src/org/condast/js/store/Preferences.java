@@ -49,4 +49,9 @@ public class Preferences extends AbstractStore<String, Object>{
 	public void setROrganisation(String organisation) {
 		super.putSettings( Attributes.COMPANY.name(), organisation );
 	}
+
+	@Override
+	public void setBoolean(String name, int position, boolean choice) {
+		super.putSettings(name, super.retrieveBoolean(name, position, choice));
+	}
 }
