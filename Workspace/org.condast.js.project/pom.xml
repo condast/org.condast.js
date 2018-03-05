@@ -62,7 +62,7 @@
     <module>../org.condast.postcode.api</module>
     <module>../org.openlayer.map</module>
     <module>../org.youtube.viewer</module>
-    <module>../oscilloscope/org.eclipse.nebula.widgets.oscilloscope</module>
+    
     <module>../org.condast.js.feature</module>
     <module>../org.condast.js.update</module>
   </modules>
