@@ -57,8 +57,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 				buffer.append( "EXECUTION FAILED: \n" );
 				buffer.append( controller.retrieve() );
 				logger.warning(buffer.toString());
-				
-				exception.printStackTrace();
 				controller.clear();
 			}
 		};

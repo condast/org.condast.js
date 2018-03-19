@@ -65,6 +65,7 @@ public class MapField {
 		this.field = field;
 		if( field == null )
 			return null;
+		setStyle(4, (int)field.getLength(), (int)field.getWidth(), field.getAngle());
 		String[] params = new String[4];
 		params[0] = String.valueOf( this.field.getCoordinates().getLatitude() );
 		params[1] = String.valueOf( this.field.getCoordinates().getLongitude());
