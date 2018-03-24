@@ -22,3 +22,4 @@ Export-Package: com.google.code.geocoder,
  org.google.geo.mapping.geocoder,
  org.google.geo.mapping.model
 Service-Component: OSGI-INF/fillmapprovider.xml
+Automatic-Module-Name: org.google.geo.mapping
