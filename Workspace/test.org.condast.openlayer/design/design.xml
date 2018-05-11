@@ -1,0 +1,34 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<design>
+	<frontend title="ACTIVE" id="org.arnac.frontend" style="SWT.NONE">
+		<layout name="grid-layout" columns="1" />
+		<tabfolder rwt-custom="trajectoryitem" select="0">
+			<layout-data>
+				<horizontal align="fill" grab-excess="true" />
+				<vertical align="fill" grab-excess="true" />
+			</layout-data>
+			<layout name="grid-layout" columns="1" />
+			<item name="Route">
+				<composite class="test.org.condast.openlayer.swt.OpenLayerComposite" name="arnac-composite">
+					<layout-data type="grid-data">
+						<horizontal spacing="fill" grab-excess="true" columns="1" />
+						<vertical spacing="fill" />
+					</layout-data>
+				</composite>
+			</item>
+			<item name="Log">
+				<composite class="org.condast.commons.ui.logger.LogComposite" name="log-composite">
+					<layout-data type="grid-data">
+						<horizontal spacing="fill" grab-excess="true" columns="1" />
+						<vertical spacing="fill" />
+					</layout-data>
+				</composite>
+			</item>
+		</tabfolder>
+		<!-- <navigation style="SWT.VERTICAL" size="100"> <image name="miip" url="/resources/miip.png"/> 
+			<menu> <item name="ENTRY" link="org.miip.waterway.ui.swt.MIIPComposite" select="true" 
+			style="SWT.BORDER"/> <item name="SEARCH"/> <item name="LOGIN"/> <item name="LOGOFF"/> 
+			</menu> </navigation> <body style="SWT.VERTICAL" data="frontbody"/> -->
+		<!--  <status-bar style="SWT.BORDER" data="frontstatus" height="30" />-->
+ 	</frontend>
+</design>

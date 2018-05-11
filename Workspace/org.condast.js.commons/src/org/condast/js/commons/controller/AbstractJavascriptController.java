@@ -39,6 +39,8 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 
 	private Logger logger = Logger.getLogger( this.getClass().getName());
 	
+	private NotificationRunner<Object[]> notifications;
+	
 	private BrowserCallback getCallBack(){
 		BrowserCallback callback = new BrowserCallback() {
 
@@ -47,7 +49,11 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			@Override
 			public void evaluationSucceeded(Object result) {
 				notifyEvaluation( new EvaluationEvent<Object[]>( browser, id, EvaluationEvents.SUCCEEDED ));
-				logger.fine("EXECUTION SUCCEEDED");
+				StringBuffer buffer = new StringBuffer();
+				buffer.append( "EXECUTION SUCCEEDED: \n" );
+				buffer.append( controller.retrieve() );
+				logger.info( buffer.toString());
+				notifications.unlock();
 				controller.clear();
 			}
 			@Override
@@ -57,6 +63,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 				buffer.append( "EXECUTION FAILED: \n" );
 				buffer.append( controller.retrieve() );
 				logger.warning(buffer.toString());
+				notifications.unlock();
 				controller.clear();
 			}
 		};
@@ -69,8 +76,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		@Override
 		public void widgetDisposed(DisposeEvent event) {
 			listeners.clear();
-		}
-		
+		}	
 	};
 
 	protected AbstractJavascriptController( Browser browser, String idn ) {
@@ -78,7 +84,8 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		this.initialised = false;
 		this.browser = browser;
 		this.browser.addDisposeListener(dl);
-		listeners = new ArrayList<IEvaluationListener<Object[]>>();
+		this.listeners = new ArrayList<IEvaluationListener<Object[]>>();
+		this.notifications = new NotificationRunner<>( this.listeners );
 		this.controller = new CommandController( );
 		browser.addProgressListener( new ProgressListener() {
 			private static final long serialVersionUID = 1L;
@@ -87,8 +94,8 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			public void completed(ProgressEvent event) {
 				onLoadCompleted();
 				initialised = true;
-				notifyEvaluation( new EvaluationEvent<Object[]>( getBrowser(), id, EvaluationEvents.INITIALISED ));
 				controller.executeQuery();
+				notifyEvaluation( new EvaluationEvent<Object[]>( getBrowser(), id, EvaluationEvents.INITIALISED ));
 			}
 			
 			@Override
@@ -166,8 +173,8 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	}
 
 	public void notifyEvaluation( EvaluationEvent<Object[]> ee ){
-		for( IEvaluationListener<Object[]> listener: listeners )
-			listener.notifyEvaluation(ee);
+		logger.info("Notifying " + ee.getEvaluationEvent() + ": ");
+		notifications.addEvent(ee);
 	}
 
     @Override
