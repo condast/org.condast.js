@@ -10,11 +10,17 @@ public interface IJavascriptController {
 
 	void removeEvaluationListener(IEvaluationListener<Object[]> listener);
 
-	Object evaluate(String query);
-
 	void setQuery(String function);
 
 	void executeQuery();
 
 	void setQuery(String function, String[] params);
+	
+	/**
+	 * Multiple clients can delay execution by waiting until all the data is
+	 * collected. When the given amount of clients have synchronized,
+	 * then the controller will execute 
+	 * @param delay
+	 */
+	void synchronize( int clients );
 }

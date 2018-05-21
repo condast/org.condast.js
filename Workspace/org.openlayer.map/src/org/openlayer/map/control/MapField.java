@@ -88,7 +88,7 @@ public class MapField {
 		return query;
 	}
 
-	public void synchronize(){
-		controller.executeQuery();
+	public void synchronize( int clients ){
+		controller.synchronize(clients);
 	}
 }
