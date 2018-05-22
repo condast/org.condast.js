@@ -17,7 +17,6 @@ import org.youtube.viewer.servlet.PlayerSession;
 import org.youtube.viewer.session.ISessionListener;
 
 public class YouTubeBrowser extends Browser {
-	private static final long serialVersionUID = -7462050265419768312L;
 
 	public static final String S_INDEX_HTML = "/youtube/index.html";
 	
@@ -110,7 +109,7 @@ public class YouTubeBrowser extends Browser {
 
     @Override
 	public Object evaluate( final String query ){
-  		  evaluate( query, controller.getCallBack() );
+  		  //evaluate( query, controller.getCallBack() );
  		  return true;
     }
 	
