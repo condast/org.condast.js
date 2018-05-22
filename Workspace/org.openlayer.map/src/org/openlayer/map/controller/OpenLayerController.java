@@ -21,7 +21,11 @@ public class OpenLayerController extends AbstractJavascriptController{
 	private Logger logger = Logger.getLogger( this.getClass().getName() );
 
 	public OpenLayerController( Browser browser ) {
-		super( browser, S_INITIALISTED_ID );
+		this( browser, S_INITIALISTED_ID );
+	}
+
+	public OpenLayerController( Browser browser, String id ) {
+		super( browser, id );
 		setBrowser(OpenLayerController.class.getResourceAsStream( S_INDEX_HTML ));
 		this.callback = createCallBackFunction( S_CALLBACK_ID, S_CALLBACK_FUNCTION );	
 	}

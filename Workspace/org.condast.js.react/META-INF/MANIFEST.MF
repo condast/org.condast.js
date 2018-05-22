@@ -18,3 +18,4 @@ Import-Package: org.condast.commons.strings,
  org.osgi.framework;version="1.3.0"
 Bundle-ActivationPolicy: lazy
 Export-Package: org.condast.js.react.controller
+Automatic-Module-Name: org.condast.js.react

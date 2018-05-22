@@ -28,3 +28,4 @@ Export-Package: org.google.geo.mapping.ui.controller,
  org.google.geo.mapping.ui.images,
  org.google.geo.mapping.ui.model,
  org.google.geo.mapping.ui.view
+Automatic-Module-Name: org.google.geo.mapping.ui

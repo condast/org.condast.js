@@ -36,6 +36,8 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	private Browser browser;
 	private boolean initialised;
 	private String id;
+	
+	private int clients;
 
 	private Logger logger = Logger.getLogger( this.getClass().getName());
 	
@@ -57,8 +59,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 				buffer.append( "EXECUTION FAILED: \n" );
 				buffer.append( controller.retrieve() );
 				logger.warning(buffer.toString());
-				
-				exception.printStackTrace();
 				controller.clear();
 			}
 		};
@@ -81,6 +81,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		this.browser = browser;
 		this.browser.addDisposeListener(dl);
 		listeners = new ArrayList<IEvaluationListener<Object[]>>();
+		this.clients = 0;
 		this.controller = new CommandController( );
 		browser.addProgressListener( new ProgressListener() {
 			private static final long serialVersionUID = 1L;
@@ -192,11 +193,22 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		controller.executeQuery();
 	}
 
-	public synchronized void performQuery( String function, String[] params ){
+	protected synchronized void performQuery( String function, String[] params ){
 		controller.setQuery(function, params);
 		controller.executeQuery();
 	}
 	
+	@Override
+	public void synchronize(int clients) {
+		if( this.clients < clients )
+			clients++;
+		else {
+			this.executeQuery();
+			this.clients = 0;
+		}
+		
+	}
+
 	/**
 	 * Create a default call back function for javascript handling
 	 * @param id
@@ -205,21 +217,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	 */
 	protected BrowserFunction createCallBackFunction( String id, String name ){
 		return new JavaScriptCallBack(browser, name, id);
-	}
-
-	/* (non-Javadoc)
-	 * @see org.condast.js.commons.controller.IJavascriptController#evaluate(java.lang.String)
-	 */
-	@Override
-	public Object evaluate( final String query ){
-		try{
-			browser.evaluate( query, getCallBack() );
-		}
-		catch( IllegalStateException se ){
-			logger.warning( se.getMessage() + ": " + query );
-			return false;
-		}
-		return true;
 	}
 
 	protected String readInput( InputStream in ){
@@ -280,7 +277,21 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 				}
 			});
 		}	
-		
+
+		/* (non-Javadoc)
+		 * @see org.condast.js.commons.controller.IJavascriptController#evaluate(java.lang.String)
+		 */
+		private Object evaluate( final String query ){
+			try{
+				browser.evaluate( query, getCallBack() );
+			}
+			catch( IllegalStateException se ){
+				logger.warning( se.getMessage() + ": " + query );
+				return false;
+			}
+			return true;
+		}
+
 		private final synchronized void executeQuery(){
 			if( commands.isEmpty() )
 				return;

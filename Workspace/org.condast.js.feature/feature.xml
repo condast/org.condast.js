@@ -17,15 +17,17 @@
    </license>
 
    <requires>
+      <import plugin="javax.servlet"/>
       <import plugin="org.eclipse.equinox.preferences"/>
       <import plugin="org.eclipse.osgi.services"/>
       <import plugin="org.eclipse.osgi"/>
       <import plugin="org.slf4j.api"/>
-      <import plugin="javax.servlet"/>
+      <import plugin="org.condast.commons.data"/>
       <import plugin="org.eclipse.equinox.http.registry"/>
       <import plugin="org.eclipse.rap.rwt"/>
       <import plugin="org.apache.httpcomponents.httpcore"/>
       <import plugin="org.apache.httpcomponents.httpclient"/>
+      <import plugin="com.google.gson"/>
    </requires>
 
    <plugin

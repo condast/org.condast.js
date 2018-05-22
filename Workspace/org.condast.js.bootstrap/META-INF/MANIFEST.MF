@@ -10,3 +10,4 @@ Import-Package: org.condast.commons.strings,
  org.eclipse.swt.browser,
  org.osgi.framework
 Export-Package: org.condast.js.bootstrap.controller
+Automatic-Module-Name: org.condast.js.bootstrap

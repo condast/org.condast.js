@@ -1,36 +1,4 @@
-//The features are not added to a regular vector layer/source,
-//but to a feature overlay which holds a collection of features.
-//This collection is passed to the modify and also the draw
-//interaction, so that both can add or modify features.
-var overlayStyle = new ol.style.Style({
-	fill: new ol.style.Fill({
-		color: 'rgba(255, 255, 255, 0.2)'
-	}),
-	stroke: new ol.style.Stroke({
-		color: '#ffcc33',
-		width: 2
-	}),
-	image: new ol.style.Circle({
-		radius: 7,
-		fill: new ol.style.Fill({
-			color: '#ffcc33'
-		})
-	})
-});
-	
-
 var collection = new ol.Collection();
-var featureOverlay = new ol.layer.Vector({
-  map: map,
-  source: new ol.source.Vector({
-    features: collection,
-    useSpatialIndex: false // optional, might improve performance
-  }),
-  style: overlayStyle,
-  updateWhileAnimating: true, // optional, for instant visual feedback
-  updateWhileInteracting: true // optional, for instant visual feedback
-});
-featureOverlay.setMap(map);
 
 var select = new ol.interaction.Select({
 	  wrapX: false

@@ -6,3 +6,4 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Require-Bundle: org.eclipse.rap.rwt;bundle-version="3.0.0"
 Export-Package: org.eclipse.rap.chartjs
+Automatic-Module-Name: org.eclipse.rap.chartjs

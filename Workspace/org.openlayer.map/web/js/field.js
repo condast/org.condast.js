@@ -52,15 +52,15 @@ function setField( latitude, longitude, lngth, wdth ){
     map.addLayer( fieldLayer );
  }
 
-function setLineStyle( colour, wdth ){
-	setStroke(colour, wdth);
+function setLineStyle( colour, width ){
+	setStroke(colour, width);
 	field_style = new ol.style.Style({
 		stroke: field_stroke
 	});
 }
 
 /**
- * Draw a lint with the given name between the two latlng coordinates
+ * Draw a line with the given name between the two latlng coordinates
  * @param name
  * @param lat1
  * @param lon1
@@ -86,10 +86,10 @@ function drawLine( name, lat1, lon1, lat2, lon2 ){
 	// create the feature
 	var feature = new ol.Feature({
 	    geometry: lineString,
-		style: [field_style],
 	    name: name
 	});	
-
+	feature.setStyle( field_style );
+	
 	var source = new ol.source.Vector({
 		features: [feature]
 	});
@@ -98,5 +98,7 @@ function drawLine( name, lat1, lon1, lat2, lon2 ){
 		source: source
 	});
 
+	var index = map.getLayers().getLength();
 	map.addLayer( vector );
+	return index;
 }
