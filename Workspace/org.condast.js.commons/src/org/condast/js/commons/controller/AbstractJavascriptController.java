@@ -190,10 +190,14 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 
 	@Override
     public synchronized void executeQuery(){
+		if(!browser.isVisible() )
+			return;
 		controller.executeQuery();
 	}
 
 	protected synchronized void performQuery( String function, String[] params ){
+		if(!browser.isVisible() )
+			return;
 		controller.setQuery(function, params);
 		controller.executeQuery();
 	}
