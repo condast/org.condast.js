@@ -203,14 +203,18 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	}
 	
 	@Override
+	public void synchronize() {
+		this.executeQuery();		
+	}
+	
+	@Override
 	public void synchronize(int clients) {
-		if( this.clients < clients )
+		if(( this.clients > 1 ) && ( this.clients < clients ))
 			clients++;
 		else {
 			this.executeQuery();
 			this.clients = 0;
 		}
-		
 	}
 
 	/**

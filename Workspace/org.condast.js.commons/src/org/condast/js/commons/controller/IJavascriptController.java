@@ -23,4 +23,9 @@ public interface IJavascriptController {
 	 * @param delay
 	 */
 	void synchronize( int clients );
+
+	/**
+	 * Default, when synchronisation between clients is not needed
+	 */
+	void synchronize();
 }
