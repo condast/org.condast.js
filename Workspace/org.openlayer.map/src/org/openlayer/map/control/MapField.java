@@ -8,6 +8,7 @@ import org.condast.js.commons.controller.IJavascriptController;
 public class MapField {
 
 	public enum Commands{
+		CLEAR,
 		SET_STROKE,
 		SET_STYLE,
 		SET_LINE_STYLE,
@@ -32,6 +33,16 @@ public class MapField {
 		return field;
 	}
 
+	/**
+	 * Clear the interactions
+	 * @return
+	 */
+	public String clear() {
+		String query = Commands.CLEAR.toString();
+		controller.setQuery( query );
+		return query;				
+	}
+	
 	public String setStroke( String colour, int width ){
 		String[] params = new String[2];
 		params[0] = String.valueOf( colour );
