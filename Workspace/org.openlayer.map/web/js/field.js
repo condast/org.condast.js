@@ -17,6 +17,11 @@ function init(){
     map.addLayer( fieldLayer );
 }
 
+//Removes the markers from the map, but keeps them in the array.
+function clearShapes() {
+	shape_source.clear();
+}
+
 /**
  * Set the stroke of the shape (line)
  * @param line
@@ -29,6 +34,14 @@ function setStroke( colour, wdth ){
 	field_stroke = new ol.style.Stroke({color: colour, width: width})	
 }
 
+/**
+ * Create the required shape
+ * @param pnts (amount of points of the shape)
+ * @param lngth
+ * @param wdth
+ * @param angl
+ * @returns
+ */
 function setStyle( pnts, lngth, wdth, angl ){
 	var length = parseFloat( lngth );
 	var width = parseFloat( wdth );
@@ -51,6 +64,7 @@ function setField( latitude, longitude, lngth, wdth ){
 	var feature =  new ol.Feature(new ol.geom.Point(coords));
 	feature.setStyle( field_style );	
 	shape_source.addFeature( feature );
+	map.updateSize();
  }
 
 function setLineStyle( colour, width ){

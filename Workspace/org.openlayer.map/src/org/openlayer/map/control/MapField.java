@@ -9,6 +9,7 @@ public class MapField {
 
 	public enum Commands{
 		CLEAR,
+		CLEAR_SHAPES,
 		SET_STROKE,
 		SET_STYLE,
 		SET_LINE_STYLE,
@@ -43,6 +44,19 @@ public class MapField {
 		return query;				
 	}
 	
+	/**
+	 * Add an icon
+	 * @param name
+	 * @param latlng
+	 * @param opacity
+	 * @return
+	 */
+	public String clearShapes(){
+		String query = Commands.CLEAR_SHAPES.toString();
+		controller.setQuery( query );
+		return query;		
+	}
+
 	public String setStroke( String colour, int width ){
 		String[] params = new String[2];
 		params[0] = String.valueOf( colour );

@@ -47,4 +47,4 @@ var map = new ol.Map({
 		})
 	}),
 	view: view
-}); 
+});
