@@ -4,6 +4,14 @@ import org.condast.js.commons.eval.IEvaluationListener;
 
 public interface IJavascriptController {
 
+	public enum DrawTypes{
+		POINT;
+	}
+
+	public enum DrawEvents{
+		DRAWEND;
+	}
+
 	boolean isInitialised();
 
 	void addEvaluationListener(IEvaluationListener<Object[]> listener);

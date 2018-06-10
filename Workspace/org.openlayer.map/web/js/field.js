@@ -5,6 +5,22 @@ var field_style;
 
 var field_features = [];
 
+var shape_source;
+var fieldLayer;
+init();
+
+function init(){
+	shape_source = new ol.source.Vector({
+        features: field_features
+    });
+
+    fieldLayer = new ol.layer.Vector({
+        source: shape_source
+    });
+	
+    map.addLayer( fieldLayer );
+}
+
 /**
  * Set the stroke of the shape (line)
  * @param line
@@ -40,16 +56,6 @@ function setField( latitude, longitude, lngth, wdth ){
 	feature.setStyle( field_style );
 	
 	field_features.push( feature );
-
-	var shape_source = new ol.source.Vector({
-        features: field_features
-    });
-
-    var fieldLayer = new ol.layer.Vector({
-        source: shape_source
-    });
-	
-    map.addLayer( fieldLayer );
  }
 
 function setLineStyle( colour, width ){
@@ -89,16 +95,8 @@ function drawLine( name, lat1, lon1, lat2, lon2 ){
 	    name: name
 	});	
 	feature.setStyle( field_style );
-	
-	var source = new ol.source.Vector({
-		features: [feature]
-	});
-
-	var vector = new ol.layer.Vector({
-		source: source
-	});
+	field_features.push( feature );
 
 	var index = map.getLayers().getLength();
-	map.addLayer( vector );
 	return index;
 }

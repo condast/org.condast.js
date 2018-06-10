@@ -29,7 +29,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		URL,
 		TEXT;
 	}
-	
+
 	private Collection<IEvaluationListener<Object[]>> listeners;
 
 	private CommandController controller;
