@@ -29,7 +29,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		URL,
 		TEXT;
 	}
-	
+
 	private Collection<IEvaluationListener<Object[]>> listeners;
 
 	private CommandController controller;
@@ -190,23 +190,31 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 
 	@Override
     public synchronized void executeQuery(){
+		if(!browser.isVisible() )
+			return;
 		controller.executeQuery();
 	}
 
 	protected synchronized void performQuery( String function, String[] params ){
+		if(!browser.isVisible() )
+			return;
 		controller.setQuery(function, params);
 		controller.executeQuery();
 	}
 	
 	@Override
+	public void synchronize() {
+		this.executeQuery();		
+	}
+	
+	@Override
 	public void synchronize(int clients) {
-		if( this.clients < clients )
+		if(( this.clients > 1 ) && ( this.clients < clients ))
 			clients++;
 		else {
 			this.executeQuery();
 			this.clients = 0;
 		}
-		
 	}
 
 	/**

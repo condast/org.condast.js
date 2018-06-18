@@ -8,6 +8,8 @@ import org.condast.js.commons.controller.IJavascriptController;
 public class MapField {
 
 	public enum Commands{
+		CLEAR,
+		CLEAR_SHAPES,
 		SET_STROKE,
 		SET_STYLE,
 		SET_LINE_STYLE,
@@ -30,6 +32,29 @@ public class MapField {
 	
 	public Field getField() {
 		return field;
+	}
+
+	/**
+	 * Clear the interactions
+	 * @return
+	 */
+	public String clear() {
+		String query = Commands.CLEAR.toString();
+		controller.setQuery( query );
+		return query;				
+	}
+	
+	/**
+	 * Add an icon
+	 * @param name
+	 * @param latlng
+	 * @param opacity
+	 * @return
+	 */
+	public String clearShapes(){
+		String query = Commands.CLEAR_SHAPES.toString();
+		controller.setQuery( query );
+		return query;		
 	}
 
 	public String setStroke( String colour, int width ){
@@ -67,8 +92,8 @@ public class MapField {
 			return null;
 		setStyle(4, (int)field.getLength(), (int)field.getWidth(), field.getAngle());
 		String[] params = new String[4];
-		params[0] = String.valueOf( this.field.getCoordinates().getLatitude() );
-		params[1] = String.valueOf( this.field.getCoordinates().getLongitude());
+		params[0] = String.valueOf( this.field.getCentre().getLatitude() );
+		params[1] = String.valueOf( this.field.getCentre().getLongitude());
 		params[2] = String.valueOf( this.field.getLength() );
 		params[3] = String.valueOf( this.field.getWidth());
 		String query = Commands.SET_FIELD.toString();
@@ -90,5 +115,9 @@ public class MapField {
 
 	public void synchronize( int clients ){
 		controller.synchronize(clients);
+	}
+
+	public void synchronize(){
+		controller.synchronize();
 	}
 }
