@@ -17,6 +17,7 @@ import org.youtube.viewer.servlet.PlayerSession;
 import org.youtube.viewer.session.ISessionListener;
 
 public class YouTubeBrowser extends Browser {
+	private static final long serialVersionUID = 1L;
 
 	public static final String S_INDEX_HTML = "/youtube/index.html";
 	
@@ -129,6 +130,7 @@ public class YouTubeBrowser extends Browser {
 			commands = new LinkedList<Map.Entry<String, String[]>>();
 		}
 
+		@SuppressWarnings("unused")
 		public BrowserCallback getCallBack(){
 			BrowserCallback callback = new BrowserCallback() {
 
