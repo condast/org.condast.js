@@ -8,10 +8,27 @@ function isInitialised(){
   * Clear the interactions
 */
 function clear(){
-	var iter = map.getInteractions();
-	var i=0;
+	let iter = map.getInteractions();
+	let i=0;
 	for( i=0; i<iter.length; i++ ) { 
     	map.removeInteraction(iter[i]); 
+	}
+}
+
+/**
+ * Send the given coordinates as a JAVA callback
+ * @param coordinates
+ */
+function sendCoordinates( tp, e ){
+	try{
+		let geometry = e.feature.getGeometry();
+		console.log(geometry.getType());
+		let coords = geometry.getCoordinates();  
+		let lnglat = ol.proj.transform( coords, 'EPSG:3857', 'EPSG:4326');
+		onCallBack( tp, geometry.getType(), lnglat );
+	}
+	catch( e ){
+		console.log(e);
 	}
 }
 

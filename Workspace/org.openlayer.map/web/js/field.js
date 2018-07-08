@@ -3,15 +3,15 @@ var coords, length, width;
 var field_stroke;
 var field_style;
 
-var shape_source;
-var fieldLayer;
+var field_source;
+
 init();
 
 function init(){
-	shape_source = new ol.source.Vector();
+	field_source = new ol.source.Vector();
 
-    fieldLayer = new ol.layer.Vector({
-        source: shape_source
+    let fieldLayer = new ol.layer.Vector({
+        source: field_source
     });
 	
     map.addLayer( fieldLayer );
@@ -19,7 +19,7 @@ function init(){
 
 //Removes the markers from the map, but keeps them in the array.
 function clearShapes() {
-	shape_source.clear();
+	field_source.clear();
 }
 
 /**
@@ -30,7 +30,7 @@ function clearShapes() {
  * @returns
  */
 function setStroke( colour, wdth ){
-	var width = parseFloat( wdth );
+	let width = parseFloat( wdth );
 	field_stroke = new ol.style.Stroke({color: colour, width: width})	
 }
 
@@ -42,28 +42,31 @@ function setStroke( colour, wdth ){
  * @param angl
  * @returns
  */
-function setStyle( pnts, lngth, wdth, angl ){
-	var length = parseFloat( lngth );
-	var width = parseFloat( wdth );
-	var angle = parseFloat( angl );
-	var points = parseInt( pnts );
+function setStyle( pnts, lngth, wdth, angl, scal ){
+	let length = parseFloat( lngth );
+	let width = parseFloat( wdth );
+	let angle = parseFloat( angl );
+	let points = parseInt( pnts );
+	let scale = parseFloat( scal );
+	let image = new ol.style.RegularShape({
+		stroke: field_stroke,
+		points: points,
+		radius: length,
+		angle: angle
+	});
+	image.setScale( scale );
 	field_style = new ol.style.Style({
-		image: new ol.style.RegularShape({
-			stroke: field_stroke,
-			points: points,
-			radius: length,
-			angle: angle
-		})
+		image: image
 	});
 }
 
 function setField( latitude, longitude, lngth, wdth ){
-	var lat = parseFloat( latitude );
-	var lon = parseFloat( longitude );
+	let lat = parseFloat( latitude );
+	let lon = parseFloat( longitude );
 	coords = ol.proj.transform( [lon, lat], 'EPSG:4326', 'EPSG:3857' );
-	var feature =  new ol.Feature(new ol.geom.Point(coords));
+	let feature =  new ol.Feature(new ol.geom.Point(coords));
 	feature.setStyle( field_style );	
-	shape_source.addFeature( feature );
+	field_source.addFeature( feature );
 	map.updateSize();
  }
 
@@ -84,26 +87,58 @@ function setLineStyle( colour, width ){
  * @returns
  */
 function drawLine( name, lat1, lon1, lat2, lon2 ){
-	var points = [];
-	var lat = parseFloat( lat1 );
-	var lon = parseFloat( lon1 );
-	var point1 = [lon, lat];
+	let points = [];
+	let lat = parseFloat( lat1 );
+	let lon = parseFloat( lon1 );
+	let point1 = [lon, lat];
 	points.push( point1);
 
 	lat = parseFloat( lat2 );
 	lon = parseFloat( lon2 );
-	var point2 = [lon, lat];
+	let point2 = [lon, lat];
 	points.push( point2);
 
-	var lineString = new ol.geom.LineString( points );
+	let lineString = new ol.geom.LineString( points );
 	lineString.transform('EPSG:4326', 'EPSG:3857');
 	
 	// create the feature
-	var feature = new ol.Feature({
+	let feature = new ol.Feature({
 	    geometry: lineString,
 	    name: name
 	});	
 	feature.setStyle( field_style );
-	shape_source.addFeature( feature );
+	field_source.addFeature( feature );
+	return map.getLayers().getLength();
+}
+
+/**
+ * Draw a line with the given name between the two latlng coordinates
+ * @param name
+ * @param lat1
+ * @param lon1
+ * @param lat2
+ * @param lon2
+ * @returns
+ */
+function drawShape( name, value, amount, coords ){
+	let points = [];
+	let lat = parseFloat( lat1 );
+	let lon = parseFloat( lon1 );
+	let point1 = [lon, lat];
+	points.push( point1);
+
+	lat = parseFloat( lat2 );
+	lon = parseFloat( lon2 );
+	let point2 = [lon, lat];
+	points.push( point2);
+	let geometry = new ol.geom.Polygon( points );
+	geometry.transform('EPSG:4326', 'EPSG:3857');
+	
+	let feature = new ol.Feature({
+		name: name,
+		geometry: geometry
+	});
+	feature.setStyle( field_style );
+	field_source.addFeature( feature );
 	return map.getLayers().getLength();
 }
