@@ -25,7 +25,9 @@ function sendCoordinates( tp, e ){
 		console.log(geometry.getType());
 		let coords = geometry.getCoordinates();  
 		let lnglat = ol.proj.transform( coords, 'EPSG:3857', 'EPSG:4326');
-		onCallBack( tp, geometry.getType(), lnglat );
+		let format = new ol.format.WKT();
+		let wktRepresenation  = format.writeGeometry(geometry);
+		onCallBack( tp, wktRepresenation, lnglat );
 	}
 	catch( e ){
 		console.log(e);

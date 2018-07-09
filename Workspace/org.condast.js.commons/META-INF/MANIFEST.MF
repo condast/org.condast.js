@@ -17,3 +17,4 @@ Import-Package: org.condast.commons,
  org.eclipse.swt.graphics,
  org.eclipse.swt.widgets
 Automatic-Module-Name: org.condast.js.commons
+Require-Bundle: org.condast.commons
