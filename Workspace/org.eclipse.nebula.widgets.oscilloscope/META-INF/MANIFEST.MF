@@ -14,3 +14,5 @@ Export-Package: org.eclipse.nebula.widgets.oscilloscope.multichannel;
    org.eclipse.swt.graphics,
    org.eclipse.swt.widgets,
    javax.sound.sampled"
+Automatic-Module-Name: org.eclipse.nebula.widgets.oscilloscope
+Bundle-ActivationPolicy: lazy

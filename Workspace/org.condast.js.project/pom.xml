@@ -19,7 +19,7 @@
         <virgo-root>file:${generics}/Root/Workspace/Virgo</virgo-root>
         <project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>  
         <neon-update-repo.url>http://download.eclipse.org/eclipse/updates/4.6</neon-update-repo.url>
-        <rap-repo.url>http://download.eclipse.org/rt/rap/3.1/</rap-repo.url>
+        <rap-repo.url>http://download.eclipse.org/rt/rap/3.4/</rap-repo.url>
         <condast-commons>file:${generics}/org.condast.commons/Workspace</condast-commons>
         <condast-js>file:${generics}/org.condast.js/Workspace/</condast-js>
         <condast-repo.url>${virgo-root}/alpha.condast.root.update</condast-repo.url>
@@ -51,13 +51,13 @@
   <modules>
     <!-- <module>../org.condast.js</module> -->
     <module>../org.condast.js.commons</module>
-    <module>../org.eclipse.rap.chartjs</module>    
+    <!-- <module>../org.eclipse.rap.chartjs</module> -->    
+    <module>../org.eclipse.nebula.widgets.oscilloscope</module>
     <module>../org.google.geo.mapping</module>
     <module>../org.google.geo.mapping.ui</module>
-    <module>../org.condast.postcode.api</module>
-    <module>../org.openlayer.map</module>
+    <!-- <module>../org.condast.postcode.api</module> -->
+    <!-- <module>../org.openlayer.map</module> -->
     <module>../org.youtube.viewer</module>
-    <!--  <module>../oscilloscope/org.eclipse.nebula.widgets.oscilloscope</module>-->
     <module>../org.condast.js.feature</module>
     <module>../org.condast.js.update</module>
   </modules>

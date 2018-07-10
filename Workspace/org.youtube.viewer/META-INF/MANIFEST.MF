@@ -25,3 +25,4 @@ Export-Package: org.youtube.viewer.core,
  org.youtube.viewer.model,
  org.youtube.viewer.session,
  org.youtube.viewer.view
+Automatic-Module-Name: org.youtube.viewer
