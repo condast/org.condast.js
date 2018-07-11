@@ -2,6 +2,7 @@ package org.openlayer.map.control;
 
 import java.util.Collection;
 import org.condast.commons.data.latlng.Field;
+import org.condast.commons.data.latlng.Polygon;
 import org.condast.commons.strings.StringStyler;
 import org.condast.js.commons.controller.AbstractView;
 import org.condast.js.commons.controller.IJavascriptController;
@@ -9,8 +10,11 @@ import org.condast.js.commons.controller.IJavascriptController;
 public class ShapesView extends AbstractView<ShapesView.Commands> {
 
 	public static enum Commands{
-		CLEAR,
-		SET_SHAPE;
+		CLEAR_SHAPES,
+		SET_SHAPE,
+		ADD_SHAPE,
+		GET_SHAPE,
+		REMOVE_SHAPE;
 
 		@Override
 		public String toString() {
@@ -45,7 +49,7 @@ public class ShapesView extends AbstractView<ShapesView.Commands> {
 	 * @return
 	 */
 	public String clear() {
-		return super.clear( Commands.CLEAR );			
+		return super.clear( Commands.CLEAR_SHAPES );			
 	}
 	
 	public String setShape( String name, Types type){
@@ -54,4 +58,23 @@ public class ShapesView extends AbstractView<ShapesView.Commands> {
 		params.add( type.toString() );
 		return super.perform(Commands.SET_SHAPE, params );
 	}
+
+	public String addShape( Polygon polygon ){
+		Collection<String> params = super.getParameters( Commands.ADD_SHAPE);
+		params.add( polygon.toWKT() );
+		return super.perform(Commands.ADD_SHAPE, params );
+	}
+
+	public String getShape( String id ){
+		Collection<String> params = super.getParameters( Commands.GET_SHAPE);
+		params.add( id );
+		return super.perform(Commands.GET_SHAPE, params );
+	}
+
+	public String removeShape( String id ){
+		Collection<String> params = super.getParameters( Commands.REMOVE_SHAPE);
+		params.add( id );
+		return super.perform(Commands.REMOVE_SHAPE, params );
+	}
+
 }

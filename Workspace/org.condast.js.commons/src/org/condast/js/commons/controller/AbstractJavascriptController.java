@@ -71,8 +71,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		@Override
 		public void widgetDisposed(DisposeEvent event) {
 			listeners.clear();
-		}
-		
+		}	
 	};
 
 	protected AbstractJavascriptController( Browser browser, String idn ) {

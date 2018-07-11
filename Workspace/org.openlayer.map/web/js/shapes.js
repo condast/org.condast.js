@@ -56,3 +56,27 @@ function setShape( name, value ) {
 	});	
 	map.addInteraction(draw);
 }
+
+function addShape( wkt_str){
+	let format = new ol.format.WKT();
+	let geometry = format.readGeometry(wkt_str );
+	geometry.transform('EPSG:4326', 'EPSG:3857');
+	let feature = new ol.Feature({
+		name: name,
+		geometry: geometry
+	});
+	shape_source.addFeature( feature );
+	onCallBack( 'add-shape', wkt_str, geometry.getCoordinates() );
+}
+
+function getShape( name ){
+	let format = new ol.format.WKT();
+	let feature = shape_source.getFeature( name );
+	let wktRepresentation  = format.writeGeometry( feature.geometry);
+	let point = feature.geometry.getCoordinates()[0];
+	onCallBack( 'get-shape', wktRepresentation, point );
+}
+
+function removeShape( name ){
+	shape_source.removeFeature( name );
+}

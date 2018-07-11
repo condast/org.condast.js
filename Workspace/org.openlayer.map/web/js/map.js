@@ -21,13 +21,13 @@ function clear(){
  */
 function sendCoordinates( tp, e ){
 	try{
-		let geometry = e.feature.getGeometry();
-		console.log(geometry.getType());
-		let coords = geometry.getCoordinates();  
-		let lnglat = ol.proj.transform( coords, 'EPSG:3857', 'EPSG:4326');
+		let geometry = e.feature.getGeometry();		
+		//Transform the geometry from web mercator (3857) to regular latitude and longitude (4326)
+		geometry.transform('EPSG:3857', 'EPSG:4326');
+		let lnglat = geometry.getCoordinates();  
 		let format = new ol.format.WKT();
-		let wktRepresenation  = format.writeGeometry(geometry);
-		onCallBack( tp, wktRepresenation, lnglat );
+		let wktRepresentation  = format.writeGeometry(geometry);
+		onCallBack( tp, wktRepresentation, lnglat );
 	}
 	catch( e ){
 		console.log(e);
