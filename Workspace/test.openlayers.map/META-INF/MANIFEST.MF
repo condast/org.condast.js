@@ -1,0 +1,26 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: OpenLayersMap Test
+Bundle-SymbolicName: test.openlayers.map
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: test.openlayers.map.Activator
+Bundle-Vendor: Condast
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Automatic-Module-Name: test.openlyers.map
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.rap.rwt;bundle-version="[3.0.0,4.0.0)",
+ org.satr.arnac.core
+Import-Package: org.condast.commons,
+ org.condast.commons.authentication.user,
+ org.condast.commons.data.latlng,
+ org.condast.commons.strings,
+ org.condast.commons.ui.location,
+ org.condast.js.commons.controller,
+ org.condast.js.commons.eval,
+ org.openlayer.map.control,
+ org.openlayer.map.controller,
+ org.osgi.framework,
+ org.satr.arnac.core.def,
+ org.satr.arnac.core.registration,
+ org.satr.arnac.ui.swt.location
+Service-Component: OSGI-INF/contribution.xml
