@@ -73,8 +73,7 @@ function getShape( name ){
 	let format = new ol.format.WKT();
 	let feature = shape_source.getFeature( name );
 	let wktRepresentation  = format.writeGeometry( feature.geometry);
-	let point = feature.geometry.getCoordinates()[0];
-	onCallBack( 'get-shape', wktRepresentation, point );
+	onCallBack( 'get-shape', wktRepresentation, name );
 }
 
 function removeShape( name ){

@@ -3,12 +3,14 @@ package test.openlayers.map.swt;
 import java.util.logging.Logger;
 
 import org.condast.commons.Utils;
-import org.condast.commons.authentication.user.ILoginUser;
 import org.condast.commons.data.latlng.Field;
 import org.condast.commons.data.latlng.LatLng;
 import org.condast.commons.data.latlng.LatLngUtils;
 import org.condast.commons.data.latlng.Polygon;
 import org.condast.commons.strings.StringUtils;
+import org.condast.commons.ui.field.FieldChangeEvent;
+import org.condast.commons.ui.field.FieldComposite;
+import org.condast.commons.ui.field.IFieldChangeListener;
 import org.condast.commons.ui.location.LocationEvent;
 import org.condast.js.commons.eval.EvaluationEvent;
 import org.condast.js.commons.eval.IEvaluationListener;
@@ -19,14 +21,6 @@ import org.openlayer.map.control.GeoView;
 import org.openlayer.map.control.MapField;
 import org.openlayer.map.control.ShapesView;
 import org.openlayer.map.controller.OpenLayerController;
-import org.satr.arnac.core.def.IRegisterVessel;
-import org.satr.arnac.core.def.IUserData;
-import org.satr.arnac.core.model.MapLocation;
-import org.satr.arnac.core.registration.IRegistrationClient;
-import org.satr.arnac.core.registration.IRegistrationListener;
-import org.satr.arnac.ui.swt.location.FieldChangeEvent;
-import org.satr.arnac.ui.swt.location.FieldComposite;
-import org.satr.arnac.ui.swt.location.IFieldChangeListener;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.layout.GridData;
 
@@ -148,7 +142,6 @@ public class OpenLayersComposite extends Composite {
 		browser.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		this.controller = new OpenLayerController(browser, "TEST");
 		this.controller.addEvaluationListener(elistener);
-		this.fieldComposite.setInput( new RegistrationClient());
 		this.fieldComposite.addLocationListener(listener);
 	}
 
@@ -164,65 +157,5 @@ public class OpenLayersComposite extends Composite {
 		this.fieldComposite.removeLocationListener(listener);
 		this.controller.removeEvaluationListener(elistener);
 		super.dispose();
-	}
-
-	private class RegistrationClient implements IRegistrationClient{
-
-		@Override
-		public LatLng[] getSelection(ILoginUser user) {
-			return MapLocation.Location.getLocations();
-		}
-
-		@Override
-		public void addRegistrationListener(IRegistrationListener listener) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public void removeRegistrationListener(IRegistrationListener listener) {
-			// TODO Auto-generated method stub
-
-		}
-
-		@Override
-		public boolean isRegistered(String name, String passphrase) {
-			// TODO Auto-generated method stub
-			return false;
-		}
-
-		@Override
-		public boolean isRegistered(IRegisterVessel vessel) {
-			// TODO Auto-generated method stub
-			return false;
-		}
-
-		@Override
-		public LatLng getLocation(IRegisterVessel vessel) {
-			return MapLocation.Location.getLocations()[0];
-		}
-
-		@Override
-		public LatLng[] getRegisteredLocations() {
-			return MapLocation.Location.getLocations();
-		}
-
-		@Override
-		public String[] getRegisteredVessels() {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public IUserData getUserData(org.condast.commons.authentication.user.ILoginUser user) {
-			// TODO Auto-generated method stub
-			return null;
-		}
-
-		@Override
-		public void setUserData(org.condast.commons.authentication.user.ILoginUser user, IUserData data) {
-			// TODO Auto-generated method stub
-
-		}
 	}
 }
