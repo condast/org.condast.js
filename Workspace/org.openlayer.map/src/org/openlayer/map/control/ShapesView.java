@@ -1,7 +1,8 @@
 package org.openlayer.map.control;
 
 import java.util.Collection;
-import org.condast.commons.data.latlng.Field;
+
+import org.condast.commons.data.latlng.IField;
 import org.condast.commons.data.latlng.Polygon;
 import org.condast.commons.strings.StringStyler;
 import org.condast.js.commons.controller.AbstractView;
@@ -34,13 +35,13 @@ public class ShapesView extends AbstractView<ShapesView.Commands> {
 		}
 	}
 
-	private Field field;
+	private IField field;
 	
 	public ShapesView( IJavascriptController controller) {
 		super( controller );
 	}
 	
-	public Field getField() {
+	public IField getField() {
 		return field;
 	}
 

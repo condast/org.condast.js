@@ -2,7 +2,7 @@ package org.openlayer.map.control;
 
 import java.util.Collection;
 
-import org.condast.commons.data.latlng.Field;
+import org.condast.commons.data.latlng.IField;
 import org.condast.commons.data.latlng.LatLng;
 import org.condast.commons.strings.StringStyler;
 import org.condast.js.commons.controller.AbstractView;
@@ -26,13 +26,13 @@ public class MapField extends AbstractView<MapField.Commands>{
 		}
 	}
 	
-	private Field field;
+	private IField field;
 	
 	public MapField( IJavascriptController controller) {
 		super( controller );
 	}
 	
-	public Field getField() {
+	public IField getField() {
 		return field;
 	}
 
@@ -87,7 +87,7 @@ public class MapField extends AbstractView<MapField.Commands>{
 		return query;		
 	}
 
-	public String setField( Field field, double scale ){
+	public String setField( IField field, double scale ){
 		this.field = field;
 		if( field == null )
 			return null;
