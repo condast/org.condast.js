@@ -3,7 +3,7 @@ package test.openlayers.map.swt;
 import java.util.logging.Logger;
 
 import org.condast.commons.Utils;
-import org.condast.commons.data.latlng.IField;
+import org.condast.commons.data.latlng.FieldData;
 import org.condast.commons.data.latlng.LatLng;
 import org.condast.commons.data.latlng.LatLngUtils;
 import org.condast.commons.data.latlng.Polygon;
@@ -58,11 +58,11 @@ public class OpenLayersComposite extends Composite {
 						geo.setZoom(zoom);
 						geo.jump();
 						if( event.getField() != null ) {
-							IField field = event.getField();
+							FieldData field = event.getField();
 							MapField mapfield = new MapField( controller );
 							mapfield.clearShapes();
 							mapfield.setStroke("red", 2);
-							mapfield.setField(field, 1);
+							mapfield.setField(field.getField(), 1);
 							shapes = new ShapesView( controller );
 							shapes.setShape("test", ShapesView.Types.SQUARE );
 							shapes.synchronize();
