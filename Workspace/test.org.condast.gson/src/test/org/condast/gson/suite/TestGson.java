@@ -13,16 +13,6 @@ import java.util.logging.Logger;
 
 import org.apache.commons.codec.binary.Base64OutputStream;
 import org.apache.commons.io.IOUtils;
-import org.condast.commons.na.model.IApplication;
-import org.condast.commons.na.model.IApplication.ApplicationTypes;
-import org.condast.commons.na.model.IApplicationPerson;
-import org.condast.commons.na.questionaire.IQuestion;
-import org.condast.commons.na.questionaire.IQuestionnaire;
-import nl.eetmee.commons.admin.Application;
-import nl.eetmee.commons.profile.def.IProfile;
-import nl.eetmee.commons.profile.utils.ProfileAttributes;
-import nl.eetmee.vastegast.servlet.internal.core.QuestionnaireController;
-import nl.eetmee.vastegast.servlet.parser.QuestionnaireParser;
 
 public class TestGson {
 
@@ -39,14 +29,10 @@ public class TestGson {
 		TestGson tg = new TestGson();
 		try {
 			//tg.testBase64( S_FILE_LOCATION_4);
-			tg.testGsonFromURL( S_FILE_LOCATION_4);
+			//tg.testGsonFromURL( S_FILE_LOCATION_4);
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	private void testGson( String str ) throws Exception{
-		IQuestionnaire qa = QuestionnaireParser.parse( str );
 	}
 
 	private void testBase64( String fileName ) throws Exception{
@@ -62,33 +48,6 @@ public class TestGson {
 		IOUtils.copy( in, out );
 		logger.info( out.toString() );
 		logger.info("Length: " + out.size() );
-	}
-	
-	private void testGsonFromURL( String fileName ) throws Exception{
-		File file = new File( fileName ); 
-		if(!file.exists() ){
-			logger.severe("No file foud: " + fileName );
-			throw new NullPointerException();
-		}
-		InputStream in = file.toURI().toURL().openStream();
-		IQuestionnaire qa = null;
-		try{
-			QuestionnaireParser parser = new QuestionnaireParser( in );
-			qa = parser.parse();
-		}
-		finally{
-			in.close();
-		}
-
-		logger.info( qa.toString() );
-
-		for( IQuestion question: qa.getQuestions() ){
-			logger.info( question.toString() );
-		}
-		IApplication application = new Application( ApplicationTypes.VASTE_GAST, "Utrecht" );
-		IApplicationPerson[] ap = QuestionnaireController.createApplicationPerson(application, qa );
-		IProfile profile = QuestionnaireController.createProfile(ap, qa );
-		logger.info( ProfileAttributes.printProfile(profile, true));
 	}
 	
 	private void testGSonToDevelop( String urlbase ) throws MalformedURLException{

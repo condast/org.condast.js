@@ -46,23 +46,18 @@
             <url>${condast-commons}/org.condast.commons.update/target/site</url>
             <layout>p2</layout>
         </repository>
-          <repository>
-            <id>org-condast-js</id>
-            <url>${condast-js}/org.condast.js.update/target/site</url>
-            <layout>p2</layout>
-        </repository>
-    </repositories>
+   </repositories>
 
   <modules>
     <!-- <module>../org.condast.js</module> -->
     <module>../org.condast.js.commons</module>
     <!-- <module>../org.eclipse.rap.chartjs</module> -->    
-    <module>../org.eclipse.nebula.widgets.oscilloscope</module>
+    
     <module>../org.google.geo.mapping</module>
     <module>../org.google.geo.mapping.ui</module>
-    <!-- <module>../org.condast.postcode.api</module> -->
+    <module>../org.condast.postcode.api</module>
     <!-- <module>../org.openlayer.map</module> -->
-    <module>../org.youtube.viewer</module>
+    
     <module>../org.condast.js.feature</module>
     <module>../org.condast.js.update</module>
   </modules>
