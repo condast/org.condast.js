@@ -9,9 +9,7 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: com.google.gson,
  org.condast.commons,
  org.condast.commons.ds,
- org.condast.commons.strings,
- org.osgi.framework;version="1.3.0",
- org.slf4j;version="1.7.2"
+ org.osgi.framework;version="1.3.0"
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,
  lib/geocoder-java-0.16.jar
