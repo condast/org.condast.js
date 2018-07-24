@@ -22,10 +22,11 @@
       <import plugin="org.eclipse.osgi.services"/>
       <import plugin="com.google.gson"/>
       <import plugin="org.eclipse.osgi"/>
-      <import plugin="org.slf4j.api"/>
       <import plugin="javax.servlet"/>
       <import plugin="org.condast.commons.data"/>
       <import plugin="org.eclipse.equinox.http.registry"/>
+      <import plugin="org.apache.httpcomponents.httpcore"/>
+      <import plugin="org.apache.httpcomponents.httpclient"/>
    </requires>
 
    <plugin
@@ -57,7 +58,7 @@
          unpack="false"/>
 
    <plugin
-         id="org.eclipse.nebula.widgets.oscilloscope"
+         id="org.condast.postcode.api"
          download-size="0"
          install-size="0"
          version="0.0.0"
