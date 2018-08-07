@@ -6,7 +6,6 @@ package org.condast.postcode.api;
  *
  */
 import com.google.gson.*;
-import javax.security.*;
 
 @SuppressWarnings("unused")
 public interface IHiddenCode {
