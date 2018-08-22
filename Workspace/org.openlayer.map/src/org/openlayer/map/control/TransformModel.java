@@ -81,7 +81,6 @@ public class TransformModel {
 
 		@Override
 		public Object function(Object[] arguments) {
-			System.out.println("marker Clicked");
 			controller.notifyEvaluation( new EvaluationEvent<Object[]>( this, S_MARKER_CLICKED_ID, EvaluationEvents.EVENT, arguments ));
 			return super.function(arguments);
 		}	
