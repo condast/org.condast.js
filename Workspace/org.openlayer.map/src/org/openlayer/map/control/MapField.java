@@ -45,7 +45,7 @@ public class MapField extends AbstractView<MapField.Commands>{
 	}
 	
 	/**
-	 * Add an icon
+	 * Clear the shapes
 	 * @param name
 	 * @param latlng
 	 * @param opacity

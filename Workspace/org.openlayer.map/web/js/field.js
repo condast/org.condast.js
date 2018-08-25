@@ -17,9 +17,11 @@ function init(){
     map.addLayer( fieldLayer );
 }
 
-//Removes the markers from the map, but keeps them in the array.
+//Removes the shapes from the map.
 function clearShapes() {
+	alert('hoi');
 	field_source.clear();
+	alert('hoi2');
 }
 
 /**
