@@ -8,7 +8,7 @@ import org.condast.postcode.api.model.AddressFillMap;
 
 public class ServiceComponent implements IFillMapProvider<String>{
 
-	private static final String S_GEOMAP_ID = "org.google.geo.mapping";
+	private static final String S_POSTCODE_API_ID = "org.condast.postcode.api";
 	
 	public enum Requests{
 		ADDRESS
@@ -19,7 +19,7 @@ public class ServiceComponent implements IFillMapProvider<String>{
 
 	@Override
 	public String getId() {
-		return S_GEOMAP_ID;
+		return S_POSTCODE_API_ID;
 	}
 
 	@Override
