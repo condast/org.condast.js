@@ -20,11 +20,16 @@ public class GeoCoder {
 	
 	public void getAddress( String language, String address ) throws IOException{
 		final Geocoder geocoder = new Geocoder(); 
-		GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().
-				setAddress( address).
-				setLanguage( language).getGeocoderRequest(); 
-		GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
-		geocoderResponse.getResults();
+		try {
+			GeocoderRequest geocoderRequest = new GeocoderRequestBuilder().
+					setAddress( address).
+					setLanguage( language).getGeocoderRequest(); 
+			GeocodeResponse geocoderResponse = geocoder.geocode(geocoderRequest);
+			geocoderResponse.getResults();
+		}
+		catch( Exception ex ) {
+			ex.printStackTrace();
+		}
 	}
 
 	public void getAddressFromAPI( String language, String address ) throws IOException, InvalidKeyException{
