@@ -32,7 +32,7 @@ public class OpenLayersComposite extends Composite {
 		POLYGON
 	}
 	
-	private FieldComposite fieldComposite;
+	//private FieldComposite fieldComposite;
 	
 	private Browser browser;
 	private OpenLayerController controller;
@@ -136,13 +136,13 @@ public class OpenLayersComposite extends Composite {
 	public OpenLayersComposite(Composite parent, int style) {
 		super(parent, style);
 		setLayout(new GridLayout(1, false));
-		this.fieldComposite = new FieldComposite(this, SWT.BORDER);
-		fieldComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
+		//this.fieldComposite = new FieldComposite(this, SWT.BORDER);
+		//fieldComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 1, 1));
 		this.browser = new Browser( this, SWT.NONE);
 		browser.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
 		this.controller = new OpenLayerController(browser, "TEST");
 		this.controller.addEvaluationListener(elistener);
-		this.fieldComposite.addLocationListener(listener);
+		//this.fieldComposite.addLocationListener(listener);
 	}
 
 	public void setInput() {
@@ -154,7 +154,7 @@ public class OpenLayersComposite extends Composite {
 	}
 
 	public void dispose() {
-		this.fieldComposite.removeLocationListener(listener);
+		//this.fieldComposite.removeLocationListener(listener);
 		this.controller.removeEvaluationListener(elistener);
 		super.dispose();
 	}

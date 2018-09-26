@@ -13,6 +13,11 @@ import javax.servlet.ServletResponse;
 public class MapFilter implements Filter {
 
 	private Logger logger = Logger.getLogger( this.getClass().getName() );
+
+	@Override
+	public void init(FilterConfig arg0) throws ServletException {
+		/* NOTHING */
+	}
 	
     @Override
     public void doFilter(ServletRequest request, ServletResponse response,
@@ -26,16 +31,6 @@ public class MapFilter implements Filter {
             chain.doFilter(request, response);
     }
 
-	@Override
-	public void destroy() {
-	
-	}
-
-	@Override
-	public void init(FilterConfig arg0) throws ServletException {
-		
-	}
-	
 	/**
 	 * If the first three numbers of the ip address match, then 
 	 * the call is considered local
@@ -50,4 +45,10 @@ public class MapFilter implements Filter {
 		}
 		return !req.getRemoteAddr().equals(local);
 	}
+
+	@Override
+	public void destroy() {
+	  /* NOTHING */
+	}
+
 }

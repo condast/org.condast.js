@@ -14,10 +14,6 @@
       <filter
             alias="/openlayer"
             class="org.openlayer.map.servlet.MapFilter">
-         <init-param
-               name="testParam"
-               value="test param value">
-         </init-param>
       </filter>
     </extension> 
 </plugin>
