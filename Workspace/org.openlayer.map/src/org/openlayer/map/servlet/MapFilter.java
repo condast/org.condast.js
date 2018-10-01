@@ -50,5 +50,4 @@ public class MapFilter implements Filter {
 	public void destroy() {
 	  /* NOTHING */
 	}
-
 }
