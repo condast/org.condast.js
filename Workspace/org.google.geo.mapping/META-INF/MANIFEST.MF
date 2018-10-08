@@ -9,6 +9,8 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: com.google.gson,
  org.condast.commons,
  org.condast.commons.ds,
+ org.condast.commons.na.community,
+ org.condast.commons.na.filler,
  org.osgi.framework;version="1.3.0"
 Bundle-ActivationPolicy: lazy
 Bundle-ClassPath: .,

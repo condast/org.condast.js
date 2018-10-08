@@ -1,10 +1,13 @@
 package org.condast.postcode.api;
 
+import java.io.FileNotFoundException;
 import java.util.Map;
 
-import org.condast.commons.ds.FillMapException;
-import org.condast.commons.ds.IFillMapProvider;
+import org.condast.commons.na.community.ICommunityQuery;
+import org.condast.commons.na.filler.FillMapException;
+import org.condast.commons.na.filler.IFillMapProvider;
 import org.condast.postcode.api.model.AddressFillMap;
+import org.condast.postcode.api.names.CommunityQuery;
 
 public class ServiceComponent implements IFillMapProvider<String>{
 
@@ -35,6 +38,16 @@ public class ServiceComponent implements IFillMapProvider<String>{
 			break;
 		}
 		return results;
+	}
+
+	@Override
+	public ICommunityQuery getCommunityQuery() {
+		try {
+			return CommunityQuery.getDefaultQuery();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
 	}
 
 }

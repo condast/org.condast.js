@@ -2,7 +2,8 @@ package org.google.geo.mapping;
 
 import java.util.Map;
 
-import org.condast.commons.ds.IFillMapProvider;
+import org.condast.commons.na.community.ICommunityQuery;
+import org.condast.commons.na.filler.IFillMapProvider;
 import org.google.geo.mapping.geocoder.AddressFillMap;
 import org.google.geo.mapping.geocoder.GeoCoderParser;
 
@@ -36,6 +37,11 @@ public class ServiceComponent implements IFillMapProvider<String>{
 			break;
 		}
 		return results;
+	}
+
+	@Override
+	public ICommunityQuery getCommunityQuery() {
+		return null;
 	}
 
 }

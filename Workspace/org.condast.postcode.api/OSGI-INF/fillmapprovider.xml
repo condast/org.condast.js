@@ -2,6 +2,6 @@
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="true" name="org.condast.postcode.api">
    <implementation class="org.condast.postcode.api.ServiceComponent"/>
    <service>
-      <provide interface="org.condast.commons.ds.IFillMapProvider"/>
+      <provide interface="org.condast.commons.na.filler.IFillMapProvider"/>
    </service>
 </scr:component>

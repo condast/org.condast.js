@@ -9,8 +9,8 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.condast.commons.Utils;
-import org.condast.commons.ds.IFillMapProvider;
-
+import org.condast.commons.na.community.ICommunityQuery;
+import org.condast.commons.na.filler.IFillMapProvider;
 import com.google.code.geocoder.model.GeocoderAddressComponent;
 import com.google.code.geocoder.model.GeocoderGeometry;
 import com.google.code.geocoder.model.GeocoderResult;
@@ -217,6 +217,11 @@ public class AddressFillMap implements IFillMapProvider<String>{
 			break;
 		}
 		return ( index >= Fields.values().length );
+	}
+
+	@Override
+	public ICommunityQuery getCommunityQuery() {
+		return null;
 	}
 
 }

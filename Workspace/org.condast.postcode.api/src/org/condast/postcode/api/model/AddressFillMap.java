@@ -1,5 +1,6 @@
 package org.condast.postcode.api.model;
 
+import java.io.FileNotFoundException;
 import java.io.IOException;
 import java.util.ArrayList;
 import java.util.Arrays;
@@ -10,9 +11,11 @@ import java.util.Map;
 import java.util.Map.Entry;
 
 import org.condast.commons.Utils;
-import org.condast.commons.ds.FillMapException;
-import org.condast.commons.ds.IFillMapProvider;
+import org.condast.commons.na.community.ICommunityQuery;
+import org.condast.commons.na.filler.FillMapException;
+import org.condast.commons.na.filler.IFillMapProvider;
 import org.condast.commons.strings.StringStyler;
+import org.condast.postcode.api.names.CommunityQuery;
 
 public class AddressFillMap implements IFillMapProvider<String>{
 
@@ -125,6 +128,20 @@ public class AddressFillMap implements IFillMapProvider<String>{
 		return id;
 	}
 
+	/**
+	 * Get a community query object
+	 * @return
+	 */
+	@Override
+	public ICommunityQuery getCommunityQuery() {
+		try {
+			return CommunityQuery.getDefaultQuery();
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
+	
 	@Override
 	public Map<String, String> fillMap(String request, String[] params, String[] keys) throws FillMapException {
 		this.keyset.clear();
