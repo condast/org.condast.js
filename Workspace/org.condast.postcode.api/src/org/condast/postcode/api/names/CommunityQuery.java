@@ -20,6 +20,7 @@ import org.condast.commons.strings.StringUtils;
 
 public class CommunityQuery implements ICommunityQuery {
 
+	//public static final String S_RESOURCES = "C:\\eclipse-java_rcp_oxygen-1a-win32-x86_64\\eclipse\\config\\resources";
 	public static final String S_RESOURCES = "/resources/";
 	public static final String S_YEAR = "2017";
 	public static final String S_FILE_MUNICIPALITY = "gemeentenaam";
