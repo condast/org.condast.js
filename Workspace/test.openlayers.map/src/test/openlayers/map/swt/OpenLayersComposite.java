@@ -9,13 +9,15 @@ import org.condast.commons.data.latlng.LatLngUtils;
 import org.condast.commons.data.latlng.Polygon;
 import org.condast.commons.strings.StringUtils;
 import org.condast.commons.ui.field.FieldChangeEvent;
-import org.condast.commons.ui.field.FieldComposite;
 import org.condast.commons.ui.field.IFieldChangeListener;
 import org.condast.commons.ui.location.LocationEvent;
 import org.condast.js.commons.eval.EvaluationEvent;
 import org.condast.js.commons.eval.IEvaluationListener;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
+import org.eclipse.swt.events.SelectionAdapter;
+import org.eclipse.swt.events.SelectionEvent;
+import org.eclipse.swt.widgets.Button;
 import org.eclipse.swt.widgets.Composite;
 import org.openlayer.map.control.GeoView;
 import org.openlayer.map.control.MapField;
@@ -143,11 +145,40 @@ public class OpenLayersComposite extends Composite {
 		this.controller = new OpenLayerController(browser, "TEST");
 		this.controller.addEvaluationListener(elistener);
 		//this.fieldComposite.addLocationListener(listener);
+		Button button = new Button( this, SWT.PUSH );
+		button.setText("Draw");
+		button.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		button.addSelectionListener( new SelectionAdapter() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				MapField view = new MapField( controller );
+				view.drawLine("Hello World", new LatLng( "Start", 51.1, 4.1), new LatLng( "End",5.2,  4.2 )); 
+				view.synchronize();
+				super.widgetSelected(e);
+			}
+		});
+
+		Button clearButton = new Button( this, SWT.PUSH );
+		clearButton.setText("Clear");
+		clearButton.setLayoutData(new GridData(SWT.FILL, SWT.FILL, false, false));
+		clearButton.addSelectionListener( new SelectionAdapter() {
+			private static final long serialVersionUID = 1L;
+
+			@Override
+			public void widgetSelected(SelectionEvent e) {
+				MapField view = new MapField( controller );
+				view.clearShapes(); 
+				view.synchronize();
+				super.widgetSelected(e);
+			}
+			
+			
+		});
+
 	}
 
-	public void setInput() {
-		
-	}
 	@Override
 	protected void checkSubclass() {
 		// Disable the check that prevents subclassing of SWT components

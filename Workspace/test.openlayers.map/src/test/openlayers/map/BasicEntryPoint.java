@@ -10,6 +10,8 @@ import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Composite;
 
+import test.openlayers.map.swt.OpenLayersComposite;
+
 public class BasicEntryPoint extends AbstractEntryPoint {
 	private static final long serialVersionUID = 1L;
 
@@ -19,9 +21,9 @@ public class BasicEntryPoint extends AbstractEntryPoint {
 	@Override
     protected void createContents(Composite parent) {
         parent.setLayout(new GridLayout(2, false));
-        Browser browser = new Browser(parent, SWT.NONE);
+        OpenLayersComposite browser = new OpenLayersComposite(parent, SWT.NONE);
         //browser.setUrl( S_INDEX_LOCATION );
-        browser.setText( readInput(getClass().getResourceAsStream(S_INDEX_LOCATION)));
+        //browser.setInput( readInput(getClass().getResourceAsStream(S_INDEX_LOCATION)));
         browser.setLayoutData(new GridData( SWT.FILL, SWT.FILL, true, true ));
     }
 	

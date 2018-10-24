@@ -1,5 +1,6 @@
 
 var shape_source;
+var shape_layer;
 
 var draw;
 var geometry;
@@ -8,21 +9,24 @@ init();
 
 function init(){
 	shape_source = new ol.source.Vector();
-
-	let shapeLayer = new ol.layer.Vector({
+	shape_layer = new ol.layer.Vector({
 		source: shape_source
 	});
 
-	map.addLayer( shapeLayer );
+	map.addLayer( shape_layer );
 }
 
 //Removes the markers from the map, but keeps them in the array.
 function clearShapes() {
 	shape_source.clear();
+	//shape_layer.clear();
 	map.removeInteraction(draw);
+	alert('end');
 }
 
 function setShape( name, value ) {
+	if(draw != null )
+		map.removeInteraction(draw);
 	if (value === 'None')
 		return;
 
