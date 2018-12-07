@@ -26,3 +26,4 @@ Import-Package: org.condast.commons,
  org.openlayer.map.controller,
  org.osgi.framework
 Service-Component: OSGI-INF/contribution.xml
+Export-Package: test.openlayers.map.swt

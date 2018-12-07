@@ -8,7 +8,7 @@ import org.eclipse.rap.rwt.application.ApplicationConfiguration;
 import org.eclipse.rap.rwt.client.WebClient;
 
 import test.condast.commons.js.rcp.entry.DesignEntryPoint;
-
+import test.condast.commons.js.rcp.entry.MapEntryPoint;
 
 public class BasicApplication implements ApplicationConfiguration {
 
@@ -17,6 +17,6 @@ public class BasicApplication implements ApplicationConfiguration {
         properties.put(WebClient.PAGE_TITLE, "Test Bootstrap");
         application.addEntryPoint("/hello", BasicEntryPoint.class, properties);
         application.addEntryPoint("/design", DesignEntryPoint.class, properties);
+        application.addEntryPoint("/map", MapEntryPoint.class, properties);
     }
-
 }

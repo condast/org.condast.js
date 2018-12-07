@@ -2,37 +2,39 @@
 <html lang="en">
 	<head>
 		<!-- Required meta tags -->
-		<meta charset="utf-8"/>
-		<meta name="viewport"
-			content="width=device-width, initial-scale=1, shrink-to-fit=no"/>
+		<meta charset="utf-8">
+			<meta name="viewport"
+				content="width=device-width, initial-scale=1, shrink-to-fit=no">
 
-		<!-- Bootstrap CSS -->
-		<link rel="stylesheet"
-			href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-			integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-			crossorigin="anonymous">
+				<!-- Bootstrap CSS -->
+				<link rel="stylesheet"
+					href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+					integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+					crossorigin="anonymous">
 
-			<title>Hello, world!</title>
-			<link rel="stylesheet"
-				href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
-				integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
-				crossorigin="anonymous">
-			<link rel="stylesheet"
-				href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.2.0/css/ol.css"
-				type="text/css">
-			<style>
-				.map {
-					height: 100%;
-					width: 50%;
-					display:inline-block;
-				}
-				.swt {
-					height: 100&;
-					width: 50%;
-					display:inline-block;
-				}
-			</style>
-			<script src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.2.0/build/ol.js"></script>
+					<title>Hello, world!</title>
+					<link rel="stylesheet"
+						href="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/css/bootstrap.min.css"
+						integrity="sha384-MCw98/SFnGE8fJT3GXwEOngsV7Zt27NXFoaoApmYm81iuXoPkFOJwJ8ERdknLPMO"
+						crossorigin="anonymous">
+						<link rel="stylesheet"
+							href="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.2.0/css/ol.css"
+							type="text/css">
+							<style>
+								.map {
+								height: 100%;
+								width: 50%;
+								display:inline-block;
+								}
+								.swt {
+								height: 100&;
+								width: 50%;
+								display:inline-block;
+								}
+							</style>
+							<script
+								src="https://cdn.rawgit.com/openlayers/openlayers.github.io/master/en/v5.2.0/build/ol.js"></script>
+
 	</head>
 	<body>
 		<header>
@@ -89,6 +91,37 @@
 		<main role="main">
 
 			<section class="jumbotron text-center">
+				<div>
+					<ul class="nav nav-tabs">
+						>
+						<li class="active">
+							<a href="#">Home</a>
+						</li>
+						<li class="dropdown">
+							<a class="dropdown-toggle" data-toggle="dropdown" href="#">
+								Menu 1
+								<span class="caret"></span>
+							</a>
+							<ul class="dropdown-menu">
+								<li>
+									<a href="#">Submenu 1-1</a>
+								</li>
+								<li>
+									<a href="#">Submenu 1-2</a>
+								</li>
+								<li>
+									<a href="#">Submenu 1-3</a>
+								</li>
+							</ul>
+						</li>
+						<li>
+							<a href="#">Menu 2</a>
+						</li>
+						<li>
+							<a href="#">Menu 3</a>
+						</li>
+					</ul>
+				</div>
 				<div class="container">
 					<h1 class="jumbotron-heading">Hello World!</h1>
 					<script
@@ -103,10 +136,27 @@
 						src="https://stackpath.bootstrapcdn.com/bootstrap/4.1.3/js/bootstrap.min.js"
 						integrity="sha384-ChfqqxuZUCnJSK3+MXmPNIyE6ZbWh2IMqE241rYiqJxyMiZ6OW/JmZQ5stwEULTy"
 						crossorigin="anonymous"></script>
-				<div class="embed-responsive embed-responsive-16by9">
-					<iframe src="/map" allowfullscreen/>
 				</div>
-				</div>
+				<div id="swt">
+					<iframe src="/design"></iframe>
+					<iframe src="/map"></iframe>
+				</div
+				><div id="map" class="map"></div>
+				<script type="text/javascript">
+					var map = new ol.Map({
+					target: 'map',
+					layers: [
+					new ol.layer.Tile({
+					source: new ol.source.OSM()
+					})
+					],
+
+					view: new ol.View({
+					center: ol.proj.fromLonLat([37.41, 8.82]),
+					zoom: 4
+					})
+					});
+				</script>
 			</section>
 	</body>
 </html>
