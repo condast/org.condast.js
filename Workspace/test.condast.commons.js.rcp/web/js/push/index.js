@@ -1,53 +1,12 @@
-const result = checkPush();
-
-var subscription;
+const result = go();
 
 function go(){
-	registerServiceWorker();
+	window.addEventListener('load', () => {
+		registerServiceWorker();
+	});
 }
 
 function registerServiceWorker() { 
-	return navigator.serviceWorker.register('/test/js/push/collin-service.js') .then( 
-		function( registration) { 
-				console.log(' Service worker successfully registered.'); 
-				return registration; }
-		).catch( function( err) { 
-				console.error(' Unable to register service worker.', err);
-		});
-}
-
-function askPermission() { 
-	return new Promise( function( resolve, reject) { 
-				const permissionResult = Notification.requestPermission( 
-					function( result) { 
-						resolve( result); }); 
-					if (permissionResult) { 
-						permissionResult.then( resolve, reject); 
-					}
-			}).then( function( permissionResult){ 
-					if (permissionResult !== 'granted') { 
-						throw new Error(' We weren\'t granted permission.'); 
-					} 
-	}); 
-}
-
-function setButton(){
-	console.log("register button");
-	document.getElementById('doIt').onclick = function() {
-		const delay = document.getElementById('notification-delay').value;
-		const ttl = document.getElementById('notification-ttl').value;
-		console.log('Requesting notification');
-		fetch('http://localhost:10080/moodle/module/advice?id=1&token=12&module-id=1&activity-id=1', {
-			method: 'get',
-			headers: {
-				'Content-type': 'application/json'
-			},
-		});
-	};
-}
-
-function checkPush(){
-	setButton();
 	if (!('serviceWorker' in navigator)) {
 		console.log("Not in navigator");
 		return false;
@@ -58,48 +17,99 @@ function checkPush(){
 		return false;
 	}
 
-	window.addEventListener('load', () => {
-		navigator.serviceWorker.register('/test/js/push/collin-service.js');
+	return navigator.serviceWorker.register('/test/js/push/collin-service.js') .then( 
+			function( registration) { 
+				console.log(' Service worker successfully registered.'); 
+				askPermission().then(() => {
+					console.log(' Subscribe.'); 
+					const APP_SERVER_KEY = 'BDvq04Lz9f7WBugyNHW2kdgFI7cjd65fzfFRpNdRpa9zWvi4yAD8nAvgb8c8PpRXdtgUqqZDG7KbamEgxotOcaA';
 
-		navigator.serviceWorker.ready
-		.then(function(registration) {
-			alert('registered');
-			//Use the PushManager to get the user’s subscription to the push service.
-			return registration.pushManager.getSubscription()
-			.then(async function(subscription) {
-
-				//If a subscription was found, return it.
-				if (subscription) {
-					return subscription;
-				}
-
-				//Get the server’s public key
-				const vapidPublicKey = 'BDvq04Lz9f7WBugyNHW2kdgFI7cjd65fzfFRpNdRpa9zWvi4yAD8nAvgb8c8PpRXdtgUqqZDG7KbamEgxotOcaA';
-
-				//Chrome doesn’t accept the base64-encoded (string) vapidPublicKey yet urlBase64ToUint8Array() is defined in /tools.js
-				const convertedVapidKey = urlBase64ToUint8Array(vapidPublicKey);
-
-				//Otherwise, subscribe the user (userVisibleOnly allows to specify that we don’t plan to send notifications that don’t have a visible effect for the user).
-				return registration.pushManager.subscribe({
-					userVisibleOnly: true,
-					applicationServerKey: convertedVapidKey
+					const options = {
+							userVisibleOnly: true,
+							applicationServerKey: urlBase64ToUint8Array(APP_SERVER_KEY)
+					}
+					return registration.pushManager.subscribe(options)
+				}).then((pushSubscription) => {
+					console.log(' Subscription successful'); 
+					// we got the pushSubscription object
+					callServer( pushSubscription );
+					setButton( pushSubscription);
+				}).catch( function( err) { 
+					console.error(' Unable to register service worker.', err);
 				});
 			});
-		}).then(function(subscription) {
+}
 
-			console.log("fetch button");
-			//Send the subscription details to the server using the Fetch API.
-			fetch('http://localhost:10080/moodle/module/advice?id=1&token=12&', {
-				method: 'post',
-				headers: {
-					'Content-type': 'application/json'
-				},
-				body: JSON.stringify({
-					subscription: subscription
-				}),
-			});	
+function askPermission() { 
+	console.log("ask permission");
+	return new Promise( function( resolve, reject) { 
+		const permissionResult = Notification.requestPermission( 
+				function( result) { 
+					resolve( result); 
+				}); 
+		console.log( permissionResult);
+		if (permissionResult) { 
+			permissionResult.then( resolve, reject); 
+		}
+	}).then( function( permissionResult){ 
+		if (permissionResult !== 'granted') { 
+			throw new Error(' We weren\'t granted permission.'); 
+		} 
+	}); 
+}
 
-		});	
-	});
-	return true;
+function callServer(subscription) {
+	// Get public key and user auth from the subscription object
+    var key = subscription.getKey ? subscription.getKey('p256dh') : '';
+    var auth = subscription.getKey ? subscription.getKey('auth') : '';
+
+	console.log("fetch from server");
+	//Send the subscription details to the server using the Fetch API.
+	fetch('http://localhost:10080/moodle/push/subscribe?id=1&token=12', {
+		method: 'post',
+		headers: {
+			'Content-type': 'application/json'
+		},
+		body: JSON.stringify({
+            endpoint: subscription.endpoint,
+            // Take byte[] and turn it into a base64 encoded string suitable for
+            // POSTing to a server over HTTP
+            key: key ? btoa(String.fromCharCode.apply(null, new Uint8Array(key))) : '',
+            auth: auth ? btoa(String.fromCharCode.apply(null, new Uint8Array(auth))) : ''
+		}),
+	}).then( function(response){
+		if (!response.ok) {
+			throw new Error('An error occurred')
+		}
+		console.log('Response received');
+		return response;
+	});	
+}
+
+function setButton(){
+	console.log("register button: " );
+	document.getElementById('doIt').onclick = function() {
+		const delay = document.getElementById('notification-delay').value;
+		const ttl = document.getElementById('notification-ttl').value;
+		console.log('Requesting notification');
+		pushButton();
+	};
+	console.log('Notification sent');
+};
+
+function pushButton() {
+	console.log("Push the button");
+	//Send the subscription details to the server using the Fetch API.
+	fetch('http://localhost:10080/moodle/module/advice?id=1&token=12&module-id=1&advice-id=1&progress=20', {
+		method: 'get',
+		headers: {
+			'Content-type': 'application/json'
+		}
+	}).then( function(response){
+		if (!response.ok) {
+			throw new Error('An error occurred')
+		}
+		console.log('Response received');
+		return response;
+	});	
 }
