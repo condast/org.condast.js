@@ -8,13 +8,17 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Export-Package: org.condast.js.commons.controller,
  org.condast.js.commons.eval,
  org.condast.js.commons.images,
+ org.condast.js.commons.push,
  org.condast.js.commons.session
-Import-Package: org.condast.commons,
+Import-Package: com.google.gson;version="2.7.0",
+ org.condast.commons,
  org.eclipse.rap.rwt.service;version="3.1.0",
  org.eclipse.rap.rwt.widgets;version="3.1.0",
+ org.eclipse.swt,
  org.eclipse.swt.browser,
  org.eclipse.swt.events,
  org.eclipse.swt.graphics,
+ org.eclipse.swt.layout,
  org.eclipse.swt.widgets
 Automatic-Module-Name: org.condast.js.commons
 Require-Bundle: org.condast.commons
