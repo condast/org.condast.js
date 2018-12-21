@@ -57,7 +57,7 @@
     <module>../org.google.geo.mapping.ui</module>
     <module>../org.condast.postcode.api</module>
     <module>../org.openlayer.map</module>
-    
+    <module>../nl.martijndwars.webpush</module>    
     <module>../org.condast.js.feature</module>
     <module>../org.condast.js.update</module>
   </modules>

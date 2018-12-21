@@ -2,8 +2,8 @@ package nl.martijndwars.webpush.core;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
-import java.util.ArrayList;
-import java.util.Collection;
+import java.util.HashMap;
+import java.util.Map;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
@@ -31,10 +31,10 @@ public class PushManager{
 
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 
-	private Collection<ISubscription> subscriptions;
+	private Map<Long,ISubscription> subscriptions;
 	
 	public PushManager() {
-		subscriptions = new ArrayList<>();
+		subscriptions = new HashMap<>();
 	}
 
 	public ISubscription subscribe( long id, String token, String subscription ) {
@@ -43,16 +43,16 @@ public class PushManager{
 		Subscription sub = gson.fromJson(subscription, Subscription.class );
 		if( !Subscription.isValidSubscription(sub)) 
 			return null;
-		subscriptions.add(sub);
+		subscriptions.put(id, sub);
 		return sub;
 	}
 	
-	public void unsubscribe( ISubscription subscription ) {
-		this.subscriptions.remove(subscription);
+	public void unsubscribe( long userId ) {
+		this.subscriptions.remove( userId );
 	}
 	
-	public ISubscription[] getSubscriptions() {
-		return this.subscriptions.toArray( new ISubscription[ subscriptions.size()]);
+	public ISubscription getSubscription( long userId ) {
+		return this.subscriptions.get( userId);
 	}
 	
 	public void refresh() {
