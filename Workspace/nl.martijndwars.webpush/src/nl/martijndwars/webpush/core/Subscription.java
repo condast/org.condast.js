@@ -62,8 +62,8 @@ public class Subscription implements ISubscription {
 		return endpoint;
 	}
 
-	/* (non-Javadoc)
-	 * @see org.condast.commons.messaging.push.ISubscription#getExpirationTime()
+	/* Expiration time in msec
+	 * @see: https://developer.mozilla.org/en-US/docs/Web/API/DOMHighResTimeStamp
 	 */
 	@Override
 	public String getExpirationTime() {

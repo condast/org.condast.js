@@ -2,8 +2,14 @@ package nl.martijndwars.webpush.core;
 
 import java.io.IOException;
 import java.security.GeneralSecurityException;
+import java.util.ArrayList;
+import java.util.Calendar;
+import java.util.Collection;
+import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
+import java.util.Timer;
+import java.util.TimerTask;
 import java.util.concurrent.ExecutionException;
 import java.util.logging.Logger;
 
@@ -25,16 +31,30 @@ public class PushManager{
 	public static final String S_PUBLIC_KEY = "BDvq04Lz9f7WBugyNHW2kdgFI7cjd65fzfFRpNdRpa9zWvi4yAD8nAvgb8c8PpRXdtgUqqZDG7KbamEgxotOcaA";
 	public static final String S_CODED = "BMfyyFPnyR8MRrzPJ6jloLC26FyXMcrL8v46d7QEUccbQVArghc9YHC6USyp4TggrFleNzAUq8df0RiSS13xwtM";
 
+	public static final long DEFAULT_PERIOD = 3600000;//every hour
+	
 	/** The Time to live of GCM notifications */
 	private static final int TTL = 255;
 
 
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 
-	private Map<Long,ISubscription> subscriptions;
+	private Map<Long,SubscriptionData> subscriptions;
+	
+	private Timer timer;
+	private TimerTask timerTask = new TimerTask() {
+
+		@Override
+		public void run() {
+			refresh();
+		}
+		
+	};
 	
 	public PushManager() {
 		subscriptions = new HashMap<>();
+		timer = new Timer( true );
+		timer.schedule(timerTask, DEFAULT_PERIOD, DEFAULT_PERIOD);
 	}
 
 	public ISubscription subscribe( long id, String token, String subscription ) {
@@ -43,7 +63,9 @@ public class PushManager{
 		Subscription sub = gson.fromJson(subscription, Subscription.class );
 		if( !Subscription.isValidSubscription(sub)) 
 			return null;
-		subscriptions.put(id, sub);
+		synchronized( subscriptions ){
+			subscriptions.put(id, new SubscriptionData( id, sub ));
+		}
 		return sub;
 	}
 	
@@ -52,12 +74,19 @@ public class PushManager{
 	}
 	
 	public ISubscription getSubscription( long userId ) {
-		return this.subscriptions.get( userId);
+		return this.subscriptions.get( userId ).getSubscription();
+	}
+
+	private void refresh() {
+		synchronized( subscriptions ){
+			Collection<SubscriptionData> temp = new ArrayList<>( this.subscriptions.values() );
+			for( SubscriptionData data: temp) {
+				if( data.isPassed())
+					this.subscriptions.remove(data.getUserId());
+			}
+		}
 	}
 	
-	public void refresh() {
-		//for( ISub)
-	}
 	public static String sendPushMessage(String publicKey, String privateKey, ISubscription sub, byte[] payload) throws GeneralSecurityException, IOException, JoseException, ExecutionException, InterruptedException {
 
 		  // Figure out if we should use GCM for this notification somehow
@@ -98,7 +127,37 @@ public class PushManager{
 		}
 
 		private static boolean shouldUseGcm(ISubscription sub) {
-			// TODO Auto-generated method stub
 			return true;
-		}	
+		}
+		
+		private class SubscriptionData{
+			
+			private long userId;
+			private ISubscription subscription;
+			private Date create;
+			
+			public SubscriptionData( long userId, ISubscription subscription) {
+				super();
+				this.userId = userId;
+				this.subscription = subscription;
+				this.create = Calendar.getInstance().getTime();
+			}
+			
+			public long getUserId() {
+				return userId;
+			}
+
+			public ISubscription getSubscription() {
+				return subscription;
+			}
+			
+			public boolean isPassed() {
+				Calendar calendar = Calendar.getInstance();
+				Date current = Calendar.getInstance().getTime();
+				calendar.setTime(create);
+				calendar.add(Calendar.MILLISECOND, (int)Double.parseDouble( this.subscription.getExpirationTime()));
+				Date end = calendar.getTime();
+				return current.after(end);
+			}
+		}
 }
