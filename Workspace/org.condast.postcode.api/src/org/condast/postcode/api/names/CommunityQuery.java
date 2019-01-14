@@ -20,6 +20,10 @@ import org.condast.commons.strings.StringUtils;
 
 public class CommunityQuery implements ICommunityQuery {
 
+	public static final String S_PC6HNR = "pc6hnr";
+	public static final String S_DBF = "dbf";
+	public static final String S_GWB_DB = "0801_gwb.csv";
+
 	public static final String S_RESOURCES = "/resources/";
 	public static final String S_YEAR = "2017";
 	public static final String S_FILE_MUNICIPALITY = "gemeentenaam";
@@ -50,9 +54,9 @@ public class CommunityQuery implements ICommunityQuery {
 			buffer.append(S_RESOURCES);
 			switch( this ) {
 			case POSTCODE:
-				buffer.append("pc6hnr");
+				buffer.append(S_PC6HNR);
 				buffer.append(S_YEAR);
-				buffer.append("0801_gwb.csv");
+				buffer.append(S_GWB_DB);
 				return buffer.toString();
 			case MUNICIPALITY:
 				buffer.append(S_FILE_MUNICIPALITY);
@@ -68,7 +72,7 @@ public class CommunityQuery implements ICommunityQuery {
 			}
 			buffer.append(S_YEAR);
 			buffer.append(".");
-			buffer.append("dbf");
+			buffer.append( S_DBF);
 			return buffer.toString();
 		}
 	}
