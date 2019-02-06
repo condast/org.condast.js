@@ -13,6 +13,8 @@ public class ServiceComponent implements IFillMapProvider<String>{
 
 	private static final String S_POSTCODE_API_ID = "org.condast.postcode.api";
 	
+	private CommunityQuery query; 
+	
 	public enum Requests{
 		ADDRESS
 	}
@@ -43,7 +45,10 @@ public class ServiceComponent implements IFillMapProvider<String>{
 	@Override
 	public ICommunityQuery getCommunityQuery() {
 		try {
-			return CommunityQuery.getDefaultQuery();
+			if( query == null ) {
+				query = (CommunityQuery) CommunityQuery.getDefaultQuery();
+				query.prepare();
+			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();
 		}

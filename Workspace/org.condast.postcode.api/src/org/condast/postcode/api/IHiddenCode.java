@@ -7,6 +7,8 @@ package org.condast.postcode.api;
  */
 import com.google.gson.*;
 
+import org.glassfish.jersey.*;
+
 @SuppressWarnings("unused")
 public interface IHiddenCode {
 

@@ -10,6 +10,7 @@ import java.util.Date;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
 import org.condast.commons.data.latlng.LatLng;
 import org.condast.commons.na.community.ICommunityQuery;
@@ -79,6 +80,8 @@ public class CommunityQuery implements ICommunityQuery {
 	
 	private InputStream inp;
 	
+	private Map<String, CommunityData> cache;
+	
 	public CommunityQuery( File file ) throws FileNotFoundException {
 		this( new FileInputStream( file ));
 	}
@@ -90,8 +93,32 @@ public class CommunityQuery implements ICommunityQuery {
 	public CommunityQuery( InputStream inp ) {
 		super();
 		this.inp = inp;
+		cache = new TreeMap<>();
 	}
 
+	public void prepare() {
+		if( !cache.isEmpty())
+			return;
+		cache.clear();
+		Scanner scanner = new Scanner( inp );
+		try {
+			String line;
+			if( scanner.hasNextLine())
+				scanner.nextLine();
+			while( scanner.hasNextLine()) {
+				line = scanner.nextLine();
+				if( StringUtils.isEmpty( line ))
+					continue;
+				String[] split = line.split("[;]");
+				cache.put(split[0], new CommunityData( split ));
+			}
+		}
+		finally {
+			scanner.close();
+		}
+		
+	}
+	
 	/**
 	 * Get the community from the postcode and house number
 	 * @param postcode
@@ -106,45 +133,31 @@ public class CommunityQuery implements ICommunityQuery {
 		return community;
 	}
 
-	
 	@Override
 	public void complete(ICommunity community, String houseNumber) {
 		String postcode = community.getPostcode();
-		if(( StringUtils.isEmpty(postcode)) || ( StringUtils.isEmpty( houseNumber )))
+		if(( StringUtils.isEmpty( postcode )) || ( StringUtils.isEmpty( houseNumber )))
 			return;
-		Scanner scanner = new Scanner( inp );
-		try {
-			String line;
-			while( scanner.hasNextLine()) {
-				line = scanner.nextLine();
-				if( StringUtils.isEmpty( line ))
-					continue;
-				String[] split = line.split("[;]");
-				if( !split[0].equals( postcode ))
-					continue;
-				if( !houseNumber.contains( split[ Resources.HOUSE_NUMBER.getIndex()]))
-					continue;
-				int mnp = Integer.parseInt(split[ Resources.MUNICIPALITY.getIndex()]);
-				community.setMunicipality( getDetails(Resources.MUNICIPALITY, mnp));
-				int ngh = Integer.parseInt(split[ Resources.NEIGHBOURHOOD.getIndex()]);
-				community.setNeighbourhood( getDetails( Resources.NEIGHBOURHOOD, ngh ));
-				int loc = Integer.parseInt(split[ Resources.LOCALITY.getIndex()]);
-				community.setLocality( getDetails(Resources.LOCALITY, loc ));
-			}
-		}
-		finally {
-			scanner.close();
-		}
+		CommunityData data = cache.get( postcode );
+		if(( data == null ) || !( Integer.valueOf(houseNumber) > data.range ))
+			return;
+		
+		community.setMunicipality(data.municipality);
+		community.setNeighbourhood(data.neighbourhood);
+		community.setLocality(data.locality);
+		return;
 	}
 
 	protected static String getDetails( Resources resource, int code) {
 		if( code <=0 )
 			return S_UNKNOWN;
+		String config = ProjectFolderUtils.getDefaultConfigDir();
+		File file = new File( config, resource.toString());
+		if(!file.exists())
+			return null;
 		Scanner scanner = null;
 		try {
-			String file = resource.toString();
-			InputStream inp = CommunityQuery.class.getResourceAsStream( file );//resource.toString() );
-			scanner = new Scanner( inp);
+			scanner = new Scanner( file );
 			byte[] line = scanner.nextLine().getBytes();
 			DBFFormat format = new DBFFormat(line );
 			line = scanner.nextLine().getBytes();
@@ -229,7 +242,6 @@ public class CommunityQuery implements ICommunityQuery {
 			}
 			return null;
 		}
-
 	}
 	
 	public static final String toString( byte[] arr) {
@@ -239,5 +251,28 @@ public class CommunityQuery implements ICommunityQuery {
 				buffer.append((char)bt);
 		}
 		return buffer.toString();	
+	}
+	
+	private class CommunityData{
+		int range;
+		String neighbourhood;
+		String municipality;
+		String locality;
+
+		public CommunityData( String[] split) {
+			this( split[ Resources.HOUSE_NUMBER.getIndex()], 
+					split[ Resources.NEIGHBOURHOOD.getIndex()],
+					split[ Resources.MUNICIPALITY.getIndex()],
+					split[ Resources.LOCALITY.getIndex()]);
+		}
+		
+		private CommunityData( String range, String neighbourhood, String municipality, String locality) {
+			super();
+			this.range = Integer.valueOf(range);
+			this.neighbourhood = neighbourhood;
+			this.municipality = municipality;
+			this.locality = locality;
+		}
+		
 	}
 }
