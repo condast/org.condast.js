@@ -1,9 +1,8 @@
 package org.condast.postcode.api.rest;
 
+import java.io.FileNotFoundException;
+import java.util.Arrays;
 import java.util.Collection;
-import java.util.HashMap;
-import java.util.Iterator;
-import java.util.Map;
 import java.util.logging.Logger;
 
 import javax.ws.rs.GET;
@@ -12,8 +11,11 @@ import javax.ws.rs.Produces;
 import javax.ws.rs.QueryParam;
 import javax.ws.rs.core.MediaType;
 import javax.ws.rs.core.Response;
-import javax.ws.rs.core.Response.Status;
 
+import org.condast.commons.Utils;
+import org.condast.commons.na.community.CommunityResource;
+import org.condast.commons.strings.StringUtils;
+import org.condast.postcode.api.names.CommunityQuery;
 
 import com.google.gson.Gson;
 
@@ -27,7 +29,7 @@ import com.google.gson.Gson;
 // The browser requests per default the HTML MIME type.
 
 //Sets the base URL + /community
-@Path("/community")
+@Path("/")
 public class PostCodeResource{
 
 	public static final String S_ERR_UNKNOWN_REQUEST = "An invalid request was rertrieved: ";
@@ -35,17 +37,38 @@ public class PostCodeResource{
 	
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 	
+	/**
+	 * Checks to see if the given postcode and house number is located in the string of
+	 * places. Reurns Response.OK if it went well, and Response.noContent if not.
+	 * @param postcode
+	 * @param number
+	 * @param places
+	 * @return
+	 */
 	@GET
 	@Produces(MediaType.APPLICATION_JSON)
-	@Path("/community")
-	public Response login( @QueryParam("place") String place )
+	@Path("/places")
+	public Response matchPlaces( @QueryParam("postcode") String postcode, @QueryParam("number") String number, @QueryParam("places") String places )
 	{
-		Response retval = Response.serverError().build();
+		Response retval = Response.noContent().build();
+		if( StringUtils.isEmpty(postcode))
+			return retval;
 		
-		Gson gson = new Gson();
-		long[] results = new long[2];
-		String str = gson.toJson( results );
-		retval = Response.ok( str ).build();
+		Collection<CommunityResource> results;
+		try {
+			results = CommunityQuery.getPostcodes(places);
+			if( Utils.assertNull(results))
+				return retval;
+			String str = postcode.replace("\\s+", "").toUpperCase();
+			for( CommunityResource cr: results ) {
+				if( Arrays.asList(cr.getRange()).contains(str)) {
+					return Response.ok().build();
+				}
+			}
+		} catch (FileNotFoundException e) {
+			e.printStackTrace();
+			retval = Response.serverError().build();
+		}
 		return retval;
 	}
 }

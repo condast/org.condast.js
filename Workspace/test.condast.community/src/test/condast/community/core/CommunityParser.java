@@ -15,6 +15,8 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.logging.Logger;
 
+import org.condast.commons.na.community.CommunityResource;
+import org.condast.commons.na.community.CommunityResource.Resources;
 import org.condast.commons.project.ProjectFolderUtils;
 import org.condast.commons.strings.StringUtils;
 
@@ -45,51 +47,6 @@ public class CommunityParser {
 		}
 	}
 	
-	public enum Resources{
-		POSTCODE(0),
-		HOUSE_NUMBER(1),
-		LOCALITY(2),
-		NEIGHBOURHOOD(3),
-		MUNICIPALITY(4);
-
-		private int index;
-		
-		private Resources( int index ) {
-			this.index = index;
-		}
-		
-		public int getIndex() {
-			return index;
-		}
-
-		@Override
-		public String toString() {
-			StringBuffer buffer = new StringBuffer();
-			buffer.append(S_RESOURCES);
-			switch( this ) {
-			case POSTCODE:
-				buffer.append(S_PC6HNR);
-				buffer.append(S_YEAR);
-				buffer.append(S_GWB_DB);
-				return buffer.toString();
-			case MUNICIPALITY:
-				buffer.append(S_FILE_MUNICIPALITY);
-				break;
-			case NEIGHBOURHOOD:
-				buffer.append(S_FILE_NEIGHBOURHOOD);
-				break;
-			case LOCALITY:
-				buffer.append(S_FILE_LOCALITY);
-				break;
-			default:
-				break;
-			}
-			buffer.append(S_YEAR);
-			buffer.append(".");
-			buffer.append( S_DBF);
-			return buffer.toString();
-		}
-	}
 	
 	private InputStream inp;
 	
@@ -125,14 +82,14 @@ public class CommunityParser {
 				if( StringUtils.isEmpty( line ))
 					continue;
 				String[] split = line.split("[;]");//postcode; housenumber; locality-id; neighbourhood-id; municipality-id
-				Integer mcid = Integer.parseInt(split[Resources.MUNICIPALITY.getIndex()]);
+				Integer mcid = Integer.parseInt(split[CommunityResource.Resources.MUNICIPALITY.getIndex()]);
 				ComData<?,?> md = cache.get(mcid);
 				if( md == null ) {
-					String name = getDetails(Resources.MUNICIPALITY, mcid);
-					md = new ComData<>(mcid, name, Resources.MUNICIPALITY  );
+					String name = getDetails(CommunityResource.Resources.MUNICIPALITY, mcid);
+					md = new ComData<>(mcid, name, CommunityResource.Resources.MUNICIPALITY  );
 					cache.put(mcid, (ComData<Integer, ComData<?, ?>>) md );
 				}
-				complete( md, Resources.MUNICIPALITY, split );
+				complete( md, CommunityResource.Resources.MUNICIPALITY, split );
 			}
 		}
 		finally {
@@ -142,7 +99,7 @@ public class CommunityParser {
 	}
 	
 	@SuppressWarnings({ "unchecked", "rawtypes" })
-	protected void complete( ComData current, Resources resource, String[] split ) {
+	protected void complete( ComData current, CommunityResource.Resources resource, String[] split ) {
 		if( current.getResource().equals(resource)) {
 			int id = -1;
 			String name = null;
@@ -151,7 +108,7 @@ public class CommunityParser {
 			case NEIGHBOURHOOD:
 				id = Integer.parseInt( split[ resource.getIndex()] );
 				ComData<?,?> child = (ComData<?,?>) current.getChildren().get(id);
-				Resources cr = Resources.values()[resource.getIndex()-1];//work from municipality downwards
+				CommunityResource.Resources cr = CommunityResource.Resources.values()[resource.getIndex()-1];//work from municipality downwards
 				if( child == null ) {
 					name = getDetails(resource, id);
 					child = new ComData<>( id, name, cr);
@@ -162,8 +119,8 @@ public class CommunityParser {
 			case LOCALITY:
 				id = Integer.parseInt( split[ resource.getIndex()] );
 				Locality loc = (Locality) current.getChildren().get(id);
-				String postcode = split[Resources.POSTCODE.getIndex()];
-				int housenumber = Integer.parseInt(split[Resources.HOUSE_NUMBER.getIndex()]);
+				String postcode = split[CommunityResource.Resources.POSTCODE.getIndex()];
+				int housenumber = Integer.parseInt(split[CommunityResource.Resources.HOUSE_NUMBER.getIndex()]);
 				if( loc == null ) {
 					name = getDetails(resource, id);
 					loc = new Locality(id, name, postcode, housenumber);
@@ -177,15 +134,15 @@ public class CommunityParser {
 			}
 			return;
 		}
-		Resources cr = Resources.values()[resource.getIndex()-1];//work from municipality downwards
-		if( cr.getIndex() < Resources.LOCALITY.getIndex())
+		CommunityResource.Resources cr = CommunityResource.Resources.values()[resource.getIndex()-1];//work from municipality downwards
+		if( cr.getIndex() < CommunityResource.Resources.LOCALITY.getIndex())
 			return;
 		for( Object child: current.getChildren().values()) {
 			complete( (ComData<?, ?>) child, cr, split );
 		}
 	}
 
-	protected static String getDetails( Resources resource, int code) {
+	protected static String getDetails( CommunityResource.Resources resource, int code) {
 		if( code <=0 )
 			return S_UNKNOWN;
 		String config = ProjectFolderUtils.getDefaultConfigDir();
@@ -235,7 +192,7 @@ public class CommunityParser {
 	
 	public static CommunityParser getDefaultParser() throws FileNotFoundException {
 		String config = ProjectFolderUtils.getDefaultConfigDir();
-		File file = new File( config, Resources.POSTCODE.toString() );
+		File file = new File( config, CommunityResource.Resources.POSTCODE.toString() );
 		return new CommunityParser( file );		
 	}
 	
@@ -310,7 +267,7 @@ public class CommunityParser {
 		@SuppressWarnings("unused")
 		private int id;
 		private String name;
-		private Resources resource;
+		private CommunityResource.Resources resource;
 		private Map<T, U> children;
 		
 		private ComData() {
@@ -318,18 +275,18 @@ public class CommunityParser {
 			children = new TreeMap<>();
 		}
 
-		protected ComData(int id, String name, Resources resource ) {
+		protected ComData(int id, String name, CommunityResource.Resources resource ) {
 			this( id, name, resource, new TreeMap<>());
 		}
 
 		protected ComData( Map<Integer, String> entry ) {
 			this( Integer.parseInt( entry.get(Attributes.ID.ordinal())),
 				entry.get( Attributes.NAME.ordinal()),
-				Resources.valueOf( entry.get( Attributes.RESOURCE.ordinal())),
+				CommunityResource.Resources.valueOf( entry.get( Attributes.RESOURCE.ordinal())),
 				new TreeMap<>());
 		}
 
-		protected ComData(int id, String name, Resources resource, Map<T, U> children) {
+		protected ComData(int id, String name, CommunityResource.Resources resource, Map<T, U> children) {
 			this();
 			this.id = id;
 			this.name = name;
@@ -341,8 +298,8 @@ public class CommunityParser {
 			return children;
 		}
 
-		public Resources getResource() { 
-			return (resource== null )? Resources.LOCALITY: resource;
+		public CommunityResource.Resources getResource() { 
+			return (resource== null )? CommunityResource.Resources.LOCALITY: resource;
 		}
 		
 		public ComData<?,?> getComData( String name  ) {
@@ -372,7 +329,7 @@ public class CommunityParser {
 		}
 
 		protected void getPostcodes( ComData<?,?> cd, Collection<String> results ) {
-			if( Resources.LOCALITY.equals( cd.getResource()) ) {
+			if( CommunityResource.Resources.LOCALITY.equals( cd.getResource()) ) {
 				Locality loc = (Locality) cd;
 				results.addAll( loc.getChildren().keySet());
 				return;
@@ -390,7 +347,7 @@ public class CommunityParser {
 		}
 
 		public Locality(int id, String name, String postcode, int houseNumber) {
-			super( id, name, Resources.LOCALITY );
+			super( id, name, CommunityResource.Resources.LOCALITY );
 			addPostcode( postcode, houseNumber);
 		}
 		
