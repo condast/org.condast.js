@@ -29,7 +29,7 @@ import org.condast.commons.strings.StringUtils;
 @Path("/")
 public class PostCodeResource{
 
-	public static final String S_ERR_UNKNOWN_REQUEST = "An invalid request was rertrieved: ";
+	public static final String S_ERR_UNKNOWN_REQUEST = "An invalid request was retrieved: ";
 	public static final String S_ERR_INVALID_VESSEL = "An request was received from an unknown vessel:";
 	
 	/**
