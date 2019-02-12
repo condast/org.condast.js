@@ -6,8 +6,8 @@ import java.util.Map;
 import org.condast.commons.na.community.ICommunityQuery;
 import org.condast.commons.na.filler.FillMapException;
 import org.condast.commons.na.filler.IFillMapProvider;
+import org.condast.commons.na.location.CommunityQuery;
 import org.condast.postcode.api.model.AddressFillMap;
-import org.condast.postcode.api.names.CommunityQuery;
 
 public class ServiceComponent implements IFillMapProvider<String>{
 

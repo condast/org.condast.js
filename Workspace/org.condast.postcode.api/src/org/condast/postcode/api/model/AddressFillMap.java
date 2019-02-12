@@ -14,8 +14,8 @@ import org.condast.commons.Utils;
 import org.condast.commons.na.community.ICommunityQuery;
 import org.condast.commons.na.filler.FillMapException;
 import org.condast.commons.na.filler.IFillMapProvider;
+import org.condast.commons.na.location.CommunityQuery;
 import org.condast.commons.strings.StringStyler;
-import org.condast.postcode.api.names.CommunityQuery;
 
 public class AddressFillMap implements IFillMapProvider<String>{
 

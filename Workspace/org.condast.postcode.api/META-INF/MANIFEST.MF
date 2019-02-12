@@ -20,6 +20,7 @@ Import-Package: com.google.gson;version="2.7.0",
  org.condast.commons.messaging.http,
  org.condast.commons.na.community,
  org.condast.commons.na.filler,
+ org.condast.commons.na.location,
  org.condast.commons.na.model,
  org.condast.commons.project,
  org.condast.commons.strings,
@@ -30,4 +31,3 @@ Import-Package: com.google.gson;version="2.7.0",
 Service-Component: OSGI-INF/fillmapprovider.xml
 Bundle-ActivationPolicy: lazy
 Automatic-Module-Name: org.condast.postcode.api
-Export-Package: org.condast.postcode.api.names

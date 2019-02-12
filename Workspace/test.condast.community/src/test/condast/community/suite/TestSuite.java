@@ -8,10 +8,10 @@ import java.util.logging.Logger;
 
 import org.condast.commons.io.IOUtils;
 import org.condast.commons.na.community.CommunityResource;
+import org.condast.commons.na.location.CommunityQuery;
 import org.condast.commons.project.ProjectFolderUtils;
 import org.condast.commons.test.core.AbstractTestSuite;
 import org.condast.commons.test.core.ITestEvent;
-import org.condast.postcode.api.names.CommunityQuery;
 import org.xml.sax.Attributes;
 
 import com.google.gson.Gson;

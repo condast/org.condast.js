@@ -3,7 +3,6 @@ package org.condast.postcode.api.rest;
 import java.io.FileNotFoundException;
 import java.util.Arrays;
 import java.util.Collection;
-import java.util.logging.Logger;
 
 import javax.ws.rs.GET;
 import javax.ws.rs.Path;
@@ -14,10 +13,8 @@ import javax.ws.rs.core.Response;
 
 import org.condast.commons.Utils;
 import org.condast.commons.na.community.CommunityResource;
+import org.condast.commons.na.location.CommunityQuery;
 import org.condast.commons.strings.StringUtils;
-import org.condast.postcode.api.names.CommunityQuery;
-
-import com.google.gson.Gson;
 
 // Plain old Java Object it does not extend as class or implements
 // an interface
@@ -34,8 +31,6 @@ public class PostCodeResource{
 
 	public static final String S_ERR_UNKNOWN_REQUEST = "An invalid request was rertrieved: ";
 	public static final String S_ERR_INVALID_VESSEL = "An request was received from an unknown vessel:";
-	
-	private Logger logger = Logger.getLogger(this.getClass().getName());
 	
 	/**
 	 * Checks to see if the given postcode and house number is located in the string of
