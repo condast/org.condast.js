@@ -99,7 +99,7 @@ public class PushOptionsBuilder {
 			Action[] arr = this.actions.toArray(new Action[ this.actions.size()]);
 			this.options.put(Options.ACTIONS.toString(), arr);
 		}
-		return gson.toJson(options, Map.class);
+		return gson.toJson(options);
 	}
 
 	private class Action implements IPushAction{
