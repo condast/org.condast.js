@@ -1,0 +1,15 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<?eclipse version="3.4"?>
+<plugin>
+   <extension
+         point="org.eclipse.equinox.http.registry.servlets">
+      <servlet
+            alias="/eetmee/postcode"
+            class="org.condast.postcode.api.RestServlet"
+            load-on-startup="false">
+        <init-param name="javax.ws.rs.Application"
+    			    value="org.condast.postcode.RestApplication">
+		</init-param>
+      </servlet>
+   </extension>
+ </plugin>
