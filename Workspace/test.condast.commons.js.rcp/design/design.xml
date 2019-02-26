@@ -1,0 +1,64 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<design>
+	<preferences>
+		<store id="org.collin.rest" name="Rest"/>
+	</preferences>
+	<frontend title="ACTIVE" id="org.collin.frontend" style="SWT.NONE">
+		<layout name="grid-layout" columns="1" />
+		<toolbar id="org.collin.toolbar">
+			<layout name="grid-layout" columns="1" />
+			<layout-data>
+				<horizontal align="fill" grab-excess="true" />
+				<vertical align="fill" grab-excess="false" />
+			</layout-data>
+			<item name="Menu">
+				<control class="org.collin.ui.menu.MenuButton" name="Menu-Button" text="login"/>
+			</item>
+		</toolbar>
+		<tabfolder>
+			<layout-data>
+				<horizontal align="fill" grab-excess="true" />
+				<vertical align="fill" grab-excess="true" />
+			</layout-data>
+			<item name="Main">
+				<composite class="org.collin.ui.main.CollinComposite" name="CoLLin-composite">
+					<layout-data type="grid-data">
+						<horizontal spacing="fill" grab-excess="true" columns="1" />
+						<vertical spacing="fill" />
+					</layout-data>
+				</composite>
+			</item>
+			<item name="Test">
+				<composite class="org.collin.ui.test.TestComposite" name="Authentication-composite">
+					<layout-data type="grid-data">
+						<horizontal spacing="fill" grab-excess="true" columns="1" />
+						<vertical spacing="fill" />
+					</layout-data>
+				</composite>
+			</item>
+			<item name="CoLLIN">
+				<composite class="org.collin.ui.main.CollinViewerComposite" name="Authentication-composite">
+					<layout-data type="grid-data">
+						<horizontal spacing="fill" grab-excess="true" columns="1" />
+						<vertical spacing="fill" />
+					</layout-data>
+				</composite>
+			</item>
+			<item name="Debug" >
+			</item>
+			<item name="Log">
+				<composite class="org.condast.commons.ui.logger.LogComposite" name="log-composite">
+					<layout-data type="grid-data">
+						<horizontal spacing="fill" grab-excess="true" columns="1" />
+						<vertical spacing="fill" />
+					</layout-data>
+				</composite>
+			 </item>
+		</tabfolder>
+		<!-- <navigation style="SWT.VERTICAL" size="100"> <image name="miip" url="/resources/miip.png"/> 
+			<menu> <item name="ENTRY" link="org.collin.ui.swt.MIIPComposite" select="true" 
+			style="SWT.BORDER"/> <item name="SEARCH"/> <item name="LOGIN"/> <item name="LOGOFF"/> 
+			</menu> </navigation> <body style="SWT.VERTICAL" data="frontbody"/> -->
+		<status-bar style="SWT.BORDER" data="frontstatus" height="30" />
+	</frontend>
+</design>

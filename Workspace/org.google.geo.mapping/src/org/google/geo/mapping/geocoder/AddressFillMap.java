@@ -5,12 +5,16 @@ import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.HashMap;
+import java.util.Iterator;
 import java.util.Map;
 import java.util.logging.Logger;
 
 import org.condast.commons.Utils;
+import org.condast.commons.data.latlng.LatLng;
 import org.condast.commons.na.community.ICommunityQuery;
+import org.condast.commons.na.filler.FillMapException;
 import org.condast.commons.na.filler.IFillMapProvider;
+
 import com.google.code.geocoder.model.GeocoderAddressComponent;
 import com.google.code.geocoder.model.GeocoderGeometry;
 import com.google.code.geocoder.model.GeocoderResult;
@@ -135,6 +139,39 @@ public class AddressFillMap implements IFillMapProvider<String>{
 	@Override
 	public String getId() {
 		return id;
+	}
+
+	/**
+	 * Get the location of the givben postcode and house number
+	 * @throws FillMapException 
+	 */
+	@Override
+	public LatLng getLocation(String postcode, int houseNumber) throws FillMapException {
+		String[] keys = new String[2];
+		keys[0] = Fields.LATITUDE.name();
+		keys[1] = Fields.LONGTITUDE.name();
+
+		String[] params = new String[4];
+		params[0] = postcode;
+		params[1] = String.valueOf( houseNumber );
+		Map<String, String> result = fillMap( LOCATION_ID, params, keys);
+		Iterator<Map.Entry<String, String>> iterator = result.entrySet().iterator();
+		LatLng latLng = new LatLng( postcode + "-" + houseNumber );
+		while( iterator.hasNext() ){
+			Map.Entry<String, String> entry = iterator.next();
+			Fields key = Fields.valueOf( entry.getKey() );
+			switch( key){
+			case LATITUDE:
+				latLng.setLatitude( Double.parseDouble(entry.getValue() ));
+				break;
+			case LONGTITUDE:
+				latLng.setLongitude(Double.parseDouble(entry.getValue() ));
+				break;
+			default:
+				break;
+			}
+		}
+		return latLng;
 	}
 
 	@Override
