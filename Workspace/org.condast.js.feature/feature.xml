@@ -27,6 +27,7 @@
       <import plugin="org.apache.commons.logging"/>
       <import plugin="org.condast.commons.messaging"/>
       <import plugin="org.slf4j.api"/>
+      <import plugin="org.google.geo.mapping.ui"/>
    </requires>
 
    <plugin
@@ -52,6 +53,27 @@
 
    <plugin
          id="nl.martijndwars.webpush"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.google.geo.mapping.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.google.geo.mapping"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.condast.postcode.api"
          download-size="0"
          install-size="0"
          version="0.0.0"
