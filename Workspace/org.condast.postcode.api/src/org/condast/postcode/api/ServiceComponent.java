@@ -3,6 +3,7 @@ package org.condast.postcode.api;
 import java.io.FileNotFoundException;
 import java.util.Map;
 
+import org.condast.commons.data.latlng.LatLng;
 import org.condast.commons.na.community.ICommunityQuery;
 import org.condast.commons.na.filler.FillMapException;
 import org.condast.commons.na.filler.IFillMapProvider;
@@ -16,7 +17,8 @@ public class ServiceComponent implements IFillMapProvider<String>{
 	private CommunityQuery query; 
 	
 	public enum Requests{
-		ADDRESS
+		ADDRESS,
+		LOCATION
 	}
 	public void activate(){ /* NOTHING */ }
 
@@ -41,13 +43,24 @@ public class ServiceComponent implements IFillMapProvider<String>{
 		}
 		return results;
 	}
+	
+	@Override
+	public LatLng getLocation(String postcode, int houseNumber) {
+		AddressFillMap amap = new AddressFillMap( Requests.LOCATION.name() );
+		try {
+			return amap.getLocation(postcode, houseNumber);
+		} catch (FillMapException e) {
+			e.printStackTrace();
+		}
+		return null;
+	}
 
 	@Override
 	public ICommunityQuery getCommunityQuery() {
 		try {
 			if( query == null ) {
 				query = (CommunityQuery) CommunityQuery.getDefaultQuery();
-				query.prepare();
+				query.prepare(null, null);
 			}
 		} catch (FileNotFoundException e) {
 			e.printStackTrace();

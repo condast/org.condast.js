@@ -8,6 +8,7 @@ Bundle-Vendor: Condast
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: com.google.gson,
  org.condast.commons,
+ org.condast.commons.data.latlng,
  org.condast.commons.ds,
  org.condast.commons.na.community,
  org.condast.commons.na.filler,
