@@ -72,6 +72,10 @@ public class PushManager{
 	public void unsubscribe( long userId ) {
 		this.subscriptions.remove( userId );
 	}
+
+	public boolean hasSubscription( long userId ) {
+		return this.subscriptions.containsKey(userId );
+	}
 	
 	public ISubscription getSubscription( long userId ) {
 		return this.subscriptions.get( userId ).getSubscription();
