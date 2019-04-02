@@ -59,6 +59,7 @@
          unpack="false"/>
 
    <plugin
+<<<<<<< HEAD
          id="org.google.geo.mapping.ui"
          download-size="0"
          install-size="0"
@@ -67,6 +68,16 @@
 
    <plugin
          id="org.google.geo.mapping"
+=======
+         id="org.google.geo.mapping"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.google.geo.mapping.ui"
+>>>>>>> branch 'master' of https://github.com/condast/org.condast.js
          download-size="0"
          install-size="0"
          version="0.0.0"
