@@ -21,7 +21,6 @@ function clearShapes() {
 	shape_source.clear();
 	//shape_layer.clear();
 	map.removeInteraction(draw);
-	alert('end');
 }
 
 function setShape( name, value ) {
