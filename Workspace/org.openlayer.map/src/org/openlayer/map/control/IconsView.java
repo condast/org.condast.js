@@ -71,7 +71,7 @@ public class IconsView {
 	 * @return
 	 */
 	public String addMarker( LatLng latlng, IDefaultMarkers.Markers marker, char type ){
-		return this.addMarker( latlng.getId(), latlng, marker, type, 1.0);
+		return addMarker( latlng.getId(), latlng, marker, type, 1.0);
 	}
 
 	/**
