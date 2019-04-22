@@ -52,7 +52,8 @@ function addIcon( name, latitude, longitude, path, opacity ){
 
 function replaceIcon( name, path, opacity ){
 	var iconFeature = iconVectorSource.getFeatureById(name);
-	iconFeature.set('style', createStyle( path, opacity, undefined));
+	if( iconFeature != null )
+		iconFeature.set('style', createStyle( path, opacity, undefined));
 }
 
 function removeIcon( name ){

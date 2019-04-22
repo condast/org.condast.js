@@ -50,7 +50,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			public void evaluationSucceeded(Object result) {
 				notifyEvaluation( new EvaluationEvent<Object[]>( browser, id, EvaluationEvents.SUCCEEDED ));
 				logger.fine("EXECUTION SUCCEEDED");
-				controller.clear();
 			}
 			@Override
 			public void evaluationFailed(Exception exception) {
