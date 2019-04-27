@@ -57,7 +57,7 @@ public class TransformModel {
 	}	
 
 	public void synchronize(){
-		controller.executeQuery();
+		controller.synchronize();
 	}
 	
 	public void dispose(){

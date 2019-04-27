@@ -40,7 +40,7 @@ public class GeoJson {
 	}
 
 	public void synchronize(){
-		controller.executeQuery();
+		controller.synchronize();
 	}
 	
 	/**
