@@ -134,6 +134,6 @@ public class GeoView {
 	}
 	
 	public void synchronize(){
-		controller.executeQuery();
+		controller.synchronize();
 	}
 }
