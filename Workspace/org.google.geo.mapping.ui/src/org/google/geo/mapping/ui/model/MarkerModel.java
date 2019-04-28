@@ -120,7 +120,7 @@ public class MarkerModel {
 	}
 
 	public void synchronize(){
-		controller.executeQuery();
+		controller.synchronize();
 	}
 	
 	public void dispose(){
