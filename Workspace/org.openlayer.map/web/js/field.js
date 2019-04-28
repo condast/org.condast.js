@@ -18,10 +18,8 @@ function init(){
 }
 
 //Removes the shapes from the map.
-function clearShapes() {
-	alert('hoi');
+function clearField() {
 	field_source.clear();
-	alert('hoi2');
 }
 
 /**

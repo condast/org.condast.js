@@ -14,6 +14,14 @@ public interface IJavascriptController {
 
 	boolean isInitialised();
 
+	/**
+	 * Evaluate the given expression
+	 * @param query
+	 * @param params
+	 * @return
+	 */
+	Object[] evaluate(String query, String[] params);
+
 	void addEvaluationListener(IEvaluationListener<Object[]> listener);
 
 	void removeEvaluationListener(IEvaluationListener<Object[]> listener);

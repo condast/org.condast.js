@@ -61,7 +61,7 @@ public class OpenLayersComposite extends Composite {
 						if( event.getField() != null ) {
 							FieldData field = event.getField();
 							MapField mapfield = new MapField( controller );
-							mapfield.clearShapes();
+							mapfield.clearField();
 							mapfield.setStroke("red", 2);
 							mapfield.setField(field.getField(), 1);
 							shapes = new ShapesView( controller );
@@ -162,7 +162,7 @@ public class OpenLayersComposite extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				MapField view = new MapField( controller );
-				view.clearShapes(); 
+				view.clearField(); 
 				view.synchronize();
 				super.widgetSelected(e);
 			}

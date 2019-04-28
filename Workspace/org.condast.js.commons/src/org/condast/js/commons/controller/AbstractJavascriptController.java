@@ -67,7 +67,8 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 					notifyEvaluation( new EvaluationEvent<Object[]>( browser, id, EvaluationEvents.FAILED ));
 				}
 				catch( Exception ex ) {
-					ex.printStackTrace();
+					logger.warning(ex.getMessage());
+					//ex.printStackTrace();
 				}
 				finally {
 					StringBuffer buffer = new StringBuffer();
@@ -177,6 +178,23 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		return browser;
 	}
 	
+	@Override
+	public  Object[] evaluate( String query, String[] params ) {
+		StringBuilder builder = new StringBuilder();
+		builder.append( "return ");
+		builder.append( query );
+		builder.append("(");
+		for( int i=0; i<params.length; i++ ) {
+			String p = params[i];
+			builder.append(p);
+			if( i < params.length -1)
+				builder.append(",");
+		}
+		builder.append(");");
+		Object[] results = (Object[]) browser.evaluate( builder.toString() );
+		return results;
+	}
+
 	/* (non-Javadoc)
 	 * @see org.condast.js.commons.controller.IJavascriptController#addEvaluationListener(org.condast.js.commons.eval.IEvaluationListener)
 	 */
@@ -389,5 +407,4 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			return super.function(arguments);
 		}	
 	}
-
 }

@@ -1,4 +1,5 @@
 var initialised = false;
+var rgb;
 
 function isInitialised(){
 	return true;
@@ -13,6 +14,21 @@ function clear(){
 	for( i=0; i<iter.length; i++ ) { 
     	map.removeInteraction(iter[i]); 
 	}
+}
+
+function getPixel( latitude, longitude, offx, offy ){
+	let lat = parseFloat( latitude );
+	let lon = parseFloat( longitude );
+	var coord = ol.proj.transform( [lon, lat], 'EPSG:4326', 'EPSG:3857' );
+	var pixel = map.getPixelFromCoordinate( coord );
+	if( context == null )
+		return;
+	var pixelAtClick = context.getImageData(pixel[0]+offx, pixel[1]+offy, 1, 1).data;
+	rgb = [0,0,0,0];
+	for( var i=0;i<pixelAtClick.length;i++ ){
+		rgb[i] = pixelAtClick[i];
+	}
+	return rgb;
 }
 
 /**
@@ -43,14 +59,23 @@ var view = new ol.View({
 	zoom: 17
 });
 
+var imagery = new ol.layer.Tile({
+	source: new ol.source.OSM(),
+    crossOrigin: 'anonymous'
+});
+
+var context;
+/**
+ * Apply a filter on "postcompose" events.
+ */
+imagery.on('postcompose', function(event) {
+	context = event.context;
+});
+
 // finally, the map with our custom interactions, controls and overlays
 var map = new ol.Map({
 	target: 'map',
-	layers: [new ol.layer.Tile({
-		source: new ol.source.OSM(),
-        crossOrigin: 'anonymous'
-	})
-	],
+	layers: [imagery],
 	interactions: ol.interaction.defaults({
 	    doubleClickZoom :false,
 	    dragAndDrop: false,
