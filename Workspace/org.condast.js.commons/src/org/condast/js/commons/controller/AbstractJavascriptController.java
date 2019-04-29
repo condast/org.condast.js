@@ -38,6 +38,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	private String id;
 	private boolean disposed;
 	private boolean wait;
+	private boolean warnPending;
 	
 	private Logger logger = Logger.getLogger( this.getClass().getName());
 	
@@ -101,6 +102,9 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	};
 
 	protected AbstractJavascriptController( Browser browser, String idn ) {
+		this( browser, idn, false );
+	}
+		protected AbstractJavascriptController( Browser browser, String idn, boolean warnPending ) {
 		this.id = idn;
 		this.initialised = false;
 		this.wait = false;
@@ -178,6 +182,15 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		return browser;
 	}
 	
+	
+	protected boolean isWarnPending() {
+		return warnPending;
+	}
+	
+	protected void setWarnPending(boolean warnPending) {
+		this.warnPending = warnPending;
+	}
+	
 	@Override
 	public  Object[] evaluate( String query, String[] params ) {
 		StringBuilder builder = new StringBuilder();
@@ -191,7 +204,17 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 				builder.append(",");
 		}
 		builder.append(");");
-		Object[] results = (Object[]) browser.evaluate( builder.toString() );
+		Object[] results = null;
+		try {
+			results = (Object[]) browser.evaluate( builder.toString() );
+		}
+		catch( IllegalStateException ex ) {
+			if( this.warnPending )
+				logger.info(ex.getMessage());
+			else {
+				logger.fine(ex.getMessage());				
+			}
+		}
 		return results;
 	}
 

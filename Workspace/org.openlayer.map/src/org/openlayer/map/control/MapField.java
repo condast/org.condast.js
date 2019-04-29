@@ -62,6 +62,8 @@ public class MapField extends AbstractView<MapField.Commands>{
 		params[3] = String.valueOf( PIXEL_OFFSET_Y );
 		String query = Commands.GET_PIXEL.toString();
 		Object[] results = getController().evaluate( query, params);
+		if( results == null )
+			return null;
 		int[] coll = new int[ results.length ];
 		for( int i=0; i<results.length; i++ ) {
 			double data = (Double) results[i];
