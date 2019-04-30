@@ -9,11 +9,7 @@ import org.condast.js.commons.controller.AbstractView;
 import org.condast.js.commons.controller.IJavascriptController;
 
 public class MapField extends AbstractView<MapField.Commands>{
-	
-	//Current ideal setting (-175,-20)
-	private static final int PIXEL_OFFSET_X = -125;//(more negative to the right, 175 was almost perfect
-	private static final int PIXEL_OFFSET_Y = -25;//(towards 0 is higher, -25 was perfect)
-	
+		
 	public static enum Commands{
 		CLEAR,
 		CLEAR_FIELD,
@@ -55,11 +51,9 @@ public class MapField extends AbstractView<MapField.Commands>{
 	 * @return
 	 */
 	public int[] getPixelColour( LatLng latlng ){
-		String[] params = new String[4];
+		String[] params = new String[2];
 		params[0] = String.valueOf( latlng.getLatitude() );
 		params[1] = String.valueOf( latlng.getLongitude() );
-		params[2] = String.valueOf( PIXEL_OFFSET_X );
-		params[3] = String.valueOf( PIXEL_OFFSET_Y );
 		String query = Commands.GET_PIXEL.toString();
 		Object[] results = getController().evaluate( query, params);
 		if( results == null )

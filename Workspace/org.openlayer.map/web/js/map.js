@@ -1,5 +1,10 @@
+/**
+ * Code based on:
+ * @See; https://openlayers.org/en/v4.6.5/examples/layer-spy.html
+ */
 var initialised = false;
 var rgb;
+var pixelRatio;
 
 function isInitialised(){
 	return true;
@@ -16,14 +21,14 @@ function clear(){
 	}
 }
 
-function getPixel( latitude, longitude, offx, offy ){
+function getPixel( latitude, longitude ){
 	let lat = parseFloat( latitude );
 	let lon = parseFloat( longitude );
 	var coord = ol.proj.transform( [lon, lat], 'EPSG:4326', 'EPSG:3857' );
 	var pixel = map.getPixelFromCoordinate( coord );
 	if( context == null )
 		return;
-	var pixelAtClick = context.getImageData(pixel[0]+offx, pixel[1]+offy, 1, 1).data;
+	var pixelAtClick = context.getImageData(pixel[0]*pixelRatio, pixel[1]*pixelRatio, 1, 1).data;
 	rgb = [0,0,0,0];
 	for( var i=0;i<pixelAtClick.length;i++ ){
 		rgb[i] = pixelAtClick[i];
@@ -65,11 +70,20 @@ var imagery = new ol.layer.Tile({
 });
 
 var context;
+
+// before rendering the layer, determine the pixel ratio
+imagery.on('precompose', function(event) {
+  context = event.context;
+  pixelRatio = event.frameState.pixelRatio;
+  context.save();
+});
+
 /**
  * Apply a filter on "postcompose" events.
  */
 imagery.on('postcompose', function(event) {
 	context = event.context;
+	context.restore();
 });
 
 // finally, the map with our custom interactions, controls and overlays
