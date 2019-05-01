@@ -15,6 +15,23 @@ public interface IJavascriptController {
 	boolean isInitialised();
 
 	/**
+	 * Returns true if the browser is currently visible
+	 * @return
+	 */
+	public boolean isBrowserVisible();
+
+	/**
+	 * Returns true if the controller is disposed
+	 * @return
+	 */
+	boolean isDisposed();
+
+	/**
+	 * Clears the pending commands 
+	 */
+	void clear();
+
+	/**
 	 * Evaluate the given expression
 	 * @param query
 	 * @param params

@@ -56,7 +56,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 					ex.printStackTrace();
 				}
 				finally {
-					controller.clear();
+					controller.clearHistory();
 					wait = false;
 					Thread.currentThread().interrupt();
 					logger.fine("EXECUTION SUCCEEDED");
@@ -76,7 +76,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 					buffer.append( "EXECUTION FAILED: \n" );
 					buffer.append( controller.retrieve() );
 					logger.warning(buffer.toString());
-					controller.clear();
+					controller.clearHistory();
 					wait = false;
 					Thread.currentThread().interrupt();
 				}
@@ -91,7 +91,8 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		@Override
 		public void widgetDisposed(DisposeEvent event) {
 			try {
-				controller.executeQuery();
+				controller.clear();
+				controller.clearHistory();
 				disposed = true;
 				listeners.clear();
 			}
@@ -182,6 +183,19 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		return browser;
 	}
 	
+	@Override
+	public boolean isBrowserVisible() {
+		return browser.isVisible();
+	}
+
+	@Override
+	public boolean isDisposed() {
+		return disposed;
+	}
+	@Override
+	public void clear() {
+		this.controller.clear();
+	}
 	
 	protected boolean isWarnPending() {
 		return warnPending;
@@ -315,6 +329,10 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		}
 
 		private void clear(){
+			this.commands.clear();
+		}
+
+		private void clearHistory(){
 			this.history.clear();
 		}
 		
