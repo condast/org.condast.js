@@ -57,10 +57,6 @@ public class TransformModel {
 		controller.setQuery(Functions.DO_ZOOM.toString(), params );
 	}	
 
-	public void synchronize(){
-		controller.synchronize();
-	}
-	
 	public void dispose(){
 		this.markerClicked.dispose();
 	}

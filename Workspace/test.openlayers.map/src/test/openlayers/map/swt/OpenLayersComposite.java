@@ -51,7 +51,7 @@ public class OpenLayersComposite extends Composite {
 					switch( event.getEventType() ) {
 					case CLEAR:
 						shapes.clear();
-						shapes.synchronize();
+						//shapes.synchronize();
 						break;
 					case SET_FIELD:
 						geo.setLatlng( event.getField().getCoordinates());
@@ -66,7 +66,7 @@ public class OpenLayersComposite extends Composite {
 							mapfield.setField(field.getField(), 1);
 							shapes = new ShapesView( controller );
 							shapes.setShape("test", ShapesView.Types.SQUARE );
-							shapes.synchronize();
+							//shapes.synchronize();
 						}
 						break;
 					case ZOOM_IN:
@@ -78,7 +78,6 @@ public class OpenLayersComposite extends Composite {
 					default:
 						break;
 					}
-					geo.synchronize();
 					//fieldComposite.setInput(registration);
 				}
 			});			
@@ -110,7 +109,7 @@ public class OpenLayersComposite extends Composite {
 					shapes.clear();
 					mapfield.setLineStyle("red", 2);
 					shapes.addShape(polygon);
-					shapes.synchronize();
+					//shapes.synchronize();
 				}
 				logger.info( buffer.toString());
 			}
@@ -148,7 +147,7 @@ public class OpenLayersComposite extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 				MapField view = new MapField( controller );
 				view.drawLine("Hello World", new LatLng( "Start", 51.1, 4.1), new LatLng( "End",5.2,  4.2 )); 
-				view.synchronize();
+				//view.synchronize();
 				super.widgetSelected(e);
 			}
 		});
@@ -163,7 +162,7 @@ public class OpenLayersComposite extends Composite {
 			public void widgetSelected(SelectionEvent e) {
 				MapField view = new MapField( controller );
 				view.clearField(); 
-				view.synchronize();
+				//view.synchronize();
 				super.widgetSelected(e);
 			}
 			

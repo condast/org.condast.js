@@ -4,7 +4,7 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-public abstract class AbstractSynchroniser {
+public abstract class AbstractSynchroniser implements ISynchroniser {
 
 	private Map<IJavascriptController, Boolean> controllers;
 	
@@ -18,14 +18,17 @@ public abstract class AbstractSynchroniser {
 	 * @param controller
 	 * @param clear
 	 */
+	@Override
 	public void registercontroller( IJavascriptController controller, boolean clear ) {
 		this.controllers.put(controller, clear);
 	}
 
+	@Override
 	public void unregistercontroller( IJavascriptController controller ) {
 		this.controllers.remove(controller);
 	}
 
+	@Override
 	public void dispose() {
 		controllers.clear();
 	}
@@ -43,7 +46,8 @@ public abstract class AbstractSynchroniser {
 				continue;
 			
 			if( controller.isBrowserVisible() ) {
-				controller.synchronize();
+				if( controller.isInitialised())
+					controller.synchronize();
 			}else {
 				if( entry.getValue())
 					controller.clear();

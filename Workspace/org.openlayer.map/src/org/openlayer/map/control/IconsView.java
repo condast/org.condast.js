@@ -163,8 +163,4 @@ public class IconsView {
 		controller.setQuery( query, params );
 		return query;		
 	}
-
-	public void synchronise() {
-		controller.synchronize();
-	}
 }

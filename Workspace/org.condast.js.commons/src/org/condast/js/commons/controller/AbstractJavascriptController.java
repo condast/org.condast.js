@@ -37,7 +37,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	private boolean initialised;
 	private String id;
 	private boolean disposed;
-	private boolean wait;
 	private boolean warnPending;
 	
 	private Logger logger = Logger.getLogger( this.getClass().getName());
@@ -57,9 +56,9 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 				}
 				finally {
 					controller.clearHistory();
-					wait = false;
 					Thread.currentThread().interrupt();
 					logger.fine("EXECUTION SUCCEEDED");
+					controller.executeQuery();
 				}
 			}
 			@Override
@@ -77,7 +76,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 					buffer.append( controller.retrieve() );
 					logger.warning(buffer.toString());
 					controller.clearHistory();
-					wait = false;
 					Thread.currentThread().interrupt();
 				}
 			}
@@ -108,7 +106,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		protected AbstractJavascriptController( Browser browser, String idn, boolean warnPending ) {
 		this.id = idn;
 		this.initialised = false;
-		this.wait = false;
 		this.disposed = false;
 		this.browser = browser;
 		this.browser.addDisposeListener(dl);
@@ -269,13 +266,12 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	}
 
     protected synchronized void executeQuery(){
-		if( wait || disposed || browser.isDisposed() || !browser.isVisible() )
+		if( disposed || browser.isDisposed() || !browser.isVisible() )
 			return;
 		browser.getDisplay().syncExec( new Runnable() {
 
 			@Override
 			public synchronized void run() {
-				wait = true;
 				controller.executeQuery();
 			}
 			

@@ -132,8 +132,4 @@ public class GeoView {
 		controller.setQuery( query, params );
 		return query;
 	}
-	
-	public void synchronize(){
-		controller.synchronize();
-	}
 }

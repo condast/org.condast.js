@@ -39,10 +39,6 @@ public class GeoJson {
 		return query;
 	}
 
-	public void synchronize(){
-		controller.synchronize();
-	}
-	
 	/**
 	 * a default browser function that ca be added to javascript code for call back
 	 * @author Kees
