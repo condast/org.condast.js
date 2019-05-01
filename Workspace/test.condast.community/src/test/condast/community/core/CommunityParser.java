@@ -16,7 +16,6 @@ import java.util.TreeSet;
 import java.util.logging.Logger;
 
 import org.condast.commons.na.community.CommunityResource;
-import org.condast.commons.na.community.CommunityResource.Resources;
 import org.condast.commons.project.ProjectFolderUtils;
 import org.condast.commons.strings.StringUtils;
 
@@ -276,14 +275,14 @@ public class CommunityParser {
 		}
 
 		protected ComData(int id, String name, CommunityResource.Resources resource ) {
-			this( id, name, resource, new TreeMap<>());
+			this( id, name, resource, new TreeMap<T,U>());
 		}
 
 		protected ComData( Map<Integer, String> entry ) {
 			this( Integer.parseInt( entry.get(Attributes.ID.ordinal())),
 				entry.get( Attributes.NAME.ordinal()),
 				CommunityResource.Resources.valueOf( entry.get( Attributes.RESOURCE.ordinal())),
-				new TreeMap<>());
+				new TreeMap<T,U>());
 		}
 
 		protected ComData(int id, String name, CommunityResource.Resources resource, Map<T, U> children) {
@@ -308,6 +307,7 @@ public class CommunityParser {
 			return getComData(this, name.toLowerCase().trim());
 		}
 
+		@SuppressWarnings("unchecked")
 		protected ComData<?,?> getComData( ComData<?,?> data, String name  ) {
 			if( data.name.toLowerCase().trim().equals(name))
 				return data;

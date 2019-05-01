@@ -9,10 +9,11 @@ import org.condast.js.commons.controller.AbstractView;
 import org.condast.js.commons.controller.IJavascriptController;
 
 public class MapField extends AbstractView<MapField.Commands>{
-
+		
 	public static enum Commands{
 		CLEAR,
-		CLEAR_SHAPES,
+		CLEAR_FIELD,
+		GET_PIXEL,
 		SET_STROKE,
 		SET_STYLE,
 		SET_LINE_STYLE,
@@ -43,7 +44,28 @@ public class MapField extends AbstractView<MapField.Commands>{
 	public String clear() {
 		return super.clear( Commands.CLEAR );
 	}
-	
+
+	/**
+	 * Get the pixel at the given latlng position
+	 * @param latlng
+	 * @return
+	 */
+	public int[] getPixelColour( LatLng latlng ){
+		String[] params = new String[2];
+		params[0] = String.valueOf( latlng.getLatitude() );
+		params[1] = String.valueOf( latlng.getLongitude() );
+		String query = Commands.GET_PIXEL.toString();
+		Object[] results = getController().evaluate( query, params);
+		if( results == null )
+			return null;
+		int[] coll = new int[ results.length ];
+		for( int i=0; i<results.length; i++ ) {
+			double data = (Double) results[i];
+			coll[i] = (int)data;
+		}
+		return coll;		
+	}
+
 	/**
 	 * Clear the shapes
 	 * @param name
@@ -51,10 +73,25 @@ public class MapField extends AbstractView<MapField.Commands>{
 	 * @param opacity
 	 * @return
 	 */
-	public String clearShapes(){
-		String query = Commands.CLEAR_SHAPES.toString();
+	public String clearField(){
+		String query = Commands.CLEAR_FIELD.toString();
 		getController().setQuery( query );
 		return query;		
+	}
+
+	public String createColour( int[] rgba ){
+		StringBuilder builder = new StringBuilder();
+		builder.append("rgb");
+		if( rgba.length == 4)
+			builder.append("a");
+		builder.append("(");
+		for( int i=0; i<rgba.length; i++) {
+			builder.append( rgba[i] );
+			if( i< rgba.length-1 )
+				builder.append( ",");
+		}
+		builder.append( ")" );
+		return builder.toString();
 	}
 
 	public String setStroke( String colour, int width ){

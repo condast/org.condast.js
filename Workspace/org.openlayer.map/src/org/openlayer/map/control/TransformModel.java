@@ -21,6 +21,7 @@ public class TransformModel {
 		DO_ROTATE,
 		DO_ZOOM;
 		
+		@Override
 		public String toString(){
 			return StringStyler.toMethodString( super.toString());
 		}
@@ -57,7 +58,7 @@ public class TransformModel {
 	}	
 
 	public void synchronize(){
-		controller.executeQuery();
+		controller.synchronize();
 	}
 	
 	public void dispose(){

@@ -60,7 +60,7 @@ public class TilesAndPixelsModel {
 	}
 
 	public void synchronize(){
-		controller.executeQuery();
+		controller.synchronize();
 	}
 
 	public void setLocation( LatLng lnglat, int zoom ){

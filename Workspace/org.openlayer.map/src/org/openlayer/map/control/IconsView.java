@@ -1,6 +1,7 @@
 package org.openlayer.map.control;
 
 import org.condast.commons.data.latlng.LatLng;
+import org.condast.commons.data.latlng.Waypoint;
 import org.condast.commons.strings.StringStyler;
 import org.condast.js.commons.controller.IJavascriptController;
 import org.condast.js.commons.images.IDefaultMarkers;
@@ -75,7 +76,18 @@ public class IconsView {
 	}
 
 	/**
-	 * Add an icon
+	 * Replace an icon
+	 * @param name
+	 * @param latlng
+	 * @param opacity
+	 * @return
+	 */
+	public String addMarker( Waypoint waypoint, IDefaultMarkers.Markers marker ){
+		return addMarker( String.valueOf( waypoint.getIndex()), waypoint.getLocation(), marker, waypoint.getMarker(), 1.0);
+	}
+
+	/**
+	 * Replace an icon
 	 * @param name
 	 * @param latlng
 	 * @param opacity
@@ -86,7 +98,7 @@ public class IconsView {
 	}
 
 	/**
-	 * Add an icon
+	 * Replace an icon
 	 * @param name
 	 * @param latlng
 	 * @param opacity

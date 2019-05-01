@@ -14,24 +14,39 @@ public interface IJavascriptController {
 
 	boolean isInitialised();
 
+	/**
+	 * Returns true if the browser is currently visible
+	 * @return
+	 */
+	public boolean isBrowserVisible();
+
+	/**
+	 * Returns true if the controller is disposed
+	 * @return
+	 */
+	boolean isDisposed();
+
+	/**
+	 * Clears the pending commands 
+	 */
+	void clear();
+
+	/**
+	 * Evaluate the given expression
+	 * @param query
+	 * @param params
+	 * @return
+	 */
+	Object[] evaluate(String query, String[] params);
+
 	void addEvaluationListener(IEvaluationListener<Object[]> listener);
 
 	void removeEvaluationListener(IEvaluationListener<Object[]> listener);
 
 	void setQuery(String function);
 
-	void executeQuery();
-
 	void setQuery(String function, String[] params);
 	
-	/**
-	 * Multiple clients can delay execution by waiting until all the data is
-	 * collected. When the given amount of clients have synchronized,
-	 * then the controller will execute 
-	 * @param delay
-	 */
-	void synchronize( int clients );
-
 	/**
 	 * Default, when synchronisation between clients is not needed
 	 */

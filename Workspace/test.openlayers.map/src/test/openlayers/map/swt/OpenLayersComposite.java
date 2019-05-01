@@ -5,12 +5,11 @@ import java.util.logging.Logger;
 import org.condast.commons.Utils;
 import org.condast.commons.data.latlng.FieldData;
 import org.condast.commons.data.latlng.LatLng;
-import org.condast.commons.data.latlng.LatLngUtils;
+import org.condast.commons.data.latlng.LatLngUtilsDegrees;
 import org.condast.commons.data.latlng.Polygon;
 import org.condast.commons.strings.StringUtils;
 import org.condast.commons.ui.field.FieldChangeEvent;
 import org.condast.commons.ui.field.IFieldChangeListener;
-import org.condast.commons.ui.location.LocationEvent;
 import org.condast.js.commons.eval.EvaluationEvent;
 import org.condast.js.commons.eval.IEvaluationListener;
 import org.eclipse.swt.SWT;
@@ -55,14 +54,14 @@ public class OpenLayersComposite extends Composite {
 						shapes.synchronize();
 						break;
 					case SET_FIELD:
-						geo.setLatlng( event.getLocation());
+						geo.setLatlng( event.getField().getCoordinates());
 						int zoom = geo.getZoom();
 						geo.setZoom(zoom);
 						geo.jump();
 						if( event.getField() != null ) {
 							FieldData field = event.getField();
 							MapField mapfield = new MapField( controller );
-							mapfield.clearShapes();
+							mapfield.clearField();
 							mapfield.setStroke("red", 2);
 							mapfield.setField(field.getField(), 1);
 							shapes = new ShapesView( controller );
@@ -84,12 +83,6 @@ public class OpenLayersComposite extends Composite {
 				}
 			});			
 		}
-
-		@Override
-		public void notifyLocationChanged(LocationEvent event) {
-			// TODO Auto-generated method stub
-
-		}
 	};
 	
 	private IEvaluationListener<Object[]> elistener = new IEvaluationListener<Object[]>() {
@@ -109,7 +102,7 @@ public class OpenLayersComposite extends Composite {
 					buffer.append(wkt + "\n");
 					Polygon polygon = Polygon.fromWKT("test", wkt);
 					LatLng latlng = polygon.getLast();
-					LatLng point = LatLngUtils.extrapolate(latlng, 180, 3000);
+					LatLng point = LatLngUtilsDegrees.extrapolate(latlng, 180, 3000);
 					latlng.setLatitude(point.getLatitude());
 					latlng.setLongitude( point.getLongitude());
 					MapField mapfield = new MapField( controller);
@@ -169,7 +162,7 @@ public class OpenLayersComposite extends Composite {
 			@Override
 			public void widgetSelected(SelectionEvent e) {
 				MapField view = new MapField( controller );
-				view.clearShapes(); 
+				view.clearField(); 
 				view.synchronize();
 				super.widgetSelected(e);
 			}

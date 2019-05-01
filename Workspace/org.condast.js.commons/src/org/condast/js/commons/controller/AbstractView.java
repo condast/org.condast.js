@@ -42,10 +42,6 @@ public abstract class AbstractView<E extends Enum<E>> {
 		return query;
 	}
 
-	public void synchronize( int clients ){
-		controller.synchronize(clients);
-	}
-
 	public void synchronize(){
 		controller.synchronize();
 	}

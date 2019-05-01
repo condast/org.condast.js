@@ -36,9 +36,10 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	private Browser browser;
 	private boolean initialised;
 	private String id;
+	private boolean disposed;
+	private boolean wait;
+	private boolean warnPending;
 	
-	private int clients;
-
 	private Logger logger = Logger.getLogger( this.getClass().getName());
 	
 	private BrowserCallback getCallBack(){
@@ -48,39 +49,70 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 
 			@Override
 			public void evaluationSucceeded(Object result) {
-				notifyEvaluation( new EvaluationEvent<Object[]>( browser, id, EvaluationEvents.SUCCEEDED ));
-				logger.fine("EXECUTION SUCCEEDED");
-				controller.clear();
+				try {
+					notifyEvaluation( new EvaluationEvent<Object[]>( browser, id, EvaluationEvents.SUCCEEDED ));
+				}
+				catch( Exception ex ) {
+					ex.printStackTrace();
+				}
+				finally {
+					controller.clearHistory();
+					wait = false;
+					Thread.currentThread().interrupt();
+					logger.fine("EXECUTION SUCCEEDED");
+				}
 			}
 			@Override
 			public void evaluationFailed(Exception exception) {
-				notifyEvaluation( new EvaluationEvent<Object[]>( browser, id, EvaluationEvents.FAILED ));
-				StringBuffer buffer = new StringBuffer();
-				buffer.append( "EXECUTION FAILED: \n" );
-				buffer.append( controller.retrieve() );
-				logger.warning(buffer.toString());
-				controller.clear();
+				try {
+					notifyEvaluation( new EvaluationEvent<Object[]>( browser, id, EvaluationEvents.FAILED ));
+				}
+				catch( Exception ex ) {
+					logger.warning(ex.getMessage());
+					//ex.printStackTrace();
+				}
+				finally {
+					StringBuffer buffer = new StringBuffer();
+					buffer.append( "EXECUTION FAILED: \n" );
+					buffer.append( controller.retrieve() );
+					logger.warning(buffer.toString());
+					controller.clearHistory();
+					wait = false;
+					Thread.currentThread().interrupt();
+				}
 			}
 		};
 		return callback;
 	}
-	
+
 	private DisposeListener dl = new DisposeListener(){
 		private static final long serialVersionUID = 1L;
 
 		@Override
 		public void widgetDisposed(DisposeEvent event) {
-			listeners.clear();
+			try {
+				controller.clear();
+				controller.clearHistory();
+				disposed = true;
+				listeners.clear();
+			}
+			catch( Exception ex ) {
+				ex.printStackTrace();
+			}
 		}	
 	};
 
 	protected AbstractJavascriptController( Browser browser, String idn ) {
+		this( browser, idn, false );
+	}
+		protected AbstractJavascriptController( Browser browser, String idn, boolean warnPending ) {
 		this.id = idn;
 		this.initialised = false;
+		this.wait = false;
+		this.disposed = false;
 		this.browser = browser;
 		this.browser.addDisposeListener(dl);
 		listeners = new ArrayList<IEvaluationListener<Object[]>>();
-		this.clients = 0;
 		this.controller = new CommandController( );
 		browser.addProgressListener( new ProgressListener() {
 			private static final long serialVersionUID = 1L;
@@ -151,6 +183,55 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		return browser;
 	}
 	
+	@Override
+	public boolean isBrowserVisible() {
+		return browser.isVisible();
+	}
+
+	@Override
+	public boolean isDisposed() {
+		return disposed;
+	}
+	@Override
+	public void clear() {
+		this.controller.clear();
+	}
+	
+	protected boolean isWarnPending() {
+		return warnPending;
+	}
+	
+	protected void setWarnPending(boolean warnPending) {
+		this.warnPending = warnPending;
+	}
+	
+	@Override
+	public  Object[] evaluate( String query, String[] params ) {
+		StringBuilder builder = new StringBuilder();
+		builder.append( "return ");
+		builder.append( query );
+		builder.append("(");
+		for( int i=0; i<params.length; i++ ) {
+			String p = params[i];
+			builder.append(p);
+			if( i < params.length -1)
+				builder.append(",");
+		}
+		builder.append(");");
+		Object[] results = null;
+		try {
+			results = (Object[]) browser.evaluate( builder.toString() );
+		}
+		catch( IllegalStateException ex ) {
+			if( this.warnPending )
+				logger.info(ex.getMessage());
+			else {
+				logger.fine(ex.getMessage());				
+			}
+		}
+		return results;
+	}
+
 	/* (non-Javadoc)
 	 * @see org.condast.js.commons.controller.IJavascriptController#addEvaluationListener(org.condast.js.commons.eval.IEvaluationListener)
 	 */
@@ -187,11 +268,18 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		setQuery( function, new String[0]);
 	}
 
-	@Override
-    public synchronized void executeQuery(){
-		if(!browser.isVisible() )
+    protected synchronized void executeQuery(){
+		if( wait || disposed || browser.isDisposed() || !browser.isVisible() )
 			return;
-		controller.executeQuery();
+		browser.getDisplay().syncExec( new Runnable() {
+
+			@Override
+			public synchronized void run() {
+				wait = true;
+				controller.executeQuery();
+			}
+			
+		});
 	}
 
 	protected synchronized void performQuery( String function, String[] params ){
@@ -206,16 +294,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		this.executeQuery();		
 	}
 	
-	@Override
-	public void synchronize(int clients) {
-		if(( this.clients > 1 ) && ( this.clients < clients ))
-			clients++;
-		else {
-			this.executeQuery();
-			this.clients = 0;
-		}
-	}
-
 	/**
 	 * Create a default call back function for javascript handling
 	 * @param id
@@ -251,6 +329,10 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		}
 
 		private void clear(){
+			this.commands.clear();
+		}
+
+		private void clearHistory(){
 			this.history.clear();
 		}
 		
@@ -366,5 +448,4 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			return super.function(arguments);
 		}	
 	}
-
 }
