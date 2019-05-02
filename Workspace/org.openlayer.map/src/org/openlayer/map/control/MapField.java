@@ -45,26 +45,6 @@ public class MapField extends AbstractView<MapField.Commands>{
 		return super.clear( Commands.CLEAR );
 	}
 
-	/**
-	 * Get the pixel at the given latlng position
-	 * @param latlng
-	 * @return
-	 */
-	public int[] getPixelColour( LatLng latlng ){
-		String[] params = new String[2];
-		params[0] = String.valueOf( latlng.getLatitude() );
-		params[1] = String.valueOf( latlng.getLongitude() );
-		String query = Commands.GET_PIXEL.toString();
-		Object[] results = getController().evaluate( query, params);
-		if( results == null )
-			return null;
-		int[] coll = new int[ results.length ];
-		for( int i=0; i<results.length; i++ ) {
-			double data = (Double) results[i];
-			coll[i] = (int)data;
-		}
-		return coll;		
-	}
 
 	/**
 	 * Clear the shapes

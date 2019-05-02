@@ -41,6 +41,30 @@ function getPixel( latitude, longitude ){
 	return rgb;
 }
 
+function getPixels( ln1, lt1, ln2, lt2 ){
+	if( context == null )
+		return;
+	let lat1 = parseFloat( lt1 );
+	let lon1 = parseFloat( ln1 );
+	let lat2= parseFloat( lt2 );
+	let lon2 = parseFloat( ln2 );
+	var coord1 = ol.proj.transform( [lon1, lat1], 'EPSG:4326', 'EPSG:3857' );
+	var pixel1 = map.getPixelFromCoordinate( coord1 );
+	
+	var coord2 = ol.proj.transform( [lon2, lat2], 'EPSG:4326', 'EPSG:3857' );
+	var pixel2 = map.getPixelFromCoordinate( coord2 );
+	var length = Math.abs( coord1[0] - coord2[0] );
+	var sign = (( coord1[0] - coord2[0] )>0)?1:-1;
+	var tilt = (coord1[1]-coord2[1])/length;
+	var results = new Array(length);
+	for( int i=0; i<length; i++){
+		let x = coord1[0] + sign*i;
+		let y = coord1[1] + tilt*;
+		results[i] = context.getImageData(x*pixelRatio, y*pixelRatio, 1, 1).data;
+	}
+	return results;
+}
+
 /**
  * Send the given coordinates as a JAVA callback
  * @param coordinates
