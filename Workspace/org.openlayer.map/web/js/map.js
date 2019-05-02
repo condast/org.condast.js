@@ -6,6 +6,11 @@ var initialised = false;
 var rgb;
 var pixelRatio;
 
+//center on RDM, transforming to map projection
+var center = ol.proj.transform([4.42240, 51.9005], 'EPSG:4326', 'EPSG:3857');
+
+var context;
+
 function isInitialised(){
 	return true;
 }
@@ -55,9 +60,6 @@ function sendCoordinates( tp, e ){
 	}
 }
 
-// center on RDM, transforming to map projection
-var center = ol.proj.transform([4.912, 51.743], 'EPSG:4326', 'EPSG:3857');
-
 // view, starting at the center
 var view = new ol.View({
 	center: center,
@@ -69,7 +71,12 @@ var imagery = new ol.layer.Tile({
     crossOrigin: 'anonymous'
 });
 
-var context;
+var select = new ol.interaction.Select();
+select.on('select', function(e) {
+    var features = e.target.getFeatures();
+    console.log( features.length );
+	sendCoordinates( 'select', e );
+});    
 
 // before rendering the layer, determine the pixel ratio
 imagery.on('precompose', function(event) {
@@ -97,7 +104,6 @@ var map = new ol.Map({
 	    keyboardZoom: false,
 	    mouseWheelZoom: false,
 	    pointer: false,
-	    select: false
 	}),
 	controls: ol.control.defaults({
 		attributionOptions: /** @type {olx.control.AttributionOptions} */ ({
@@ -106,3 +112,4 @@ var map = new ol.Map({
 	}),
 	view: view
 });
+map.addInteraction( select );

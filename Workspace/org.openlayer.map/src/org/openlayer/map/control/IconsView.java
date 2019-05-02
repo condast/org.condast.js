@@ -3,6 +3,7 @@ package org.openlayer.map.control;
 import org.condast.commons.data.latlng.LatLng;
 import org.condast.commons.data.latlng.Waypoint;
 import org.condast.commons.strings.StringStyler;
+import org.condast.commons.strings.StringUtils;
 import org.condast.js.commons.controller.IJavascriptController;
 import org.condast.js.commons.images.IDefaultMarkers;
 
@@ -49,8 +50,8 @@ public class IconsView {
 	 * @param opacity
 	 * @return
 	 */
-	public String addMarker( String name, LatLng latlng, IDefaultMarkers.Markers marker,  char type, double opacity ){
-		return this.addIcon(name, latlng, marker.getImage(S_OPENLAYERS_ROOT, type), opacity);
+	public String addMarker( String id, String name, LatLng latlng, IDefaultMarkers.Markers marker,  char type, double opacity ){
+		return this.addIcon( id, name, latlng, marker.getImage(S_OPENLAYERS_ROOT, type), opacity);
 	}
 
 	/**
@@ -60,8 +61,8 @@ public class IconsView {
 	 * @param opacity
 	 * @return
 	 */
-	public String addMarker( String name, LatLng latlng, IDefaultMarkers.Markers marker,  char type ){
-		return this.addMarker( name, latlng, marker, type, 1.0);
+	public String addMarker( String id, String name, LatLng latlng, IDefaultMarkers.Markers marker,  char type ){
+		return this.addMarker( id, name, latlng, marker, type, 1.0);
 	}
 
 	/**
@@ -72,18 +73,8 @@ public class IconsView {
 	 * @return
 	 */
 	public String addMarker( LatLng latlng, IDefaultMarkers.Markers marker, char type ){
-		return addMarker( latlng.getId(), latlng, marker, type, 1.0);
-	}
-
-	/**
-	 * Replace an icon
-	 * @param name
-	 * @param latlng
-	 * @param opacity
-	 * @return
-	 */
-	public String addMarker( Waypoint waypoint, IDefaultMarkers.Markers marker ){
-		return addMarker( String.valueOf( waypoint.getIndex()), waypoint.getLocation(), marker, waypoint.getMarker(), 1.0);
+		String name = StringUtils.isEmpty(latlng.getDescription())? latlng.getId(): latlng.getDescription();
+		return addMarker( latlng.getId(), name, latlng, marker, type, 1.0);
 	}
 
 	/**
@@ -108,7 +99,6 @@ public class IconsView {
 		return this.replaceIcon( id, marker.getImage(S_OPENLAYERS_ROOT, type), 1.0);
 	}
 
-
 	/**
 	 * Add an icon
 	 * @param name
@@ -116,13 +106,14 @@ public class IconsView {
 	 * @param opacity
 	 * @return
 	 */
-	public String addIcon( String name, LatLng latlng, String path, double opacity ){
-		String[] params = new String[5];
-		params[0] = name;
-		params[1] = String.valueOf( latlng.getLatitude() );
-		params[2] = String.valueOf( latlng.getLongitude() );
-		params[3] = path;
-		params[4] = String.valueOf( opacity );
+	public String addIcon( String id, String name, LatLng latlng, String path, double opacity ){
+		String[] params = new String[6];
+		params[0] = id;
+		params[1] = name;
+		params[2] = String.valueOf( latlng.getLatitude() );
+		params[3] = String.valueOf( latlng.getLongitude() );
+		params[4] = path;
+		params[5] = String.valueOf( opacity );
 		String query = Commands.ADD_ICON.toString();
 		controller.setQuery( query, params );
 		return query;		
@@ -135,9 +126,9 @@ public class IconsView {
 	 * @param opacity
 	 * @return
 	 */
-	public String replaceIcon( String name, String path, double opacity ){
+	public String replaceIcon( String id, String path, double opacity ){
 		String[] params = new String[3];
-		params[0] = name;
+		params[0] = id;
 		params[1] = path;
 		params[2] = String.valueOf( opacity );
 		String query = Commands.REPLACE_ICON.toString();
@@ -145,8 +136,8 @@ public class IconsView {
 		return query;		
 	}
 
-	public String addIcon( String name, LatLng latlng, String path ){
-		return this.addIcon(name, latlng, path, 1.0);
+	public String addIcon( String id, String name, LatLng latlng, String path ){
+		return this.addIcon(id, name, latlng, path, 1.0);
 	}
 
 	/**
@@ -156,11 +147,57 @@ public class IconsView {
 	 * @param opacity
 	 * @return
 	 */
-	public String removeIcon( String name ){
+	public String removeIcon( String id ){
 		String[] params = new String[1];
-		params[0] = name;
+		params[0] = id;
 		String query = Commands.REMOVE_ICON.toString();
 		controller.setQuery( query, params );
 		return query;		
 	}
+	
+	/**
+	 * Add a waypoint
+	 * @param waypoint
+	 * @param latlng
+	 * @param opacity
+	 * @return
+	 */
+	public String addWaypoint( Waypoint waypoint, IDefaultMarkers.Markers marker ){
+		return addMarker( String.valueOf( waypoint.hashCode()), String.valueOf( waypoint.getIndex()), waypoint.getLocation(), marker, waypoint.getMarker(), 1.0);
+	}
+
+	/**
+	 * Add a waypoint
+	 * @param waypoint
+	 * @param latlng
+	 * @param opacity
+	 * @return
+	 */
+	public String addWaypoint( Waypoint waypoint, IDefaultMarkers.Markers marker, char type ){
+		return addMarker( String.valueOf( waypoint.hashCode()), String.valueOf( waypoint.getIndex()), waypoint.getLocation(), marker, type, 1.0);
+	}
+
+	/**
+	 * Replace an icon
+	 * @param name
+	 * @param latlng
+	 * @param opacity
+	 * @return
+	 */
+	public String replaceWaypoint( Waypoint waypoint, IDefaultMarkers.Markers marker ){
+		return replaceMarker( String.valueOf( waypoint.hashCode()), marker, waypoint.getMarker());
+	}
+
+
+	/**
+	 * Replace an icon
+	 * @param name
+	 * @param latlng
+	 * @param opacity
+	 * @return
+	 */
+	public String removeWaypoint( Waypoint waypoint ){
+		return removeIcon( String.valueOf( waypoint.hashCode()));
+	}
+
 }

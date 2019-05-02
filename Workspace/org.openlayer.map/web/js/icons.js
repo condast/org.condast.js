@@ -35,29 +35,31 @@ function clearIcons() {
 	iconVectorSource.clear();
 }
 
-function addIcon( name, latitude, longitude, path, opacity ){
+function addIcon( id, name, latitude, longitude, path, opacity ){
 	var lat = parseFloat( latitude );
 	var lon = parseFloat( longitude );
 	var coords = ol.proj.transform( [lon, lat], 'EPSG:4326', 'EPSG:3857' );
 
 	var iconFeature = new ol.Feature( new ol.geom.Point(coords) );
 	iconFeature.set('style', createStyle( path, opacity, undefined));
-	iconFeature.setId( name );
+	iconFeature.setId( id );
+	iconFeature.setGeometry();
+	//iconFeature.setGeometryName( name );
+	//console.log();
 	iconVectorSource.addFeature( iconFeature );
 	addSelectEvent( iconFeature );
-	
 	var index = map.getLayers().getLength();
 	return index;
 }
 
-function replaceIcon( name, path, opacity ){
-	var iconFeature = iconVectorSource.getFeatureById(name);
+function replaceIcon( id, path, opacity ){
+	var iconFeature = iconVectorSource.getFeatureById(id);
 	if( iconFeature != null )
 		iconFeature.set('style', createStyle( path, opacity, undefined));
 }
 
-function removeIcon( name ){
-	iconVectorSource.removeFeatures( iconVectorSource.getFeatureById(name));
+function removeIcon( id ){
+	iconVectorSource.removeFeatures( iconVectorSource.getFeatureById(id));
 }
 
 function popup( location ){
@@ -92,5 +94,3 @@ function addSelectEvent( feature ){
       });
       map.addInteraction(select);
 }
-
-
