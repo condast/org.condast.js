@@ -1,51 +1,18 @@
 package org.openlayer.map.control;
 
 import java.util.Collection;
+import java.util.HashMap;
 import java.util.Map;
 
 import org.condast.commons.data.latlng.IField;
 import org.condast.commons.data.latlng.LatLng;
 import org.condast.commons.data.latlng.LatLngUtils;
 import org.condast.commons.data.surroundings.AbstractBypass;
-import org.condast.commons.strings.StringStyler;
 import org.condast.js.commons.controller.IJavascriptController;
+import org.openlayer.map.core.Legend;
 
 public class Bypass extends AbstractBypass {
 
-	public enum Surroundings{
-		UNKNOWN,
-		WATER,
-		GREENS,
-		SAND,
-		SHALLOWS;
-		
-		public int[] getRGBA() {
-			int[] result = new int[4];
-			switch( this ) {
-				default:
-					result[0] = 0;
-					result[1] = 0;
-					result[2] = 0;
-					result[3] = 0;
-			}
-			return result;
-		}
-
-		@Override
-		public String toString() {
-			return StringStyler.prettyString( super.toString());
-		}
-		
-		protected static Surroundings getSurrounding( int[] rgba ) {
-			for( Surroundings sur: Surroundings.values()) {
-				if( sur.getRGBA().equals(rgba))
-					return sur;
-			}
-			return Surroundings.UNKNOWN;
-		}
-
-	}
-	
 	private PixelView pixelView;
 	
 	public Bypass(IField field, IJavascriptController controller) {
@@ -55,9 +22,9 @@ public class Bypass extends AbstractBypass {
 
 	@Override
 	protected boolean attempt(LatLng first, LatLng last) {
-		Collection<int[]> rgbs = pixelView.getPixelsColour(first, last);
+		Collection<int[]> rgbs = null;//pixelView.getPixelsColour(first, last);
 		for( int[] rgba: rgbs ) {
-			if(!Surroundings.WATER.equals( Surroundings.getSurrounding(rgba))) {
+			if(!Legend.Surroundings.WATER.equals( Legend.Surroundings.getSurrounding(rgba))) {
 				return false;
 			}
 		}

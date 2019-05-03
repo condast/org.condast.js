@@ -53,13 +53,13 @@ function getPixels( ln1, lt1, ln2, lt2 ){
 	
 	var coord2 = ol.proj.transform( [lon2, lat2], 'EPSG:4326', 'EPSG:3857' );
 	var pixel2 = map.getPixelFromCoordinate( coord2 );
-	var length = Math.abs( coord1[0] - coord2[0] );
-	var sign = (( coord1[0] - coord2[0] )>0)?1:-1;
-	var tilt = (coord1[1]-coord2[1])/length;
+	var length = Math.round(Math.abs( pixel1[0] - pixel2[0] ));
+	var sign = (( pixel1[0] - pixel2[0] )>0)?1:-1;
+	var tilt = (pixel1[1]-pixel2[1])/length;
 	var results = new Array(length);
-	for( int i=0; i<length; i++){
-		let x = coord1[0] + sign*i;
-		let y = coord1[1] + tilt*;
+	for( var i=0; i<length; i++){
+		let x = pixel1[0] + sign*i;
+		let y = pixel1[1] + tilt*i;
 		results[i] = context.getImageData(x*pixelRatio, y*pixelRatio, 1, 1).data;
 	}
 	return results;
