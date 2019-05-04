@@ -32,6 +32,10 @@ public abstract class AbstractView<E extends Enum<E>> {
 		Collection<String> parameters = new ArrayList<String>();
 		return parameters;
 	}
+
+	protected String perform( E command ){
+		return this.perform(command, new ArrayList<String>());
+	}
 	
 	protected String perform( E command, Collection<String> parameters ){
 		String query = command.toString();

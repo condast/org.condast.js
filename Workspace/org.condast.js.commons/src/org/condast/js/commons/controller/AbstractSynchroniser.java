@@ -5,6 +5,9 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
+
 import org.condast.commons.ui.session.AbstractSessionHandler;
 import org.condast.commons.ui.session.ISessionListener;
 import org.condast.commons.ui.session.SessionEvent;
@@ -18,8 +21,11 @@ public abstract class AbstractSynchroniser<E extends Object> implements ISynchro
 	
 	private Map<Class<?>, AbstractListener<?,E>> listeners;
 	
+	private Lock lock;
+	
 	public AbstractSynchroniser( Display display) {
 		controllers = new HashMap<>();
+		lock = new ReentrantLock();
 		this.listeners = new HashMap<>();
 		handler = new SessionHandler( display );
 	}
@@ -64,7 +70,13 @@ public abstract class AbstractSynchroniser<E extends Object> implements ISynchro
 	}
 	
 	public synchronized void addData( E data ) {
-		this.handler.addData(data);
+		this.lock.lock();
+		try {
+			this.handler.addData(data);
+		}
+		finally {
+			this.lock.unlock();
+		}
 	}
 	
 	protected abstract void onHandleSessionEvent(SessionEvent<E> event);
@@ -75,20 +87,27 @@ public abstract class AbstractSynchroniser<E extends Object> implements ISynchro
 	 */
 	protected synchronized void synchronize() {
 		Iterator<Map.Entry<IJavascriptController,Boolean>> iterator = controllers.entrySet().iterator();
-		while( iterator.hasNext() ) {
-			Map.Entry<IJavascriptController,Boolean> entry = iterator.next();
-			IJavascriptController controller = entry.getKey();
-			if( controller.isDisposed())
-				continue;
-			
-			if( controller.isBrowserVisible() ) {
-				if( controller.isInitialised())
-					controller.synchronize();
-			}else {
-				if( entry.getValue())
-					controller.clear();
+		try{
+			this.lock.lock();
+			while( iterator.hasNext() ) {
+				Map.Entry<IJavascriptController,Boolean> entry = iterator.next();
+				IJavascriptController controller = entry.getKey();
+				if( controller.isDisposed())
+					continue;
+
+				if( controller.isBrowserVisible() ) {
+					if( controller.isInitialised())
+						controller.synchronize();
+				}else {
+					if( entry.getValue())
+						controller.clear();
+				}
 			}
 		}
+		finally {
+			this.lock.unlock();
+		}
+
 	}
 
 	private class SessionHandler extends AbstractSessionHandler<E> {

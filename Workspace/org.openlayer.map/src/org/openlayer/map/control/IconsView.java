@@ -1,13 +1,16 @@
 package org.openlayer.map.control;
 
+import java.util.Arrays;
+
 import org.condast.commons.data.latlng.LatLng;
 import org.condast.commons.data.latlng.Waypoint;
 import org.condast.commons.strings.StringStyler;
 import org.condast.commons.strings.StringUtils;
+import org.condast.js.commons.controller.AbstractView;
 import org.condast.js.commons.controller.IJavascriptController;
 import org.condast.js.commons.images.IDefaultMarkers;
 
-public class IconsView {
+public class IconsView extends AbstractView<IconsView.Commands>{
 
 	public static final String S_OPENLAYERS_ROOT = "/openlayer";
 	
@@ -24,10 +27,8 @@ public class IconsView {
 		}
 	}
 	
-	private IJavascriptController controller;
-
 	public IconsView( IJavascriptController controller) {
-		this.controller = controller;
+		super( controller );
 	}
 
 	/**
@@ -38,9 +39,7 @@ public class IconsView {
 	 * @return
 	 */
 	public String clearIcons(){
-		String query = Commands.CLEAR_ICONS.toString();
-		controller.setQuery( query );
-		return query;		
+		return super.perform(Commands.CLEAR_ICONS);	
 	}
 
 	/**
@@ -114,9 +113,7 @@ public class IconsView {
 		params[3] = String.valueOf( latlng.getLongitude() );
 		params[4] = path;
 		params[5] = String.valueOf( opacity );
-		String query = Commands.ADD_ICON.toString();
-		controller.setQuery( query, params );
-		return query;		
+		return perform( Commands.ADD_ICON, Arrays.asList( params ));
 	}
 
 	/**
@@ -131,9 +128,7 @@ public class IconsView {
 		params[0] = id;
 		params[1] = path;
 		params[2] = String.valueOf( opacity );
-		String query = Commands.REPLACE_ICON.toString();
-		controller.setQuery( query, params );
-		return query;		
+		return perform( Commands.REPLACE_ICON, Arrays.asList( params ));
 	}
 
 	public String addIcon( String id, String name, LatLng latlng, String path ){
@@ -150,9 +145,7 @@ public class IconsView {
 	public String removeIcon( String id ){
 		String[] params = new String[1];
 		params[0] = id;
-		String query = Commands.REMOVE_ICON.toString();
-		controller.setQuery( query, params );
-		return query;		
+		return perform( Commands.REMOVE_ICON, Arrays.asList( params ));
 	}
 	
 	/**

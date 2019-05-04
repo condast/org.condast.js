@@ -217,6 +217,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		builder.append(");");
 		Object[] results = null;
 		try {
+			logger.info(query);
 			results = (Object[]) browser.evaluate( builder.toString() );
 		}
 		catch( IllegalStateException ex ) {
@@ -287,7 +288,15 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	
 	@Override
 	public void synchronize() {
-		this.executeQuery();		
+		if(isDisposed())
+			return;
+		browser.getDisplay().asyncExec( new Runnable() {
+
+			@Override
+			public void run() {
+				executeQuery();		
+			}			
+		});
 	}
 	
 	/**
