@@ -21,6 +21,7 @@ public class Legend {
 		UNKNOWN,
 		WATER,
 		GREENS,
+		FIELD,
 		FOREST,
 		JETTY,
 		PATH,
@@ -31,50 +32,11 @@ public class Legend {
 		WETLAND,
 		BUILDING,
 		CONCRETE;
-		
-		public int[] getRGBA() {
-			int[] result = new int[4];
-			switch( this ) {
-			case CONCRETE:	
-				result[0]=242;result[1]=239;result[2]=233;result[3]=255;
-				break;
-			case WATER:	
-				result[0]=170;result[1]=211;result[2]=223;result[3]=255;
-				break;
-			case SHALLOWS:	
-				result[0]=170;result[1]=173;result[2]=174;result[3]=255;
-				break;
-			case GREENS:	
-				result[0]=255;result[1]=241;result[2]=186;result[3]=255;
-				break;
-			default:
-				result[0]=0;result[1]=0;result[2]=0;result[3]=0;
-				break;
-			}
-			return result;
-		}
-	
-		public boolean isEqual( int[] rgba) {
-			int[] check = getRGBA();
-			for( int i=0; i<check.length; i++ ) {
-				if( check[i] != rgba[i])
-					return false;
-			}
-			return true;
-		}
-		
+					
 		@Override
 		public String toString() {
 			return StringStyler.prettyString( super.toString());
 		}
-		
-		public static Surroundings getSurrounding( int[] rgba ) {
-			for( Surroundings sur: Surroundings.values()) {
-				if( sur.isEqual(rgba))
-					return sur;
-			}
-			return Surroundings.UNKNOWN;
-		}	
 	}
 
 	private List<Surroundings> area;

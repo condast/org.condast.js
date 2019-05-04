@@ -84,6 +84,23 @@ function sendCoordinates( tp, e ){
 	}
 }
 
+/** Send the given coordinates as a JAVA callback
+* @param coordinates
+*/
+function sendFeature( tp, feature ){
+	try{
+		let geometry = feature.getGeometry();		
+		//Transform the geometry from web mercator (3857) to regular latitude and longitude (4326)
+		geometry.transform('EPSG:3857', 'EPSG:4326');
+		let lnglat = geometry.getCoordinates();  
+		let format = new ol.format.WKT();
+		let wktRepresentation  = format.writeGeometry(geometry);
+		onCallBack( tp, wktRepresentation, lnglat );
+	}
+	catch( e ){
+		console.log(e);
+	}
+}
 // view, starting at the center
 var view = new ol.View({
 	center: center,
@@ -95,12 +112,6 @@ var imagery = new ol.layer.Tile({
     crossOrigin: 'anonymous'
 });
 
-var select = new ol.interaction.Select();
-select.on('select', function(e) {
-    var features = e.target.getFeatures();
-    console.log( features.length );
-	sendCoordinates( 'select', e );
-});    
 
 // before rendering the layer, determine the pixel ratio
 imagery.on('precompose', function(event) {
@@ -136,4 +147,3 @@ var map = new ol.Map({
 	}),
 	view: view
 });
-map.addInteraction( select );

@@ -1,9 +1,9 @@
 package org.openlayer.map.control;
 
 import java.util.Collection;
-import java.util.HashMap;
 import java.util.Map;
 
+import org.condast.commons.data.colours.RGBA;
 import org.condast.commons.data.latlng.IField;
 import org.condast.commons.data.latlng.LatLng;
 import org.condast.commons.data.latlng.LatLngUtils;
@@ -22,9 +22,9 @@ public class Bypass extends AbstractBypass {
 
 	@Override
 	protected boolean attempt(LatLng first, LatLng last) {
-		Collection<int[]> rgbs = null;//pixelView.getPixelsColour(first, last);
-		for( int[] rgba: rgbs ) {
-			if(!Legend.Surroundings.WATER.equals( Legend.Surroundings.getSurrounding(rgba))) {
+		Collection<RGBA> rgbs = pixelView.getPixelsColour(first, last);
+		for( RGBA rgba: rgbs ) {
+			if(!Legend.Surroundings.WATER.equals( Legend.getLegend(rgba.toArray()))) {
 				return false;
 			}
 		}

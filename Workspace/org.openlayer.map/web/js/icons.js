@@ -43,9 +43,6 @@ function addIcon( id, name, latitude, longitude, path, opacity ){
 	var iconFeature = new ol.Feature( new ol.geom.Point(coords) );
 	iconFeature.set('style', createStyle( path, opacity, undefined));
 	iconFeature.setId( id );
-	iconFeature.setGeometry();
-	//iconFeature.setGeometryName( name );
-	//console.log();
 	iconVectorSource.addFeature( iconFeature );
 	addSelectEvent( iconFeature );
 	var index = map.getLayers().getLength();
@@ -81,16 +78,23 @@ function popup( location ){
 }
 
 function addSelectEvent( feature ){
-    var select = new ol.interaction.Select({
-    	condition: ol.events.condition.pointerMove,
-    	style: function(feature) {
-            // Popup showing the position the user clicked
-    		var popup = new ol.Overlay({
-              element: document.getElementById('popup')
-            });
-            map.addOverlay(popup);	
-            popup.setPosition(feature.getGeometry().getCoordinates());       
-        }
-      });
-      map.addInteraction(select);
+	var select = new ol.interaction.Select({
+		condition: ol.events.condition.pointerMove,
+		style: function(feature) {
+			// Popup showing the position the user clicked
+			var popup = new ol.Overlay({
+				element: document.getElementById('popup')
+			});
+			map.addOverlay(popup);	
+			popup.setPosition(feature.getGeometry().getCoordinates());       
+		}
+	});
+	map.addInteraction(select);
+	//select = new ol.interaction.Select({
+	//	condition: ol.events.condition.doubleclick,
+	//	style: function(feature) {
+	//		sendFeature( 'selected', feature )
+	//	}
+	//});
+	//map.addInteraction(select);
 }

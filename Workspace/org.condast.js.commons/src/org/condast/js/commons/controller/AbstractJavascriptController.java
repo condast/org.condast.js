@@ -30,7 +30,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		TEXT;
 	}
 
-	private Collection<IEvaluationListener<Object[]>> listeners;
+	private Collection<IEvaluationListener<Object>> listeners;
 
 	private CommandController controller;
 	private Browser browser;
@@ -49,7 +49,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			@Override
 			public void evaluationSucceeded(Object result) {
 				try {
-					notifyEvaluation( new EvaluationEvent<Object[]>( browser, id, EvaluationEvents.SUCCEEDED ));
+					notifyEvaluation( new EvaluationEvent<Object>( browser, id, EvaluationEvents.SUCCEEDED ));
 				}
 				catch( Exception ex ) {
 					ex.printStackTrace();
@@ -64,7 +64,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			@Override
 			public void evaluationFailed(Exception exception) {
 				try {
-					notifyEvaluation( new EvaluationEvent<Object[]>( browser, id, EvaluationEvents.FAILED ));
+					notifyEvaluation( new EvaluationEvent<Object>( browser, id, EvaluationEvents.FAILED ));
 				}
 				catch( Exception ex ) {
 					logger.warning(ex.getMessage());
@@ -109,7 +109,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		this.disposed = false;
 		this.browser = browser;
 		this.browser.addDisposeListener(dl);
-		listeners = new ArrayList<IEvaluationListener<Object[]>>();
+		listeners = new ArrayList<>();
 		this.controller = new CommandController( );
 		browser.addProgressListener( new ProgressListener() {
 			private static final long serialVersionUID = 1L;
@@ -118,14 +118,14 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			public void completed(ProgressEvent event) {
 				onLoadCompleted();
 				initialised = true;
-				notifyEvaluation( new EvaluationEvent<Object[]>( getBrowser(), id, EvaluationEvents.INITIALISED ));
+				notifyEvaluation( new EvaluationEvent<Object>( getBrowser(), id, EvaluationEvents.INITIALISED ));
 				controller.executeQuery();
 			}
 			
 			@Override
 			public void changed(ProgressEvent event) {
 				onLoadChanged();
-				notifyEvaluation( new EvaluationEvent<Object[]>( getBrowser(), id, EvaluationEvents.CHANGED ));
+				notifyEvaluation( new EvaluationEvent<Object>( getBrowser(), id, EvaluationEvents.CHANGED ));
 			}
 		});
 	}
@@ -233,7 +233,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	 * @see org.condast.js.commons.controller.IJavascriptController#addEvaluationListener(org.condast.js.commons.eval.IEvaluationListener)
 	 */
 	@Override
-	public void addEvaluationListener( IEvaluationListener<Object[]> listener ){
+	public void addEvaluationListener( IEvaluationListener<Object> listener ){
 		this.listeners.add(listener);
 	}
 	
@@ -241,12 +241,12 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	 * @see org.condast.js.commons.controller.IJavascriptController#removeEvaluationListener(org.condast.js.commons.eval.IEvaluationListener)
 	 */
 	@Override
-	public void removeEvaluationListener( IEvaluationListener<Object[]> listener ){
+	public void removeEvaluationListener( IEvaluationListener<Object> listener ){
 		this.listeners.remove(listener);
 	}
 
-	public void notifyEvaluation( EvaluationEvent<Object[]> ee ){
-		for( IEvaluationListener<Object[]> listener: listeners )
+	public void notifyEvaluation( EvaluationEvent<Object> ee ){
+		for( IEvaluationListener<Object> listener: listeners )
 			listener.notifyEvaluation(ee);
 	}
 
@@ -440,7 +440,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 
 		@Override
 		public Object function(Object[] arguments) {
-			notifyEvaluation( new EvaluationEvent<Object[]>( this, id, EvaluationEvents.EVENT, arguments ));
+			notifyEvaluation( new EvaluationEvent<Object>( this, id, EvaluationEvents.EVENT, arguments ));
 			return super.function(arguments);
 		}	
 	}

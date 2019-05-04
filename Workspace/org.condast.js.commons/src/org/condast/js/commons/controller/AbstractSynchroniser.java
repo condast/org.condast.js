@@ -4,8 +4,8 @@ import java.util.Collection;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
+import java.util.LinkedHashSet;
 import java.util.Map;
-import java.util.TreeSet;
 
 import org.condast.commons.Utils;
 
@@ -17,10 +17,10 @@ public abstract class AbstractSynchroniser implements ISynchroniser {
 	
 	public AbstractSynchroniser() {
 		controllers = new HashMap<>();
-		this.store = Collections.synchronizedSet( new TreeSet<String>());
+		this.store = Collections.synchronizedSet( new LinkedHashSet<String>());
 	}
 	
-	protected void increase( Object caller ) {
+	protected synchronized void increase( Object caller ) {
 		this.store.add( caller.toString() );
 	}
 
@@ -49,7 +49,7 @@ public abstract class AbstractSynchroniser implements ISynchroniser {
 	 * Synchronises the registered controllers. 
 	 * NOTE: only one browser should be visible at at a certain time
 	 */
-	protected void synchronize() {
+	protected synchronized void synchronize() {
 		if( this.store.size() > 0 ) {
 			store.remove(this.store.iterator().next());
 		}

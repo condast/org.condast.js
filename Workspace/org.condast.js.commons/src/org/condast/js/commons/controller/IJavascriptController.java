@@ -39,9 +39,9 @@ public interface IJavascriptController {
 	 */
 	Object[] evaluate(String query, String[] params);
 
-	void addEvaluationListener(IEvaluationListener<Object[]> listener);
+	void addEvaluationListener(IEvaluationListener<Object> listener);
 
-	void removeEvaluationListener(IEvaluationListener<Object[]> listener);
+	void removeEvaluationListener(IEvaluationListener<Object> listener);
 
 	void setQuery(String function);
 

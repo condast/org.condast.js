@@ -23,7 +23,7 @@ public class AbstractModel {
 		this.controller.setQuery( query, params);
 	}
 	
-	protected void notifyEvaluationEvent( EvaluationEvent<Object[]> event ){
+	protected void notifyEvaluationEvent( EvaluationEvent<Object> event ){
 		controller.notifyEvaluation( event );
 	}
 	public void synchronize(){

@@ -84,10 +84,10 @@ public class OpenLayersComposite extends Composite {
 		}
 	};
 	
-	private IEvaluationListener<Object[]> elistener = new IEvaluationListener<Object[]>() {
+	private IEvaluationListener<Object> elistener = new IEvaluationListener<Object>() {
 
 		@Override
-		public void notifyEvaluation(EvaluationEvent<Object[]> event) {
+		public void notifyEvaluation(EvaluationEvent<Object> event) {
 			if( Utils.assertNull( event.getData()))
 				return;
 			String wkt = (String )event.getData()[1];
