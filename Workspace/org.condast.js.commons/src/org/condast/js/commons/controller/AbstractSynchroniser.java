@@ -1,27 +1,42 @@
 package org.condast.js.commons.controller;
 
+import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedHashSet;
 import java.util.Map;
+import org.condast.commons.ui.session.AbstractSessionHandler;
+import org.condast.commons.ui.session.ISessionListener;
+import org.condast.commons.ui.session.SessionEvent;
+import org.eclipse.swt.widgets.Display;
 
-import org.condast.commons.Utils;
-
-public abstract class AbstractSynchroniser implements ISynchroniser {
+public abstract class AbstractSynchroniser<E extends Object> implements ISynchroniser {
 
 	private Map<IJavascriptController, Boolean> controllers;
 	
-	private Collection<String> store;
+	private SessionHandler handler;
 	
-	public AbstractSynchroniser() {
+	private Map<Class<?>, AbstractListener<?,E>> listeners;
+	
+	public AbstractSynchroniser( Display display) {
 		controllers = new HashMap<>();
-		this.store = Collections.synchronizedSet( new LinkedHashSet<String>());
+		this.listeners = new HashMap<>();
+		handler = new SessionHandler( display );
 	}
 	
-	protected synchronized void increase( Object caller ) {
-		this.store.add( caller.toString() );
+	@SuppressWarnings("unchecked")
+	protected void addListener( @SuppressWarnings("rawtypes") AbstractListener listener){
+		this.listeners.put(listener.getClass(), listener);
+	}
+
+	@SuppressWarnings("rawtypes")
+	protected void removeListener( AbstractListener listener){
+		this.listeners.remove(listener.getClass());
+	}
+	
+	@SuppressWarnings("rawtypes")
+	protected AbstractListener getListener( Class<?> clss ) {
+		return this.listeners.get(clss);
 	}
 
 	/**
@@ -42,20 +57,23 @@ public abstract class AbstractSynchroniser implements ISynchroniser {
 
 	@Override
 	public void dispose() {
+		for( AbstractListener<?, E> listener: this.listeners.values() )
+			listener.clear();
+		handler.dispose();
 		controllers.clear();
 	}
+	
+	public synchronized void addData( E data ) {
+		this.handler.addData(data);
+	}
+	
+	protected abstract void onHandleSessionEvent(SessionEvent<E> event);
 	
 	/**
 	 * Synchronises the registered controllers. 
 	 * NOTE: only one browser should be visible at at a certain time
 	 */
 	protected synchronized void synchronize() {
-		if( this.store.size() > 0 ) {
-			store.remove(this.store.iterator().next());
-		}
-		if( !Utils.assertNull(store))
-			return;
-		//logger.info(String.valueOf( this.store.size()));
 		Iterator<Map.Entry<IJavascriptController,Boolean>> iterator = controllers.entrySet().iterator();
 		while( iterator.hasNext() ) {
 			Map.Entry<IJavascriptController,Boolean> entry = iterator.next();
@@ -73,4 +91,53 @@ public abstract class AbstractSynchroniser implements ISynchroniser {
 		}
 	}
 
+	private class SessionHandler extends AbstractSessionHandler<E> {
+
+		protected SessionHandler(Display display) {
+			super(display);
+		}
+
+		@Override
+		protected synchronized void onHandleSession(SessionEvent<E> event) {
+			onHandleSessionEvent(event);
+			if( ISessionListener.EventTypes.COMPLETED.equals(event.getType()))
+				synchronize();
+		}	
+	}
+
+	/**
+	 * This helper class can be used to quickly add listeners 
+	 * 
+	 * @author Kees
+	 *
+	 * @param <D>
+	 * @param <L>
+	 */
+	public abstract static class AbstractListener<L,E extends Object>{
+
+		private Collection<L> listeners;
+		
+		protected AbstractListener() {
+			listeners = new ArrayList<>(); 
+		}
+
+		public void clear() {
+			this.listeners.clear();
+		}
+		
+		public void addListener( L listener ) {
+			this.listeners.add(listener);
+		}
+
+		public void removeListener( L listener ) {
+			this.listeners.remove(listener);
+		}
+		
+		protected abstract void notifyEvent( L listener, E event );
+		
+		public void notifyListeners( E event ) {
+			for( L listener: listeners )
+				notifyEvent( listener, event);
+		}
+	}
 }
