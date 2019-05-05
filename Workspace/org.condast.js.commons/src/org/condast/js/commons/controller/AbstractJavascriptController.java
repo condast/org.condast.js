@@ -267,20 +267,13 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	}
 
     protected synchronized void executeQuery(){
-		if( disposed || browser.isDisposed() || !browser.isVisible() )
-			return;
-		browser.getDisplay().syncExec( new Runnable() {
+    	if( disposed || browser.isDisposed() || !browser.isVisible() )
+    		return;
+    	controller.executeQuery();
+     }
 
-			@Override
-			public synchronized void run() {
-				controller.executeQuery();
-			}
-			
-		});
-	}
-
-	protected synchronized void performQuery( String function, String[] params ){
-		if(!browser.isVisible() )
+    protected synchronized void performQuery( String function, String[] params ){
+    	if(!browser.isVisible() )
 			return;
 		controller.setQuery(function, params);
 		controller.executeQuery();
@@ -290,13 +283,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	public void synchronize() {
 		if(isDisposed())
 			return;
-		browser.getDisplay().asyncExec( new Runnable() {
-
-			@Override
-			public void run() {
-				executeQuery();		
-			}			
-		});
+		executeQuery();		
 	}
 	
 	/**
@@ -378,6 +365,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		private Object evaluate( final String query ){
 			try{
 				browser.evaluate( query, getCallBack() );
+				browser.requestLayout();
 			}
 			catch( IllegalStateException se ){
 				logger.warning( se.getMessage() + ": " + query );

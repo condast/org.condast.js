@@ -81,34 +81,6 @@ public abstract class AbstractSynchroniser<E extends Object> implements ISynchro
 	
 	protected abstract void onHandleSessionEvent(SessionEvent<E> event);
 	
-	/**
-	 * Synchronises the registered controllers. 
-	 * NOTE: only one browser should be visible at at a certain time
-	 */
-	protected synchronized void synchronize() {
-		Iterator<Map.Entry<IJavascriptController,Boolean>> iterator = controllers.entrySet().iterator();
-		try{
-			this.lock.lock();
-			while( iterator.hasNext() ) {
-				Map.Entry<IJavascriptController,Boolean> entry = iterator.next();
-				IJavascriptController controller = entry.getKey();
-				if( controller.isDisposed())
-					continue;
-
-				if( controller.isBrowserVisible() ) {
-					if( controller.isInitialised())
-						controller.synchronize();
-				}else {
-					if( entry.getValue())
-						controller.clear();
-				}
-			}
-		}
-		finally {
-			this.lock.unlock();
-		}
-
-	}
 
 	private class SessionHandler extends AbstractSessionHandler<E> {
 
@@ -118,10 +90,49 @@ public abstract class AbstractSynchroniser<E extends Object> implements ISynchro
 
 		@Override
 		protected synchronized void onHandleSession(SessionEvent<E> event) {
-			onHandleSessionEvent(event);
-			if( ISessionListener.EventTypes.COMPLETED.equals(event.getType()))
-				synchronize();
-		}	
+			try {
+				onHandleSessionEvent(event);
+				if( ISessionListener.EventTypes.COMPLETED.equals(event.getType())) {
+					synchronize();		
+				}	
+			}
+			catch( Exception ex ) {
+				ex.printStackTrace();
+			}
+		}
+
+		/**
+		 * Synchronises the registered controllers. 
+		 * NOTE: only one browser should be visible at at a certain time
+		 */
+		protected synchronized void synchronize() {
+			Iterator<Map.Entry<IJavascriptController,Boolean>> iterator = controllers.entrySet().iterator();
+			try{
+				lock.lock();
+				while( iterator.hasNext() ) {
+					Map.Entry<IJavascriptController,Boolean> entry = iterator.next();
+					IJavascriptController controller = entry.getKey();
+					if( controller.isDisposed())
+						continue;
+
+					if( controller.isBrowserVisible() ) {
+						if( controller.isInitialised())
+							controller.synchronize();
+					}else {
+						if( entry.getValue())
+							controller.clear();
+					}
+				}
+			}
+			catch( Exception ex ) {
+				ex.printStackTrace();
+			}
+			finally {
+				lock.unlock();
+			}
+		}
+
+	
 	}
 
 	/**
