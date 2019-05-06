@@ -56,7 +56,9 @@ function replaceIcon( id, path, opacity ){
 }
 
 function removeIcon( id ){
-	iconVectorSource.removeFeatures( iconVectorSource.getFeatureById(id));
+	var iconFeature = iconVectorSource.getFeatureById(id);
+	if( iconFeature != null )
+		iconVectorSource.removeFeature( iconVectorSource.getFeatureById(id));
 }
 
 function popup( location ){

@@ -151,7 +151,7 @@ public class OpenLayersComposite extends Composite {
 		
 		this.fieldComposite = new FieldComposite( this, SWT.NONE);
 		this.fieldComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
-		this.fieldComposite.setInput( PolygonBuilder.getLocations(), 0, 18);
+		this.fieldComposite.setInput( PolygonBuilder.getFieldData(), 0);
 		this.fieldComposite.addLocationListener(listener);
 
 		Composite composite = new Composite(this, SWT.NONE);
@@ -182,7 +182,7 @@ public class OpenLayersComposite extends Composite {
 				try {
 					CCombo combo = (CCombo) e.widget;
 					FieldData selected = fieldComposite.getFieldData(); 
-					fieldComposite.setInput(PolygonBuilder.getLocations(), combo.getSelectionIndex(), selected.getZoom() );
+					fieldComposite.setInput(PolygonBuilder.getFieldData(), combo.getSelectionIndex() );
 					Polygon pg = createPolygon(combo.getText());
 					GeoView geo = new GeoView( controller);
 					geo.setFieldData(pg.toFieldData(18));

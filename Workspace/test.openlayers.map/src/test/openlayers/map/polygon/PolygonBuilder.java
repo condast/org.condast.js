@@ -1,6 +1,6 @@
 package test.openlayers.map.polygon;
 
-import org.condast.commons.data.latlng.LatLng;
+import org.condast.commons.data.latlng.FieldData;
 import org.condast.commons.data.latlng.Polygon;
 import org.condast.commons.strings.StringStyler;
 
@@ -65,14 +65,14 @@ public class PolygonBuilder {
 		return polygons;
 	}
 
-	public static LatLng[] getLocations( ) {
+	public static FieldData[] getFieldData( ) {
 		Polygon[] polygons = getPolygons();
-		LatLng[] locations = new LatLng[ TestPolygons.values().length];
+		FieldData[] fieldData = new FieldData[ TestPolygons.values().length];
 		for( int i=0; i< polygons.length; i++ ){
 			Polygon polygon = polygons[i];
-			locations[i] =  polygon.getCoordinates();
+			fieldData[i] =  polygon.getField().toFieldData(16);
 		}
-		return locations;
+		return fieldData;
 	}
 
 }

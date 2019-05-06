@@ -84,7 +84,8 @@ public class IconsView extends AbstractView<IconsView.Commands>{
 	 * @return
 	 */
 	public String replaceMarker( LatLng latlng, IDefaultMarkers.Markers marker, char type ){
-		return this.replaceIcon(latlng.getId(), marker.getImage(S_OPENLAYERS_ROOT, type), 1.0);
+		this.removeIcon(latlng.getId());
+		return this.addMarker(latlng, marker, type);
 	}
 
 	/**
