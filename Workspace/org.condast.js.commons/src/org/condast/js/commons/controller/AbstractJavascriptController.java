@@ -58,7 +58,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 					controller.clearHistory();
 					Thread.currentThread().interrupt();
 					logger.fine("EXECUTION SUCCEEDED");
-					controller.executeQuery();
 				}
 			}
 			@Override

@@ -114,8 +114,7 @@ public class MapField extends AbstractView<MapField.Commands>{
 		params.add( String.valueOf( this.field.getCentre().getLongitude() ));
 		params.add( String.valueOf( this.field.getLength() ));
 		params.add( String.valueOf( this.field.getWidth()));
-		String query = super.perform( Commands.SET_FIELD, params );
-		return query;
+		return super.perform( Commands.SET_FIELD, params );
 	}
 
 	public String drawLine( String name, LatLng begin, LatLng end ){
@@ -125,8 +124,6 @@ public class MapField extends AbstractView<MapField.Commands>{
 		params[2] = String.valueOf( begin.getLongitude());
 		params[3] = String.valueOf( end.getLatitude());
 		params[4] = String.valueOf( end.getLongitude());
-		String query = Commands.DRAW_LINE.toString();
-		getController().setQuery( query, params );
-		return query;
+		return super.perform(Commands.DRAW_LINE, params );
 	}
 }

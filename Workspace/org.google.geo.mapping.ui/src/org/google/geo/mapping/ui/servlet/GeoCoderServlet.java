@@ -13,7 +13,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.condast.commons.Utils;
-import org.condast.js.commons.session.ISessionListener;
+import org.condast.commons.ui.session.ISessionListener;
 
 public class GeoCoderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
@@ -31,8 +31,7 @@ public class GeoCoderServlet extends HttpServlet {
 
 	@Override
 	public void destroy() {
-		session.stop();
-		super.destroy();
+			super.destroy();
 	}
 
 	@Override
@@ -52,7 +51,7 @@ public class GeoCoderServlet extends HttpServlet {
 				map.put( attr, URLDecoder.decode( req.getParameter(attr), "UTF-8"));
 		}
 		logger.info("DO GET " + map.toString());
-		session = GeocoderSession.getInstance();	
+		//session = new GeocoderSession.getInstance();	
 		session.addData( map );
 	}
 

@@ -148,7 +148,7 @@ public class MarkerModel {
 
 		@Override
 		public Object function(Object[] arguments) {
-			controller.notifyEvaluation( new EvaluationEvent<Object[]>( this, S_MARKER_CLICKED_ID, EvaluationEvents.EVENT, arguments ));
+			controller.notifyEvaluation( new EvaluationEvent<Object>( this, S_MARKER_CLICKED_ID, EvaluationEvents.EVENT ));
 			return super.function(arguments);
 		}	
 	}

@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.condast.js.commons.session.ISessionListener;
+import org.condast.commons.ui.session.ISessionListener;
 import org.eclipse.rap.rwt.widgets.BrowserCallback;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
@@ -25,7 +25,7 @@ public class GeoCoderBrowser extends Browser {
 	private Browser browser;
 	private CommandController controller;
 
-	private GeocoderSession session = GeocoderSession.getInstance();
+	private GeocoderSession session;
 
 	private Logger logger = Logger.getLogger( this.getClass().getName());
 		
@@ -33,19 +33,18 @@ public class GeoCoderBrowser extends Browser {
 		super(parent, style);
 		this.browser = this;
 		this.controller = new CommandController(this);
+		session = new GeocoderSession( this.browser.getDisplay());
 		this.browser.setLayoutData( new GridData( SWT.FILL, SWT.FILL, true, true));
 		listeners = new ArrayList<IEvaluationListener<Map<String, String>>>();
-		session.init(parent.getDisplay());
-		session.start();
 		super.setUrl( S_INDEX_HTML);
 	}
 
 	public void addSessionListener( ISessionListener<Map<String, String>> listener ){
-		this.session.addSessionListener(listener);
+		//this.session.addSessionListener(listener);
 	}
 	
 	public void removeSesionListener( ISessionListener<Map<String, String>> listener ){
-		this.session.removeSessionListener(listener);
+		//this.session.removeSessionListener(listener);
 	}
 
 	public void addEvaluationListener( IEvaluationListener<Map<String, String>> listener ){

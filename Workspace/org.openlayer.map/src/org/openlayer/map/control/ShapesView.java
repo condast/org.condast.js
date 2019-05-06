@@ -66,6 +66,12 @@ public class ShapesView extends AbstractView<ShapesView.Commands> {
 		return super.perform(Commands.ADD_SHAPE, params );
 	}
 
+	public String addShape( String wtk ){
+		Collection<String> params = super.getParameters( Commands.ADD_SHAPE);
+		params.add( wtk );
+		return super.perform(Commands.ADD_SHAPE, params );
+	}
+
 	public String getShape( String id ){
 		Collection<String> params = super.getParameters( Commands.GET_SHAPE);
 		params.add( id );

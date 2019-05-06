@@ -38,11 +38,15 @@ public abstract class AbstractView<E extends Enum<E>> {
 	}
 	
 	protected String perform( E command, Collection<String> parameters ){
+		return perform( command, parameters.toArray( new String[ parameters.size() ]));
+	}
+
+	protected String perform( E command, String[] parameters ){
 		String query = command.toString();
 		if( Utils.assertNull(parameters))
 			controller.setQuery( query);
 		else
-			controller.setQuery( query, parameters.toArray( new String[ parameters.size() ]));
+			controller.setQuery( query, parameters);
 		return query;
 	}
 

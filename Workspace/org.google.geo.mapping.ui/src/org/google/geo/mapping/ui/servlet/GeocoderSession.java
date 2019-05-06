@@ -2,27 +2,26 @@ package org.google.geo.mapping.ui.servlet;
 
 import java.util.Map;
 
-import org.condast.js.commons.session.AbstractPushSession;
+import org.condast.commons.ui.session.AbstractSessionHandler;
+import org.condast.commons.ui.session.SessionEvent;
+import org.eclipse.swt.widgets.Display;
 
 
-public class GeocoderSession extends AbstractPushSession<Map<String, String>> {
+public class GeocoderSession extends AbstractSessionHandler<Map<String, String>> {
 
-	private static GeocoderSession session;
-	
-	private GeocoderSession() {
-		super();
-	}
-
-	public static GeocoderSession getInstance(){
-		if( session == null )
-			session = new GeocoderSession();
-		return session;
+	public  GeocoderSession( Display display) {
+		super( display);
 	}
 
 	@Override
 	public void dispose() {
-		session = null;
 		super.dispose();
+	}
+
+	@Override
+	protected void onHandleSession(SessionEvent<Map<String, String>> sevent) {
+		// TODO Auto-generated method stub
+		
 	}	
 	
 	

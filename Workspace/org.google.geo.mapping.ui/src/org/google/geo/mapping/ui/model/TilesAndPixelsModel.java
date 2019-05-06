@@ -7,7 +7,7 @@ import java.util.logging.Logger;
 
 import org.condast.commons.data.latlng.LatLng;
 import org.condast.commons.strings.StringStyler;
-import org.condast.js.commons.session.ISessionListener;
+import org.condast.commons.ui.session.ISessionListener;
 import org.google.geo.mapping.ui.controller.GeoCoderController;
 
 public class TilesAndPixelsModel {

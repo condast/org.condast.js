@@ -30,7 +30,7 @@ public class GeoCoderController extends AbstractJavascriptController{
 	}
 
 	@Override
-	public void notifyEvaluation( EvaluationEvent<Object[]> ee) {
+	public void notifyEvaluation( EvaluationEvent<Object> ee) {
 		super.notifyEvaluation(ee);
 	}
 }
