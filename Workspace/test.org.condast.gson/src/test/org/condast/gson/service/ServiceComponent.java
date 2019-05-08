@@ -7,10 +7,10 @@ import java.util.logging.Logger;
 
 import org.condast.commons.na.model.IApplication;
 import org.condast.commons.persistence.service.IPersistencyController;
-import org.condast.commons.ui.factory.ICompositeFactory;
 import org.eclipse.jface.wizard.IWizard;
 import org.eclipse.swt.widgets.Composite;
 
+import nl.eetmee.commons.factory.ICompositeFactory;
 import nl.eetmee.commons.service.AbstractCFServiceComponent;
 
 public class ServiceComponent extends AbstractCFServiceComponent<Object>{
