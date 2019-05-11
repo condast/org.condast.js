@@ -216,7 +216,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		builder.append(");");
 		Object[] results = null;
 		try {
-			logger.info(query);
+			logger.fine(query);
 			results = (Object[]) browser.evaluate( builder.toString() );
 		}
 		catch( IllegalStateException ex ) {

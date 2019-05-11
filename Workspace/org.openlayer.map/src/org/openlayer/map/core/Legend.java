@@ -24,6 +24,7 @@ public class Legend {
 		FIELD,
 		FOREST,
 		JETTY,
+		PARK,
 		PATH,
 		QUAY,
 		ROAD,
@@ -31,8 +32,19 @@ public class Legend {
 		SHALLOWS,
 		WETLAND,
 		BUILDING,
+		HOUSE,
 		CONCRETE;
-					
+		
+		private int[] rgba;
+				
+		public int[] getRgba() {
+			return rgba;
+		}
+
+		public void setRgba(int[] rgba) {
+			this.rgba = rgba;
+		}
+
 		@Override
 		public String toString() {
 			return StringStyler.prettyString( super.toString());
@@ -81,7 +93,9 @@ public class Legend {
 			break;
 		}
 		current = surr;
-		return ( surr == null )? Surroundings.UNKNOWN: surr;
+		current =  ( surr == null )? Surroundings.UNKNOWN: surr;
+		current.setRgba(rgba);
+		return current;
 	}
 
 	/**
@@ -163,7 +177,7 @@ public class Legend {
 
 	public static Surroundings getLegend( int[] rgba ) {
 		Map<RGBA, Surroundings> legend = Legend.getLegend();
-		Surroundings surr = legend.get( new RGBA( rgba ));
+		Surroundings surr = ( rgba == null )? Surroundings.UNKNOWN: legend.get( new RGBA( rgba ));
 		return ( surr == null )? Surroundings.UNKNOWN: surr;
 	}
 
