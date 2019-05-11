@@ -5,8 +5,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 
 import org.condast.commons.ui.session.AbstractSessionHandler;
 import org.condast.commons.ui.session.ISessionListener;
@@ -21,11 +19,11 @@ public abstract class AbstractSynchroniser<E extends Object> implements ISynchro
 	
 	private Map<Class<?>, AbstractListener<?,E>> listeners;
 	
-	private Lock lock;
+	private boolean block;
 	
 	public AbstractSynchroniser( Display display) {
 		controllers = new HashMap<>();
-		lock = new ReentrantLock();
+		this.block = false;
 		this.listeners = new HashMap<>();
 		handler = new SessionHandler( display );
 	}
@@ -70,13 +68,7 @@ public abstract class AbstractSynchroniser<E extends Object> implements ISynchro
 	}
 	
 	public synchronized void addData( E data ) {
-		this.lock.lock();
-		try {
-			this.handler.addData(data);
-		}
-		finally {
-			this.lock.unlock();
-		}
+		this.handler.addData(data);
 	}
 	
 	protected abstract void onHandleSessionEvent(SessionEvent<E> event);
@@ -105,10 +97,13 @@ public abstract class AbstractSynchroniser<E extends Object> implements ISynchro
 		 * Synchronises the registered controllers. 
 		 * NOTE: only one browser should be visible at at a certain time
 		 */
-		protected synchronized void synchronize() {
+		protected synchronized boolean synchronize() {
+			if( block )
+				return false;
+			//block = true;
+			boolean result = false;
 			Iterator<Map.Entry<IJavascriptController,Boolean>> iterator = controllers.entrySet().iterator();
 			try{
-				lock.lock();
 				while( iterator.hasNext() ) {
 					Map.Entry<IJavascriptController,Boolean> entry = iterator.next();
 					IJavascriptController controller = entry.getKey();
@@ -123,13 +118,15 @@ public abstract class AbstractSynchroniser<E extends Object> implements ISynchro
 							controller.clear();
 					}
 				}
+				result = true;
 			}
 			catch( Exception ex ) {
 				ex.printStackTrace();
 			}
 			finally {
-				lock.unlock();
+				block = false;
 			}
+			return result;
 		}
 
 	

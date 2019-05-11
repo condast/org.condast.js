@@ -65,7 +65,7 @@ public class IconsView extends AbstractView<IconsView.Commands>{
 	}
 
 	/**
-	 * Add an icon
+	 * Add a marker
 	 * @param name
 	 * @param latlng
 	 * @param opacity
@@ -74,6 +74,17 @@ public class IconsView extends AbstractView<IconsView.Commands>{
 	public String addMarker( LatLng latlng, IDefaultMarkers.Markers marker, char type ){
 		String name = StringUtils.isEmpty(latlng.getDescription())? latlng.getId(): latlng.getDescription();
 		return addMarker( latlng.getId(), name, latlng, marker, type, 1.0);
+	}
+
+	/**
+	 * Remove a marker
+	 * @param name
+	 * @param latlng
+	 * @param opacity
+	 * @return
+	 */
+	public String removeMarker( LatLng latlng ){
+		return removeIcon( latlng.getId());
 	}
 
 	/**
