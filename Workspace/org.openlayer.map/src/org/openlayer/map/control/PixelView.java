@@ -1,7 +1,8 @@
 package org.openlayer.map.control;
 
 import java.util.ArrayList;
-import java.util.Collection;
+import java.util.List;
+
 import org.condast.commons.data.colours.RGBA;
 import org.condast.commons.data.latlng.LatLng;
 import org.condast.commons.strings.StringStyler;
@@ -50,7 +51,7 @@ public class PixelView extends AbstractView<PixelView.Commands>{
 	 * @param first
 	 * @return
 	 */
-	public Collection<RGBA> getPixelsColour( LatLng first, LatLng last ){
+	public List<RGBA> getPixelsColour( LatLng first, LatLng last ){
 		String[] params = new String[4];
 		params[0] = String.valueOf( first.getLongitude() );
 		params[1] = String.valueOf( first.getLatitude() );
@@ -60,7 +61,7 @@ public class PixelView extends AbstractView<PixelView.Commands>{
 		Object[] results = getController().evaluate( query, params);
 		if( results == null )
 			return null;
-		Collection<RGBA> rgbs = new ArrayList<>();
+		List<RGBA> rgbs = new ArrayList<>();
 		for( Object result: results ) {
 			rgbs.add( new RGBA((Object[])result ));
 		}

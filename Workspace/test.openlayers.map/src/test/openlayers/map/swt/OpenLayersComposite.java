@@ -3,7 +3,9 @@ package test.openlayers.map.swt;
 import java.util.logging.Logger;
 
 import org.condast.commons.Utils;
+import org.condast.commons.data.latlng.Field;
 import org.condast.commons.data.latlng.FieldData;
+import org.condast.commons.data.latlng.IField;
 import org.condast.commons.data.latlng.LatLng;
 import org.condast.commons.data.latlng.Polygon;
 import org.condast.commons.strings.StringStyler;
@@ -61,25 +63,41 @@ public class OpenLayersComposite extends Composite {
 				public void run() {
 					GeoView geo = new GeoView( controller );
 					ShapesView shapes = new ShapesView( controller );
+					FieldData fieldData = event.getField();
 					switch( event.getEventType() ) {
 					case CLEAR:
 						shapes.clear();
 						//shapes.synchronize();
 						break;
 					case SET_FIELD:
-						geo.setFieldData(event.getField());
+						geo.setFieldData(fieldData);
 						int zoom = geo.getZoom();
 						geo.setZoom(zoom);
 						geo.jump();
-						if( event.getField() != null ) {
-							FieldData field = event.getField();
+						if( fieldData != null ) {
+							IField field = new Field( event.getField().getCoordinates(), 100, 100, 0 );
 							shapes = new ShapesView( controller );
 							shapes.clear();
-							shapes.setShape("test", ShapesView.Types.SQUARE );
-							Polygon pg = createPolygon( field.getName());
+							//shapes.addShape(fieldData.getWtkString() );
+							Polygon pg = createPolygon( fieldData.getName());
 							logger.info(pg.toWKT());
-							shapes.addShape(pg);
-							shapes.addShape(pg.getField().toWKT());
+							shapes.addShape(pg.toWKT());
+							pg.setAngle(90);
+							//shapes.addShape(pg.toWKT());
+							controller.synchronize();
+							requestLayout();
+						}
+						break;
+					case UPDATE_FIELD:
+						if( fieldData != null ) {
+							shapes = new ShapesView( controller );
+							shapes.clear();
+							//shapes.addShape(fieldData.getWtkString() );
+							Polygon pg = new Polygon( fieldData );
+							logger.info(pg.toWKT());
+							shapes.addShape(pg.toWKT());
+							//pg.setAngle(90);
+							//shapes.addShape(pg.toWKT());
 							controller.synchronize();
 							requestLayout();
 						}
@@ -150,6 +168,7 @@ public class OpenLayersComposite extends Composite {
 		setLayout(new GridLayout(2, false));
 		
 		this.fieldComposite = new FieldComposite( this, SWT.NONE);
+		this.fieldComposite.enableDraw(true);
 		this.fieldComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
 		this.fieldComposite.setInput( PolygonBuilder.getFieldData(), 0);
 		this.fieldComposite.addLocationListener(listener);
@@ -188,7 +207,7 @@ public class OpenLayersComposite extends Composite {
 					geo.setFieldData(pg.toFieldData(18));
 					geo.jump();
 					ShapesView shapes = new ShapesView( controller );
-					shapes.addShape(pg);
+					//shapes.addShape(selected.getWtkString());
 					//shapes.addShape(pg).
 					controller.synchronize();
 				}
