@@ -146,7 +146,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	protected abstract void onLoadCompleted();
 
 	protected void onLoadChanged(){ /* DEFAULT NOTHING */ }
-
 	
 	/**
 	 * Initialise the composite
@@ -201,6 +200,11 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		this.warnPending = warnPending;
 	}
 	
+	protected Collection<String> getParameters(){
+		Collection<String> parameters = new LinkedList<String>();
+		return parameters;
+	}
+
 	@Override
 	public  Object[] evaluate( String query, String[] params ) {
 		StringBuilder builder = new StringBuilder();
@@ -271,6 +275,10 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
     	controller.executeQuery();
      }
 
+    protected synchronized void performQuery( String function, Collection<String> params ){
+    	this.setQuery(function, params.toArray(new String[ params.size()]));
+    }
+    
     protected synchronized void performQuery( String function, String[] params ){
     	if(!browser.isVisible() )
 			return;
