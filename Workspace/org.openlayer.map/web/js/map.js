@@ -75,13 +75,9 @@ function getPixels( ln1, lt1, ln2, lt2 ){
  */
 function sendCoordinates( tp, e ){
 	try{
-		let geometry = e.feature.getGeometry();		
-		//Transform the geometry from web mercator (3857) to regular latitude and longitude (4326)
-		geometry.transform('EPSG:3857', 'EPSG:4326');
-		let lnglat = geometry.getCoordinates();  
-		let format = new ol.format.WKT();
-		let wktRepresentation  = format.writeGeometry(geometry);
-		onCallBack( tp, wktRepresentation, lnglat );
+		let feature = e.feature;
+		console.log(feature );
+		sendFeature( feature );
 	}
 	catch( e ){
 		console.log(e);
@@ -93,7 +89,8 @@ function sendCoordinates( tp, e ){
 */
 function sendFeature( tp, feature ){
 	try{
-		let geometry = feature.getGeometry();		
+		let geometry = feature.getGeometry();
+		console.log( geometry);
 		//Transform the geometry from web mercator (3857) to regular latitude and longitude (4326)
 		geometry.transform('EPSG:3857', 'EPSG:4326');
 		let lnglat = geometry.getCoordinates();  

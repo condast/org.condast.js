@@ -1,7 +1,7 @@
 package test.openlayers.map.polygon;
 
-import org.condast.commons.data.latlng.FieldData;
 import org.condast.commons.data.latlng.Polygon;
+import org.condast.commons.data.plane.FieldData;
 import org.condast.commons.strings.StringStyler;
 
 public class PolygonBuilder {

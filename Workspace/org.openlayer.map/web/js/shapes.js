@@ -3,6 +3,7 @@ var shape_source;
 var shape_layer;
 
 var draw;
+var feature;
 var geometry;
 
 init();
@@ -55,9 +56,18 @@ function setShape( name, value ) {
 		maxPoints: maxPoints
 	});
 	draw.on('drawend',function(e){
-		sendCoordinates( 'drawend', e );
+		try{
+			feature = e.feature;
+			geometry = e.feature.getGeometry();
+			console.log( geometry);
+			sendFeature( 'drawend', feature );
+		}
+		catch( err){
+			console.log( err);			
+		}
 	});	
 	map.addInteraction(draw);
+	console.log("drawing enabled");
 }
 
 function addShape( wkt_str){

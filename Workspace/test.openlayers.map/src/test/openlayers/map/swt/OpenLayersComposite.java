@@ -3,11 +3,11 @@ package test.openlayers.map.swt;
 import java.util.logging.Logger;
 
 import org.condast.commons.Utils;
-import org.condast.commons.data.latlng.Field;
-import org.condast.commons.data.latlng.FieldData;
-import org.condast.commons.data.latlng.IField;
 import org.condast.commons.data.latlng.LatLng;
 import org.condast.commons.data.latlng.Polygon;
+import org.condast.commons.data.plane.Field;
+import org.condast.commons.data.plane.FieldData;
+import org.condast.commons.data.plane.IField;
 import org.condast.commons.strings.StringStyler;
 import org.condast.commons.strings.StringUtils;
 import org.condast.commons.ui.field.FieldChangeEvent;

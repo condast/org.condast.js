@@ -2,8 +2,8 @@ package org.openlayer.map.control;
 
 import java.util.Collection;
 
-import org.condast.commons.data.latlng.IField;
 import org.condast.commons.data.latlng.Polygon;
+import org.condast.commons.data.plane.IField;
 import org.condast.commons.strings.StringStyler;
 import org.condast.js.commons.controller.AbstractView;
 import org.condast.js.commons.controller.IJavascriptController;

@@ -10,6 +10,7 @@ Automatic-Module-Name: test.openlyers.map
 Bundle-ActivationPolicy: lazy
 Import-Package: org.condast.commons,
  org.condast.commons.data.latlng,
+ org.condast.commons.data.plane,
  org.condast.commons.strings,
  org.condast.commons.ui.field,
  org.condast.commons.ui.location,
