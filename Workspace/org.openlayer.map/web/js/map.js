@@ -69,15 +69,36 @@ function getPixels( ln1, lt1, ln2, lt2 ){
 	return results;
 }
 
+function getAreaPixels( ln1, lt1, length, width ){
+	if( context == null )
+		return;
+	let lat1 = parseFloat( lt1 );
+	let lon1 = parseFloat( ln1 );
+	var coord1 = ol.proj.transform( [lon1, lat1], 'EPSG:4326', 'EPSG:3857' );
+	var pixel1 = map.getPixelFromCoordinate( coord1 );
+	var results = new Array(length);
+	for( var i=0; i<length; i++){
+		let x = pixel1[0] + i;		
+		for( var j=0; j<width; j++){
+			let y = pixel1[1] + j;
+			results[i] = context.getImageData(x*pixelRatio, y*pixelRatio, 1, 1).data;
+		}
+	}
+	return results;
+}
 /**
  * Send the given coordinates as a JAVA callback
  * @param coordinates
  */
 function sendCoordinates( tp, e ){
 	try{
-		let feature = e.feature;
-		console.log(feature );
-		sendFeature( feature );
+		let geometry = e.feature.getGeometry();		
+		//Transform the geometry from web mercator (3857) to regular latitude and longitude (4326)
+		geometry.transform('EPSG:3857', 'EPSG:4326');
+		let lnglat = geometry.getCoordinates();  
+		let format = new ol.format.WKT();
+		let wktRepresentation  = format.writeGeometry(geometry);
+		onCallBack( tp, wktRepresentation, lnglat );
 	}
 	catch( e ){
 		console.log(e);
