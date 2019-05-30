@@ -59,7 +59,6 @@ function setShape( name, value ) {
 		try{
 			feature = e.feature;
 			geometry = e.feature.getGeometry();
-			console.log( geometry);
 			sendFeature( 'drawend', feature );
 		}
 		catch( err){

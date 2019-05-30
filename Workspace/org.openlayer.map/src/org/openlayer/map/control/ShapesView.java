@@ -3,6 +3,7 @@ package org.openlayer.map.control;
 import java.util.Collection;
 
 import org.condast.commons.data.latlng.Polygon;
+import org.condast.commons.data.plane.FieldData.Shapes;
 import org.condast.commons.data.plane.IField;
 import org.condast.commons.strings.StringStyler;
 import org.condast.js.commons.controller.AbstractView;
@@ -24,14 +25,37 @@ public class ShapesView extends AbstractView<ShapesView.Commands> {
 	}
 
 	public static enum Types{
-		NONE,
-		SQUARE,
-		BOX,
+		POINT,
+		LINE_STRING,
+		LINEAR_RING,
+		MULTI_POINT,
+		MULTI_LINE_STRING,
+		MULTI_POLYGON,
+		GEOMETRY_COLLECTION,
 		CIRCLE;
-
+		
 		@Override
 		public String toString() {
 			return StringStyler.prettyString( this.name());
+		}
+
+		public static Types fromShape(Shapes shape) {
+			Types type = Types.POINT;
+			switch( shape ) {
+			case LINE:
+				type = LINE_STRING;
+				break;
+			case BOX:
+			case SQUARE:
+				type = Types.LINEAR_RING;
+				break;
+			case CIRCLE:
+				type = Types.CIRCLE;
+				break;
+			default:
+				break;
+			}
+			return type;
 		}
 	}
 
@@ -64,6 +88,16 @@ public class ShapesView extends AbstractView<ShapesView.Commands> {
 		params.add( name );
 		params.add( type.toString() );
 		return super.perform(Commands.SET_SHAPE, params );
+	}
+
+	/**
+	 * Create a new shape on the map of the given type
+	 * @param name
+	 * @param type
+	 * @return
+	 */
+	public String setShape( String name, Shapes shape){
+		return this.setShape( name, Types.fromShape( shape ));
 	}
 
 	public String addShape( Polygon polygon ){

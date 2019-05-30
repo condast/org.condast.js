@@ -80,6 +80,7 @@ function popup( location ){
 }
 
 function addSelectEvent( feature ){
+	var ft = feature;
 	var select = new ol.interaction.Select({
 		condition: ol.events.condition.pointerMove,
 		style: function(feature) {
@@ -88,7 +89,7 @@ function addSelectEvent( feature ){
 				element: document.getElementById('popup')
 			});
 			map.addOverlay(popup);	
-			popup.setPosition(feature.getGeometry().getCoordinates());       
+			popup.setPosition(ft.getGeometry().getCoordinates());       
 		}
 	});
 	map.addInteraction(select);
