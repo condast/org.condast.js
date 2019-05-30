@@ -6,9 +6,9 @@ import java.util.HashMap;
 import java.util.Iterator;
 import java.util.Map;
 
-import org.condast.commons.ui.session.AbstractSessionHandler;
-import org.condast.commons.ui.session.ISessionListener;
-import org.condast.commons.ui.session.SessionEvent;
+import org.condast.js.commons.session.AbstractSessionHandler;
+import org.condast.js.commons.session.ISessionListener;
+import org.condast.js.commons.session.SessionEvent;
 import org.eclipse.swt.widgets.Display;
 
 public abstract class AbstractSynchroniser<E extends Object> implements ISynchroniser {

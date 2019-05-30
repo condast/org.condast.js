@@ -1,0 +1,1 @@
+These class are included merely to prevent Maven from not building

@@ -53,6 +53,12 @@ public class ShapesView extends AbstractView<ShapesView.Commands> {
 		return super.clear( Commands.CLEAR_SHAPES );			
 	}
 	
+	/**
+	 * Create a new shape on the map of the given type
+	 * @param name
+	 * @param type
+	 * @return
+	 */
 	public String setShape( String name, Types type){
 		Collection<String> params = super.getParameters( Commands.SET_SHAPE);
 		params.add( name );
