@@ -12,17 +12,23 @@ public class GeoView {
 	public static final float DEF_VERTICAL = 0.001f;
 	
 	private FieldData fieldData;
+	private int zoom;
 	
 	private IJavascriptController controller;
 
 	public GeoView( IJavascriptController controller) {
 		this( controller, null );
+		this.zoom  = 3;
 	}
 	
 	public GeoView( IJavascriptController controller, FieldData fieldData) {
 		super();
 		this.controller = controller;
+		if( this.fieldData == null )
+			return;
 		this.fieldData = fieldData;	
+		this.zoom  = 3;
+		this.fieldData.setZoom( zoom );
 	}
 	
 	public FieldData getFieldData() {
@@ -31,6 +37,7 @@ public class GeoView {
 
 	public void setFieldData(FieldData fieldData) {
 		this.fieldData = fieldData;
+		this.fieldData.setZoom(zoom);
 	}
 
 	public LatLng getLatLng() {
@@ -93,27 +100,26 @@ public class GeoView {
 	}
 
 	public String zoom(){
+		int zoom = this.fieldData.getZoom();
 		String[] params = new String[1];
-		params[0] = String.valueOf( this.fieldData.getZoom() );
+		params[0] = String.valueOf( zoom );
 		String query = "zoom";
 		controller.setQuery( query, params );
 		return query;
 	}
 
 	public String zoomin() {
-		int zoom = this.fieldData.getZoom();
-		this.fieldData.setZoom(zoom++);
-		String query = "zoomout";
+		this.fieldData.setZoom(++zoom);
+		String query = "zoomin";
 		controller.setQuery( query );
 		return query;
 	}
 
 	public String zoomout() {
-		int zoom = this.fieldData.getZoom();
 		if( zoom > 0)
 			zoom--;
-		this.fieldData.setZoom(zoom++);
-		String query = "zoomin";
+		this.fieldData.setZoom(--zoom);
+		String query = "zoomout";
 		controller.setQuery( query );
 		return query;
 	}
@@ -124,10 +130,12 @@ public class GeoView {
 
 	public String jump(){
 		String[] params = new String[3];
+		if( this.fieldData == null)
+			return null;
 		LatLng latlng = this.fieldData.getCoordinates();
 		params[0] = String.valueOf( latlng.getLatitude() );
 		params[1] = String.valueOf( latlng.getLongitude());
-		params[2] = String.valueOf( this.fieldData.getZoom());
+		params[2] = String.valueOf( fieldData.getZoom());
 		String query = "jump";
 		controller.setQuery( query, params );
 		return query;

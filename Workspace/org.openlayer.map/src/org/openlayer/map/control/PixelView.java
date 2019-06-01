@@ -38,12 +38,7 @@ public class PixelView extends AbstractView<PixelView.Commands>{
 		Object[] results = getController().evaluate( query);
 		if( results == null )
 			return null;
-		double[] coll = new double[ results.length ];
-		for( int i=0; i<results.length; i++ ) {
-			double data = (Double) results[i];
-			coll[i] = (int)data;
-		}
-		return new LatLng( coll[0], coll[1]);
+		return new LatLng((double)results[1], (double)results[0]);
 	}
 
 	/**

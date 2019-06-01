@@ -26,8 +26,14 @@ function clear(){
 	}
 }
 
+/**
+ * Get the location of the current view
+ * @returns
+ */
 function getLocation(){
-	return map.getView().getCenter();
+	var inp = map.getView().getCenter();
+	var coord =  ol.proj.transform(inp, 'EPSG:3857', 'EPSG:4326') 
+	return coord;
 }
 
 function getPixel( latitude, longitude ){
