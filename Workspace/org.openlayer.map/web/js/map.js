@@ -26,6 +26,10 @@ function clear(){
 	}
 }
 
+function getLocation(){
+	return map.getView().getCenter();
+}
+
 function getPixel( latitude, longitude ){
 	let lat = parseFloat( latitude );
 	let lon = parseFloat( longitude );
@@ -98,7 +102,7 @@ function sendCoordinates( tp, e ){
 		var lnglat = geometry.getCoordinates();  
 		let format = new ol.format.WKT();
 		var wktRepresentation  = format.writeGeometry(geometry);
-		onCallBack( tp, wktRepresentation, lnglat );
+		onCallBack( tp, wktRepresentation, lnglat, null );
 	}
 	catch( e ){
 		console.log(e);

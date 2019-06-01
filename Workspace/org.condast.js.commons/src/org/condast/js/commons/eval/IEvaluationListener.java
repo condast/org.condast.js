@@ -12,6 +12,7 @@ public interface IEvaluationListener<T extends Object> {
 	public enum EventTypes{
 		DRAWEND,
 		ADD_SHAPE,
+		ADDEND_SHAPE,
 		SELECTED;
 
 		@Override

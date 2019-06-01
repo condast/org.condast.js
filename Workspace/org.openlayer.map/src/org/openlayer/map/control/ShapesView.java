@@ -2,9 +2,9 @@ package org.openlayer.map.control;
 
 import java.util.Collection;
 
-import org.condast.commons.data.latlng.Polygon;
 import org.condast.commons.data.plane.FieldData.Shapes;
 import org.condast.commons.data.plane.IField;
+import org.condast.commons.data.plane.IPolygon;
 import org.condast.commons.strings.StringStyler;
 import org.condast.js.commons.controller.AbstractView;
 import org.condast.js.commons.controller.IJavascriptController;
@@ -15,6 +15,7 @@ public class ShapesView extends AbstractView<ShapesView.Commands> {
 		CLEAR_SHAPES,
 		SET_SHAPE,
 		ADD_SHAPE,
+		ADDEND_SHAPE,
 		GET_SHAPE,
 		REMOVE_SHAPE;
 
@@ -100,7 +101,7 @@ public class ShapesView extends AbstractView<ShapesView.Commands> {
 		return this.setShape( name, Types.fromShape( shape ));
 	}
 
-	public String addShape( Polygon polygon ){
+	public String addShape( IPolygon polygon ){
 		Collection<String> params = super.getParameters( Commands.ADD_SHAPE);
 		params.add( polygon.toWKT() );
 		return super.perform(Commands.ADD_SHAPE, params );
@@ -110,6 +111,12 @@ public class ShapesView extends AbstractView<ShapesView.Commands> {
 		Collection<String> params = super.getParameters( Commands.ADD_SHAPE);
 		params.add( wtk );
 		return super.perform(Commands.ADD_SHAPE, params );
+	}
+
+	public String addendShape( String wtk ){
+		Collection<String> params = super.getParameters( Commands.ADDEND_SHAPE);
+		params.add( wtk );
+		return super.perform(Commands.ADDEND_SHAPE, params );
 	}
 
 	public String getShape( String id ){

@@ -59,7 +59,7 @@ function setShape( name, value ) {
 		try{
 			feature = e.feature;
 			geometry = e.feature.getGeometry();
-			sendFeature( 'drawend', feature );
+			sendFeature( 'addend-shape', feature );
 		}
 		catch( err){
 			console.log( err);			
@@ -79,6 +79,18 @@ function addShape( wkt_str){
 	});
 	shape_source.addFeature( feature );
 	onCallBack( 'add-shape', wkt_str, geometry.getCoordinates() );
+}
+
+function addendShape( wkt_str){
+	let format = new ol.format.WKT();
+	let geometry = format.readGeometry(wkt_str );
+	geometry.transform('EPSG:4326', 'EPSG:3857');
+	let feature = new ol.Feature({
+		name: name,
+		geometry: geometry
+	});
+	shape_source.addFeature( feature );
+	onCallBack( 'addend-shape', wkt_str, geometry.getCoordinates() );
 }
 
 function getShape( name ){

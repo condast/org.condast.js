@@ -13,6 +13,7 @@ import org.condast.js.commons.controller.IJavascriptController;
 public class PixelView extends AbstractView<PixelView.Commands>{
 
 	public static enum Commands{
+		GET_LOCATION,
 		GET_PIXEL,
 		GET_PIXELS,
 		GET_AREA_PIXELS;
@@ -26,7 +27,25 @@ public class PixelView extends AbstractView<PixelView.Commands>{
 	public PixelView( IJavascriptController controller) {
 		super( controller  );
 	}
-	
+
+	/**
+	 * Get the pixel at the given latlng position
+	 * @param latlng
+	 * @return
+	 */
+	public LatLng getLocation(){
+		String query = Commands.GET_LOCATION.toString();
+		Object[] results = getController().evaluate( query);
+		if( results == null )
+			return null;
+		double[] coll = new double[ results.length ];
+		for( int i=0; i<results.length; i++ ) {
+			double data = (Double) results[i];
+			coll[i] = (int)data;
+		}
+		return new LatLng( coll[0], coll[1]);
+	}
+
 	/**
 	 * Get the pixel at the given latlng position
 	 * @param latlng
