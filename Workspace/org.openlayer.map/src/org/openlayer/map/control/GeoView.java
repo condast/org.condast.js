@@ -37,7 +37,6 @@ public class GeoView {
 
 	public void setFieldData(FieldData fieldData) {
 		this.fieldData = fieldData;
-		this.fieldData.setZoom(zoom);
 	}
 
 	public LatLng getLatLng() {
