@@ -37,6 +37,14 @@ public interface IJavascriptController {
 	 * @param params
 	 * @return
 	 */
+	Object[] evaluate(String query);
+
+	/**
+	 * Evaluate the given expression
+	 * @param query
+	 * @param params
+	 * @return
+	 */
 	Object[] evaluate(String query, String[] params);
 
 	void addEvaluationListener(IEvaluationListener<Object> listener);

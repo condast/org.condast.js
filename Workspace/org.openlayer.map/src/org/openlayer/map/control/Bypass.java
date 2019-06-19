@@ -4,9 +4,9 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.condast.commons.data.colours.RGBA;
-import org.condast.commons.data.latlng.IField;
 import org.condast.commons.data.latlng.LatLng;
 import org.condast.commons.data.latlng.LatLngUtils;
+import org.condast.commons.data.plane.IField;
 import org.condast.commons.data.surroundings.AbstractBypass;
 import org.condast.js.commons.controller.IJavascriptController;
 import org.openlayer.map.core.Legend;
@@ -22,12 +22,12 @@ public class Bypass extends AbstractBypass {
 
 	@Override
 	protected boolean attempt(LatLng first, LatLng last) {
-		Collection<RGBA> rgbs = pixelView.getPixelsColour(first, last);
-		for( RGBA rgba: rgbs ) {
-			if(!Legend.Surroundings.WATER.equals( Legend.getLegend(rgba.toArray()))) {
-				return false;
-			}
-		}
+		//Collection<RGBA> rgbs = pixelView.getPixelsColour(first, last);
+		//for( RGBA rgba: rgbs ) {
+		//	if(!Legend.Surroundings.WATER.equals( Legend.getLegend(rgba.toArray()))) {
+		//		return false;
+		//	}
+		//}
 		return true;
 	}
 

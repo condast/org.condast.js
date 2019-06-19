@@ -53,9 +53,9 @@
     <module>../org.condast.js.commons</module>
     <!-- <module>../org.eclipse.rap.chartjs</module> -->    
     
-    <module>../org.google.geo.mapping</module>
-    <module>../org.google.geo.mapping.ui</module>
-    <module>../org.condast.postcode.api</module>
+    
+    
+    
     <module>../org.openlayer.map</module>
     <module>../nl.martijndwars.webpush</module>    
     <module>../org.condast.js.feature</module>

@@ -73,11 +73,13 @@ function zoom( zoom ){
 }
 
 function zoomin(){
-    view.setZoom( view.getZoom() - 1);
+    view.setZoom( view.getZoom() + 1);
+    console.log( view.getZoom());
 }
 
 function zoomout(){
-    view.setZoom( view.getZoom() + 1);
+    view.setZoom( view.getZoom() - 1);
+    console.log( view.getZoom());
 }
 
 initInteraction();

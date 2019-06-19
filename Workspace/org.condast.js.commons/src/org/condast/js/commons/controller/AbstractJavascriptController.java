@@ -206,6 +206,27 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	}
 
 	@Override
+	public  Object[] evaluate( String query ) {
+		StringBuilder builder = new StringBuilder();
+		builder.append( "return ");
+		builder.append( query );
+		builder.append("();");
+		Object[] results = null;
+		try {
+			logger.fine(query);
+			results = (Object[]) browser.evaluate( builder.toString() );
+		}
+		catch( IllegalStateException ex ) {
+			if( this.warnPending )
+				logger.info(ex.getMessage());
+			else {
+				logger.fine(ex.getMessage());				
+			}
+		}
+		return results;
+	}
+	
+	@Override
 	public  Object[] evaluate( String query, String[] params ) {
 		StringBuilder builder = new StringBuilder();
 		builder.append( "return ");
@@ -275,6 +296,10 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
     	controller.executeQuery();
      }
 
+    protected synchronized void performQuery( String function ){
+    	this.setQuery(function, null);
+    }
+ 
     protected synchronized void performQuery( String function, Collection<String> params ){
     	this.setQuery(function, params.toArray(new String[ params.size()]));
     }

@@ -26,6 +26,10 @@ function clear(){
 	}
 }
 
+function getLocation(){
+	return map.getView().getCenter();
+}
+
 function getPixel( latitude, longitude ){
 	let lat = parseFloat( latitude );
 	let lon = parseFloat( longitude );
@@ -69,6 +73,23 @@ function getPixels( ln1, lt1, ln2, lt2 ){
 	return results;
 }
 
+function getAreaPixels( ln1, lt1, length, width ){
+	if( context == null )
+		return;
+	let lat1 = parseFloat( lt1 );
+	let lon1 = parseFloat( ln1 );
+	var coord1 = ol.proj.transform( [lon1, lat1], 'EPSG:4326', 'EPSG:3857' );
+	var pixel1 = map.getPixelFromCoordinate( coord1 );
+	var results = new Array(length);
+	for( var i=0; i<length; i++){
+		let x = pixel1[0] + i;		
+		for( var j=0; j<width; j++){
+			let y = pixel1[1] + j;
+			results[i] = context.getImageData(x*pixelRatio, y*pixelRatio, 1, 1).data;
+		}
+	}
+	return results;
+}
 /**
  * Send the given coordinates as a JAVA callback
  * @param coordinates
@@ -78,10 +99,10 @@ function sendCoordinates( tp, e ){
 		let geometry = e.feature.getGeometry();		
 		//Transform the geometry from web mercator (3857) to regular latitude and longitude (4326)
 		geometry.transform('EPSG:3857', 'EPSG:4326');
-		let lnglat = geometry.getCoordinates();  
+		var lnglat = geometry.getCoordinates();  
 		let format = new ol.format.WKT();
-		let wktRepresentation  = format.writeGeometry(geometry);
-		onCallBack( tp, wktRepresentation, lnglat );
+		var wktRepresentation  = format.writeGeometry(geometry);
+		onCallBack( tp, wktRepresentation, lnglat, null );
 	}
 	catch( e ){
 		console.log(e);
@@ -93,13 +114,30 @@ function sendCoordinates( tp, e ){
 */
 function sendFeature( tp, feature ){
 	try{
-		let geometry = feature.getGeometry();		
+		var ft = feature;
+		var geometry = ft.getGeometry();
+		var geomType = geometry.getType();
+
+		//console.log( geometry + ": " + geomType + ": " + tp );
 		//Transform the geometry from web mercator (3857) to regular latitude and longitude (4326)
 		geometry.transform('EPSG:3857', 'EPSG:4326');
-		let lnglat = geometry.getCoordinates();  
+
+		var lnglat;
+		if (geomType === 'Polygon'){
+			var linerings = geometry.getLinearRings();
+			var coordinates = linerings[0].getCoordinates();
+			lnglat = geometry.getCoordinates();  
+		}else if (geomType === 'Circle'){
+			//Circles to not have a WKT representation, so we approximate this
+			//using a polygon
+			lnglat = geometry.getCenter();  
+			geometry = ol.geom.Polygon.fromCircle(geometry, 12,0);
+		}else{
+			lnglat = geometry.getCoordinates();  
+		}
 		let format = new ol.format.WKT();
-		let wktRepresentation  = format.writeGeometry(geometry);
-		onCallBack( tp, wktRepresentation, lnglat );
+		var wktRepresentation  = format.writeGeometry(geometry);
+		onCallBack( tp, wktRepresentation, lnglat, geomType );
 	}
 	catch( e ){
 		console.log(e);

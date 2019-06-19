@@ -3,6 +3,7 @@ var shape_source;
 var shape_layer;
 
 var draw;
+var feature;
 var geometry;
 
 init();
@@ -55,9 +56,17 @@ function setShape( name, value ) {
 		maxPoints: maxPoints
 	});
 	draw.on('drawend',function(e){
-		sendCoordinates( 'drawend', e );
+		try{
+			feature = e.feature;
+			geometry = e.feature.getGeometry();
+			sendFeature( 'addend-shape', feature );
+		}
+		catch( err){
+			console.log( err);			
+		}
 	});	
 	map.addInteraction(draw);
+	console.log("drawing enabled");
 }
 
 function addShape( wkt_str){
@@ -70,6 +79,18 @@ function addShape( wkt_str){
 	});
 	shape_source.addFeature( feature );
 	onCallBack( 'add-shape', wkt_str, geometry.getCoordinates() );
+}
+
+function addendShape( wkt_str){
+	let format = new ol.format.WKT();
+	let geometry = format.readGeometry(wkt_str );
+	geometry.transform('EPSG:4326', 'EPSG:3857');
+	let feature = new ol.Feature({
+		name: name,
+		geometry: geometry
+	});
+	shape_source.addFeature( feature );
+	onCallBack( 'addend-shape', wkt_str, geometry.getCoordinates() );
 }
 
 function getShape( name ){
