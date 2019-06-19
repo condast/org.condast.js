@@ -17,16 +17,18 @@
    </license>
 
    <requires>
-      <import plugin="org.eclipse.equinox.preferences"/>
-      <import plugin="org.eclipse.rap.rwt"/>
-      <import plugin="org.eclipse.osgi.services"/>
       <import plugin="com.google.gson"/>
-      <import plugin="javax.servlet"/>
-      <import plugin="org.condast.commons.data"/>
+      <import plugin="org.condast.commons"/>
+      <import plugin="org.eclipse.rap.rwt"/>
       <import plugin="org.apache.commons.codec"/>
       <import plugin="org.apache.commons.logging"/>
       <import plugin="org.condast.commons.messaging"/>
       <import plugin="org.slf4j.api"/>
+      <import plugin="javax.servlet"/>
+      <import plugin="org.condast.commons.data"/>
+      <import plugin="org.condast.commons.ui"/>
+      <import plugin="org.eclipse.equinox.http.registry"/>
+      <import plugin="org.eclipse.osgi"/>
    </requires>
 
    <plugin
@@ -45,6 +47,20 @@
 
    <plugin
          id="nl.martijndwars.webpush"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.google.geo.mapping.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.condast.postcode.api"
          download-size="0"
          install-size="0"
          version="0.0.0"
