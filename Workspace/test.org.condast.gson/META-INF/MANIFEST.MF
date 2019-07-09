@@ -7,7 +7,6 @@ Bundle-Activator: test.org.condast.gson.Activator
 Bundle-Vendor: Condast
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
 Import-Package: nl.eetmee.commons.admin,
- nl.eetmee.commons.factory,
  nl.eetmee.commons.profile.def,
  nl.eetmee.commons.profile.utils,
  nl.eetmee.commons.service,
