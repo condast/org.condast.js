@@ -7,9 +7,10 @@ import java.security.NoSuchProviderException;
 import java.security.PublicKey;
 import java.security.Security;
 import java.security.spec.InvalidKeySpecException;
-import java.util.Base64;
+
 import java.util.Map;
 
+import org.apache.commons.codec.binary.Base64;
 import org.bouncycastle.jce.ECNamedCurveTable;
 import org.bouncycastle.jce.provider.BouncyCastleProvider;
 import org.bouncycastle.jce.spec.ECNamedCurveParameterSpec;
@@ -74,7 +75,8 @@ public class Subscription implements ISubscription {
 	 * Returns the base64 encoded auth string as a byte[]
 	 */
 	public byte[] getAuthAsBytes() {
-		return Base64.getDecoder().decode(getAuth());
+		//return java.utils.Base64.getDecoder().decode(getAuth());
+		return Base64.decodeBase64( getAuth() );
 	}
 
 	public String getKey() {
@@ -89,7 +91,8 @@ public class Subscription implements ISubscription {
 	 * Returns the base64 encoded public key string as a byte[]
 	 */
 	public byte[] getKeyAsBytes() {
-		return Base64.getDecoder().decode(getKey());
+		//return Base64.getDecoder().decode(getKey());
+		return Base64.decodeBase64( getKey() );
 	}
 
 	/**
