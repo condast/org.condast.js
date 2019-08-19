@@ -7,7 +7,6 @@ import java.util.Collection;
 import java.util.HashMap;
 import java.util.Map;
 
-import org.condast.commons.Utils;
 import org.condast.commons.strings.StringUtils;
 
 public class PushOptionsBuilder {
@@ -95,10 +94,8 @@ public class PushOptionsBuilder {
 	@Override
 	public String toString() {
 		Gson gson = new Gson();
-		if( !Utils.assertNull(this.actions)) {
-			Action[] arr = this.actions.toArray(new Action[ this.actions.size()]);
-			this.options.put(Options.ACTIONS.toString(), arr);
-		}
+		Action[] arr = this.actions.toArray(new Action[ this.actions.size()]);
+		this.options.put(Options.ACTIONS.toString(), arr);
 		return gson.toJson(options);
 	}
 
@@ -106,12 +103,14 @@ public class PushOptionsBuilder {
 		private String action;
 		private String title;
 		private String icon;
+		
 		public Action(String action, String title, String icon) {
 			super();
 			this.action = action;
 			this.title = title;
 			this.icon = icon;
 		}
+		
 		/* (non-Javadoc)
 		 * @see org.condast.js.commons.push.IPushAction#getAction()
 		 */
@@ -126,6 +125,7 @@ public class PushOptionsBuilder {
 		public String getTitle() {
 			return title;
 		}
+		
 		/* (non-Javadoc)
 		 * @see org.condast.js.commons.push.IPushAction#getIcon()
 		 */

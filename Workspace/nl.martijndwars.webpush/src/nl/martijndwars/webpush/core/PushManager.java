@@ -28,14 +28,10 @@ public class PushManager{
 	public static final String S_ERR_UNKNOWN_REQUEST = "An invalid request was rertrieved: ";
 	public static final String S_ERR_INVALID_VESSEL = "A request was received from an unknown vessel:";
 	
-	public static final String S_PUBLIC_KEY = "BDvq04Lz9f7WBugyNHW2kdgFI7cjd65fzfFRpNdRpa9zWvi4yAD8nAvgb8c8PpRXdtgUqqZDG7KbamEgxotOcaA";
-	public static final String S_CODED = "BMfyyFPnyR8MRrzPJ6jloLC26FyXMcrL8v46d7QEUccbQVArghc9YHC6USyp4TggrFleNzAUq8df0RiSS13xwtM";
-
 	public static final long DEFAULT_PERIOD = 3600000;//every hour
 	
 	/** The Time to live of GCM notifications */
 	private static final int TTL = 255;
-
 
 	private Logger logger = Logger.getLogger(this.getClass().getName());
 
