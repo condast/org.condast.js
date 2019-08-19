@@ -7,5 +7,4 @@ interface IPushAction {
 	String getTitle();
 
 	String getIcon();
-
 }

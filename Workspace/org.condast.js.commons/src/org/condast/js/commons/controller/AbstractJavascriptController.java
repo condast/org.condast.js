@@ -7,6 +7,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Stack;
+import java.util.concurrent.locks.Lock;
+import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 
 import org.condast.commons.Utils;
@@ -38,6 +40,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	private String id;
 	private boolean disposed;
 	private boolean warnPending;
+	private Lock lock;
 	
 	private Logger logger = Logger.getLogger( this.getClass().getName());
 	
@@ -56,8 +59,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 				}
 				finally {
 					controller.clearHistory();
-					Thread.currentThread().interrupt();
-					logger.fine("EXECUTION SUCCEEDED");
 				}
 			}
 			@Override
@@ -75,7 +76,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 					buffer.append( controller.retrieve() );
 					logger.warning(buffer.toString());
 					controller.clearHistory();
-					Thread.currentThread().interrupt();
 				}
 			}
 		};
@@ -109,6 +109,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		this.browser = browser;
 		this.browser.addDisposeListener(dl);
 		listeners = new ArrayList<>();
+		this.lock = new ReentrantLock();
 		this.controller = new CommandController( );
 		browser.addProgressListener( new ProgressListener() {
 			private static final long serialVersionUID = 1L;
@@ -174,7 +175,8 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		browser.setText( readInput(in));	
 	}
 	
-	protected Browser getBrowser(){
+	@Override
+	public Browser getBrowser(){
 		return browser;
 	}
 	
@@ -192,6 +194,17 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		this.controller.clear();
 	}
 	
+	@Override
+	public boolean isEmpty() {
+		lock.lock();
+		try {
+			return this.controller.isEmpty();
+		}
+		finally {
+			lock.unlock();
+		}
+	}
+
 	protected boolean isWarnPending() {
 		return warnPending;
 	}
@@ -275,10 +288,16 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			listener.notifyEvaluation(ee);
 	}
 
-    @Override
+	@Override
 	public synchronized void setQuery( String function, String[] params ){
-    	controller.setQuery(function, params);
-    }
+		lock.lock();
+		try {
+			controller.setQuery(function, params);
+		}
+		finally {
+			lock.unlock();
+		}
+	}
 
 	/**
 	 * Set a query. It will be carried out as soon as possible
@@ -290,27 +309,22 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		setQuery( function, new String[0]);
 	}
 
+    protected synchronized void setQuery( String function, Collection<String> params ){
+    	this.setQuery(function, params.toArray(new String[ params.size()]));
+    }
+
     protected synchronized void executeQuery(){
     	if( disposed || browser.isDisposed() || !browser.isVisible() )
     		return;
-    	controller.executeQuery();
-     }
+    	lock.lock();
+    	try {
+    		controller.executeQuery();
+    	}
+    	finally {
+    		lock.unlock();
+    	}
+    }
 
-    protected synchronized void performQuery( String function ){
-    	this.setQuery(function, null);
-    }
- 
-    protected synchronized void performQuery( String function, Collection<String> params ){
-    	this.setQuery(function, params.toArray(new String[ params.size()]));
-    }
-    
-    protected synchronized void performQuery( String function, String[] params ){
-    	if(!browser.isVisible() )
-			return;
-		controller.setQuery(function, params);
-		controller.executeQuery();
-	}
-	
 	@Override
 	public void synchronize() {
 		if(isDisposed())
@@ -329,7 +343,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	}
 
 	protected String readInput( InputStream in ){
-		StringBuffer buffer = new StringBuffer();
+		StringBuilder buffer = new StringBuilder();
 		Scanner scanner = new Scanner( in );
 		try{
 		while( scanner.hasNextLine() )
@@ -356,6 +370,10 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			this.commands.clear();
 		}
 
+		private boolean isEmpty() {
+			return this.commands.isEmpty();
+		}
+		
 		private void clearHistory(){
 			this.history.clear();
 		}
@@ -399,7 +417,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 				browser.evaluate( query, getCallBack() );
 				browser.requestLayout();
 			}
-			catch( IllegalStateException se ){
+			catch( Exception se ){
 				logger.warning( se.getMessage() + ": " + query );
 				return false;
 			}
@@ -409,7 +427,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		private final synchronized void executeQuery(){
 			if( commands.isEmpty() )
 				return;
-			StringBuffer buffer = new StringBuffer();
+			StringBuilder buffer = new StringBuilder();
 			while( !commands.isEmpty() ){
 				Map.Entry<String, String[]> command = commands.removeLast();
 				buffer.append( setFunction(command.getKey(), command.getValue()));
@@ -469,8 +487,15 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 
 		@Override
 		public Object function(Object[] arguments) {
-			notifyEvaluation( new EvaluationEvent<Object>( this, id, EvaluationEvents.EVENT, arguments ));
-			return super.function(arguments);
+			Object result = null;
+			try {
+				notifyEvaluation( new EvaluationEvent<Object>( this, id, EvaluationEvents.EVENT, arguments ));
+				result = super.function(arguments);
+			}
+			catch( Exception ex ) {
+				ex.printStackTrace();
+			}
+			return result;
 		}	
 	}
 }

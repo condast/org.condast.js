@@ -1,6 +1,7 @@
 package org.condast.js.commons.controller;
 
 import org.condast.js.commons.eval.IEvaluationListener;
+import org.eclipse.swt.browser.Browser;
 
 public interface IJavascriptController {
 
@@ -59,4 +60,16 @@ public interface IJavascriptController {
 	 * Default, when synchronisation between clients is not needed
 	 */
 	void synchronize();
+
+	/**
+	 * returns true if the controller has not pening commands
+	 * @return
+	 */
+	boolean isEmpty();
+
+	/**
+	 * Get the widget
+	 * @return
+	 */
+	Browser getBrowser();
 }
