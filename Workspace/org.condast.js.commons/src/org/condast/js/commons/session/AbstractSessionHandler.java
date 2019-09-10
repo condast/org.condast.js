@@ -49,6 +49,14 @@ public abstract class AbstractSessionHandler<D extends Object> {
 		this.session.start();
 	}
 	
+	public void addSessionListener( ISessionListener<D> listener ) {
+		this.session.addSessionListener(listener);
+	}
+
+	public void removeSessionListener( ISessionListener<D> listener ) {
+		this.session.removeSessionListener(listener);
+	}
+
 	protected boolean isDisposed() {
 		return disposed;
 	}
