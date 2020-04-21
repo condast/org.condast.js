@@ -8,6 +8,7 @@
             base-name="/web">
       </resource>
    </extension>
+  <!--
    <extension
          id="mapFilter"
          point="org.eclipse.equinox.http.registry.filters">
@@ -16,4 +17,5 @@
             class="org.openlayer.map.servlet.MapFilter">
       </filter>
     </extension> 
+    -->
 </plugin>

@@ -1,23 +1,17 @@
 package org.openlayer.map.control;
 
-import java.util.Collection;
 import java.util.Map;
 
-import org.condast.commons.data.colours.RGBA;
 import org.condast.commons.data.latlng.LatLng;
 import org.condast.commons.data.latlng.LatLngUtils;
 import org.condast.commons.data.plane.IField;
 import org.condast.commons.data.surroundings.AbstractBypass;
 import org.condast.js.commons.controller.IJavascriptController;
-import org.openlayer.map.core.Legend;
 
 public class Bypass extends AbstractBypass {
 
-	private PixelView pixelView;
-	
 	public Bypass(IField field, IJavascriptController controller) {
 		super(field);
-		pixelView = new PixelView( controller );
 	}
 
 	@Override

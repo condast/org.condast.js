@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.condast.commons.Utils;
-import org.condast.js.commons.controller.IJavascriptController;
 
 public abstract class AbstractView<E extends Enum<E>> {
 	
