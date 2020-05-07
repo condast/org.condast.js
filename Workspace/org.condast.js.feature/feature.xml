@@ -20,15 +20,16 @@
       <import plugin="com.google.gson"/>
       <import plugin="org.condast.commons"/>
       <import plugin="org.eclipse.rap.rwt"/>
+      <import plugin="javax.servlet"/>
+      <import plugin="org.condast.commons.data"/>
       <import plugin="org.apache.commons.codec"/>
       <import plugin="org.apache.commons.logging"/>
       <import plugin="org.condast.commons.messaging"/>
       <import plugin="org.slf4j.api"/>
-      <import plugin="javax.servlet"/>
-      <import plugin="org.condast.commons.data"/>
       <import plugin="org.condast.commons.ui"/>
       <import plugin="org.eclipse.equinox.http.registry"/>
       <import plugin="org.eclipse.osgi"/>
+      <import plugin="org.eclipse.rap.jface"/>
    </requires>
 
    <plugin
@@ -54,13 +55,6 @@
 
    <plugin
          id="org.google.geo.mapping.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.condast.postcode.api"
          download-size="0"
          install-size="0"
          version="0.0.0"
