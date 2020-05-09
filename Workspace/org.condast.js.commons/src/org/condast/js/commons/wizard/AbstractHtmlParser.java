@@ -5,7 +5,7 @@ import java.io.IOException;
 import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
-
+import org.condast.commons.auth.AuthenticationData;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.BrowserFunction;
 
@@ -50,17 +50,6 @@ public abstract class AbstractHtmlParser {
 		}	
 	}
 
-	public enum Authentication{
-		ID,
-		TOKEN,
-		IDENTIFIER;
-
-		@Override
-		public String toString() {
-			return super.toString().toLowerCase();
-		}		
-	}
-
 	public enum Attributes{
 		MIN,
 		MAX,
@@ -93,7 +82,7 @@ public abstract class AbstractHtmlParser {
 
 	protected abstract String onHandleLabel( String id, Attributes attr );
 
-	protected abstract String onHandleAuthentication( String id, Authentication attr );
+	protected abstract String onHandleAuthentication( String id, AuthenticationData.Authentication attr );
 
 	protected abstract String onHandleValues( Functions function, String id, Attributes attr );
 
@@ -138,7 +127,7 @@ public abstract class AbstractHtmlParser {
          		builder.append( onHandleScript( clss, path ));
         		break;
         	case AUTHENTICATION:
-        		Authentication auth = Authentication.valueOf(split[2].toUpperCase());
+        		AuthenticationData.Authentication auth = AuthenticationData.Authentication.valueOf(split[2].toUpperCase());
         		builder.append( onHandleAuthentication(split[1], auth ));
         		break;
         	case LABEL:
