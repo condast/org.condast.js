@@ -60,13 +60,9 @@ public class PushOptionsBuilder {
 		this.options.put(key.toString(), check );
 	}
 
-	public void removeOption( Options key, Object value ) {
-		System.out.println( "org.condast.js.commons.push.PushOptionsBuilder.removeOption(...) was changed. Check if this is correct...");
-		//changed from ... 
-		//this.options.remove( key, value);
-		//...to
-		this.options.remove( key );
-		}
+	public void removeOption( Options key ) {
+		this.options.remove( key.name() );
+	}
 
 	public void addAction( String action, String title, String icon ) {
 		this.actions.add( new Action( action, title, icon));

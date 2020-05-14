@@ -38,6 +38,7 @@ public abstract class AbstractHtmlParser {
 	public static final String REGEX = "\\$\\{(.+?)\\}";
 
 	public enum Functions{
+		CONTEXT,
 		LINK,
 		LABEL,
 		VALUE,
@@ -78,6 +79,8 @@ public abstract class AbstractHtmlParser {
 		};
 	}
 
+	protected abstract String onHandleContext( String context, String application, String service);
+
 	protected abstract void onHandleLinks( String link );
 
 	protected abstract String onHandleLabel( String id, Attributes attr );
@@ -117,6 +120,11 @@ public abstract class AbstractHtmlParser {
     		builder.append(str.substring(i, matcher.start()));
     		Attributes attr = null;
     		switch( function) {
+        	case CONTEXT:
+        		builder.append("'");
+        		builder.append( onHandleContext(split[0], split[1], split[2]));
+        		builder.append("/'");
+        		break;
         	case LINK:
         		String replacement = "javascript:" + split[0] + "(\"" + split[1] + "\")";
         		builder.append(replacement);
