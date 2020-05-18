@@ -121,9 +121,8 @@ public abstract class AbstractHtmlParser {
     		Attributes attr = null;
     		switch( function) {
         	case CONTEXT:
-        		builder.append("'");
         		builder.append( onHandleContext(split[0], split[1], split[2]));
-        		builder.append("/'");
+        		builder.append("/");
         		break;
         	case LINK:
         		String replacement = "javascript:" + split[0] + "(\"" + split[1] + "\")";

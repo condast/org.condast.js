@@ -334,8 +334,8 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	
 	/**
 	 * Create a default call back function for javascript handling
-	 * @param id
-	 * @param name
+	 * @param id: the type of callback
+	 * @param name: the name of the javascript function
 	 * @return
 	 */
 	protected BrowserFunction createCallBackFunction( String id, String name ){
@@ -472,7 +472,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	}
 	
 	/**
-	 * a default browser function that ca be added to javascript code for call back
+	 * a default browser function that can be added to javascript code for call back
 	 * @author Kees
 	 *
 	 */
