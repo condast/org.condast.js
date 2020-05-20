@@ -174,7 +174,7 @@ public abstract class AbstractHtmlParser {
 			builder.append( parse( in ));
 			builder.append("\n");
 	        builder.append( create(Resources.FOOTER, clss));
-	        builder.append("</body></html>");
+	        builder.append("\n</body>\n</html>");
 			this.browser.setText( builder.toString() );
 			this.browser.requestLayout();	
 			
