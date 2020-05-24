@@ -171,6 +171,7 @@ public abstract class AbstractHtmlParser {
 			builder.append("\n");
 			builder.append("<body onload='load()'>\n");
 			builder.append( create(Resources.NAVIGATION, clss));
+			builder.append("\n");
 			builder.append( parse( in ));
 			builder.append("\n");
 	        builder.append( create(Resources.FOOTER, clss));
