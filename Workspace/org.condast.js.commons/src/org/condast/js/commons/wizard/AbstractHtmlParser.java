@@ -81,6 +81,10 @@ public abstract class AbstractHtmlParser {
 
 	protected abstract String onHandleContext( String context, String application, String service);
 
+	protected String onCreateLink( String id, String type, String url ) {
+		return url;
+	}
+
 	protected abstract void onHandleLinks( String link );
 
 	protected abstract String onHandleLabel( String id, Attributes attr );
@@ -126,7 +130,8 @@ public abstract class AbstractHtmlParser {
         		break;
         	case LINK:
         		String replacement = "javascript:" + split[0] + "(\"" + split[1] + "\")";
-        		builder.append(replacement);
+        		String[] decode = split[1].split("[?]");
+        		builder.append( onCreateLink( split[0], decode[0], replacement));
         		break;
         	case SCRIPT:
         		String path = (split.length == 2 )? split[1]: split[1] + "/" + split[2]; 
