@@ -1,6 +1,6 @@
-package org.condast.js.commons.push;
+package org.condast.js.push.core;
 
-interface IPushAction {
+public interface IPushAction {
 
 	String getAction();
 

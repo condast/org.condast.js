@@ -1,15 +1,12 @@
 package org.condast.js.commons.wizard;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.util.regex.Matcher;
-import java.util.regex.Pattern;
-import org.condast.commons.auth.AuthenticationData;
+import org.condast.js.commons.parser.AbstractFileParser;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.BrowserFunction;
 
-public abstract class AbstractHtmlParser {
+public abstract class AbstractHtmlParser extends AbstractFileParser{
 
 	public enum Resources{
 		HEADER,
@@ -27,48 +24,11 @@ public abstract class AbstractHtmlParser {
 		}
 	}
 
-	public static final String S_HEADER = "<!DOCTYPE html><html ";
-	public static final String S_LANGUAGE = "lang='";
-	public static final String S_FOOTER = "</html>";
-
-	public static final String S_DISPOSED = "<html><h1><b>This page is Disposed</b><h1></html>";
-
-	public static final String S_RESOURCES = "/resources/";
-
-	public static final String REGEX = "\\$\\{(.+?)\\}";
-
-	public enum Functions{
-		CONTEXT,
-		LINK,
-		LABEL,
-		VALUE,
-		AUTHENTICATION,
-		SCRIPT;
-
-		@Override
-		public String toString() {
-			return super.toString().toLowerCase();
-		}	
-	}
-
-	public enum Attributes{
-		MIN,
-		MAX,
-		AUTHENTICATION;
-
-		@Override
-		public String toString() {
-			return super.toString().toLowerCase();
-		}	
-	}
-
 	private Browser browser;
-	private Class<?> clss;
 
-	public AbstractHtmlParser( Browser browser, Class<?> clss ) {
-		super();
+	protected AbstractHtmlParser( Browser browser, Class<?> clss ) {
+		super( clss );
 		this.browser = browser;
-		this.clss = clss;
 		new BrowserFunction(browser, Functions.LINK.toString()) {
 
 			@Override
@@ -79,39 +39,12 @@ public abstract class AbstractHtmlParser {
 		};
 	}
 
-	protected abstract String onHandleContext( String context, String application, String service);
-
-	protected String onCreateLink( String id, String type, String url ) {
-		return url;
-	}
-
-	protected abstract void onHandleLinks( String link );
-
-	protected abstract String onHandleLabel( String id, Attributes attr );
-
-	protected abstract String onHandleAuthentication( String id, AuthenticationData.Authentication attr );
-
-	protected abstract String onHandleValues( Functions function, String id, Attributes attr );
-
-	protected abstract String onHandleFunction( Functions function, String id, Attributes attr );
-
-	protected abstract String onHandleScript( Class<?> clss, String path );
-
 	public String create( Resources resource, Class<?> clss ) throws IOException {
 		InputStream in = clss.getResourceAsStream(resource.toFile());
 		return (in == null )? "":parse( in);
 	}
 
-	public String parse( InputStream in ) throws IOException {
-		ByteArrayOutputStream result = new ByteArrayOutputStream();
-		byte[] buffer = new byte[1024];
-		int length;
-		while ((length = in.read(buffer)) != -1) {
-		    result.write(buffer, 0, length);
-		}
-		return parse( result.toString("UTF-8"));
-	}
-
+/*
 	protected String parse( String str ) throws IOException {
 		StringBuilder builder = new StringBuilder();
         Pattern pattern = Pattern.compile( REGEX );
@@ -136,7 +69,7 @@ public abstract class AbstractHtmlParser {
         	case SCRIPT:
         		String path = (split.length == 2 )? split[1]: split[1] + "/" + split[2]; 
         		path = S_RESOURCES + path.replace("^", ".");
-         		builder.append( onHandleScript( clss, path ));
+         		builder.append( onHandleScript( super.getClass(), path ));
         		break;
         	case AUTHENTICATION:
         		AuthenticationData.Authentication auth = AuthenticationData.Authentication.valueOf(split[2].toUpperCase());
@@ -160,9 +93,10 @@ public abstract class AbstractHtmlParser {
         builder.append(str.subSequence(i, str.length()));
 		return builder.toString();	
 	}
-
+*/
+	
 	public void createMainPage( Resources resource ) {
-		createPage(clss.getResourceAsStream( resource.toFile() ));
+		createPage( super.getClass().getResourceAsStream( resource.toFile() ));
 	}
 
 	public void createMainPage( ) {
@@ -171,6 +105,7 @@ public abstract class AbstractHtmlParser {
 
 	public void createPage( InputStream in ) {
 		try {
+			Class<?> clss = super.getClass();
 			StringBuilder builder = new StringBuilder();
 			builder.append( create(Resources.HEADER, clss));
 			builder.append("\n");

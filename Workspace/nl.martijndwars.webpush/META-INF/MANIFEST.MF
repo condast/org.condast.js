@@ -20,5 +20,9 @@ Import-Package: com.google.gson;version="2.7.0",
  org.condast.commons.messaging.push,
  org.condast.commons.strings,
  org.slf4j;version="1.7.2"
-Export-Package: nl.martijndwars.webpush.core,
+Export-Package: nl.martijndwars.webpush,
+ nl.martijndwars.webpush.core,
+ org.bouncycastle.crypto,
+ org.bouncycastle.crypto.generators,
+ org.bouncycastle.crypto.params,
  org.jose4j.json.internal.json_simple

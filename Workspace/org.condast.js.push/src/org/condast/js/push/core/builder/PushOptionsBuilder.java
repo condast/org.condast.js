@@ -1,4 +1,4 @@
-package org.condast.js.commons.push;
+package org.condast.js.push.core.builder;
 
 import com.google.gson.Gson;
 
@@ -8,6 +8,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 import org.condast.commons.strings.StringUtils;
+import org.condast.js.push.core.IPushAction;
 
 public class PushOptionsBuilder {
 
