@@ -38,6 +38,8 @@ public abstract class AbstractFileParser {
 
 	public enum Attributes{
 		TITLE,
+		HOME,
+		CREATE,
 		MIN,
 		MAX,
 		AUTHENTICATION,

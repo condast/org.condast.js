@@ -3,6 +3,7 @@ package org.condast.js.push.core;
 public interface IPushListener {
 
 	public enum Calls{
+		SEND,
 		SUBSCRIBE,
 		UPDATE;
 
@@ -12,8 +13,9 @@ public interface IPushListener {
 		}
 		
 		public static boolean isValidCall( String str ) {
+			String check = str.replace("/", "");
 			for( Calls call: values()) {
-				if( call.toString().equals(str))
+				if( call.toString().equals(check))
 					return true;
 			}
 			return false;

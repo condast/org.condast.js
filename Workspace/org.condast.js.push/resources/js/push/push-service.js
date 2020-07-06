@@ -1,4 +1,14 @@
-const UPDATE_URL = '${context.commons.test}/js/push/notification/update';
+const UPDATE_URL = '${context.commons.push}/update';
+
+self.addEventListener('install', function(event) {
+  console.log('Installing push service');
+  event.waitUntil(self.skipWaiting());
+});
+
+self.addEventListener('activate', function(event) {
+  console.log('Activating push service');
+  event.waitUntil(self.clients.claim());
+});
 
 /**
  * Show the push notification
@@ -9,11 +19,11 @@ self.addEventListener('push', function(event) {
 	const payload = event.data ? event.data.text() : 'no payload';
 	if( payload === null )
 		return;
-	console.log( payload);
+	//console.log( payload);
 	const options = JSON.parse(payload);
 
 	const maxVisibleActions = Notification.maxActions; 
-	console.log( options.title);
+	//console.log( options.title);
 	if ( options.actions.length > maxVisibleActions) { 
 		options.body = 'This notification will only display' +
 		'${maxVisibleActions} actions.';
@@ -32,8 +42,8 @@ self.addEventListener('push', function(event) {
  * @returns
  */
 self.addEventListener('notificationclick', function(event) {
-	const clickedNotification = event.notification;
-	clickedNotification.close();
+	console.log('one');
+	event.notification.close();
 	const notification = !event.action?'DONT_CARE': event.action;
 	console.log(event.notification.data);
 	if(( notification == 'HELP') || ( notification == 'PAUSE')){
@@ -45,6 +55,7 @@ self.addEventListener('notificationclick', function(event) {
 });
 
 self.addEventListener('notificationclose', function(event) {
+	console.log('three');
 	const dismissedNotification = event.notification;
 	const notification = !event.action?'SHUT_UP': event.action;
 	console.log('close: ' + notification);

@@ -10,12 +10,12 @@ import java.util.logging.Logger;
 import org.condast.commons.authentication.vapid.VapidGenerator;
 import org.condast.commons.test.core.AbstractTestSuite;
 import org.condast.commons.test.core.ITestEvent;
+import org.condast.js.push.core.PushOptionsAdviceBuilder;
 import org.condast.js.push.core.advice.IAdvice;
 
 import com.google.common.io.BaseEncoding;
 
 import test.condast.commons.js.push.core.Dispatcher;
-import test.condast.commons.js.push.servlet.PushOptionsAdviceBuilder;
 
 public class TestSuite extends AbstractTestSuite<Object, Object> {
 
@@ -104,7 +104,7 @@ public class TestSuite extends AbstractTestSuite<Object, Object> {
 		try {
 			generator.initKeys( S_PATH);
 			PushOptionsAdviceBuilder builder = new PushOptionsAdviceBuilder();
-			IAdvice advice = builder.createAdvice(1, 1, "Gino", IAdvice.AdviceTypes.SUCCESS, "good job", 1);
+			IAdvice advice = null;//builder.createAdvice(1, 1, "Gino", IAdvice.AdviceTypes.SUCCESS, "good job", 1);
 			byte[] payload = builder.createPayLoad(advice, true);
 			dispatcher.sendPushMessage(1, advice);
 		} catch (NoSuchAlgorithmException e) {

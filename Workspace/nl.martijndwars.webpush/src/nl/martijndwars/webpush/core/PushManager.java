@@ -43,8 +43,7 @@ public class PushManager{
 		@Override
 		public void run() {
 			refresh();
-		}
-		
+		}		
 	};
 	
 	public PushManager() {
@@ -65,12 +64,12 @@ public class PushManager{
 		return sub;
 	}
 	
-	public void unsubscribe( long userId ) {
-		this.subscriptions.remove( userId );
+	public void unsubscribe( long subscriptionId ) {
+		this.subscriptions.remove( subscriptionId );
 	}
 
-	public boolean hasSubscription( long userId ) {
-		return this.subscriptions.containsKey(userId );
+	public boolean hasSubscription( long subscriptionId ) {
+		return this.subscriptions.containsKey(subscriptionId );
 	}
 	
 	public ISubscription getSubscription( long userId ) {
@@ -155,6 +154,8 @@ public class PushManager{
 				Calendar calendar = Calendar.getInstance();
 				Date current = Calendar.getInstance().getTime();
 				calendar.setTime(create);
+				if( this.subscription == null )
+					return true;
 				calendar.add(Calendar.MILLISECOND, (int)Double.parseDouble( this.subscription.getExpirationTime()));
 				Date end = calendar.getTime();
 				return current.after(end);

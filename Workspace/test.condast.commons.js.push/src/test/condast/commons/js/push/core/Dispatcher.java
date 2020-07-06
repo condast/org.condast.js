@@ -5,10 +5,10 @@ import java.util.logging.Logger;
 import org.condast.commons.messaging.push.ISubscription;
 import org.condast.js.push.core.IPushListener;
 import org.condast.js.push.core.PushEvent;
+import org.condast.js.push.core.PushOptionsAdviceBuilder;
 import org.condast.js.push.core.advice.IAdvice;
 
 import nl.martijndwars.webpush.core.PushManager;
-import test.condast.commons.js.push.servlet.PushOptionsAdviceBuilder;
 
 public class Dispatcher implements IPushListener{
 

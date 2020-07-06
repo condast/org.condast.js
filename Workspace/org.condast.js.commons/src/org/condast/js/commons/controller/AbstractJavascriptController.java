@@ -480,8 +480,8 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		
 		private String id;
 		
-		private JavaScriptCallBack(Browser browser, String name, String id ) {
-			super(browser, name);
+		private JavaScriptCallBack(Browser browser, String functionName, String id ) {
+			super(browser, functionName);
 			this.id = id;
 		}
 

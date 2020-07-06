@@ -8,10 +8,12 @@ import java.util.Collection;
 import java.util.logging.Logger;
 
 import org.condast.commons.messaging.push.ISubscription;
+import org.condast.js.push.core.advice.Advice;
 import org.condast.js.push.core.advice.IAdvice;
 
-import nl.martijndwars.webpush.core.PushManager;
+import com.google.gson.Gson;
 
+import nl.martijndwars.webpush.core.PushManager;
 
 public class AbstractPush implements IPushListener{
 	
@@ -23,8 +25,6 @@ public class AbstractPush implements IPushListener{
 	private String publicKey;
 	private String privateKey; 
 	
-	private long subscriptionId;
-
 	private static Logger logger = Logger.getLogger(AbstractPush.class.getName());
 	
 	private Collection<IPushListener> listeners;
@@ -43,10 +43,6 @@ public class AbstractPush implements IPushListener{
 	
 	public String getIdentifier() {
 		return identifier;
-	}
-
-	public long getSubscriptionId() {
-		return subscriptionId;
 	}
 
 	public void setPublicKey(String publicKey) {
@@ -69,8 +65,12 @@ public class AbstractPush implements IPushListener{
 	public void notifyPushEvent( PushEvent event) {
 		switch( event.getCall()) {
 		case SUBSCRIBE:
-			this.subscriptionId = event.getUserId();
-			subscribe( this.subscriptionId, event.getToken(), event.getData());
+			subscribe( event.getId(), event.getToken(), event.getData());
+			break;
+		case SEND:
+			Gson gson = new Gson();
+			IAdvice advice = gson.fromJson(event.getData(), Advice.class);
+			sendPushMessage( event.getId(), advice);
 			break;
 		default:
 			break;
@@ -91,7 +91,7 @@ public class AbstractPush implements IPushListener{
 	 * @param advice
 	 * @return
 	 */
-	public boolean sendPushMessage( IAdvice advice ) {
+	public boolean sendPushMessage( long subscriptionId, IAdvice advice ) {
 		if(( advice ==  null ) ||( subscriptionId < 0 ))
 			return false;
 		PushManager pm = pushManager;

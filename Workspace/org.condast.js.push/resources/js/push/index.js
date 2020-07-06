@@ -2,9 +2,10 @@
 const SUBSCRIBE_URL = '${context.commons.push}/subscribe';
 
 var token=${authentication.commons.token};
+var subscriptionId = ${worker.id.create};
 	
-function registerServiceWorker(userid ) { 
-	console.log('userid: ' + userid );
+function registerServiceWorker() { 
+	console.log('subscription id: ' + subscriptionId );
 	if (!('serviceWorker' in navigator)) {
 		console.log("Not in navigator");
 		return false;
@@ -30,7 +31,7 @@ function registerServiceWorker(userid ) {
 				}).then((pushSubscription) => {
 					console.log('Subscription successful'); 
 					// we got the pushSubscription object
-					callServer( userid, pushSubscription );
+					callServer( subscriptionId, pushSubscription );
 				}).catch( function( err) { 
 					console.error('Permission denied:', err);
 					throw(err);
@@ -59,14 +60,14 @@ function askPermission() {
 	}); 
 }
 
-function callServer(userid, subscription) {
+function callServer(subid, subscription) {
 	// Get public key and user auth from the subscription object
     var key = subscription.getKey ? subscription.getKey('p256dh') : '';
     var auth = subscription.getKey ? subscription.getKey('auth') : '';
 
 	console.log("fetch from server");
 	//Send the subscription details to the server using the Fetch API.
-	fetch( SUBSCRIBE_URL + '?id='+ userid + '&token=' + token, {
+	fetch( SUBSCRIBE_URL + '?id='+ subid + '&token=' + token, {
 		method: 'post',
 		headers: {
 			'Content-type': 'application/json'
@@ -104,3 +105,10 @@ function urlBase64ToUint8Array(base64String) {
 	}
 	return outputArray;
 }
+
+//Register the service worker
+window.addEventListener("load", function(event) {
+	console.log("All resources finished loading!");
+	registerServiceWorker();
+	window.location.href='${context.commons.home}?id=' + subscriptionId;
+});
