@@ -11,6 +11,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.condast.commons.auth.AuthenticationData.Authentication;
+import org.condast.commons.messaging.http.IHttpRequest.HttpStatus;
 import org.condast.commons.strings.StringStyler;
 import org.condast.commons.strings.StringUtils;
 import org.condast.js.commons.parser.AbstractFileParser;
@@ -140,8 +141,14 @@ public abstract class AbstractPushServlet extends HttpServlet {
 	@Override
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String userid = req.getParameter(Authentication.ID.toString());
-		if( StringUtils.isEmpty( userid ))
+		if( StringUtils.isEmpty( userid )) {
+			resp.setStatus(HttpStatus.UNAUTHORISED.getStatus());
 			return;
+		}
+
+        /***** Set Response Content Type *****/
+        resp.setContentType("text/html");
+        resp.setHeader("Access-Control-Expose-Headers", "Content-Length");
 		String path = req.getPathInfo().replace("/", "");
 		boolean result = false;
 		if( !StringUtils.isEmpty(path) && Calls.isValidCall(path)) {
@@ -156,8 +163,11 @@ public abstract class AbstractPushServlet extends HttpServlet {
 				break;
 			}		
 		}
-		if( !result )
+		if( result ) {
+			resp.getWriter().write(String.valueOf( result ));
+		}else {
 			super.doPost(req, resp);
+		}
 	}
 
 	private class Parser extends AbstractFileParser{

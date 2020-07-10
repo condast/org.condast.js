@@ -156,7 +156,8 @@ public class PushManager{
 				calendar.setTime(create);
 				if( this.subscription == null )
 					return true;
-				calendar.add(Calendar.MILLISECOND, (int)Double.parseDouble( this.subscription.getExpirationTime()));
+				int expTime = ( this.subscription.getExpirationTime() == null)?1000: Integer.parseInt(this.subscription.getExpirationTime());
+				calendar.add(Calendar.MILLISECOND, expTime);
 				Date end = calendar.getTime();
 				return current.after(end);
 			}

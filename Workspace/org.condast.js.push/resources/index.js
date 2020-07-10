@@ -1,5 +1,4 @@
-//ALWAYS call this method from localhost or https 
-const SUBSCRIBE_URL = '${context.commons.push}/subscribe';
+const SUBSCRIBE_URL = 'push/subscribe';
 
 var token=${authentication.commons.token};
 var subscriptionId = ${worker.id.create};
@@ -16,7 +15,7 @@ function registerServiceWorker() {
 		return false;
 	}
 
-	return navigator.serviceWorker.register('${context.commons.push}/js/push/push-service.js').then( 
+	return navigator.serviceWorker.register('push/push-service.js').then( 
 			function( registration) { 
 				console.log(' Service worker successfully registered.'); 
 				askPermission().then(() => {
@@ -54,7 +53,8 @@ function askPermission() {
 			permissionResult.then( resolve, reject); 
 		}
 	}).then( function( permissionResult){ 
-		if (permissionResult !== 'granted') { 
+		console.log(permissionResult);
+		if(( permissionResult !== 'default') && (permissionResult !== 'granted')) { 
 			throw new Error(' We weren\'t granted permission.'); 
 		} 
 	}); 
@@ -70,8 +70,11 @@ function callServer(subid, subscription) {
 	fetch( SUBSCRIBE_URL + '?id='+ subid + '&token=' + token, {
 		method: 'post',
 		headers: {
-			'Content-type': 'application/json'
-		},
+			'Accept': 'text/plain',
+			'Cache': 'default',
+        	'Content-Type': 'application/json; charset=UTF-8',
+        	'Access-Control-Allow-Origin': '*'		
+        },
 		body: JSON.stringify({
             endpoint: subscription.endpoint,
             // Take byte[] and turn it into a base64 encoded string suitable for
@@ -80,11 +83,15 @@ function callServer(subid, subscription) {
             auth: auth ? btoa(String.fromCharCode.apply(null, new Uint8Array(auth))) : ''
 		}),
 	}).then( function(response){
+		console.log('Processing Response');
 		if (!response.ok) {
 			throw new Error('An error occurred')
 		}
 		console.log('Response received');
-		return response;
+		//return response.json();
+	}).catch( function( err) { 
+		console.error('Permission denied:', err);
+		throw(err);
 	});	
 }
 

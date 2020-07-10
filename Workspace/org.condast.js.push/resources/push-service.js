@@ -21,7 +21,7 @@ self.addEventListener('push', function(event) {
 		return;
 	//console.log( payload);
 	const options = JSON.parse(payload);
-
+	options.requireInteraction=true;
 	const maxVisibleActions = Notification.maxActions; 
 	//console.log( options.title);
 	if ( options.actions.length > maxVisibleActions) { 
@@ -30,9 +30,8 @@ self.addEventListener('push', function(event) {
 	}
 
 	//	Keep the service worker alive until the notification is created.
-	event.waitUntil(
-		self.registration.showNotification( options.title, options)
-	);
+	const promiseChain = self.registration.showNotification( options.title, options); 
+	event.waitUntil(promiseChain);
 });
 
 
