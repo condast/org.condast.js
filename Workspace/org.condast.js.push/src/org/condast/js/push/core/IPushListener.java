@@ -22,5 +22,15 @@ public interface IPushListener {
 		}
 	}
 
+	public enum Attributes{
+		NOTIFICATION,
+		ID,
+		ADVICE_ID;
+		
+		@Override
+		public String toString() {
+			return name().toLowerCase();
+		}		
+	}
 	public void notifyPushEvent( PushEvent event );
 }

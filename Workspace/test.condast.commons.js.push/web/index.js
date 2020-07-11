@@ -15,7 +15,7 @@ function registerServiceWorker(userid ) {
 		return false;
 	}
 
-	return navigator.serviceWorker.register('${context.commons.test}/js/push/push-service.js').then( 
+	return navigator.serviceWorker.register('/push-service.js').then( 
 			function( registration) { 
 				console.log(' Service worker successfully registered.'); 
 				askPermission().then(() => {

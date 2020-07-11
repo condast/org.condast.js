@@ -15,7 +15,7 @@ function registerServiceWorker() {
 		return false;
 	}
 
-	return navigator.serviceWorker.register('push/push-service.js').then( 
+	return navigator.serviceWorker.register('${context.commons.push}/push-service.js').then( 
 			function( registration) { 
 				console.log(' Service worker successfully registered.'); 
 				askPermission().then(() => {
@@ -88,7 +88,7 @@ function callServer(subid, subscription) {
 			throw new Error('An error occurred')
 		}
 		console.log('Response received');
-		//return response.json();
+	    window.location.href='${context.commons.home}?id=' + subscriptionId;
 	}).catch( function( err) { 
 		console.error('Permission denied:', err);
 		throw(err);
@@ -115,7 +115,6 @@ function urlBase64ToUint8Array(base64String) {
 
 //Register the service worker
 window.addEventListener("load", function(event) {
-	console.log("All resources finished loading!");
 	registerServiceWorker();
-	window.location.href='${context.commons.home}?id=' + subscriptionId;
+	console.log("Service worker started");
 });
