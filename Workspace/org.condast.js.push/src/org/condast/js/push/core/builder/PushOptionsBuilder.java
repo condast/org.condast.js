@@ -13,6 +13,7 @@ import org.condast.js.push.core.IPushAction;
 public class PushOptionsBuilder {
 
 	public enum Options{
+		USER_ID,
 		TITLE,
 		BODY,
 		DATA,

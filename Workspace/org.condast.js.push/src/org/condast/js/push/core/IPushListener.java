@@ -25,7 +25,8 @@ public interface IPushListener {
 	public enum Attributes{
 		NOTIFICATION,
 		ID,
-		ADVICE_ID;
+		ADVICE_ID,
+		IDENTIFIER;
 		
 		@Override
 		public String toString() {

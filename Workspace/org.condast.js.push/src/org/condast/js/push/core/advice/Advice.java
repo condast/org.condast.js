@@ -6,8 +6,9 @@ import java.util.Map;
 public class Advice implements IAdvice {
 
 	private long adviceId;
-	private long userId;
-	private String member;
+	private long subscriptionId;
+	private String title;
+	private String identifier;
 	private String advice;
 	private int repeat;
 	private IAdvice.AdviceTypes type;
@@ -17,10 +18,11 @@ public class Advice implements IAdvice {
 	private Map<Notifications, String> notifications;
 
 	
-	public Advice( long userId, long adviceId, String member, IAdvice.AdviceTypes type, String advice, String icon, String badge, int repeat) {
+	public Advice( long subscriptionId, long adviceId, String identifier, String Title, IAdvice.AdviceTypes type, String advice, String icon, String badge, int repeat) {
 		super();
-		this.userId = userId;
-		this.member = member;
+		this.subscriptionId = subscriptionId;
+		this.title = Title;
+		this.identifier = identifier;
 		this.type = type;
 		this.adviceId = adviceId;
 		this.advice = advice;
@@ -36,16 +38,21 @@ public class Advice implements IAdvice {
 	}
 	
 	@Override
-	public long getUserId() {
-		return this.userId;
+	public long getSubscriptionId() {
+		return this.subscriptionId;
+	}
+
+	@Override
+	public String getTag() {
+		return identifier;
 	}
 
 	/* (non-Javadoc)
 	 * @see org.collin.moodle.core.IAdvice#getMember()
 	 */
 	@Override
-	public String getMember() {
-		return member;
+	public String getTitle() {
+		return title;
 	}
 
 	/* (non-Javadoc)

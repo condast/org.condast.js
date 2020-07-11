@@ -65,9 +65,11 @@ function update( notification, event ){
 	console.log('Notification closed!' + event.action);
 	console.log(notification);
 	const data = event.notification.data;
-	console.log(data.adviceId);
-	const url = UPDATE_URL + '?id='+ 
-		data.userId + '&token=12&adviceid=' + data.adviceId + '&notification=' + notification;
+	const url = UPDATE_URL + '?id='+ data.subscriptionId + 
+	    '&token=' + data.token + 
+		'&adviceid=' + data.adviceId + 
+		'&identifier=' + data.identifier + 
+		'&notification=' + notification;
 	console.log( url );
 	fetch(url , {
 		method: 'get',

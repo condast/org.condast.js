@@ -66,9 +66,11 @@ public interface IAdvice {
 	 * Get the user id for whom the advice is intended
 	 * @return
 	 */
-	long getUserId();
+	long getSubscriptionId();
 	
-	String getMember();
+	String getTitle();
+
+	String getTag();
 
 	String getDescription();
 

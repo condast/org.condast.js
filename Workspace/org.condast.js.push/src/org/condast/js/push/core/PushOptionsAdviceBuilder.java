@@ -7,8 +7,6 @@ import org.condast.js.push.core.advice.IAdvice;
 import org.condast.js.push.core.builder.PushOptionsBuilder;
 
 public class PushOptionsAdviceBuilder extends PushOptionsBuilder {
-
-	public static final String S_ADVICE_TAG = "advice-tag";
 	
 	public PushOptionsAdviceBuilder() {
 		super();
@@ -18,12 +16,13 @@ public class PushOptionsAdviceBuilder extends PushOptionsBuilder {
 		String description = advice.getDescription();
 		String body = description;
 
-		addOption( Options.TITLE, advice.getMember()) ;		
+		addOption( Options.USER_ID, advice.getSubscriptionId()) ;		
+		addOption( Options.TITLE, advice.getTitle()) ;		
 		addOption( Options.BODY, body);
 		addOption( Options.DATA, advice );
 		addOption( Options.ICON, advice.getIcon());
 		addOption( Options.BADGE, advice.getBadge());
-		addOption( Options.TAG, S_ADVICE_TAG);
+		addOption( Options.TAG, advice.getTag());
 			
 		addOption( Options.VIBRATE, new int[]{500,110,500,110,450,110,200,110,170,40,450,110,200,110,170,40,500});
 		Iterator<Map.Entry<IAdvice.Notifications, String>>iterator = advice.getNotifications().entrySet().iterator();
