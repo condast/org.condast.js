@@ -21,20 +21,9 @@ html, body {
 </style>
 <script src="/openlayer/js/jquery-3.4.1.min.js" type="text/javascript"></script>
 <script src="/openlayer/js/ol.js" type="text/javascript"></script>
-<link rel="stylesheet"
-	href="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/css/bootstrap.min.css">
-<script
-	src="https://maxcdn.bootstrapcdn.com/bootstrap/4.1.1/js/bootstrap.min.js"></script>
 </head>
 <body>
 	<div id="map" class="map" tabindex="0"></div>
-   <div style="display: none;">
-      <!-- Clickable label for Vienna -->
-      <a class="overlay" id="vienna" target="_blank" href="http://en.wikipedia.org/wiki/Vienna">Vienna</a>
-      <div id="marker" title="Marker"></div>
-      <!-- Popup -->
-      <div id="popup" title="Welcome to OpenLayers"></div>
-    </div>
 	<script src="/openlayer/js/map.js" type="text/javascript"></script>
 	<script src="/openlayer/js/geo.js" type="text/javascript"></script>
 	<script src="/openlayer/js/geojson.js" type="text/javascript"></script>
@@ -46,9 +35,11 @@ html, body {
 		/**
 		 * Elements that make up the popup.
 		 */
+		
 		var container = document.getElementById('popup');
 		var content = document.getElementById('popup-content');
 		var closer = document.getElementById('popup-closer');
+		setLocation( 4.4, 51.0, 11);
 	</script>
 </body>
 </html>
