@@ -97,7 +97,7 @@ public class AbstractPush implements IPushListener{
 		PushManager pm = pushManager;
 		if( !pm.hasSubscription(subscriptionId)) {
 			logger.warning(S_ERR_NO_USER_REGISTERED + subscriptionId );
-			return false;
+			//return false;
 		}
 		ISubscription subscription = pm.getSubscription( subscriptionId );
 		PushOptionsAdviceBuilder builder = new PushOptionsAdviceBuilder();

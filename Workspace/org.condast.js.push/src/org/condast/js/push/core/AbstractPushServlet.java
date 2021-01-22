@@ -10,11 +10,10 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.condast.commons.auth.AuthenticationData.Authentication;
-import org.condast.commons.messaging.http.IHttpRequest.HttpStatus;
-import org.condast.commons.strings.StringStyler;
-import org.condast.commons.strings.StringUtils;
 import org.condast.js.commons.parser.AbstractFileParser;
+import org.condast.js.commons.utils.StringStyler;
+import org.condast.js.commons.utils.StringUtils;
+import org.condast.js.commons.utils.AuthenticationData.Authentication;
 import org.condast.js.push.core.IPushListener.Calls;
 
 public abstract class AbstractPushServlet extends HttpServlet {
@@ -24,6 +23,7 @@ public abstract class AbstractPushServlet extends HttpServlet {
 	private static final String S_PUSH_FILE = "push.html";
 	private static final String S_MIME_JAVASCRIPT = "text/javascript";
 
+	private static final int HTTP_STATUS_UNAUTHORISED = 401;
 	public enum Attributes{
 		ID,
 		TOKEN,
@@ -142,7 +142,7 @@ public abstract class AbstractPushServlet extends HttpServlet {
 	protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 		String userid = req.getParameter(Authentication.ID.toString());
 		if( StringUtils.isEmpty( userid )) {
-			resp.setStatus(HttpStatus.UNAUTHORISED.getStatus());
+			resp.setStatus( HTTP_STATUS_UNAUTHORISED);
 			return;
 		}
 
