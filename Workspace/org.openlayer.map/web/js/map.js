@@ -30,6 +30,14 @@ function getLocation(){
 	return map.getView().getCenter();
 }
 
+function setLocation( latitude, longitude, zoom ){
+	var lt = parseFloat(latitude);
+	var ln = parseFloat(longitude);
+	center = ol.proj.transform([ln, lt], 'EPSG:4326', 'EPSG:3857');
+	view.setCenter( center );
+	view.setZoom( parseInt( zoom ));
+}
+
 function getPixel( latitude, longitude ){
 	let lat = parseFloat( latitude );
 	let lon = parseFloat( longitude );
