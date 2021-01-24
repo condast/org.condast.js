@@ -13,5 +13,4 @@
 
 	<artifactId>nl.martijndwars.webpush</artifactId>
 	<packaging>eclipse-plugin</packaging>
-
 </project>
