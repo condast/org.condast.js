@@ -15,7 +15,7 @@ Bundle-ClassPath: lib/bcprov-jdk15on-154.jar,
  lib/httpasyncclient-4.1.4.jar,
  lib/jcommander-1.72.jar
 Import-Package: com.google.gson;version="2.7.0",
- org.apache.commons.codec.binary;version="1.10.0",
+ org.apache.commons.codec.binary;version="1.0.0",
  org.apache.commons.logging;version="1.2.0",
  org.condast.commons.messaging.push,
  org.condast.commons.strings,
