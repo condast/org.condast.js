@@ -22,7 +22,7 @@ public class NavigationView extends AbstractView<NavigationView.Commands> {
 	}
 		
 	/**
-	 * Create a new shape on the map of the given type
+	 * Get the location of the device if the browser supports it
 	 * @param name
 	 * @param type
 	 * @return
