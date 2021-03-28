@@ -3,6 +3,7 @@ package org.openlayer.map.control;
 import java.util.Collection;
 
 import org.condast.commons.strings.StringStyler;
+import org.condast.commons.strings.StringUtils;
 import org.condast.js.commons.controller.AbstractView;
 import org.condast.js.commons.controller.IJavascriptController;
 
@@ -14,6 +15,17 @@ public class NavigationView extends AbstractView<NavigationView.Commands> {
 		@Override
 		public String toString() {
 			return StringStyler.toMethodString(this.name());
+		}
+		
+		public static boolean isValue( String str ) {
+			if( StringUtils.isEmpty(str))
+				return false;
+			String styles = StringStyler.styleToEnum(str);
+			for( Commands command: values()) {
+				if( command.name().equals(styles))
+					return true;
+			}
+			return false;
 		}
 	}
 

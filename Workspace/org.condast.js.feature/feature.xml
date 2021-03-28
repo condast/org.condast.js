@@ -17,19 +17,18 @@
    </license>
 
    <requires>
-      <import plugin="com.google.gson"/>
       <import plugin="org.condast.commons"/>
       <import plugin="org.eclipse.rap.rwt"/>
+      <import plugin="com.google.gson"/>
       <import plugin="javax.servlet"/>
       <import plugin="org.condast.commons.data"/>
-      <import plugin="org.apache.commons.codec"/>
       <import plugin="org.apache.commons.logging"/>
       <import plugin="org.condast.commons.messaging"/>
-      <import plugin="org.slf4j.api"/>
-      <import plugin="org.condast.commons.ui"/>
-      <import plugin="org.eclipse.equinox.http.registry"/>
       <import plugin="org.eclipse.osgi"/>
-      <import plugin="org.eclipse.rap.jface"/>
+      <import plugin="org.eclipse.rap.filedialog"/>
+      <import plugin="org.apache.commons.commons-codec"/>
+      <import plugin="slf4j.api"/>
+      <import plugin="javax.ws.rs-api"/>
    </requires>
 
    <plugin

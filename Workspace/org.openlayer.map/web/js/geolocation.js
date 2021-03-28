@@ -9,9 +9,9 @@ function getGeoLocation() {
 
 function showPosition(position)
 {
-    var lat = position.coords.latitude;
-    var lng = position.coords.longitude;
+    let lat = position.coords.latitude;
+    let lng = position.coords.longitude;
+    let results=[lat, lng ];
     jump( lat, lng, 17);
-    alert("Current position: " + lat + " " + lng);
-	onCallBack( 'get-position', 'position', geometry.getCoordinates() );
+  	onCallBack( 'get-geo-location', 'position', results );
 }

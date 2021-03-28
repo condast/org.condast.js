@@ -10,30 +10,47 @@ import org.condast.js.commons.utils.StringUtils;
 
 public abstract class AbstractResourceParser {
 
-	public static final String S_HEADER = "<!DOCTYPE html><html ";
-	public static final String S_LANGUAGE = "lang='";
-	public static final String S_FOOTER = "</html>";
+	public enum Functions{
+		CONTEXT,
+		LINK,
+		LABEL,
+		VALUE,
+		AUTHENTICATION,
+		MAXVISIBLEACTIONS,
+		SCRIPT,
+		VAPID,
+		WORKER;
 
-	public static final String S_DISPOSED = "<html><h1><b>This page is Disposed</b><h1></html>";
+		@Override
+		public String toString() {
+			return super.toString().toLowerCase();
+		}	
+	}
 
-	public static final String S_RESOURCES = "/resources/";
+	public enum Attributes{
+		TITLE,
+		HOME,
+		CREATE,
+		MIN,
+		MAX,
+		AUTHENTICATION,
+		KEY;
+
+		@Override
+		public String toString() {
+			return super.toString().toLowerCase();
+		}	
+	}
 
 	public static final String REGEX = "\\$\\{(.+?)\\}";
 
-	public static final String S_LINK = "link";
-
-	private Class<?> clss;
-
-	protected AbstractResourceParser( Class<?> clss ) {
+	protected AbstractResourceParser( ) {
 		super();
-		this.clss = clss;
-	}
-
-	protected Class<?> getClss() {
-		return clss;
 	}
 
 	protected abstract String onCreateLink( String link, String url, String arguments);
+
+	protected abstract String onHandleLabel( String id, Attributes attr );
 
 	protected String onHandleFunction( String[] split ) {
 		return split[0];
@@ -65,17 +82,27 @@ public abstract class AbstractResourceParser {
 			if( split.length < 2) 
 				continue;
 			
-			//Check for a link
+			AbstractResourceParser.Functions function = AbstractResourceParser.Functions.valueOf(split[0].toUpperCase());
 			builder.append(str.substring(i, matcher.start()));
-			if( split[0].equals(S_LINK)) {
+			Attributes attr = null;
+			switch( function) {
+
+			//Check for a link
+			case LINK:
 				String[] decode = split[1].split("[?]");
 				if( decode.length >= 2 )
 					builder.append( onCreateLink( split[0], decode[0], decode[1]));
 				else
-					builder.append( onCreateLink( split[0], decode[0], null ));					
-			}else
-				builder.append( onHandleFunction(split));
-
+					builder.append( onCreateLink( split[0], decode[0], null ));	
+				break;
+			case LABEL:
+				attr = Attributes.valueOf(split[2].toUpperCase());
+				builder.append( onHandleLabel(split[1], attr ));
+				break;
+			default:
+				builder.append( onHandleFunction( split ));
+				break;
+			}
 			i = matcher.end();
 		}
 		builder.append(str.subSequence(i, str.length()));

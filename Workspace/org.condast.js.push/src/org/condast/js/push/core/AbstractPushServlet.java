@@ -11,6 +11,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
 import org.condast.js.commons.parser.AbstractFileParser;
+import org.condast.js.commons.parser.AbstractResourceParser;
+import org.condast.js.commons.parser.AbstractResourceParser.Functions;
 import org.condast.js.commons.utils.StringStyler;
 import org.condast.js.commons.utils.StringUtils;
 import org.condast.js.commons.utils.AuthenticationData.Authentication;
@@ -74,7 +76,7 @@ public abstract class AbstractPushServlet extends HttpServlet {
 
 	protected abstract String onSetContext(String context, String application, String service);
 
-	protected abstract String onGetPublicKey(String id, AbstractFileParser.Attributes attr);
+	protected abstract String onGetPublicKey(String id, AbstractResourceParser.Attributes attr);
 	
 	protected boolean onUpdate( Calls call, HttpServletRequest req, HttpServletResponse resp ) {
 		return true;
@@ -187,7 +189,7 @@ public abstract class AbstractPushServlet extends HttpServlet {
 		}
 
 		@Override
-		protected String onHandleLabel(String id, Attributes attr) {
+		protected String onHandleLabel(String id, AbstractResourceParser.Attributes attr) {
 			String result = attr.toString();
 			switch( attr ) {
 			case TITLE:
@@ -210,18 +212,19 @@ public abstract class AbstractPushServlet extends HttpServlet {
 			return result;
 		}
 
+
 		@Override
-		protected String onHandleValues(Functions function, String id, Attributes attr) {
-			// NOTHING
+		protected String onHandleValues(Functions function, String id, AbstractResourceParser.Attributes attr) {
+			// TODO Auto-generated method stub
 			return null;
 		}
 
 		@Override
-		protected String onHandleFunction(Functions function, String id, AbstractFileParser.Attributes attr) {
+		protected String onHandleFunction(AbstractResourceParser.Functions function, String id, AbstractResourceParser.Attributes attr) {
 			String result = null;
 			switch( function) {
 			case WORKER:
-				if( AbstractFileParser.Attributes.CREATE.equals(attr))
+				if( AbstractResourceParser.Attributes.CREATE.equals(attr))
 					idCounter++;
 				result = String.valueOf(idCounter);
 				token = Long.toHexString(idCounter).hashCode();

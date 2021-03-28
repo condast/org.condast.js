@@ -3,6 +3,7 @@ package org.condast.js.commons.wizard;
 import java.io.IOException;
 import java.io.InputStream;
 import org.condast.js.commons.parser.AbstractFileParser;
+import org.condast.js.commons.parser.AbstractResourceParser;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.BrowserFunction;
 
@@ -29,7 +30,7 @@ public abstract class AbstractHtmlParser extends AbstractFileParser{
 	protected AbstractHtmlParser( Browser browser, Class<?> clss ) {
 		super( clss );
 		this.browser = browser;
-		new BrowserFunction(browser, Functions.LINK.toString()) {
+		new BrowserFunction(browser, AbstractResourceParser.Functions.LINK.toString()) {
 
 			@Override
 			public Object function(Object[] arguments) {

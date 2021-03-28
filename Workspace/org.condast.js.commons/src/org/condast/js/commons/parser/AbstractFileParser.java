@@ -18,40 +18,6 @@ public abstract class AbstractFileParser {
 
 	public static final String S_RESOURCES = "/resources/";
 
-	public static final String REGEX = "\\$\\{(.+?)\\}";
-
-	public enum Functions{
-		CONTEXT,
-		LINK,
-		LABEL,
-		VALUE,
-		AUTHENTICATION,
-		MAXVISIBLEACTIONS,
-		SCRIPT,
-		VAPID,
-		WORKER;
-
-		@Override
-		public String toString() {
-			return super.toString().toLowerCase();
-		}	
-	}
-
-	public enum Attributes{
-		TITLE,
-		HOME,
-		CREATE,
-		MIN,
-		MAX,
-		AUTHENTICATION,
-		KEY;
-
-		@Override
-		public String toString() {
-			return super.toString().toLowerCase();
-		}	
-	}
-
 	private Class<?> clss;
 
 	protected AbstractFileParser( Class<?> clss ) {
@@ -71,13 +37,13 @@ public abstract class AbstractFileParser {
 
 	protected abstract void onHandleLinks( String link );
 
-	protected abstract String onHandleLabel( String id, Attributes attr );
+	protected abstract String onHandleLabel( String id, AbstractResourceParser.Attributes attr );
 
 	protected abstract String onHandleAuthentication( String id, AuthenticationData.Authentication attr );
 
-	protected abstract String onHandleValues( Functions function, String id, Attributes attr );
+	protected abstract String onHandleValues( AbstractResourceParser.Functions function, String id, AbstractResourceParser.Attributes attr );
 
-	protected abstract String onHandleFunction( Functions function, String id, Attributes attr );
+	protected abstract String onHandleFunction( AbstractResourceParser.Functions function, String id, AbstractResourceParser.Attributes attr );
 
 	protected abstract String onHandleScript( Class<?> clss, String path );
 
@@ -93,7 +59,7 @@ public abstract class AbstractFileParser {
 
 	protected String parse( String str ) throws IOException {
 		StringBuilder builder = new StringBuilder();
-		Pattern pattern = Pattern.compile( REGEX );
+		Pattern pattern = Pattern.compile( AbstractResourceParser.REGEX );
 		Matcher matcher = pattern.matcher(str);
 
 		int i=0;
@@ -104,9 +70,9 @@ public abstract class AbstractFileParser {
 			if( split.length < 2)
 				continue;
 
-			Functions function = Functions.valueOf(split[0].toUpperCase());
+			AbstractResourceParser.Functions function = AbstractResourceParser.Functions.valueOf(split[0].toUpperCase());
 			builder.append(str.substring(i, matcher.start()));
-			Attributes attr = null;
+			AbstractResourceParser.Attributes attr = null;
 			String path = null;
 			switch( function) {
 			case CONTEXT:
@@ -129,16 +95,16 @@ public abstract class AbstractFileParser {
 				builder.append( onHandleAuthentication(split[1], auth ));
 				break;
 			case LABEL:
-				attr = Attributes.valueOf(split[2].toUpperCase());
+				attr = AbstractResourceParser.Attributes.valueOf(split[2].toUpperCase());
 				builder.append( onHandleLabel(split[1], attr ));
 				break;
 			case VALUE:
-				attr = Attributes.valueOf(split[2].toUpperCase());
+				attr = AbstractResourceParser.Attributes.valueOf(split[2].toUpperCase());
 				builder.append( onHandleValues(function, split[1], attr ));
 				break;
 			default:
 				if( split.length > 2)
-					attr = Attributes.valueOf(split[2].toUpperCase());
+					attr = AbstractResourceParser.Attributes.valueOf(split[2].toUpperCase());
 				builder.append( onHandleFunction(function, split[1], attr ));
 				break;
 			}
