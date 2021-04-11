@@ -11,6 +11,18 @@ public class GeoView {
 	public static final float DEF_HORIZONTAL = 0.001f;
 	public static final float DEF_VERTICAL = 0.001f;
 	
+	public enum Queries{
+		ZOOM,
+		ZOOMIN,
+		ZOOMOUT,
+		JUMP;
+
+		@Override
+		public String toString() {
+			return super.name().toLowerCase();
+		}	
+	}
+	
 	private FieldData fieldData;
 	
 	private IJavascriptController controller;
@@ -95,15 +107,15 @@ public class GeoView {
 	public String zoom(){
 		String[] params = new String[1];
 		params[0] = String.valueOf( this.fieldData.getZoom() );
-		String query = "zoom";
+		String query = Queries.ZOOM.toString();
 		controller.setQuery( query, params );
 		return query;
 	}
 
 	public String zoomin() {
 		int zoom = this.fieldData.getZoom();
-		this.fieldData.setZoom(zoom++);
-		String query = "zoomout";
+		this.fieldData.setZoom(++zoom);
+		String query = Queries.ZOOMIN.toString();
 		controller.setQuery( query );
 		return query;
 	}
@@ -112,8 +124,8 @@ public class GeoView {
 		int zoom = this.fieldData.getZoom();
 		if( zoom > 0)
 			zoom--;
-		this.fieldData.setZoom(zoom++);
-		String query = "zoomin";
+		this.fieldData.setZoom(--zoom);
+		String query = Queries.ZOOMOUT.toString();
 		controller.setQuery( query );
 		return query;
 	}
@@ -128,7 +140,7 @@ public class GeoView {
 		params[0] = String.valueOf( latlng.getLatitude() );
 		params[1] = String.valueOf( latlng.getLongitude());
 		params[2] = String.valueOf( this.fieldData.getZoom());
-		String query = "jump";
+		String query = Queries.JUMP.toString();
 		controller.setQuery( query, params );
 		return query;
 	}
