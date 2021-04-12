@@ -21,7 +21,7 @@ public class ShapesView extends AbstractView<ShapesView.Commands> {
 
 		@Override
 		public String toString() {
-			return StringStyler.toMethodString(this.name());
+			return StringStyler.xmlStyleString(this.name());
 		}
 	}
 
