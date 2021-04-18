@@ -57,11 +57,6 @@ public interface IJavascriptController {
 	void setQuery(String function, String[] params);
 	
 	/**
-	 * Default, when synchronisation between clients is not needed
-	 */
-	void synchronize();
-
-	/**
 	 * returns true if the controller has not pening commands
 	 * @return
 	 */

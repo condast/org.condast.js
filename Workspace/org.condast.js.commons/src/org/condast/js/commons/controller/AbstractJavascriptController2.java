@@ -295,12 +295,6 @@ public abstract class AbstractJavascriptController2 implements IJavascriptContro
 		setQuery( function, new String[0]);
 	}
 
- 	@Override
-	public void synchronize() {
-		if(isDisposed())
-			return;
-	}
-	
 	/**
 	 * Create a default call back function for javascript handling
 	 * @param id: the type of callback
@@ -379,9 +373,8 @@ public abstract class AbstractJavascriptController2 implements IJavascriptContro
 			finally {
 				lock.unlock();
 			}
-
 		}
-
+		
 		/**
 		 * Set a query. It will be carried out as soon as possible
 		 * @param function

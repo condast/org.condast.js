@@ -17,7 +17,6 @@ import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.widgets.Composite;
 import org.eclipse.swt.widgets.Display;
-import org.openlayer.map.control.GeoView;
 import org.openlayer.map.control.IconsView;
 import org.openlayer.map.control.NavigationView;
 import org.openlayer.map.controller.OpenLayerController;
@@ -32,7 +31,6 @@ public class TestMapBrowser extends Browser {
 
 	private OpenLayerController mapController;
 
-	private GeoView geo;
 	private LatLng centre;
 	
 	private SessionHandler handler;
@@ -62,7 +60,6 @@ public class TestMapBrowser extends Browser {
 		super(parent, style);
 		this.mapController = new OpenLayerController( this );
 		this.mapController.addEvaluationListener(e->onNotifyEvaluation(e));
-		this.geo = new GeoView( mapController );
 		this.addProgressListener(plistener);
 		this.handler = new SessionHandler( this.getDisplay() );
 		this.busy = false;
@@ -133,7 +130,6 @@ public class TestMapBrowser extends Browser {
 			LatLng location = LatLngUtils.transform(centre, x, y);
 			icons.addMarker(location, getMarker(), Character.forDigit(i,10));
 		}
-		mapController.synchronize();
 	}
 	
 	public void dispose() {

@@ -319,13 +319,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
     		lock.unlock();
     	}
     }
-
-	@Override
-	public void synchronize() {
-		if(isDisposed())
-			return;
-		executeQuery();		
-	}
 	
 	/**
 	 * Create a default call back function for javascript handling

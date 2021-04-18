@@ -48,8 +48,4 @@ public abstract class AbstractView<E extends Enum<E>> {
 			controller.setQuery( query, parameters);
 		return query;
 	}
-
-	protected void synchronize(){
-		controller.synchronize();
-	}
 }
