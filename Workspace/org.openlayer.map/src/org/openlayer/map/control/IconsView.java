@@ -1,7 +1,5 @@
 package org.openlayer.map.control;
 
-import java.util.Arrays;
-
 import org.condast.commons.data.latlng.LatLng;
 import org.condast.commons.data.latlng.Waypoint;
 import org.condast.commons.strings.StringStyler;
@@ -20,6 +18,21 @@ public class IconsView extends AbstractView<IconsView.Commands>{
 		ADD_ICON,
 		REPLACE_ICON,
 		REMOVE_ICON;
+		
+		public CommandTypes getCommandType() {
+			CommandTypes type = CommandTypes.SEQUENTIAL;
+			switch( this ) {
+			case CLEAR_ICONS:
+				type = CommandTypes.EQUAL;
+				break;
+			case REPLACE_ICON:
+				type = CommandTypes.EQUAL_ATTR;
+				break;
+			default:
+				break;
+			}
+			return type;
+		}
 
 		@Override
 		public String toString() {
@@ -29,6 +42,12 @@ public class IconsView extends AbstractView<IconsView.Commands>{
 	
 	public IconsView( IJavascriptController controller) {
 		super( controller );
+	}
+
+	
+	@Override
+	protected CommandTypes getCommandType(Commands command) {
+		return command.getCommandType();
 	}
 
 	/**
@@ -125,7 +144,7 @@ public class IconsView extends AbstractView<IconsView.Commands>{
 		params[3] = String.valueOf( latlng.getLongitude() );
 		params[4] = path;
 		params[5] = String.valueOf( opacity );
-		return perform( Commands.ADD_ICON, Arrays.asList( params ));
+		return perform( Commands.ADD_ICON, params );
 	}
 
 	/**
@@ -140,7 +159,7 @@ public class IconsView extends AbstractView<IconsView.Commands>{
 		params[0] = id;
 		params[1] = path;
 		params[2] = String.valueOf( opacity );
-		return perform( Commands.REPLACE_ICON, Arrays.asList( params ));
+		return perform( Commands.REPLACE_ICON, params );
 	}
 
 	public String addIcon( String id, String name, LatLng latlng, String path ){
@@ -157,7 +176,7 @@ public class IconsView extends AbstractView<IconsView.Commands>{
 	public String removeIcon( String id ){
 		String[] params = new String[1];
 		params[0] = id;
-		return perform( Commands.REMOVE_ICON, Arrays.asList( params ));
+		return perform( Commands.REMOVE_ICON, params);
 	}
 	
 	/**

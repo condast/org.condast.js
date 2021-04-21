@@ -21,6 +21,25 @@ public class MapField extends AbstractView<MapField.Commands>{
 		DRAW_LINE,
 		DRAW_SHAPE;
 
+		public CommandTypes getCommandType() {
+			CommandTypes type = CommandTypes.SEQUENTIAL;
+			switch( this ) {
+			case CLEAR:
+			case CLEAR_FIELD:
+				type = CommandTypes.EQUAL;
+				break;
+			case SET_STROKE:
+			case SET_STYLE:
+			case SET_LINE_STYLE:
+			case SET_FIELD:
+				type = CommandTypes.EQUAL_ATTR;
+				break;
+			default:
+				break;
+			}
+			return type;
+		}
+		
 		@Override
 		public String toString() {
 			return StringStyler.toMethodString(this.name());
@@ -32,7 +51,12 @@ public class MapField extends AbstractView<MapField.Commands>{
 	public MapField( IJavascriptController controller) {
 		super( controller );
 	}
-	
+
+	@Override
+	protected CommandTypes getCommandType(Commands command) {
+		return command.getCommandType();
+	}
+
 	public IField getField() {
 		return field;
 	}
@@ -55,7 +79,7 @@ public class MapField extends AbstractView<MapField.Commands>{
 	 */
 	public String clearField(){
 		String query = Commands.CLEAR_FIELD.toString();
-		getController().setQuery( query );
+		getController().setQuery( Commands.CLEAR_FIELD.getCommandType(), query );
 		return query;		
 	}
 
@@ -114,7 +138,7 @@ public class MapField extends AbstractView<MapField.Commands>{
 		params.add( String.valueOf( this.field.getCentre().getLongitude() ));
 		params.add( String.valueOf( this.field.getLength() ));
 		params.add( String.valueOf( this.field.getWidth()));
-		return super.perform( Commands.SET_FIELD, params );
+		return super.perform( Commands.SET_FIELD, params.toArray( new String[params.size()]) );
 	}
 
 	public String drawLine( String name, LatLng begin, LatLng end ){

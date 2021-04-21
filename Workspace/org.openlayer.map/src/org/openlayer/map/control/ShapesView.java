@@ -19,6 +19,22 @@ public class ShapesView extends AbstractView<ShapesView.Commands> {
 		GET_SHAPE,
 		REMOVE_SHAPE;
 
+		public CommandTypes getCommandType() {
+			CommandTypes type = CommandTypes.SEQUENTIAL;
+			switch( this ) {
+			case CLEAR_SHAPES:
+				type = CommandTypes.EQUAL;
+				break;
+			case SET_SHAPE:
+			case REMOVE_SHAPE:
+				type = CommandTypes.EQUAL_ATTR;
+				break;
+			default:
+				break;
+			}
+			return type;
+		}
+
 		@Override
 		public String toString() {
 			return StringStyler.xmlStyleString(this.name());
@@ -65,7 +81,13 @@ public class ShapesView extends AbstractView<ShapesView.Commands> {
 	public ShapesView( IJavascriptController controller) {
 		super( controller );
 	}
-	
+
+	@Override
+	protected CommandTypes getCommandType(Commands command) {
+		return command.getCommandType();
+	}
+
+
 	public IField getField() {
 		return field;
 	}
@@ -88,7 +110,7 @@ public class ShapesView extends AbstractView<ShapesView.Commands> {
 		Collection<String> params = super.getParameters( Commands.SET_SHAPE);
 		params.add( name );
 		params.add( type.toString() );
-		return super.perform(Commands.SET_SHAPE, params );
+		return super.perform(Commands.SET_SHAPE, params.toArray( new String[params.size()]));
 	}
 
 	/**
@@ -104,31 +126,31 @@ public class ShapesView extends AbstractView<ShapesView.Commands> {
 	public String addShape( IPolygon polygon ){
 		Collection<String> params = super.getParameters( Commands.ADD_SHAPE);
 		params.add( polygon.toWKT() );
-		return super.perform(Commands.ADD_SHAPE, params );
+		return super.perform(Commands.ADD_SHAPE, params.toArray( new String[params.size()]));
 	}
 
 	public String addShape( String wtk ){
 		Collection<String> params = super.getParameters( Commands.ADD_SHAPE);
 		params.add( wtk );
-		return super.perform(Commands.ADD_SHAPE, params );
+		return super.perform(Commands.ADD_SHAPE, params.toArray( new String[params.size()]) );
 	}
 
 	public String addendShape( String wtk ){
 		Collection<String> params = super.getParameters( Commands.ADDEND_SHAPE);
 		params.add( wtk );
-		return super.perform(Commands.ADDEND_SHAPE, params );
+		return super.perform(Commands.ADDEND_SHAPE, params.toArray( new String[params.size()]) );
 	}
 
 	public String getShape( String id ){
 		Collection<String> params = super.getParameters( Commands.GET_SHAPE);
 		params.add( id );
-		return super.perform(Commands.GET_SHAPE, params );
+		return super.perform(Commands.GET_SHAPE, params.toArray( new String[params.size()]));
 	}
 
 	public String removeShape( String id ){
 		Collection<String> params = super.getParameters( Commands.REMOVE_SHAPE);
 		params.add( id );
-		return super.perform(Commands.REMOVE_SHAPE, params );
+		return super.perform(Commands.REMOVE_SHAPE, params.toArray( new String[params.size()]));
 	}
 
 }

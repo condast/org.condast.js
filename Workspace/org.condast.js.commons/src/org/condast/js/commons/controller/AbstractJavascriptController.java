@@ -12,6 +12,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 
 import org.condast.commons.Utils;
+import org.condast.js.commons.controller.AbstractView.CommandTypes;
 import org.condast.js.commons.eval.EvaluationEvent;
 import org.condast.js.commons.eval.IEvaluationListener;
 import org.condast.js.commons.eval.IEvaluationListener.EvaluationEvents;
@@ -306,6 +307,17 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 
     protected synchronized void setQuery( String function, Collection<String> params ){
     	this.setQuery(function, params.toArray(new String[ params.size()]));
+    }
+
+    
+    @Override
+	public void setQuery(CommandTypes type, String function) {
+    	this.setQuery(function, new String[0]);
+	}
+
+	@Override
+    public synchronized void setQuery( CommandTypes command, String function, String[] params ){
+    	this.setQuery(function, params);
     }
 
     protected synchronized void executeQuery(){

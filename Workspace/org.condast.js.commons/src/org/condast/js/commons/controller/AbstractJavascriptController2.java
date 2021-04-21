@@ -2,8 +2,10 @@ package org.condast.js.commons.controller;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Stack;
@@ -15,6 +17,7 @@ import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 
 import org.condast.commons.Utils;
+import org.condast.js.commons.controller.AbstractView.CommandTypes;
 import org.condast.js.commons.eval.EvaluationEvent;
 import org.condast.js.commons.eval.IEvaluationListener;
 import org.condast.js.commons.eval.IEvaluationListener.EvaluationEvents;
@@ -32,7 +35,7 @@ public abstract class AbstractJavascriptController2 implements IJavascriptContro
 
 	public static final String S_IS_INITIALISTED = "isInitialised";
 
-	public static final int DEFAULT_UPDATE_TIME = 500;
+	public static final int DEFAULT_UPDATE_TIME = 3;
 
 	public enum LoadTypes{
 		URL,
@@ -197,6 +200,10 @@ public abstract class AbstractJavascriptController2 implements IJavascriptContro
 		return this.controller.isEmpty();
 	}
 
+	public boolean isExecuting() {
+		return !this.controller.isEmpty();
+	}
+	
 	protected boolean isWarnPending() {
 		return warnPending;
 	}
@@ -280,11 +287,6 @@ public abstract class AbstractJavascriptController2 implements IJavascriptContro
 			listener.notifyEvaluation(ee);
 	}
 
-	@Override
-	public synchronized void setQuery( String function, String[] params ){
-		controller.setQuery(function, params);
-	}
-
 	/**
 	 * Set a query. It will be carried out as soon as possible
 	 * @param function
@@ -293,6 +295,21 @@ public abstract class AbstractJavascriptController2 implements IJavascriptContro
     @Override
 	public synchronized void setQuery( String function ){
 		setQuery( function, new String[0]);
+	}
+
+	@Override
+	public synchronized void setQuery( CommandTypes type, String function ){
+		controller.setQuery(type, function, new String[0]);
+	}
+
+	@Override
+	public synchronized void setQuery( String function, String[] params ){
+		controller.setQuery( CommandTypes.SEQUENTIAL, function, params);
+	}
+
+	@Override
+	public synchronized void setQuery( CommandTypes type, String function, String[] params ){
+		controller.setQuery(type, function, params);
 	}
 
 	/**
@@ -318,9 +335,14 @@ public abstract class AbstractJavascriptController2 implements IJavascriptContro
 		return buffer.toString();
 	}
 	
+	@Override
+	public String toString() {
+		return controller.toString();
+	}
+	
 	private class CommandController{
 
-		private LinkedList<Map.Entry<String, String[]>> commands;
+		private List<Command> commands;
 		
 		private Stack<String> history;
 		
@@ -330,10 +352,10 @@ public abstract class AbstractJavascriptController2 implements IJavascriptContro
 		private SessionHandler handler;
 
 		private Lock lock;
-
+		
 		private CommandController( int time ) {
 			this.time = time;
-			commands = new LinkedList<Map.Entry<String, String[]>>();
+			commands = new ArrayList<>();
 			history = new Stack<String>();
 			handler = new SessionHandler( browser.getDisplay());
 			this.lock = new ReentrantLock();
@@ -360,55 +382,42 @@ public abstract class AbstractJavascriptController2 implements IJavascriptContro
 			return history.pop();
 		}
 
+		/**
+		 * Set a query. It will be carried out as soon as possible
+		 * @param function
+		 * @param params
+		 */
+		public synchronized void setQuery( CommandTypes type, String function, String[] params ){
+			lock.lock();
+			try {
+				Command command = new Command( type, function, Arrays.asList( params ));
+				if(!commands.contains(command))
+					this.commands.add( command );
+			}
+			finally {
+				lock.unlock();
+			}
+		}	
+
 		private void handleTimer() {
-			if( !initialised || Utils.assertNull(commands))
+			if( !initialised )
 				return;
 			lock.lock();
 			try {
-				if( busy )
+				if( Utils.assertNull(commands)) {
+					return;
+				}
+				if(( busy ) || Utils.assertNull(commands))
 					return;
 				busy = true;
-				handler.addData(commands.removeFirst());
+				Command command = commands.remove(0);
+				handler.addData( command);
 			}
 			finally {
 				lock.unlock();
 			}
 		}
 		
-		/**
-		 * Set a query. It will be carried out as soon as possible
-		 * @param function
-		 * @param params
-		 */
-		public synchronized void setQuery( String function, String[] params ){
-			final String func = function;
-			final String[] prms = params;
-			lock.lock();
-			try {
-				this.commands.push( new Map.Entry<String, String[]>() {
-
-					@Override
-					public String getKey() {
-						return func;
-					}
-
-					@Override
-					public String[] getValue() {
-						return prms;
-					}
-
-					@Override
-					public String[] setValue(String[] value) {
-						return prms;
-					}
-				});
-			}
-			finally {
-				lock.unlock();
-			}
-
-		}	
-
 		/* (non-Javadoc)
 		 * @see org.condast.js.commons.controller.IJavascriptController#evaluate(java.lang.String)
 		 */
@@ -455,6 +464,104 @@ public abstract class AbstractJavascriptController2 implements IJavascriptContro
 			buffer.append(");");
 			logger.fine("EXECUTING: " + buffer.toString() );
 			return buffer.toString();
+		}
+		
+		@Override
+		public String toString() {
+			StringBuilder builder = new StringBuilder();
+			builder.append("Commands in Buffer:\n");
+			lock.lock();
+			try {
+				commands.forEach(( entry)->{
+					builder.append("\t");
+					builder.append(setFunction(entry.getKey(), entry.getValue()));
+					builder.append("\n");
+				});
+				builder.append("\n");
+				return builder.toString();
+			}
+			finally {
+				lock.unlock();
+			}
+		}
+	
+		private class Command implements Map.Entry<String, String[]>, Comparable<Command>{
+
+			private CommandTypes type;
+			private String key;
+			private Collection<String> value;
+			
+			public Command( CommandTypes type, String key, Collection<String> value) {
+				super();
+				this.type = type;
+				this.key = key;
+				this.value = value;
+			}
+
+			@Override
+			public String getKey() {
+				return key;
+			}
+
+			@Override
+			public String[] getValue() {
+				return value.toArray( new String[ value.size()]);
+			}
+
+			@Override
+			public String[] setValue(String[] value) {
+				this.value = Arrays.asList(value);
+				return getValue();
+			}
+
+			@Override
+			public int hashCode() {
+				return setFunction(key, getValue()).hashCode();
+			}
+
+			@Override
+			public boolean equals(Object obj) {
+				if( super.equals(obj))
+					return true;
+				if(!( obj instanceof Command ))
+					return false;
+				Command command = (Command) obj;
+				return ( this.compareTo(command) == 0 );
+			}
+
+			@Override
+			public int compareTo(Command o) {
+				if( super.equals(o))
+					return 0;
+				int result = 0;
+				switch( type ){
+				case EQUAL:
+					result = key.compareTo(o.getKey());
+					break;
+				case EQUAL_ATTR:
+					result = key.compareTo(o.getKey());
+					if( result != 0 )
+						break;
+					result = (( value == null ) && ( o.getValue() == null ))?0: (( value == null ) && ( o.getValue() != null ))?-1:
+						 (( value != null ) && ( o.getValue() == null ))?1:0;
+					if(( result != 0) || ( value == null ))
+						break;
+					result = ( value.size() > o.getValue().length)?1:( value.size()< o.getValue().length)?-1:0;
+					if( result != 0 )
+						break;
+					int index = 0;
+					for( String str: value ) {
+						result = str.compareTo(o.getValue()[index++]);
+						if( result != 0)
+							break;
+					}
+					break;
+				default:
+					result = 1;
+				}
+				return result;
+			}
+			
 		}
 		
 		private class SessionHandler extends AbstractSessionHandler<Map.Entry<String, String[]>> {

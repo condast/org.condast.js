@@ -18,6 +18,15 @@ public class PixelView extends AbstractView<PixelView.Commands>{
 		GET_PIXELS,
 		GET_AREA_PIXELS;
 
+		public CommandTypes getCommandType() {
+			CommandTypes type = CommandTypes.SEQUENTIAL;
+			switch( this ) {
+			default:
+				break;
+			}
+			return type;
+		}
+
 		@Override
 		public String toString() {
 			return StringStyler.toMethodString(this.name());
@@ -27,6 +36,12 @@ public class PixelView extends AbstractView<PixelView.Commands>{
 	public PixelView( IJavascriptController controller) {
 		super( controller  );
 	}
+
+	@Override
+	protected CommandTypes getCommandType(Commands command) {
+		return command.getCommandType();
+	}
+
 
 	/**
 	 * Get the pixel at the given latlng position

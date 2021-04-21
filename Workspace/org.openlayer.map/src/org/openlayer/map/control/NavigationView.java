@@ -16,7 +16,19 @@ public class NavigationView extends AbstractView<NavigationView.Commands> {
 		public String toString() {
 			return StringStyler.toMethodString(this.name());
 		}
-		
+
+		public CommandTypes getCommandType() {
+			CommandTypes type = CommandTypes.SEQUENTIAL;
+			switch( this ) {
+			case GET_GEO_LOCATION:
+				type = CommandTypes.EQUAL;
+				break;
+			default:
+				break;
+			}
+			return type;
+		}
+
 		public static boolean isValue( String str ) {
 			if( StringUtils.isEmpty(str))
 				return false;
@@ -32,7 +44,13 @@ public class NavigationView extends AbstractView<NavigationView.Commands> {
 	public NavigationView( IJavascriptController controller) {
 		super( controller );
 	}
-		
+	
+	@Override
+	protected CommandTypes getCommandType(Commands command) {
+		return command.getCommandType();
+	}
+
+
 	/**
 	 * Get the location of the device if the browser supports it
 	 * @param name

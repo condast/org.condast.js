@@ -1,5 +1,6 @@
 package org.condast.js.commons.controller;
 
+import org.condast.js.commons.controller.AbstractView.CommandTypes;
 import org.condast.js.commons.eval.IEvaluationListener;
 import org.eclipse.swt.browser.Browser;
 
@@ -54,8 +55,12 @@ public interface IJavascriptController {
 
 	void setQuery(String function);
 
+	void setQuery(CommandTypes type, String function);
+
 	void setQuery(String function, String[] params);
-	
+
+	void setQuery(CommandTypes type, String function, String[] params);
+
 	/**
 	 * returns true if the controller has not pening commands
 	 * @return
