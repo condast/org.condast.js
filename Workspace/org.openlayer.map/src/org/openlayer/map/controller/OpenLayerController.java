@@ -5,11 +5,10 @@ import java.util.logging.Logger;
 
 import org.condast.commons.data.latlng.LatLng;
 import org.condast.js.commons.controller.AbstractJavascriptController;
-import org.condast.js.commons.controller.AbstractJavascriptController2;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.BrowserFunction;
 
-public class OpenLayerController extends AbstractJavascriptController2{
+public class OpenLayerController extends AbstractJavascriptController{
 
 	public static final String S_INDEX_HTML = "/resources/index.html";
 	public static final String S_INITIALISTED_ID = "OpenLayerInitialisedId";

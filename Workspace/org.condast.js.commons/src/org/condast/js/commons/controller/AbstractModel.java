@@ -26,9 +26,6 @@ public class AbstractModel {
 	protected void notifyEvaluationEvent( EvaluationEvent<Object> event ){
 		controller.notifyEvaluation( event );
 	}
-	public void synchronize(){
-		controller.executeQuery();
-	}
 	
 	public void dispose(){
 		this.function.dispose();

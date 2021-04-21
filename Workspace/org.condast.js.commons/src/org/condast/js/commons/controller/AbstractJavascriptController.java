@@ -2,11 +2,16 @@ package org.condast.js.commons.controller;
 
 import java.io.InputStream;
 import java.util.ArrayList;
+import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
+import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
 import java.util.Stack;
+import java.util.concurrent.Executors;
+import java.util.concurrent.ScheduledExecutorService;
+import java.util.concurrent.TimeUnit;
 import java.util.concurrent.locks.Lock;
 import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
@@ -16,17 +21,22 @@ import org.condast.js.commons.controller.AbstractView.CommandTypes;
 import org.condast.js.commons.eval.EvaluationEvent;
 import org.condast.js.commons.eval.IEvaluationListener;
 import org.condast.js.commons.eval.IEvaluationListener.EvaluationEvents;
+import org.condast.js.commons.session.AbstractSessionHandler;
+import org.condast.js.commons.session.SessionEvent;
 import org.eclipse.rap.rwt.widgets.BrowserCallback;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.BrowserFunction;
 import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.widgets.Display;
 
 public abstract class AbstractJavascriptController implements IJavascriptController{
 
 	public static final String S_IS_INITIALISTED = "isInitialised";
-	
+
+	public static final int DEFAULT_UPDATE_TIME = 3;
+
 	public enum LoadTypes{
 		URL,
 		TEXT;
@@ -40,7 +50,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	private String id;
 	private boolean disposed;
 	private boolean warnPending;
-	private Lock lock;
+	private boolean busy;
 	
 	private Logger logger = Logger.getLogger( this.getClass().getName());
 	
@@ -59,6 +69,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 				}
 				finally {
 					controller.clearHistory();
+					busy = false;
 				}
 			}
 			@Override
@@ -76,6 +87,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 					buffer.append( controller.retrieve() );
 					logger.warning(buffer.toString());
 					controller.clearHistory();
+					busy = false;
 				}
 			}
 		};
@@ -85,16 +97,16 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	protected AbstractJavascriptController( Browser browser, String idn ) {
 		this( browser, idn, false );
 	}
-	
+		
 	protected AbstractJavascriptController( Browser browser, String idn, boolean warnPending ) {
 		this.id = idn;
 		this.initialised = false;
+		this.busy = false;
 		this.disposed = false;
 		this.browser = browser;
 		this.browser.addDisposeListener(e->onWidgetDisposed(e));
 		listeners = new ArrayList<>();
-		this.lock = new ReentrantLock();
-		this.controller = new CommandController( );
+		this.controller = new CommandController( DEFAULT_UPDATE_TIME );
 		browser.addProgressListener( new ProgressListener() {
 			private static final long serialVersionUID = 1L;
 
@@ -102,8 +114,8 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			public void completed(ProgressEvent event) {
 				onLoadCompleted();
 				initialised = true;
+				controller.init();
 				notifyEvaluation( new EvaluationEvent<Object>( getBrowser(), id, EvaluationEvents.INITIALISED ));
-				controller.executeQuery();
 			}
 			
 			@Override
@@ -130,6 +142,8 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 
 	protected abstract void onLoadCompleted();
 
+	protected void onLoadChanged(){ /* DEFAULT NOTHING */ }
+	
 	private void onWidgetDisposed(DisposeEvent event) {
 		try {
 			controller.clear();
@@ -141,15 +155,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			ex.printStackTrace();
 		}
 	}	
-
-	protected void onLoadChanged(){ /* DEFAULT NOTHING */ }
-	
-	/**
-	 * Initialise the composite
-	 */
-	protected void initComposite(){
-		controller.executeQuery();
-	}
 
 	/* (non-Javadoc)
 	 * @see org.condast.js.commons.controller.IJavascriptController#isInitialised()
@@ -192,15 +197,13 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	
 	@Override
 	public boolean isEmpty() {
-		lock.lock();
-		try {
-			return this.controller.isEmpty();
-		}
-		finally {
-			lock.unlock();
-		}
+		return this.controller.isEmpty();
 	}
 
+	public boolean isExecuting() {
+		return !this.controller.isEmpty();
+	}
+	
 	protected boolean isWarnPending() {
 		return warnPending;
 	}
@@ -284,17 +287,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			listener.notifyEvaluation(ee);
 	}
 
-	@Override
-	public synchronized void setQuery( String function, String[] params ){
-		lock.lock();
-		try {
-			controller.setQuery(function, params);
-		}
-		finally {
-			lock.unlock();
-		}
-	}
-
 	/**
 	 * Set a query. It will be carried out as soon as possible
 	 * @param function
@@ -305,33 +297,21 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		setQuery( function, new String[0]);
 	}
 
-    protected synchronized void setQuery( String function, Collection<String> params ){
-    	this.setQuery(function, params.toArray(new String[ params.size()]));
-    }
-
-    
-    @Override
-	public void setQuery(CommandTypes type, String function) {
-    	this.setQuery(function, new String[0]);
+	@Override
+	public synchronized void setQuery( CommandTypes type, String function ){
+		controller.setQuery(type, function, new String[0]);
 	}
 
 	@Override
-    public synchronized void setQuery( CommandTypes command, String function, String[] params ){
-    	this.setQuery(function, params);
-    }
+	public synchronized void setQuery( String function, String[] params ){
+		controller.setQuery( CommandTypes.SEQUENTIAL, function, params);
+	}
 
-    protected synchronized void executeQuery(){
-    	if( disposed || browser.isDisposed() || !browser.isVisible() )
-    		return;
-    	lock.lock();
-    	try {
-    		controller.executeQuery();
-    	}
-    	finally {
-    		lock.unlock();
-    	}
-    }
-	
+	@Override
+	public synchronized void setQuery( CommandTypes type, String function, String[] params ){
+		controller.setQuery(type, function, params);
+	}
+
 	/**
 	 * Create a default call back function for javascript handling
 	 * @param id: the type of callback
@@ -355,17 +335,37 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		return buffer.toString();
 	}
 	
+	@Override
+	public String toString() {
+		return controller.toString();
+	}
+	
 	private class CommandController{
 
-		private LinkedList<Map.Entry<String, String[]>> commands;
+		private List<Command> commands;
 		
 		private Stack<String> history;
-	
-		private CommandController() {
-			commands = new LinkedList<Map.Entry<String, String[]>>();
+		
+		private ScheduledExecutorService timer;
+		private int time;
+		
+		private SessionHandler handler;
+
+		private Lock lock;
+		
+		private CommandController( int time ) {
+			this.time = time;
+			commands = new ArrayList<>();
 			history = new Stack<String>();
+			handler = new SessionHandler( browser.getDisplay());
+			this.lock = new ReentrantLock();
 		}
 
+		private void init() {
+			timer = Executors.newScheduledThreadPool(1);
+			timer.scheduleAtFixedRate(()->handleTimer(), time, time, TimeUnit.MILLISECONDS);				
+		}
+		
 		private void clear(){
 			this.commands.clear();
 		}
@@ -381,34 +381,43 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		private String retrieve(){
 			return history.pop();
 		}
-		
+
 		/**
 		 * Set a query. It will be carried out as soon as possible
 		 * @param function
 		 * @param params
 		 */
-		public synchronized void setQuery( String function, String[] params ){
-			final String func = function;
-			final String[] prms = params;
-			this.commands.push( new Map.Entry<String, String[]>() {
-
-				@Override
-				public String getKey() {
-					return func;
-				}
-
-				@Override
-				public String[] getValue() {
-					return prms;
-				}
-
-				@Override
-				public String[] setValue(String[] value) {
-					return prms;
-				}
-			});
+		public synchronized void setQuery( CommandTypes type, String function, String[] params ){
+			lock.lock();
+			try {
+				Command command = new Command( type, function, Arrays.asList( params ));
+				if(!commands.contains(command))
+					this.commands.add( command );
+			}
+			finally {
+				lock.unlock();
+			}
 		}	
 
+		private void handleTimer() {
+			if( !initialised )
+				return;
+			lock.lock();
+			try {
+				if( Utils.assertNull(commands)) {
+					return;
+				}
+				if(( busy ) || Utils.assertNull(commands))
+					return;
+				busy = true;
+				Command command = commands.remove(0);
+				handler.addData( command);
+			}
+			finally {
+				lock.unlock();
+			}
+		}
+		
 		/* (non-Javadoc)
 		 * @see org.condast.js.commons.controller.IJavascriptController#evaluate(java.lang.String)
 		 */
@@ -422,19 +431,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 				return false;
 			}
 			return true;
-		}
-
-		private final synchronized void executeQuery(){
-			if( commands.isEmpty() )
-				return;
-			StringBuilder buffer = new StringBuilder();
-			while( !commands.isEmpty() ){
-				Map.Entry<String, String[]> command = commands.removeLast();
-				buffer.append( setFunction(command.getKey(), command.getValue()));
-				buffer.append(" ");
-			}
-			history.push( prettyCode( buffer.toString() ));
-			evaluate(buffer.toString());
 		}
 
 		/**
@@ -468,6 +464,122 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			buffer.append(");");
 			logger.fine("EXECUTING: " + buffer.toString() );
 			return buffer.toString();
+		}
+		
+		@Override
+		public String toString() {
+			StringBuilder builder = new StringBuilder();
+			builder.append("Commands in Buffer:\n");
+			lock.lock();
+			try {
+				commands.forEach(( entry)->{
+					builder.append("\t");
+					builder.append(setFunction(entry.getKey(), entry.getValue()));
+					builder.append("\n");
+				});
+				builder.append("\n");
+				return builder.toString();
+			}
+			finally {
+				lock.unlock();
+			}
+		}
+	
+		private class Command implements Map.Entry<String, String[]>, Comparable<Command>{
+
+			private CommandTypes type;
+			private String key;
+			private Collection<String> value;
+			
+			public Command( CommandTypes type, String key, Collection<String> value) {
+				super();
+				this.type = type;
+				this.key = key;
+				this.value = value;
+			}
+
+			@Override
+			public String getKey() {
+				return key;
+			}
+
+			@Override
+			public String[] getValue() {
+				return value.toArray( new String[ value.size()]);
+			}
+
+			@Override
+			public String[] setValue(String[] value) {
+				this.value = Arrays.asList(value);
+				return getValue();
+			}
+
+			@Override
+			public int hashCode() {
+				return setFunction(key, getValue()).hashCode();
+			}
+
+			@Override
+			public boolean equals(Object obj) {
+				if( super.equals(obj))
+					return true;
+				if(!( obj instanceof Command ))
+					return false;
+				Command command = (Command) obj;
+				return ( this.compareTo(command) == 0 );
+			}
+
+			@Override
+			public int compareTo(Command o) {
+				if( super.equals(o))
+					return 0;
+				int result = 0;
+				switch( type ){
+				case EQUAL:
+					result = key.compareTo(o.getKey());
+					break;
+				case EQUAL_ATTR:
+					result = key.compareTo(o.getKey());
+					if( result != 0 )
+						break;
+					result = (( value == null ) && ( o.getValue() == null ))?0: (( value == null ) && ( o.getValue() != null ))?-1:
+						 (( value != null ) && ( o.getValue() == null ))?1:0;
+					if(( result != 0) || ( value == null ))
+						break;
+					result = ( value.size() > o.getValue().length)?1:( value.size()< o.getValue().length)?-1:0;
+					if( result != 0 )
+						break;
+					int index = 0;
+					for( String str: value ) {
+						result = str.compareTo(o.getValue()[index++]);
+						if( result != 0)
+							break;
+					}
+					break;
+				default:
+					result = 1;
+				}
+				return result;
+			}
+			
+		}
+		
+		private class SessionHandler extends AbstractSessionHandler<Map.Entry<String, String[]>> {
+
+			protected SessionHandler(Display display) {
+				super(display);
+			}
+
+			@Override
+			protected void onHandleSession(SessionEvent<Map.Entry<String, String[]>> sevent) {
+				Map.Entry<String,String[]> command = sevent.getData();
+				if( command == null )
+					return;
+				String function = setFunction(command.getKey(), command.getValue());
+				logger.fine("Processing: " + function);
+				history.push( prettyCode( function ));
+				evaluate( function );
+			}	
 		}
 	}
 	
