@@ -6,7 +6,6 @@ import java.util.Arrays;
 import java.util.Collection;
 import java.util.LinkedList;
 import java.util.List;
-import java.util.Map;
 import java.util.Scanner;
 import java.util.Stack;
 import java.util.concurrent.Executors;
@@ -52,47 +51,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	private boolean warnPending;
 	private boolean busy;
 	
-	private Logger logger = Logger.getLogger( this.getClass().getName());
-	
-	private BrowserCallback getCallBack(){
-		BrowserCallback callback = new BrowserCallback() {
-
-			private static final long serialVersionUID = 1L;
-
-			@Override
-			public void evaluationSucceeded(Object result) {
-				try {
-					notifyEvaluation( new EvaluationEvent<Object>( browser, id, EvaluationEvents.SUCCEEDED ));
-				}
-				catch( Exception ex ) {
-					ex.printStackTrace();
-				}
-				finally {
-					controller.clearHistory();
-					busy = false;
-				}
-			}
-			@Override
-			public void evaluationFailed(Exception exception) {
-				try {
-					notifyEvaluation( new EvaluationEvent<Object>( browser, id, EvaluationEvents.FAILED ));
-				}
-				catch( Exception ex ) {
-					logger.warning(ex.getMessage());
-					//ex.printStackTrace();
-				}
-				finally {
-					StringBuffer buffer = new StringBuffer();
-					buffer.append( "EXECUTION FAILED: \n" );
-					buffer.append( controller.retrieve() );
-					logger.warning(buffer.toString());
-					controller.clearHistory();
-					busy = false;
-				}
-			}
-		};
-		return callback;
-	}
+	private Logger logger = Logger.getLogger( this.getClass().getName());	
 
 	protected AbstractJavascriptController( Browser browser, String idn ) {
 		this( browser, idn, false );
@@ -115,13 +74,13 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 				onLoadCompleted();
 				initialised = true;
 				controller.init();
-				notifyEvaluation( new EvaluationEvent<Object>( getBrowser(), id, EvaluationEvents.INITIALISED ));
+				notifyEvaluation( new EvaluationEvent<Object>( getBrowser(), null, id, EvaluationEvents.INITIALISED ));
 			}
 			
 			@Override
 			public void changed(ProgressEvent event) {
 				onLoadChanged();
-				notifyEvaluation( new EvaluationEvent<Object>( getBrowser(), id, EvaluationEvents.CHANGED ));
+				notifyEvaluation( new EvaluationEvent<Object>( getBrowser(), null, id, EvaluationEvents.CHANGED ));
 			}
 		});
 	}
@@ -218,7 +177,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	}
 
 	@Override
-	public  Object[] evaluate( String query ) {
+	public Object[] evaluate( String query ) {
 		StringBuilder builder = new StringBuilder();
 		builder.append( "return ");
 		builder.append( query );
@@ -312,14 +271,23 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		controller.setQuery(type, function, params);
 	}
 
+	 /* Create a default call back function for javascript handling
+	 * @param id: the type of callback
+	 * @param name: the name of the javascript function
+	 * @return
+	 */
+	protected BrowserFunction createCallBackFunction( String id, String name ){
+		return new JavaScriptCallBack(browser, null, name, id);
+	}
+
 	/**
 	 * Create a default call back function for javascript handling
 	 * @param id: the type of callback
 	 * @param name: the name of the javascript function
 	 * @return
 	 */
-	protected BrowserFunction createCallBackFunction( String id, String name ){
-		return new JavaScriptCallBack(browser, name, id);
+	protected BrowserFunction createCallBackFunction( String id, Command command, String name ){
+		return new JavaScriptCallBack(browser, command, name, id);
 	}
 
 	protected String readInput( InputStream in ){
@@ -352,7 +320,47 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		private SessionHandler handler;
 
 		private Lock lock;
-		
+
+		private BrowserCallback getCallBack( Command command ){
+			BrowserCallback callback = new BrowserCallback() {
+
+				private static final long serialVersionUID = 1L;
+
+				@Override
+				public void evaluationSucceeded(Object result) {
+					try {
+						notifyEvaluation( new EvaluationEvent<Object>( browser, command, id, EvaluationEvents.SUCCEEDED ));
+					}
+					catch( Exception ex ) {
+						ex.printStackTrace();
+					}
+					finally {
+						controller.clearHistory();
+						busy = false;
+					}
+				}
+				@Override
+				public void evaluationFailed(Exception exception) {
+					try {
+						notifyEvaluation( new EvaluationEvent<Object>( browser, command, id, EvaluationEvents.FAILED ));
+					}
+					catch( Exception ex ) {
+						logger.warning(ex.getMessage());
+						//ex.printStackTrace();
+					}
+					finally {
+						StringBuffer buffer = new StringBuffer();
+						buffer.append( "EXECUTION FAILED: \n" );
+						buffer.append( controller.retrieve() );
+						logger.warning(buffer.toString());
+						controller.clearHistory();
+						busy = false;
+					}
+				}
+			};
+			return callback;
+		}
+
 		private CommandController( int time ) {
 			this.time = time;
 			commands = new ArrayList<>();
@@ -421,9 +429,9 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		/* (non-Javadoc)
 		 * @see org.condast.js.commons.controller.IJavascriptController#evaluate(java.lang.String)
 		 */
-		private Object evaluate( final String query ){
+		private Object evaluate( Command command, String query ){
 			try{
-				browser.evaluate( query, getCallBack() );
+				browser.evaluate( query, getCallBack( command ) );
 				browser.requestLayout();
 			}
 			catch( Exception se ){
@@ -444,28 +452,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			return "\t" + retval + "\n";
 		}
 		
-	    /**
-		 * Create the correct string from the function enum
-		 * @param function
-		 * @param params
-		 * @return
-		 */
-		private String setFunction( String function, String[] params){
-			StringBuffer buffer = new StringBuffer();
-			buffer.append( function );
-			buffer.append("(");
-			if( !Utils.assertNull(params)){
-				for( int i=0; i< params.length; i++ ){
-					buffer.append( "'" + params[i] + "'" );
-					if( i< params.length-1 )
-						buffer.append(",");
-				}
-			}
-			buffer.append(");");
-			logger.fine("EXECUTING: " + buffer.toString() );
-			return buffer.toString();
-		}
-		
 		@Override
 		public String toString() {
 			StringBuilder builder = new StringBuilder();
@@ -474,7 +460,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			try {
 				commands.forEach(( entry)->{
 					builder.append("\t");
-					builder.append(setFunction(entry.getKey(), entry.getValue()));
+					builder.append( Command.setFunction(entry.getKey(), entry.getValue()));
 					builder.append("\n");
 				});
 				builder.append("\n");
@@ -483,102 +469,23 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			finally {
 				lock.unlock();
 			}
-		}
-	
-		private class Command implements Map.Entry<String, String[]>, Comparable<Command>{
-
-			private CommandTypes type;
-			private String key;
-			private Collection<String> value;
-			
-			public Command( CommandTypes type, String key, Collection<String> value) {
-				super();
-				this.type = type;
-				this.key = key;
-				this.value = value;
-			}
-
-			@Override
-			public String getKey() {
-				return key;
-			}
-
-			@Override
-			public String[] getValue() {
-				return value.toArray( new String[ value.size()]);
-			}
-
-			@Override
-			public String[] setValue(String[] value) {
-				this.value = Arrays.asList(value);
-				return getValue();
-			}
-
-			@Override
-			public int hashCode() {
-				return setFunction(key, getValue()).hashCode();
-			}
-
-			@Override
-			public boolean equals(Object obj) {
-				if( super.equals(obj))
-					return true;
-				if(!( obj instanceof Command ))
-					return false;
-				Command command = (Command) obj;
-				return ( this.compareTo(command) == 0 );
-			}
-
-			@Override
-			public int compareTo(Command o) {
-				if( super.equals(o))
-					return 0;
-				int result = 0;
-				switch( type ){
-				case EQUAL:
-					result = key.compareTo(o.getKey());
-					break;
-				case EQUAL_ATTR:
-					result = key.compareTo(o.getKey());
-					if( result != 0 )
-						break;
-					result = (( value == null ) && ( o.getValue() == null ))?0: (( value == null ) && ( o.getValue() != null ))?-1:
-						 (( value != null ) && ( o.getValue() == null ))?1:0;
-					if(( result != 0) || ( value == null ))
-						break;
-					result = ( value.size() > o.getValue().length)?1:( value.size()< o.getValue().length)?-1:0;
-					if( result != 0 )
-						break;
-					int index = 0;
-					for( String str: value ) {
-						result = str.compareTo(o.getValue()[index++]);
-						if( result != 0)
-							break;
-					}
-					break;
-				default:
-					result = 1;
-				}
-				return result;
-			}
-			
-		}
+		}	
 		
-		private class SessionHandler extends AbstractSessionHandler<Map.Entry<String, String[]>> {
+		private class SessionHandler extends AbstractSessionHandler<Command> {
 
 			protected SessionHandler(Display display) {
 				super(display);
 			}
 
 			@Override
-			protected void onHandleSession(SessionEvent<Map.Entry<String, String[]>> sevent) {
-				Map.Entry<String,String[]> command = sevent.getData();
+			protected void onHandleSession(SessionEvent<Command> sevent) {
+				Command command = sevent.getData();
 				if( command == null )
 					return;
-				String function = setFunction(command.getKey(), command.getValue());
+				String function = Command.setFunction(command.getKey(), command.getValue());
 				logger.fine("Processing: " + function);
 				history.push( prettyCode( function ));
-				evaluate( function );
+				evaluate( command, function );
 			}	
 		}
 	}
@@ -591,17 +498,19 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	private class JavaScriptCallBack extends BrowserFunction{
 		
 		private String id;
+		private Command command;
 		
-		private JavaScriptCallBack(Browser browser, String functionName, String id ) {
+		private JavaScriptCallBack(Browser browser, Command command,  String functionName, String id ) {
 			super(browser, functionName);
 			this.id = id;
+			this.command = command;
 		}
 
 		@Override
 		public Object function(Object[] arguments) {
 			Object result = null;
 			try {
-				notifyEvaluation( new EvaluationEvent<Object>( this, id, EvaluationEvents.EVENT, arguments ));
+				notifyEvaluation( new EvaluationEvent<Object>( this, command, id, EvaluationEvents.EVENT, arguments ));
 				result = super.function(arguments);
 			}
 			catch( Exception ex ) {
