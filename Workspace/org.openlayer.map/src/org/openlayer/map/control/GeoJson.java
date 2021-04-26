@@ -35,7 +35,7 @@ public class GeoJson {
 		params[0] = query;
 		params[1] = gson.toJson( style );
 		params[2] = gson.toJson(obj);
-		controller.setQuery( query, params );
+		controller.setQuery( query, params, false );
 		return query;
 	}
 

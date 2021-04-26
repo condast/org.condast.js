@@ -108,7 +108,7 @@ public class GeoView {
 		String[] params = new String[1];
 		params[0] = String.valueOf( this.fieldData.getZoom() );
 		String query = Queries.ZOOM.toString();
-		controller.setQuery( query, params );
+		controller.setQuery( query, params, false );
 		return query;
 	}
 
@@ -141,7 +141,7 @@ public class GeoView {
 		params[1] = String.valueOf( latlng.getLongitude());
 		params[2] = String.valueOf( this.fieldData.getZoom());
 		String query = Queries.JUMP.toString();
-		controller.setQuery( query, params );
+		controller.setQuery( query, params, false );
 		return query;
 	}
 }

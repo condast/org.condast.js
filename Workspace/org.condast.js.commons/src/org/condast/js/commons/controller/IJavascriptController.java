@@ -55,11 +55,11 @@ public interface IJavascriptController {
 
 	void setQuery(String function);
 
-	void setQuery(CommandTypes type, String function);
+	void setQuery(CommandTypes type, String function, boolean callback);
 
-	void setQuery(String function, String[] params);
+	void setQuery(String function, String[] params, boolean callback);
 
-	void setQuery(CommandTypes type, String function, String[] params);
+	void setQuery(CommandTypes type, String function, String[] params, boolean callback);
 
 	/**
 	 * returns true if the controller has not pening commands

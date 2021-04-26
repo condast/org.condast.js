@@ -79,7 +79,7 @@ public class MapField extends AbstractView<MapField.Commands>{
 	 */
 	public String clearField(){
 		String query = Commands.CLEAR_FIELD.toString();
-		getController().setQuery( Commands.CLEAR_FIELD.getCommandType(), query );
+		getController().setQuery( Commands.CLEAR_FIELD.getCommandType(), query, false );
 		return query;		
 	}
 
@@ -103,7 +103,7 @@ public class MapField extends AbstractView<MapField.Commands>{
 		params[0] = String.valueOf( colour );
 		params[1] = String.valueOf( width );
 		String query = Commands.SET_STROKE.toString();
-		getController().setQuery( query, params );
+		getController().setQuery( query, params, false );
 		return query;		
 	}
 
@@ -115,7 +115,7 @@ public class MapField extends AbstractView<MapField.Commands>{
 		params[3] = String.valueOf( angle );
 		params[4] = String.valueOf( scale );
 		String query = Commands.SET_STYLE.toString();
-		getController().setQuery( query, params );
+		getController().setQuery( query, params, false );
 		return query;		
 	}
 
@@ -124,7 +124,7 @@ public class MapField extends AbstractView<MapField.Commands>{
 		params[0] = colour;
 		params[1] = String.valueOf( width );
 		String query = Commands.SET_LINE_STYLE.toString();
-		getController().setQuery( query, params );
+		getController().setQuery( query, params, false );
 		return query;		
 	}
 
@@ -138,7 +138,7 @@ public class MapField extends AbstractView<MapField.Commands>{
 		params.add( String.valueOf( this.field.getCentre().getLongitude() ));
 		params.add( String.valueOf( this.field.getLength() ));
 		params.add( String.valueOf( this.field.getWidth()));
-		return super.perform( Commands.SET_FIELD, params.toArray( new String[params.size()]) );
+		return super.perform( Commands.SET_FIELD, params.toArray( new String[params.size()]), false );
 	}
 
 	public String drawLine( String name, LatLng begin, LatLng end ){
@@ -148,6 +148,6 @@ public class MapField extends AbstractView<MapField.Commands>{
 		params[2] = String.valueOf( begin.getLongitude());
 		params[3] = String.valueOf( end.getLatitude());
 		params[4] = String.valueOf( end.getLongitude());
-		return super.perform(Commands.DRAW_LINE, params );
+		return super.perform(Commands.DRAW_LINE, params, false );
 	}
 }

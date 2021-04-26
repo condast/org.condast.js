@@ -253,22 +253,22 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	 */
     @Override
 	public synchronized void setQuery( String function ){
-		setQuery( function, new String[0]);
+		setQuery( function, new String[0], false);
 	}
 
 	@Override
-	public synchronized void setQuery( CommandTypes type, String function ){
-		controller.setQuery(type, function, new String[0]);
+	public synchronized void setQuery( CommandTypes type, String function, boolean callback ){
+		controller.setQuery(type, function, new String[0], callback);
 	}
 
 	@Override
-	public synchronized void setQuery( String function, String[] params ){
-		controller.setQuery( CommandTypes.SEQUENTIAL, function, params);
+	public synchronized void setQuery( String function, String[] params, boolean callback ){
+		controller.setQuery( CommandTypes.SEQUENTIAL, function, params, callback);
 	}
 
 	@Override
-	public synchronized void setQuery( CommandTypes type, String function, String[] params ){
-		controller.setQuery(type, function, params);
+	public synchronized void setQuery( CommandTypes type, String function, String[] params, boolean callback ){
+		controller.setQuery(type, function, params, callback);
 	}
 
 	 /* Create a default call back function for javascript handling
@@ -395,10 +395,10 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		 * @param function
 		 * @param params
 		 */
-		public synchronized void setQuery( CommandTypes type, String function, String[] params ){
+		public synchronized void setQuery( CommandTypes type, String function, String[] params, boolean callback ){
 			lock.lock();
 			try {
-				Command command = new Command( type, function, Arrays.asList( params ));
+				Command command = new Command( type, function, Arrays.asList( params ), callback);
 				if(!commands.contains(command))
 					this.commands.add( command );
 			}
@@ -419,7 +419,11 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 					return;
 				busy = true;
 				Command command = commands.remove(0);
-				handler.addData( command);
+				if( command.isCallback())
+					handler.addData( command);
+				else {
+					handler.addData( command );
+				}
 			}
 			finally {
 				lock.unlock();
@@ -432,7 +436,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		private Object evaluate( Command command, String query ){
 			try{
 				browser.evaluate( query, getCallBack( command ) );
-				browser.requestLayout();
 			}
 			catch( Exception se ){
 				logger.warning( se.getMessage() + ": " + query );
@@ -482,11 +485,34 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 				Command command = sevent.getData();
 				if( command == null )
 					return;
-				String function = Command.setFunction(command.getKey(), command.getValue());
-				logger.fine("Processing: " + function);
+				String function = command.getFunction();
+				logger.fine( "Processing: " + function);
 				history.push( prettyCode( function ));
 				evaluate( command, function );
 			}	
+		}
+		
+		private class Combined extends Command{
+
+			private Command command;
+			
+			public Combined( Command command ) {
+				super( CommandTypes.SEQUENTIAL, command.getKey(), null, false);
+				this.command = command;
+			}
+
+			@Override
+			public String getFunction() {
+				StringBuilder builder = new StringBuilder();
+				builder.append( command.getFunction());
+				Collection<Command> test = new ArrayList<Command>( commands );
+				test.forEach( command -> {
+					commands.remove(command);
+					if( !command.isCallback())
+						builder.append(command.getFunction());
+				});
+				return builder.toString();
+			}		
 		}
 	}
 	

@@ -74,7 +74,6 @@ function addShape( wkt_str){
 	let geometry = format.readGeometry(wkt_str );
 	geometry.transform('EPSG:4326', 'EPSG:3857');
 	let feature = new ol.Feature({
-		name: name,
 		geometry: geometry
 	});
 	shape_source.addFeature( feature );
@@ -86,7 +85,6 @@ function addendShape( wkt_str){
 	let geometry = format.readGeometry(wkt_str );
 	geometry.transform('EPSG:4326', 'EPSG:3857');
 	let feature = new ol.Feature({
-		name: name,
 		geometry: geometry
 	});
 	shape_source.addFeature( feature );

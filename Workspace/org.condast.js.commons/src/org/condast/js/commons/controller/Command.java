@@ -14,14 +14,16 @@ public class Command implements Map.Entry<String, String[]>, Comparable<Command>
 	private String key;
 	private Collection<String> value;
 	private boolean completed;
+	private boolean callback;//Is true when the function elicits a callback response in JAVA
 	private Collection<Object> results;
 	
-	public Command( CommandTypes type, String key, Collection<String> value) {
+	public Command( CommandTypes type, String key, Collection<String> value, boolean callback) {
 		super();
 		this.type = type;
 		this.key = key;
 		this.value = value;
 		this.completed = false;
+		this.callback = callback;
 		this.results = new ArrayList<>();
 	}
 
@@ -41,6 +43,14 @@ public class Command implements Map.Entry<String, String[]>, Comparable<Command>
 		return getValue();
 	}
 
+	public boolean isCallback() {
+		return callback;
+	}
+
+	public void setCallback(boolean callback) {
+		this.callback = callback;
+	}
+
 	public boolean isCompleted() {
 		return completed;
 	}
@@ -57,6 +67,16 @@ public class Command implements Map.Entry<String, String[]>, Comparable<Command>
 		this.results = results;
 	}
 
+    /**
+	 * Create the correct string from the function enum
+	 * @param function
+	 * @param params
+	 * @return
+	 */
+	public String getFunction(){
+		return setFunction(this.key, getValue() );
+	}
+	
 	@Override
 	public int hashCode() {
 		return setFunction(key, getValue()).hashCode();
