@@ -17,16 +17,15 @@ function init(){
 	map.addLayer( iconVector );
 }
 
-function createStyle( path, opacity, img ){
+//Path points to the image
+function createStyle( path ){
 	//create the style
 	return new ol.style.Style({
         image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
             anchor: [0.5, 0.96],
             crossOrigin: 'anonymous',
-            src: path,
-            img: img,
-            imgSize: img ? [img.width, img.height] : undefined
-		}))
+            src: path
+   		}))
 	});	
 }
 
@@ -35,35 +34,49 @@ function clearIcons() {
 	iconVectorSource.clear();
 }
 
-function addIcon( id, name, latitude, longitude, path, opacity ){
-	var lat = parseFloat( latitude );
-	var lon = parseFloat( longitude );
-	var coords = ol.proj.transform( [lon, lat], 'EPSG:4326', 'EPSG:3857' );
+//Path: path to the image
+function addIcon( id, name, latitude, longitude, path ){
+	let lat = parseFloat( latitude );
+	let lon = parseFloat( longitude );
+	let coords = ol.proj.transform( [lon, lat], 'EPSG:4326', 'EPSG:3857' );
 
-	var iconFeature = new ol.Feature( new ol.geom.Point(coords) );
-	iconFeature.set('style', createStyle( path, opacity, undefined));
+	let iconFeature = new ol.Feature( new ol.geom.Point(coords) );
+	iconFeature.set('style', createStyle( path));
 	iconFeature.setId( id );
+	iconFeature.set( 'name', name );
 	iconVectorSource.addFeature( iconFeature );
 	addSelectEvent( iconFeature );
-	var index = map.getLayers().getLength();
+	let index = map.getLayers().getLength();
 	return index;
 }
 
-function replaceIcon( id, path, opacity ){
-	var iconFeature = iconVectorSource.getFeatureById(id);
+function addIcons( ...icons ){
+	for (i = 0; i < icons.length; i++) {
+		let icon = icons[i];
+		try{
+			addIcon( icon.id, icon.name, icon.latitude, icon.longitude, icon.path);
+		}
+		catch( e ){ 
+	    	console.log( e );
+	    }
+	}
+}
+
+function replaceIcon( id, path ){
+	let iconFeature = iconVectorSource.getFeatureById(id);
 	if( iconFeature != null )
-		iconFeature.set('style', createStyle( path, opacity, undefined));
+		iconFeature.set('style', createStyle( path));
 }
 
 function removeIcon( id ){
-	var iconFeature = iconVectorSource.getFeatureById(id);
+	let iconFeature = iconVectorSource.getFeatureById(id);
 	if( iconFeature != null )
 		iconVectorSource.removeFeature( iconVectorSource.getFeatureById(id));
 }
 
 function popup( location ){
     // Vienna marker
-    var marker = new ol.Overlay({
+    let marker = new ol.Overlay({
       position: location,
       positioning: 'center-center',
       element: document.getElementById('marker'),
@@ -72,7 +85,7 @@ function popup( location ){
     map.addOverlay(marker);
 
     // Vienna label
-    var vienna = new ol.Overlay({
+    let vienna = new ol.Overlay({
       position: pos,
       element: document.getElementById('vienna')
     });
@@ -80,8 +93,8 @@ function popup( location ){
 }
 
 function addSelectEvent( feature ){
-	var ft = feature;
-	var select = new ol.interaction.Select({
+	let ft = feature;
+	let select = new ol.interaction.Select({
 		condition: ol.events.condition.pointerMove,
 		style: function(feature) {
 			// Popup showing the position the user clicked

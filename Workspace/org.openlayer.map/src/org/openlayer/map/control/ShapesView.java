@@ -48,6 +48,18 @@ public class ShapesView extends AbstractView<ShapesView.Commands> {
 			return result;
 		}
 
+		public boolean isArray() {
+			boolean result = false;
+			switch( this ) {
+			case ADD_SHAPE:
+			case ADDEND_SHAPE:
+				break;
+			default:
+				break;
+			}
+			return result;
+		}
+
 		@Override
 		public String toString() {
 			return StringStyler.xmlStyleString(this.name());
@@ -123,7 +135,7 @@ public class ShapesView extends AbstractView<ShapesView.Commands> {
 		Collection<String> params = super.getParameters( Commands.SET_SHAPE);
 		params.add( name );
 		params.add( type.toString() );
-		return super.perform(Commands.SET_SHAPE, params.toArray( new String[params.size()]), false);
+		return super.perform(Commands.SET_SHAPE, params.toArray( new String[params.size()]), false,false);
 	}
 
 	/**
@@ -139,31 +151,31 @@ public class ShapesView extends AbstractView<ShapesView.Commands> {
 	public String addShape( IPolygon polygon ){
 		Collection<String> params = super.getParameters( Commands.ADD_SHAPE);
 		params.add( polygon.toWKT() );
-		return super.perform(Commands.ADD_SHAPE, params.toArray( new String[params.size()]), Commands.ADD_SHAPE.hasCallback());
+		return super.perform(Commands.ADD_SHAPE, params.toArray( new String[params.size()]), Commands.ADD_SHAPE.isArray(), Commands.ADD_SHAPE.hasCallback());
 	}
 
 	public String addShape( String wtk ){
 		Collection<String> params = super.getParameters( Commands.ADD_SHAPE);
 		params.add( wtk );
-		return super.perform(Commands.ADD_SHAPE, params.toArray( new String[params.size()]), Commands.ADD_SHAPE.hasCallback() );
+		return super.perform(Commands.ADD_SHAPE, params.toArray( new String[params.size()]), Commands.ADD_SHAPE.isArray(), Commands.ADD_SHAPE.hasCallback() );
 	}
 
 	public String addendShape( String wtk ){
 		Collection<String> params = super.getParameters( Commands.ADDEND_SHAPE);
 		params.add( wtk );
-		return super.perform(Commands.ADDEND_SHAPE, params.toArray( new String[params.size()]), Commands.ADD_SHAPE.hasCallback() );
+		return super.perform(Commands.ADDEND_SHAPE, params.toArray( new String[params.size()]), Commands.ADDEND_SHAPE.isArray(), Commands.ADDEND_SHAPE.hasCallback() );
 	}
 
 	public String getShape( String id ){
 		Collection<String> params = super.getParameters( Commands.GET_SHAPE);
 		params.add( id );
-		return super.perform(Commands.GET_SHAPE, params.toArray( new String[params.size()]), Commands.ADD_SHAPE.hasCallback());
+		return super.perform(Commands.GET_SHAPE, params.toArray( new String[params.size()]), Commands.GET_SHAPE.isArray(), Commands.GET_SHAPE.hasCallback());
 	}
 
 	public String removeShape( String id ){
 		Collection<String> params = super.getParameters( Commands.REMOVE_SHAPE);
 		params.add( id );
-		return super.perform(Commands.REMOVE_SHAPE, params.toArray( new String[params.size()]), Commands.ADD_SHAPE.hasCallback());
+		return super.perform(Commands.REMOVE_SHAPE, params.toArray( new String[params.size()]), Commands.REMOVE_SHAPE.isArray(), Commands.REMOVE_SHAPE.hasCallback());
 	}
 
 }

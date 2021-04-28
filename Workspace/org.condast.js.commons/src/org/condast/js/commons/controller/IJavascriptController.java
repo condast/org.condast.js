@@ -53,13 +53,19 @@ public interface IJavascriptController {
 
 	void removeEvaluationListener(IEvaluationListener<Object> listener);
 
+	/**
+	 * Add a command
+	 * @param command
+	 */
+	void addCommand(Command command);
+
 	void setQuery(String function);
 
 	void setQuery(CommandTypes type, String function, boolean callback);
 
-	void setQuery(String function, String[] params, boolean callback);
+	void setQuery(String function, String[] params, boolean array, boolean callback);
 
-	void setQuery(CommandTypes type, String function, String[] params, boolean callback);
+	void setQuery(CommandTypes type, String function, String[] params, boolean array, boolean callback);
 
 	/**
 	 * returns true if the controller has not pening commands

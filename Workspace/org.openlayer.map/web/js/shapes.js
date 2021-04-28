@@ -41,8 +41,8 @@ function setShape( name, value ) {
 			if (!geometry) {
 				geometry = new ol.geom.Polygon(null);
 			}
-			var start = coordinates[0];
-			var end = coordinates[1];
+			let start = coordinates[0];
+			let end = coordinates[1];
 			geometry.setCoordinates([
 				[start, [start[0], end[1]], end, [end[0], start[1]], start]
 				]);
@@ -58,6 +58,7 @@ function setShape( name, value ) {
 	draw.on('drawend',function(e){
 		try{
 			feature = e.feature;
+			feature.set('name', name );
 			geometry = e.feature.getGeometry();
 			sendFeature( 'addend-shape', feature );
 		}

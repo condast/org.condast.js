@@ -49,23 +49,23 @@ public abstract class AbstractView<E extends Enum<E>> {
 	}
 
 	protected String perform( E command, boolean callback){
-		return this.perform( command, new ArrayList<String>(), callback);
+		return this.perform( command, new ArrayList<String>(), false, callback);
 	}
 	
-	protected String perform( E command, Collection<String> parameters, boolean callback ){
-		return perform( getCommandType( command ), command, parameters.toArray( new String[ parameters.size() ]), callback);
+	protected String perform( E command, Collection<String> parameters, boolean array, boolean callback ){
+		return perform( getCommandType( command ), command, parameters.toArray( new String[ parameters.size() ]), array, callback);
 	}
 
-	protected String perform(  E command, String[] parameters, boolean callback ){
-		return this.perform( CommandTypes.SEQUENTIAL, command, parameters, callback );
+	protected String perform(  E command, String[] parameters, boolean array, boolean callback ){
+		return this.perform( CommandTypes.SEQUENTIAL, command, parameters, array, callback );
 	}
 	
-	protected String perform( CommandTypes type, E command, String[] parameters, boolean callback ){
+	protected String perform( CommandTypes type, E command, String[] parameters, boolean array, boolean callback ){
 		String query = command.toString();
 		if( Utils.assertNull(parameters))
 			controller.setQuery( type, query, callback);
 		else
-			controller.setQuery( type, query, parameters, callback);
+			controller.setQuery( type, query, parameters, array, callback);
 		return query;
 	}
 }

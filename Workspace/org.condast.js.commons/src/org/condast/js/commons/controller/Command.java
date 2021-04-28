@@ -6,20 +6,62 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.condast.commons.Utils;
+import org.condast.commons.strings.StringStyler;
+import org.condast.commons.strings.StringUtils;
 import org.condast.js.commons.controller.AbstractView.CommandTypes;
 
 public class Command implements Map.Entry<String, String[]>, Comparable<Command>{
 
+	public enum DefaultCommands{
+		ATOMIC,
+		ATOMIC_END;
+
+		@Override
+		public String toString() {
+			return StringStyler.xmlStyleString( name());
+		}
+		
+		public static Command toCommand( DefaultCommands defcom ) {
+			Command command = new Command( CommandTypes.SEQUENTIAL, defcom.toString(), new ArrayList<String>(), false, false );
+			return command;
+		}
+
+		public static boolean isDefaultCommand( Command command ) {
+			if(( command == null ) || ( StringUtils.isEmpty(command.getKey())))
+				return false;
+			for( DefaultCommands defcom: values() ) {
+				if( defcom.toString().equals(command.getKey()))
+					return true;
+			}
+			return false;
+		}
+
+		public static boolean isAtomic( Command command ) {
+			if(( command == null ) || ( StringUtils.isEmpty(command.getKey())))
+				return false;
+			return DefaultCommands.ATOMIC.toString().equals(command.getKey());
+		}
+
+		public static boolean isAtomicEnd( Command command ) {
+			if(( command == null ) || ( StringUtils.isEmpty(command.getKey())))
+				return false;
+			return DefaultCommands.ATOMIC_END.toString().equals(command.getKey());
+		}
+
+	}
+	
 	private CommandTypes type;
 	private String key;
 	private Collection<String> value;
+	private boolean array;
 	private boolean completed;
 	private boolean callback;//Is true when the function elicits a callback response in JAVA
 	private Collection<Object> results;
 	
-	public Command( CommandTypes type, String key, Collection<String> value, boolean callback) {
+	public Command( CommandTypes type, String key, Collection<String> value, boolean array, boolean callback) {
 		super();
 		this.type = type;
+		this.array = array;
 		this.key = key;
 		this.value = value;
 		this.completed = false;
@@ -41,6 +83,10 @@ public class Command implements Map.Entry<String, String[]>, Comparable<Command>
 	public String[] setValue(String[] value) {
 		this.value = Arrays.asList(value);
 		return getValue();
+	}
+
+	public boolean isArray() {
+		return array;
 	}
 
 	public boolean isCallback() {
@@ -74,12 +120,12 @@ public class Command implements Map.Entry<String, String[]>, Comparable<Command>
 	 * @return
 	 */
 	public String getFunction(){
-		return setFunction(this.key, getValue() );
+		return setFunction(this.key, getValue(), array );
 	}
 	
 	@Override
 	public int hashCode() {
-		return setFunction(key, getValue()).hashCode();
+		return setFunction(key, getValue(), array ).hashCode();
 	}
 
 	@Override
@@ -131,13 +177,16 @@ public class Command implements Map.Entry<String, String[]>, Comparable<Command>
 	 * @param params
 	 * @return
 	 */
-	public static String setFunction( String function, String[] params){
+	public static String setFunction( String function, String[] params, boolean array ){
 		StringBuffer buffer = new StringBuffer();
 		buffer.append( function );
 		buffer.append("(");
 		if( !Utils.assertNull(params)){
 			for( int i=0; i< params.length; i++ ){
-				buffer.append( "'" + params[i] + "'" );
+				if(!array )
+					buffer.append( "'" + params[i] + "'" );
+				else
+					buffer.append( params[i] );					
 				if( i< params.length-1 )
 					buffer.append(",");
 			}

@@ -1,5 +1,7 @@
 package org.openlayer.map.control;
 
+import java.util.Collection;
+
 import org.condast.commons.data.latlng.LatLng;
 import org.condast.commons.data.latlng.Waypoint;
 import org.condast.commons.strings.StringStyler;
@@ -7,6 +9,7 @@ import org.condast.commons.strings.StringUtils;
 import org.condast.js.commons.controller.AbstractView;
 import org.condast.js.commons.controller.IJavascriptController;
 import org.condast.js.commons.images.IDefaultMarkers;
+import org.openlayer.map.data.IconData;
 
 public class IconsView extends AbstractView<IconsView.Commands>{
 
@@ -16,6 +19,7 @@ public class IconsView extends AbstractView<IconsView.Commands>{
 		CREATE_STYLE,
 		CLEAR_ICONS,
 		ADD_ICON,
+		ADD_ICONS,
 		REPLACE_ICON,
 		REMOVE_ICON;
 		
@@ -32,6 +36,18 @@ public class IconsView extends AbstractView<IconsView.Commands>{
 				break;
 			}
 			return type;
+		}
+
+		public boolean isArray() {
+			boolean result = false;
+			switch( this ) {
+			case ADD_ICONS:
+				result = true;
+				break;
+			default:
+				break;
+			}
+			return result;
 		}
 
 		@Override
@@ -133,18 +149,35 @@ public class IconsView extends AbstractView<IconsView.Commands>{
 	 * Add an icon
 	 * @param name
 	 * @param latlng
+	 * @param path: path to the image
 	 * @param opacity
 	 * @return
 	 */
 	public String addIcon( String id, String name, LatLng latlng, String path, double opacity ){
-		String[] params = new String[6];
+		String[] params = new String[5];
 		params[0] = id;
 		params[1] = name;
 		params[2] = String.valueOf( latlng.getLatitude() );
 		params[3] = String.valueOf( latlng.getLongitude() );
 		params[4] = path;
-		params[5] = String.valueOf( opacity );
-		return perform( Commands.ADD_ICON, params, false );
+		return perform( Commands.ADD_ICON, params, Commands.ADD_ICON.isArray(), false );
+	}
+
+	/**
+	 * Add an icon
+	 * @param name
+	 * @param latlng
+	 * @param path: path to the image
+	 * @param opacity
+	 * @return
+	 */
+	public String addIcons( Collection<IconData> icons ){
+		String[] params = new String[icons.size()];
+		int index = 0;
+		for( IconData icon: icons ) {
+			params[index++] = icon.toString();
+		}
+		return perform( Commands.ADD_ICONS, params, Commands.ADD_ICONS.isArray(), false );
 	}
 
 	/**
@@ -159,7 +192,7 @@ public class IconsView extends AbstractView<IconsView.Commands>{
 		params[0] = id;
 		params[1] = path;
 		params[2] = String.valueOf( opacity );
-		return perform( Commands.REPLACE_ICON, params, false );
+		return perform( Commands.REPLACE_ICON, params, Commands.REPLACE_ICON.isArray(), false );
 	}
 
 	public String addIcon( String id, String name, LatLng latlng, String path ){
@@ -176,7 +209,7 @@ public class IconsView extends AbstractView<IconsView.Commands>{
 	public String removeIcon( String id ){
 		String[] params = new String[1];
 		params[0] = id;
-		return perform( Commands.REMOVE_ICON, params, false);
+		return perform( Commands.REMOVE_ICON, params, Commands.REMOVE_ICON.isArray(), false);
 	}
 	
 	/**
