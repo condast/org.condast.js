@@ -11,8 +11,6 @@ import java.util.Stack;
 import java.util.concurrent.Executors;
 import java.util.concurrent.ScheduledExecutorService;
 import java.util.concurrent.TimeUnit;
-import java.util.concurrent.locks.Lock;
-import java.util.concurrent.locks.ReentrantLock;
 import java.util.logging.Logger;
 
 import org.condast.commons.Utils;
@@ -22,6 +20,7 @@ import org.condast.js.commons.eval.IEvaluationListener;
 import org.condast.js.commons.eval.IEvaluationListener.EvaluationEvents;
 import org.condast.js.commons.session.AbstractSessionHandler;
 import org.condast.js.commons.session.SessionEvent;
+import org.condast.js.commons.utils.StringUtils;
 import org.eclipse.rap.rwt.widgets.BrowserCallback;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.BrowserFunction;
@@ -34,7 +33,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 
 	public static final String S_IS_INITIALISTED = "isInitialised";
 
-	public static final int DEFAULT_UPDATE_TIME = 3;
+	public static final int DEFAULT_UPDATE_TIME = 500;
 
 	public enum LoadTypes{
 		URL,
@@ -50,6 +49,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	private boolean disposed;
 	private boolean warnPending;
 	private boolean busy;
+	public int busycounter;
 	
 	private Logger logger = Logger.getLogger( this.getClass().getName());	
 
@@ -61,6 +61,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		this.id = idn;
 		this.initialised = false;
 		this.busy = false;
+		this.busycounter = 0;
 		this.disposed = false;
 		this.browser = browser;
 		this.browser.addDisposeListener(e->onWidgetDisposed(e));
@@ -258,22 +259,22 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	 */
     @Override
 	public synchronized void setQuery( String function ){
-		setQuery( function, new String[0], false, false);
+		setQuery( function, new String[0], false);
 	}
 
 	@Override
-	public synchronized void setQuery( CommandTypes type, String function, boolean callback ){
-		controller.setQuery(type, function, new String[0], false, callback);
+	public synchronized void setQuery( CommandTypes type, String function ){
+		controller.setQuery(type, function, new String[0], false);
 	}
 
 	@Override
-	public synchronized void setQuery( String function, String[] params, boolean array, boolean callback ){
-		controller.setQuery( CommandTypes.SEQUENTIAL, function, params, array, callback);
+	public synchronized void setQuery( String function, String[] params, boolean array ){
+		controller.setQuery( CommandTypes.SEQUENTIAL, function, params, array);
 	}
 
 	@Override
-	public synchronized void setQuery( CommandTypes type, String function, String[] params, boolean array, boolean callback ){
-		controller.setQuery(type, function, params, array, callback);
+	public synchronized void setQuery( CommandTypes type, String function, String[] params, boolean array ){
+		controller.setQuery(type, function, params, array);
 	}
 
 	 /* Create a default call back function for javascript handling
@@ -324,8 +325,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		
 		private SessionHandler handler;
 
-		private Lock lock;
-
 		private BrowserCallback getCallBack( Command command ){
 			BrowserCallback callback = new BrowserCallback() {
 
@@ -371,7 +370,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			commands = new ArrayList<>();
 			history = new Stack<String>();
 			handler = new SessionHandler( browser.getDisplay());
-			this.lock = new ReentrantLock();
 		}
 
 		private void init() {
@@ -400,51 +398,37 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		 * @param function
 		 * @param params
 		 */
-		public synchronized void setQuery( CommandTypes type, String function, String[] params, boolean array, boolean callback ){
-			lock.lock();
+		public synchronized void setQuery( CommandTypes type, String function, String[] params, boolean array ){
 			try {
-				Command command = new Command( type, function, Arrays.asList( params ), array, callback);
+				Command command = new Command( type, function, Arrays.asList( params ), array);
 				if(!this.commands.contains(command))
 					this.commands.add( command );
 			}
 			finally {
-				lock.unlock();
 			}
 		}	
 
 		private void handleTimer() {
 			if( !initialised )
 				return;
-			lock.lock();
 			try {
 				if( Utils.assertNull(this.commands)) {
 					return;
 				}
-				if(( busy ) || Utils.assertNull(this.commands))
+				if(( busy && ( busycounter <= 10 ))  || Utils.assertNull(this.commands)) {
+					busycounter++;
 					return;
+				}
 				busy = true;
+				busycounter = 0;
 				Command command = this.commands.remove(0);
 				
-				if( Command.DefaultCommands.isAtomic(command)) {
-					command = this.commands.remove(0);
-					Combined combined = new Combined( command );
-					while( !this.commands.isEmpty() && ( !command.isCallback() || !Command.DefaultCommands.isAtomicEnd(command))) {
-						command = this.commands.remove(0);
-						combined.addCommand( command);
-					}
-					command = combined.isEmpty()?null: combined;
-				}
 				
 				if( command == null )
 					return;
-				if( command.isCallback())
-					handler.addData( command);
-				else {
-					handler.addData( command );
-				}
+				handler.addData( command);
 			}
 			finally {
-				lock.unlock();
 			}
 		}
 		
@@ -454,6 +438,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		private Object evaluate( Command command, String query ){
 			try{
 				browser.evaluate( query, getCallBack( command ) );
+				browser.requestLayout();
 			}
 			catch( Exception se ){
 				logger.warning( se.getMessage() + ": " + query );
@@ -477,7 +462,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		public String toString() {
 			StringBuilder builder = new StringBuilder();
 			builder.append("Commands in Buffer:\n");
-			lock.lock();
 			try {
 				commands.forEach(( entry)->{
 					builder.append("\t");
@@ -488,7 +472,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 				return builder.toString();
 			}
 			finally {
-				lock.unlock();
 			}
 		}	
 		
@@ -504,76 +487,11 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 				if( command == null )
 					return;
 				String function = command.getFunction();
+				if( StringUtils.isEmpty(function))
+					return;
 				logger.fine( "Processing: " + function);
 				history.push( prettyCode( function ));
 				evaluate( command, function );
-			}	
-		}
-		
-		private class Combined extends Command{
-
-			private Collection<Command> combined;
-			
-			public Combined( Command command ) {
-				super( CommandTypes.SEQUENTIAL, command.getKey(), null, false, false);
-				this.combined =  new ArrayList<>();
-				this.combined.add(command);
-			}
-
-			public Combined( Collection<Command> commands ) {
-				super( CommandTypes.SEQUENTIAL, null, null, false, false);
-				this.combined =  new ArrayList<>( commands );
-			}
-
-			public void addCommand( Command command ) {
-				lock.lock();
-				try {
-					if( !Command.DefaultCommands.isDefaultCommand(command))
-						this.combined.add(command);
-				}
-				finally {
-					lock.unlock();
-				}
-			}
-
-			public boolean isEmpty() {
-				return this.combined.isEmpty();
-			}
-			@Override
-			public String getFunction() {
-				StringBuilder builder = new StringBuilder();
-				lock.lock();
-				try {
-					Collection<Command> test = new ArrayList<Command>( commands );
-					test.forEach( command -> {
-						combined.remove(command);
-						if( !command.isCallback())
-							builder.append(command.getFunction());
-					});
-				}
-				finally {
-					lock.unlock();
-				}
-				return builder.toString();
-			}
-
-			@Override
-			public String toString() {
-				StringBuilder builder = new StringBuilder();
-				builder.append("Commands in Buffer:\n");
-				lock.lock();
-				try {
-					combined.forEach(( entry)->{
-						builder.append("\t");
-						builder.append( Command.setFunction(entry.getKey(), entry.getValue(), false));
-						builder.append("\n");
-					});
-					builder.append("\n");
-					return builder.toString();
-				}
-				finally {
-					lock.unlock();
-				}
 			}	
 		}
 	}
@@ -603,6 +521,8 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			}
 			catch( Exception ex ) {
 				ex.printStackTrace();
+			}
+			finally {
 			}
 			return result;
 		}	

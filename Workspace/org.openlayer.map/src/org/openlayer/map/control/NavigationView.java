@@ -59,7 +59,7 @@ public class NavigationView extends AbstractView<NavigationView.Commands> {
 	 */
 	public String getLocation(){
 		Collection<String> params = super.getParameters( Commands.GET_GEO_LOCATION);
-		String result = super.perform(Commands.GET_GEO_LOCATION, params, false, false );
+		String result = super.perform(Commands.GET_GEO_LOCATION, params, false );
 		return result;
 	}
 }

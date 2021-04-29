@@ -37,24 +37,24 @@ public class TransformModel {
 
 	public void doPan( LatLng lnglat) {
 		String[] params = fillLngLatParams(3, lnglat);
-		controller.setQuery(Functions.DO_PAN.toString(), params, false, false );
+		controller.setQuery(Functions.DO_PAN.toString(), params, false );
 	}	
 
 	public void doBounce( LatLng lnglat) {
 		String[] params = fillLngLatParams(3, lnglat);
-		controller.setQuery(Functions.DO_BOUNCE.toString(), params, false, false );
+		controller.setQuery(Functions.DO_BOUNCE.toString(), params, false );
 	}	
 
 	public void doRotate( float degrees ) {
 		String[] params=  new String[1];
 		params[0] = String.valueOf( degrees );
-		controller.setQuery(Functions.DO_ROTATE.toString(), params, false, false );
+		controller.setQuery(Functions.DO_ROTATE.toString(), params, false );
 	}	
 
 	public void doZoom( int zoom ) {
 		String[] params=  new String[1];
 		params[0] = String.valueOf( zoom );
-		controller.setQuery(Functions.DO_ZOOM.toString(), params, false,false );
+		controller.setQuery(Functions.DO_ZOOM.toString(), params, false );
 	}	
 
 	public void dispose(){

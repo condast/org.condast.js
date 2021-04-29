@@ -6,66 +6,24 @@ import java.util.Collection;
 import java.util.Map;
 
 import org.condast.commons.Utils;
-import org.condast.commons.strings.StringStyler;
-import org.condast.commons.strings.StringUtils;
 import org.condast.js.commons.controller.AbstractView.CommandTypes;
 
 public class Command implements Map.Entry<String, String[]>, Comparable<Command>{
-
-	public enum DefaultCommands{
-		ATOMIC,
-		ATOMIC_END;
-
-		@Override
-		public String toString() {
-			return StringStyler.xmlStyleString( name());
-		}
-		
-		public static Command toCommand( DefaultCommands defcom ) {
-			Command command = new Command( CommandTypes.SEQUENTIAL, defcom.toString(), new ArrayList<String>(), false, false );
-			return command;
-		}
-
-		public static boolean isDefaultCommand( Command command ) {
-			if(( command == null ) || ( StringUtils.isEmpty(command.getKey())))
-				return false;
-			for( DefaultCommands defcom: values() ) {
-				if( defcom.toString().equals(command.getKey()))
-					return true;
-			}
-			return false;
-		}
-
-		public static boolean isAtomic( Command command ) {
-			if(( command == null ) || ( StringUtils.isEmpty(command.getKey())))
-				return false;
-			return DefaultCommands.ATOMIC.toString().equals(command.getKey());
-		}
-
-		public static boolean isAtomicEnd( Command command ) {
-			if(( command == null ) || ( StringUtils.isEmpty(command.getKey())))
-				return false;
-			return DefaultCommands.ATOMIC_END.toString().equals(command.getKey());
-		}
-
-	}
 	
 	private CommandTypes type;
 	private String key;
 	private Collection<String> value;
 	private boolean array;
 	private boolean completed;
-	private boolean callback;//Is true when the function elicits a callback response in JAVA
 	private Collection<Object> results;
 	
-	public Command( CommandTypes type, String key, Collection<String> value, boolean array, boolean callback) {
+	public Command( CommandTypes type, String key, Collection<String> value, boolean array) {
 		super();
 		this.type = type;
 		this.array = array;
 		this.key = key;
 		this.value = value;
 		this.completed = false;
-		this.callback = callback;
 		this.results = new ArrayList<>();
 	}
 
@@ -87,14 +45,6 @@ public class Command implements Map.Entry<String, String[]>, Comparable<Command>
 
 	public boolean isArray() {
 		return array;
-	}
-
-	public boolean isCallback() {
-		return callback;
-	}
-
-	public void setCallback(boolean callback) {
-		this.callback = callback;
 	}
 
 	public boolean isCompleted() {

@@ -37,7 +37,7 @@ public abstract class AbstractView<E extends Enum<E>> {
 	 */
 	public String clear( E clear ) {
 		String query = clear.toString();
-		controller.setQuery( CommandTypes.EQUAL, query, false );
+		controller.setQuery( CommandTypes.EQUAL, query );
 		return query;				
 	}
 	
@@ -48,24 +48,24 @@ public abstract class AbstractView<E extends Enum<E>> {
 		return parameters;
 	}
 
-	protected String perform( E command, boolean callback){
-		return this.perform( command, new ArrayList<String>(), false, callback);
+	protected String perform( E command){
+		return this.perform( command, new ArrayList<String>(), false);
 	}
 	
-	protected String perform( E command, Collection<String> parameters, boolean array, boolean callback ){
-		return perform( getCommandType( command ), command, parameters.toArray( new String[ parameters.size() ]), array, callback);
+	protected String perform( E command, Collection<String> parameters, boolean array ){
+		return perform( getCommandType( command ), command, parameters.toArray( new String[ parameters.size() ]), array);
 	}
 
-	protected String perform(  E command, String[] parameters, boolean array, boolean callback ){
-		return this.perform( CommandTypes.SEQUENTIAL, command, parameters, array, callback );
+	protected String perform(  E command, String[] parameters, boolean array ){
+		return this.perform( CommandTypes.SEQUENTIAL, command, parameters, array );
 	}
 	
-	protected String perform( CommandTypes type, E command, String[] parameters, boolean array, boolean callback ){
+	protected String perform( CommandTypes type, E command, String[] parameters, boolean array ){
 		String query = command.toString();
 		if( Utils.assertNull(parameters))
-			controller.setQuery( type, query, callback);
+			controller.setQuery( type, query);
 		else
-			controller.setQuery( type, query, parameters, array, callback);
+			controller.setQuery( type, query, parameters, array);
 		return query;
 	}
 }

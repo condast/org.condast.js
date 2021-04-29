@@ -1,6 +1,5 @@
 package org.openlayer.map.controller;
 
-import java.util.Collection;
 import java.util.Scanner;
 import java.util.logging.Logger;
 import org.condast.commons.Utils;
@@ -19,9 +18,13 @@ public class OpenLayerController extends AbstractJavascriptController{
 	public static String S_CALLBACK_ID = "CallBackId";
 	private static String S_CALLBACK_FUNCTION = "onCallBack";
 
+	public static String S_TIMER_ID = "Timer";
+	private static String S_TIMER_FUNCTION = "onTimer";
+
 	private static String S_BODY = "</body>";
 
 	private BrowserFunction callback;
+	//private BrowserFunction timer;
 	
 	private Logger logger = Logger.getLogger( this.getClass().getName() );
 
@@ -37,6 +40,7 @@ public class OpenLayerController extends AbstractJavascriptController{
 		super( browser, id );
 		setBrowser(OpenLayerController.class.getResourceAsStream( S_INDEX_HTML ));
 		this.callback = createCallBackFunction( S_CALLBACK_ID, S_CALLBACK_FUNCTION );	
+		//this.timer = createCallBackFunction( S_TIMER_ID, S_TIMER_FUNCTION );	
 	}
 
 	public OpenLayerController( Browser browser, String id, LatLng location, int zoom ) {
@@ -63,12 +67,8 @@ public class OpenLayerController extends AbstractJavascriptController{
 		}
 		browser.setText( builder.toString());
 		this.callback = createCallBackFunction( S_CALLBACK_ID, S_CALLBACK_FUNCTION );	
+		//this.timer = createCallBackFunction( S_TIMER_ID, S_TIMER_FUNCTION );	
 	}
-
-	protected Collection<String> addScripts() {
-		return null;
-	}
-	
 
 	@Override
 	protected void onLoadCompleted() {
