@@ -20,6 +20,7 @@ function init(){
 //Path points to the image
 function createStyle( path ){
 	//create the style
+	console.log(path);
 	return new ol.style.Style({
         image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
             anchor: [0.5, 0.96],
@@ -41,7 +42,7 @@ function addIcon( id, name, latitude, longitude, path ){
 	let coords = ol.proj.transform( [lon, lat], 'EPSG:4326', 'EPSG:3857' );
 
 	let iconFeature = new ol.Feature( new ol.geom.Point(coords) );
-	iconFeature.set('style', createStyle( path));
+	iconFeature.set('style', createStyle(path));
 	iconFeature.setId( id );
 	iconFeature.set( 'name', name );
 	iconVectorSource.addFeature( iconFeature );

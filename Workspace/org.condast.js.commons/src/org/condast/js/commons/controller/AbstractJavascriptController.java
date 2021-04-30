@@ -33,7 +33,9 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 
 	public static final String S_IS_INITIALISTED = "isInitialised";
 
-	public static final int DEFAULT_UPDATE_TIME = 500;
+	public static final int DEFAULT_UPDATE_TIME = 300;
+
+	protected static String S_BODY = "</body>";
 
 	public enum LoadTypes{
 		URL,
@@ -49,7 +51,9 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	private boolean disposed;
 	private boolean warnPending;
 	private boolean busy;
-	public int busycounter;
+	private int busycounter;
+	
+	private Collection<String> scripts;
 	
 	private Logger logger = Logger.getLogger( this.getClass().getName());	
 
@@ -66,6 +70,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		this.browser = browser;
 		this.browser.addDisposeListener(e->onWidgetDisposed(e));
 		listeners = new ArrayList<>();
+		this.scripts = new ArrayList<>();
 		this.controller = new CommandController( DEFAULT_UPDATE_TIME );
 		browser.addProgressListener( new ProgressListener() {
 			private static final long serialVersionUID = 1L;
@@ -100,6 +105,10 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		setBrowser( in );
 	}
 
+	public void addScript( String script ) {
+		this.scripts.add(script);
+	}
+	
 	protected abstract void onLoadCompleted();
 
 	protected void onLoadChanged(){ /* DEFAULT NOTHING */ }
@@ -297,18 +306,28 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	}
 
 	protected String readInput( InputStream in ){
-		StringBuilder buffer = new StringBuilder();
+		StringBuilder builder = new StringBuilder();
 		Scanner scanner = new Scanner( in );
 		try{
-		while( scanner.hasNextLine() )
-			buffer.append( scanner.nextLine() );
+			while( scanner.hasNextLine() ) {
+				String str = scanner.nextLine();
+				if( S_BODY.equals(str.trim())) {
+					if( !Utils.assertNull( scripts )) {
+						for( String script: scripts ) {
+							builder.append(script);
+							builder.append("\n");
+						}
+					}
+				}
+				builder.append( str );
+			}
 		}
 		finally{
 			scanner.close();
 		}
-		return buffer.toString();
+		return builder.toString();
 	}
-	
+
 	@Override
 	public String toString() {
 		return controller.toString();

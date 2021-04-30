@@ -52,11 +52,11 @@ public class IconData {
 	public String toString() {
 		StringBuilder builder = new StringBuilder();
 		builder.append("{");
-		builder.append("\"id\": \"" + id + S_MEMBER_END);
-		builder.append("\"name\": \"" + name + S_MEMBER_END);
-		builder.append("\"latitude\": \"" + latlng.getLatitude() + S_MEMBER_END);
-		builder.append("\"longitude\": \"" + latlng.getLongitude() + S_MEMBER_END);
-		builder.append("\"path\": \"" + path + "\"");
+		builder.append("\"id\":\"" + id + S_MEMBER_END);
+		builder.append("\"name\":\"" + name + S_MEMBER_END);
+		builder.append("\"latitude\":\"" + latlng.getLatitude() + S_MEMBER_END);
+		builder.append("\"longitude\":\"" + latlng.getLongitude() + S_MEMBER_END);
+		builder.append("\"path\":\"" + path + "\"");
 		builder.append("}");
 		return builder.toString();
 	}
