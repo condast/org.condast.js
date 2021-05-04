@@ -423,7 +423,8 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 				if(!this.commands.contains(command))
 					this.commands.add( command );
 			}
-			finally {
+			catch( Exception ex ) {
+				ex.printStackTrace();
 			}
 		}	
 
@@ -440,12 +441,15 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 				}
 				busy = true;
 				busycounter = 0;
-				Command command = this.commands.remove(0);
 				
-				
-				if( command == null )
-					return;
-				handler.addData( command);
+				StringBuilder builder = new StringBuilder();
+				while( !commands.isEmpty()) {
+					Command command = this.commands.remove(0);
+					if( command == null )
+						continue;
+					builder.append(command.getFunction());
+				}
+				handler.addData( builder.toString());
 			}
 			finally {
 			}
@@ -476,6 +480,15 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			retval = code.replace(";", ";\n\t");
 			return "\t" + retval + "\n";
 		}
+	
+		private void handleCommand( Command command ) {
+			String function = command.getFunction();
+			if( StringUtils.isEmpty(function))
+				return;
+			logger.fine( "Processing: " + function);
+			history.push( prettyCode( function ));
+			evaluate( command, function );			
+		}
 		
 		@Override
 		public String toString() {
@@ -494,23 +507,18 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			}
 		}	
 		
-		private class SessionHandler extends AbstractSessionHandler<Command> {
+		private class SessionHandler extends AbstractSessionHandler<String> {
 
 			protected SessionHandler(Display display) {
 				super(display);
 			}
 
 			@Override
-			protected void onHandleSession(SessionEvent<Command> sevent) {
-				Command command = sevent.getData();
-				if( command == null )
+			protected void onHandleSession(SessionEvent<String> sevent) {
+				String command = sevent.getData();
+				if( StringUtils.isEmpty(command))
 					return;
-				String function = command.getFunction();
-				if( StringUtils.isEmpty(function))
-					return;
-				logger.fine( "Processing: " + function);
-				history.push( prettyCode( function ));
-				evaluate( command, function );
+				browser.evaluate(command);
 			}	
 		}
 	}
