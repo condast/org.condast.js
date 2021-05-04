@@ -1,10 +1,9 @@
+let shape_source;
+let shape_layer;
 
-var shape_source;
-var shape_layer;
-
-var draw;
-var feature;
-var geometry;
+let shapes_draw;
+let feature;
+let geometry;
 
 init();
 
@@ -25,7 +24,7 @@ function clearShapes() {
 }
 
 function setShape( name, value ) {
-	if(draw != null )
+	if(shapes_draw != null )
 		map.removeInteraction(draw);
 	if (value === 'None')
 		return;
@@ -49,13 +48,13 @@ function setShape( name, value ) {
 			return geometry;
 		};
 	}
-	draw = new ol.interaction.Draw({
+	shapes_draw = new ol.interaction.Draw({
 		source: shape_source,
 		type: /** @type {ol.geom.GeometryType} */ (value),
 		geometryFunction: geometryFunction,
 		maxPoints: maxPoints
 	});
-	draw.on('drawend',function(e){
+	shapes_draw.on('drawend',function(e){
 		try{
 			feature = e.feature;
 			feature.set('name', name );
@@ -66,7 +65,7 @@ function setShape( name, value ) {
 			console.log( err);			
 		}
 	});	
-	map.addInteraction(draw);
+	map.addInteraction(shapes_draw);
 	console.log("drawing enabled");
 }
 

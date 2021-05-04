@@ -20,11 +20,7 @@ public class OpenLayerController extends AbstractJavascriptController{
 	public static String S_CALLBACK_ID = "CallBackId";
 	private static String S_CALLBACK_FUNCTION = "onCallBack";
 
-	public static String S_TIMER_ID = "Timer";
-	private static String S_TIMER_FUNCTION = "onTimer";
-
 	private BrowserFunction callback;
-	//private BrowserFunction timer;
 	
 	private Logger logger = Logger.getLogger( this.getClass().getName() );
 
@@ -48,7 +44,6 @@ public class OpenLayerController extends AbstractJavascriptController{
 		}
 		setBrowser(OpenLayerController.class.getResourceAsStream( S_INDEX_HTML ));
 		this.callback = createCallBackFunction( S_CALLBACK_ID, S_CALLBACK_FUNCTION );	
-		//this.timer = createCallBackFunction( S_TIMER_ID, S_TIMER_FUNCTION );	
 	}
 	
 	public OpenLayerController( Browser browser, String id, LatLng location, int zoom ) {

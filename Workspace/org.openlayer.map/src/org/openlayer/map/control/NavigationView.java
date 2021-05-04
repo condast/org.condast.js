@@ -42,7 +42,7 @@ public class NavigationView extends AbstractView<NavigationView.Commands> {
 	}
 
 	public NavigationView( IJavascriptController controller) {
-		super( controller );
+		super( null, controller );
 	}
 	
 	@Override

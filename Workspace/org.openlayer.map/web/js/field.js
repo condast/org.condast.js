@@ -1,9 +1,9 @@
-var coords, length, width;
+let coords, length, width;
 
-var field_stroke;
-var field_style;
+let field_stroke;
+let field_style;
 
-var field_source;
+let field_source;
 
 init();
 

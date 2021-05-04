@@ -33,7 +33,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 
 	public static final String S_IS_INITIALISTED = "isInitialised";
 
-	public static final int DEFAULT_UPDATE_TIME = 300;
+	public static final int DEFAULT_UPDATE_TIME = 10;
 
 	protected static String S_BODY = "</body>";
 

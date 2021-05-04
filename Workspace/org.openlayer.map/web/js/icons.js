@@ -2,11 +2,14 @@
  * Initialise the vector source and vector for icon management
  * and add it to the map
  */
-var iconVectorSource;
-var iconVector;
+let iconVectorSource;
+let iconVector;
+let styleMap;
+
 init();
 
 function init(){
+	styleMap = new Map();
 	iconVectorSource = new ol.source.Vector();
 	iconVector = new ol.layer.Vector({
 	    style: function(feature) {
@@ -18,37 +21,40 @@ function init(){
 }
 
 //Path points to the image
-function createStyle( path ){
+function createStyle( img ){
 	//create the style
-	console.log(path);
-	return new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-            anchor: [0.5, 0.96],
-            crossOrigin: 'anonymous',
-            src: path
-   		}))
-	});	
+	let style = styleMap.get( img );
+	if( style == null ){
+		style = new ol.style.Style({
+        	image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+            	anchor: [0.5, 0.96],
+            	crossOrigin: 'anonymous',
+            	src: img
+   			}))
+		});	
+		styleMap.set( img, style );
+	}
+	return style;
 }
 
 //Removes the markers from the map, but keeps them in the array.
 function clearIcons() {
 	iconVectorSource.clear();
+	styleMap.clear();
 }
 
 //Path: path to the image
-function addIcon( id, name, latitude, longitude, path ){
+function addIcon( id, name, latitude, longitude, img ){
 	let lat = parseFloat( latitude );
 	let lon = parseFloat( longitude );
 	let coords = ol.proj.transform( [lon, lat], 'EPSG:4326', 'EPSG:3857' );
 
 	let iconFeature = new ol.Feature( new ol.geom.Point(coords) );
-	iconFeature.set('style', createStyle(path));
+	iconFeature.set('style', createStyle(img));
 	iconFeature.setId( id );
 	iconFeature.set( 'name', name );
 	iconVectorSource.addFeature( iconFeature );
 	addSelectEvent( iconFeature );
-	let index = map.getLayers().getLength();
-	return index;
 }
 
 function addIcons( ...icons ){

@@ -14,7 +14,7 @@ import org.openlayer.map.data.IconData;
 public class IconsView extends AbstractView<IconsView.Commands>{
 
 	public static final String S_OPENLAYERS_ROOT = "/openlayer";
-	
+
 	public enum Commands{
 		CREATE_STYLE,
 		CLEAR_ICONS,
@@ -57,7 +57,7 @@ public class IconsView extends AbstractView<IconsView.Commands>{
 	}
 	
 	public IconsView( IJavascriptController controller) {
-		super( controller );
+		super( null, controller );
 	}
 
 	
