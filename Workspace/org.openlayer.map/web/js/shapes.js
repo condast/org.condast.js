@@ -76,7 +76,8 @@ function addShape( wkt_str){
 	let feature = new ol.Feature({
 		geometry: geometry
 	});
-	shape_source.addFeature( feature );
+	
+ 	shape_source.addFeature( feature );
 	onCallBack( 'add-shape', wkt_str, geometry.getCoordinates() );
 }
 

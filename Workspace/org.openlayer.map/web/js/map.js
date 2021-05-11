@@ -1,6 +1,6 @@
 /**
  * Code based on:
- * @See; https://openlayers.org/en/v4.6.5/examples/layer-spy.html
+ * @See: https://openlayers.org/en/latest/examples/layer-spy.html
  */
 
 let initialised = false;
@@ -10,7 +10,7 @@ let pixelRatio;
 //center on RDM, transforming to map projection
 let center = ol.proj.transform([4.42240, 51.9005], 'EPSG:4326', 'EPSG:3857');
 
-let context;
+var context;
 
 function isInitialised(){
 	return true;
@@ -40,13 +40,13 @@ function setLocation( latitude, longitude, zoom ){
 }
 
 function getPixel( latitude, longitude ){
+	if( context == null )
+		return;
 	let lat = parseFloat( latitude );
 	let lon = parseFloat( longitude );
 	let coord = ol.proj.transform( [lon, lat], 'EPSG:4326', 'EPSG:3857' );
 	let pixel = map.getPixelFromCoordinate( coord );
-	if( context == null )
-		return;
-	let pixelAtClick = context.getImageData(pixel[0]*pixelRatio, pixel[1]*pixelRatio, 1, 1).data;
+	let pixelAtClick = context.getImageData(pixel[0], pixel[1], 1, 1).data;
 	rgb = [0,0,0,0];
 	for( var i=0;i<pixelAtClick.length;i++ ){
 		rgb[i] = pixelAtClick[i];
@@ -66,18 +66,18 @@ function getPixels( ln1, lt1, ln2, lt2 ){
 	
 	let coord2 = ol.proj.transform( [lon2, lat2], 'EPSG:4326', 'EPSG:3857' );
 	let pixel2 = map.getPixelFromCoordinate( coord2 );
-	let xdiff = pixel2[0]-pixel1[0];
-	let ydiff = pixel2[1]-pixel1[1];
-	let length = Math.round( Math.sqrt( xdiff*xdiff+ ydiff*ydiff ));
-	//let sign = (xdiff>=0)?1:-1;
-	let sinphi = parseFloat( ydiff/length );
-	let cosphi = parseFloat( xdiff/length );
-	let results = new Array(length);
-	let maxx = 0;
-	for( var i=0; i<length; i++){
-		let x = pixel1[0] + i*cosphi;
-		let y = pixel1[1] + i*sinphi;
-		results[i] = context.getImageData(x*pixelRatio, y*pixelRatio, 1, 1).data;
+	let results = null;
+	try{
+		let diff = math.subtract( pixel2, pixel1);
+		let length = parseInt( math.distance( pixel1, pixel2));
+		results = new Array(length);
+		for( let i=0; i<length; i++){
+			let vec = math.add( pixel1, math.multiply(diff, i/length ));
+			results[i] = context.getImageData(vec[0], vec[1], 1, 1).data;
+		}
+	}
+	catch( err ){
+		console.log( err );
 	}
 	return results;
 }
@@ -89,16 +89,19 @@ function getAreaPixels( ln1, lt1, length, width ){
 	let lon1 = parseFloat( ln1 );
 	let coord1 = ol.proj.transform( [lon1, lat1], 'EPSG:4326', 'EPSG:3857' );
 	let pixel1 = map.getPixelFromCoordinate( coord1 );
-	let results = new Array(length);
-	for( var i=0; i<length; i++){
-		let x = pixel1[0] + i;		
-		for( var j=0; j<width; j++){
-			let y = pixel1[1] + j;
-			results[i] = context.getImageData(x*pixelRatio, y*pixelRatio, 1, 1).data;
+	let results = new Array(length*width);
+	let counter = 0;
+	for( let j=0; j<width; j++){
+		let y = pixel1[1] + j;
+		for( let i=0; i<length; i++){
+			let x = pixel1[0] + i;		
+			results[counter] = context.getImageData(x, y, 1, 1).data;
+			counter++;
 		}
 	}
 	return results;
 }
+
 /**
  * Send the given coordinates as a JAVA callback
  * @param coordinates
@@ -165,8 +168,9 @@ let imagery = new ol.layer.Tile({
 
 
 // before rendering the layer, determine the pixel ratio
-imagery.on('precompose', function(event) {
+imagery.on('prerender', function(event) {
   context = event.context;
+  //console.log('CONTEXT FOUND!');
   pixelRatio = event.frameState.pixelRatio;
   context.save();
 });
@@ -174,9 +178,10 @@ imagery.on('precompose', function(event) {
 /**
  * Apply a filter on "postcompose" events.
  */
-imagery.on('postcompose', function(event) {
+imagery.on('postrender', function(event) {
 	context = event.context;
 	context.restore();
+  //console.log('CONTEXT FOUND!');
 });
 
 // finally, the map with our custom interactions, controls and overlays

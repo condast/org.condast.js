@@ -21,7 +21,7 @@ import org.condast.js.commons.eval.IEvaluationListener.EvaluationEvents;
 import org.condast.js.commons.session.AbstractSessionHandler;
 import org.condast.js.commons.session.SessionEvent;
 import org.condast.js.commons.utils.StringUtils;
-import org.eclipse.rap.rwt.widgets.BrowserCallback;
+import org.eclipse.swt.SWTException;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.BrowserFunction;
 import org.eclipse.swt.browser.ProgressEvent;
@@ -209,6 +209,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	
 	@Override
 	public  Object[] evaluate( String query, String[] params ) {
+		this.busy = true;
 		StringBuilder builder = new StringBuilder();
 		builder.append( "return ");
 		builder.append( query );
@@ -229,9 +230,10 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			if( this.warnPending )
 				logger.info(ex.getMessage());
 			else {
-				logger.fine(ex.getMessage());				
+				logger.info(ex.getMessage());				
 			}
 		}
+		this.busy = false;
 		return results;
 	}
 
@@ -328,6 +330,17 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		return builder.toString();
 	}
 
+	/**
+	 * Create a pretty code of the javascript by putting in line breaks and tabs
+	 * @param code
+	 * @return
+	 */
+	protected String prettyCode( String code ){
+		String retval = code.replace("; ", ";");
+		retval = code.replace(";", ";\n\t");
+		return "\t" + retval + "\n";
+	}
+
 	@Override
 	public String toString() {
 		return controller.toString();
@@ -343,46 +356,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		private int time;
 		
 		private SessionHandler handler;
-
-		private BrowserCallback getCallBack( Command command ){
-			BrowserCallback callback = new BrowserCallback() {
-
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void evaluationSucceeded(Object result) {
-					try {
-						notifyEvaluation( new EvaluationEvent<Object>( browser, command, id, EvaluationEvents.SUCCEEDED ));
-					}
-					catch( Exception ex ) {
-						ex.printStackTrace();
-					}
-					finally {
-						controller.clearHistory();
-						busy = false;
-					}
-				}
-				@Override
-				public void evaluationFailed(Exception exception) {
-					try {
-						notifyEvaluation( new EvaluationEvent<Object>( browser, command, id, EvaluationEvents.FAILED ));
-					}
-					catch( Exception ex ) {
-						logger.warning(ex.getMessage());
-						//ex.printStackTrace();
-					}
-					finally {
-						StringBuffer buffer = new StringBuffer();
-						buffer.append( "EXECUTION FAILED: \n" );
-						buffer.append( controller.retrieve() );
-						logger.warning(buffer.toString());
-						controller.clearHistory();
-						busy = false;
-					}
-				}
-			};
-			return callback;
-		}
 
 		private CommandController( int time ) {
 			this.time = time;
@@ -408,10 +381,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			this.history.clear();
 		}
 		
-		private String retrieve(){
-			return history.pop();
-		}
-
 		/**
 		 * Set a query. It will be carried out as soon as possible
 		 * @param function
@@ -455,41 +424,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			}
 		}
 		
-		/* (non-Javadoc)
-		 * @see org.condast.js.commons.controller.IJavascriptController#evaluate(java.lang.String)
-		 */
-		private Object evaluate( Command command, String query ){
-			try{
-				browser.evaluate( query, getCallBack( command ) );
-				browser.requestLayout();
-			}
-			catch( Exception se ){
-				logger.warning( se.getMessage() + ": " + query );
-				return false;
-			}
-			return true;
-		}
-
-		/**
-		 * Create a pretty code of the javascript by putting in line breaks and tabs
-		 * @param code
-		 * @return
-		 */
-		protected String prettyCode( String code ){
-			String retval = code.replace("; ", ";");
-			retval = code.replace(";", ";\n\t");
-			return "\t" + retval + "\n";
-		}
-	
-		private void handleCommand( Command command ) {
-			String function = command.getFunction();
-			if( StringUtils.isEmpty(function))
-				return;
-			logger.fine( "Processing: " + function);
-			history.push( prettyCode( function ));
-			evaluate( command, function );			
-		}
-		
 		@Override
 		public String toString() {
 			StringBuilder builder = new StringBuilder();
@@ -518,7 +452,12 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 				String command = sevent.getData();
 				if( StringUtils.isEmpty(command))
 					return;
-				browser.evaluate(command);
+				try {
+					browser.evaluate(command);
+				} catch (SWTException e) {
+					e.printStackTrace();
+					logger.info(command);
+				}
 			}	
 		}
 	}
