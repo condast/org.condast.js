@@ -6,6 +6,7 @@
 let initialised = false;
 let rgb;
 let pixelRatio;
+let correction = 1.7;
 
 //center on RDM, transforming to map projection
 let center = ol.proj.transform([4.42240, 51.9005], 'EPSG:4326', 'EPSG:3857');
@@ -92,9 +93,9 @@ function getAreaPixels( ln1, lt1, length, width ){
 	let results = new Array(length*width);
 	let counter = 0;
 	for( let j=0; j<width; j++){
-		let y = pixel1[1] + j;
+		let y = pixel1[1] + parseInt( correction*j/view.getResolution());
 		for( let i=0; i<length; i++){
-			let x = pixel1[0] + i;		
+			let x = pixel1[0] + parseInt( correction*i/view.getResolution());		
 			results[counter] = context.getImageData(x, y, 1, 1).data;
 			counter++;
 		}
@@ -137,7 +138,6 @@ function sendFeature( tp, feature ){
 		let lnglat;
 		if (geomType === 'Polygon'){
 			let linerings = geometry.getLinearRings();
-			let coordinates = linerings[0].getCoordinates();
 			lnglat = geometry.getCoordinates();  
 		}else if (geomType === 'Circle'){
 			//Circles to not have a WKT representation, so we approximate this
@@ -172,6 +172,7 @@ imagery.on('prerender', function(event) {
   context = event.context;
   //console.log('CONTEXT FOUND!');
   pixelRatio = event.frameState.pixelRatio;
+  console.log( "Pixel Ratio: " + pixelRatio );
   context.save();
 });
 

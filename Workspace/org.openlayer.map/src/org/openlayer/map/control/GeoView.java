@@ -136,7 +136,7 @@ public class GeoView {
 
 	public String jump(){
 		String[] params = new String[3];
-		LatLng latlng = this.fieldData.getCoordinates();
+		LatLng latlng = this.fieldData.getField().getCentre();
 		params[0] = String.valueOf( latlng.getLatitude() );
 		params[1] = String.valueOf( latlng.getLongitude());
 		params[2] = String.valueOf( this.fieldData.getZoom());
