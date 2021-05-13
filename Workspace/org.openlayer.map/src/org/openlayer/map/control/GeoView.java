@@ -1,6 +1,7 @@
 package org.openlayer.map.control;
 
 import org.condast.commons.data.latlng.LatLng;
+import org.condast.commons.data.latlng.LatLngUtils;
 import org.condast.commons.data.plane.FieldData;
 import org.condast.js.commons.controller.IJavascriptController;
 
@@ -63,6 +64,16 @@ public class GeoView {
 
 	public void setLatlng(LatLng latlng) {
 		this.fieldData.setCoordinates( latlng );
+	}
+
+	public void locate(LatLng latlng) {
+		double distance = Math.pow(fieldData.getLength(), 2) + Math.pow(fieldData.getWidth(),2);
+		if( distance == 0 )
+			distance=1;
+		double angle = Math.asin(fieldData.getWidth()/distance);
+		LatLng centre = LatLngUtils.extrapolateRad(latlng, angle, distance/2);
+		this.fieldData.setCoordinates( centre );
+		jump();
 	}
 
 	public int getZoom() {
