@@ -2,7 +2,9 @@ package org.openlayer.map.control;
 
 import org.condast.commons.data.latlng.LatLng;
 import org.condast.commons.data.latlng.LatLngUtils;
+import org.condast.commons.data.plane.Field;
 import org.condast.commons.data.plane.FieldData;
+import org.condast.commons.data.plane.IField;
 import org.condast.js.commons.controller.IJavascriptController;
 
 public class GeoView {
@@ -67,12 +69,10 @@ public class GeoView {
 	}
 
 	public void locate(LatLng latlng) {
-		double distance = Math.pow(fieldData.getLength(), 2) + Math.pow(fieldData.getWidth(),2);
-		if( distance == 0 )
-			distance=1;
-		double angle = Math.asin(fieldData.getWidth()/distance);
-		LatLng centre = LatLngUtils.extrapolateRad(latlng, angle, distance/2);
-		this.fieldData.setCoordinates( centre );
+		this.fieldData.setCoordinates( LatLngUtils.transform(latlng, this.fieldData.getLength()/20, -this.fieldData.getWidth()/2));
+		this.fieldData.setZoom(17);
+		//IField field = new Field( this.fieldData);
+		//this.fieldData.setCoordinates( field.getCentre());
 		jump();
 	}
 
