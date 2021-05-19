@@ -2,8 +2,10 @@
  * Initialise the vector source and vector for icon management
  * and add it to the map
  */
-var iconVectorSource;
-var iconVector;
+let iconVectorSource;
+let iconVector;
+let styleMap;
+
 init();
 
 function init(){
@@ -14,6 +16,7 @@ function init(){
 	    },
 		source: iconVectorSource
 	})
+	styleMap = new Map();
 	map.addLayer( iconVector );
 }
 
@@ -21,18 +24,24 @@ function init(){
 function createStyle( path ){
 	//create the style
 	console.log(path);
-	return new ol.style.Style({
-        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
-            anchor: [0.5, 0.96],
-            crossOrigin: 'anonymous',
-            src: path
-   		}))
-	});	
+	let ol.style.Style style = styleMap.get( path );
+	if( style == null ){
+		style = new ol.style.Style({
+	        image: new ol.style.Icon(/** @type {olx.style.IconOptions} */ ({
+    	        anchor: [0.5, 0.96],
+        	    crossOrigin: 'anonymous',
+            	src: path
+   			}))
+		});	
+		styleMap.set( path, style );
+	}
+	return style;
 }
 
-//Removes the markers from the map, but keeps them in the array.
+//Removes the markers from the map
 function clearIcons() {
 	iconVectorSource.clear();
+	styleMap.clear();
 }
 
 //Path: path to the image
@@ -47,8 +56,6 @@ function addIcon( id, name, latitude, longitude, path ){
 	iconFeature.set( 'name', name );
 	iconVectorSource.addFeature( iconFeature );
 	addSelectEvent( iconFeature );
-	let index = map.getLayers().getLength();
-	return index;
 }
 
 function addIcons( ...icons ){
