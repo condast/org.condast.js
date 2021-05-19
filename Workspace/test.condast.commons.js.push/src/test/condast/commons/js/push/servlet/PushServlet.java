@@ -1,7 +1,7 @@
 package test.condast.commons.js.push.servlet;
 
 import org.condast.commons.config.Config;
-import org.condast.js.commons.parser.AbstractFileParser;
+import org.condast.js.commons.parser.AbstractResourceParser;
 import org.condast.js.push.core.AbstractPushServlet;
 import test.condast.commons.js.push.core.Dispatcher;
 
@@ -28,7 +28,7 @@ public class PushServlet extends AbstractPushServlet {
 	}
 
 	@Override
-	protected String onGetPublicKey(String id, AbstractFileParser.Attributes attr) {
+	protected String onGetPublicKey(String id, AbstractResourceParser.Attributes attr) {
 		return Dispatcher.S_PUBLIC_KEY;
 	}	
 }
