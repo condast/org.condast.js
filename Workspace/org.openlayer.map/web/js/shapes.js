@@ -70,6 +70,7 @@ function setShape( name, value ) {
 }
 
 function addShape( wkt_str){
+	console.log('ADD SHAPE');
 	let format = new ol.format.WKT();
 	let geometry = format.readGeometry(wkt_str );
 	geometry.transform('EPSG:4326', 'EPSG:3857');
@@ -78,7 +79,9 @@ function addShape( wkt_str){
 	});
 	
  	shape_source.addFeature( feature );
+	console.log('SHAPE ADDED');
 	onCallBack( 'add-shape', wkt_str, geometry.getCoordinates() );
+	console.log('CALLBACK SHAPE');
 }
 
 function addendShape( wkt_str){

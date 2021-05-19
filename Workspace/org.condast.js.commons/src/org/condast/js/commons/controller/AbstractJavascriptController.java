@@ -18,16 +18,12 @@ import org.condast.js.commons.controller.AbstractView.CommandTypes;
 import org.condast.js.commons.eval.EvaluationEvent;
 import org.condast.js.commons.eval.IEvaluationListener;
 import org.condast.js.commons.eval.IEvaluationListener.EvaluationEvents;
-import org.condast.js.commons.session.AbstractSessionHandler;
-import org.condast.js.commons.session.SessionEvent;
 import org.condast.js.commons.utils.StringUtils;
-import org.eclipse.swt.SWTException;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.BrowserFunction;
 import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.widgets.Display;
 
 public abstract class AbstractJavascriptController implements IJavascriptController{
 
@@ -51,7 +47,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	private boolean disposed;
 	private boolean warnPending;
 	private boolean busy;
-	private int busycounter;
 	
 	private Collection<String> scripts;
 	
@@ -65,7 +60,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		this.id = idn;
 		this.initialised = false;
 		this.busy = false;
-		this.busycounter = 0;
 		this.disposed = false;
 		this.browser = browser;
 		this.browser.addDisposeListener(e->onWidgetDisposed(e));
@@ -355,13 +349,10 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		private ScheduledExecutorService timer;
 		private int time;
 		
-		private SessionHandler handler;
-
 		private CommandController( int time ) {
 			this.time = time;
 			commands = new ArrayList<>();
 			history = new Stack<String>();
-			handler = new SessionHandler( browser.getDisplay());
 		}
 
 		private void init() {
@@ -404,12 +395,10 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 				if( Utils.assertNull(this.commands)) {
 					return;
 				}
-				if(( busy && ( busycounter <= 10 ))  || Utils.assertNull(this.commands)) {
-					busycounter++;
+				if( busy || Utils.assertNull(this.commands)) {
 					return;
 				}
 				busy = true;
-				busycounter = 0;
 				
 				StringBuilder builder = new StringBuilder();
 				while( !commands.isEmpty()) {
@@ -418,7 +407,24 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 						continue;
 					builder.append(command.getFunction());
 				}
-				handler.addData( builder.toString());
+				browser.getDisplay().asyncExec( new Runnable() {
+
+					@Override
+					public void run() {
+						String commands = builder.toString();
+						if( StringUtils.isEmpty(commands))
+							return;
+						try {
+							browser.evaluate(commands);
+						} catch (Exception e) {
+							logger.warning(commands);
+						}
+						finally {
+							busy=false;
+						}
+					}
+					
+				});
 			}
 			finally {
 			}
@@ -439,27 +445,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			}
 			finally {
 			}
-		}	
-		
-		private class SessionHandler extends AbstractSessionHandler<String> {
-
-			protected SessionHandler(Display display) {
-				super(display);
-			}
-
-			@Override
-			protected void onHandleSession(SessionEvent<String> sevent) {
-				String command = sevent.getData();
-				if( StringUtils.isEmpty(command))
-					return;
-				try {
-					browser.evaluate(command);
-				} catch (SWTException e) {
-					e.printStackTrace();
-					logger.info(command);
-				}
-			}	
-		}
+		}		
 	}
 	
 	/**

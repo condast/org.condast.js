@@ -2,9 +2,7 @@ package org.openlayer.map.control;
 
 import org.condast.commons.data.latlng.LatLng;
 import org.condast.commons.data.latlng.LatLngUtils;
-import org.condast.commons.data.plane.Field;
 import org.condast.commons.data.plane.FieldData;
-import org.condast.commons.data.plane.IField;
 import org.condast.js.commons.controller.IJavascriptController;
 
 public class GeoView {

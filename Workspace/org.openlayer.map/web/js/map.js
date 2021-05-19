@@ -137,7 +137,6 @@ function sendFeature( tp, feature ){
 
 		let lnglat;
 		if (geomType === 'Polygon'){
-			let linerings = geometry.getLinearRings();
 			lnglat = geometry.getCoordinates();  
 		}else if (geomType === 'Circle'){
 			//Circles to not have a WKT representation, so we approximate this
@@ -170,9 +169,7 @@ let imagery = new ol.layer.Tile({
 // before rendering the layer, determine the pixel ratio
 imagery.on('prerender', function(event) {
   context = event.context;
-  //console.log('CONTEXT FOUND!');
   pixelRatio = event.frameState.pixelRatio;
-  console.log( "Pixel Ratio: " + pixelRatio );
   context.save();
 });
 
@@ -182,7 +179,6 @@ imagery.on('prerender', function(event) {
 imagery.on('postrender', function(event) {
 	context = event.context;
 	context.restore();
-  //console.log('CONTEXT FOUND!');
 });
 
 // finally, the map with our custom interactions, controls and overlays
