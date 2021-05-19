@@ -14,7 +14,7 @@
 	<properties>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
-		<tycho.version>2.1.0</tycho.version>
+		<tycho.version>2.3.0</tycho.version>
 		<generics>P:/GitHub</generics>
 		<project-root>P:/GitHub/org.condast.commons</project-root>
 		<workspace-root>P:/Windows/Condast/Workspace/org.condast.commons</workspace-root>
@@ -24,7 +24,6 @@
 		<rap-repo.url>http://download.eclipse.org/rt/rap/3.4/</rap-repo.url>
 		<condast-commons>file:${generics}/org.condast.commons/Workspace</condast-commons>
 		<condast-js>file:${generics}/org.condast.js/Workspace/</condast-js>
-		<condast-repo.url>${virgo-root}/alpha.condast.root.update</condast-repo.url>
 	</properties>
 
 	<repositories>
@@ -39,11 +38,6 @@
 			<layout>p2</layout>
 		</repository>
 		<repository>
-			<id>condast-repo</id>
-			<url>${condast-repo.url}</url>
-			<layout>p2</layout>
-		</repository>
-		<repository>
 			<id>org-condast-commons</id>
 			<url>${condast-commons}/org.condast.commons.update/target/site</url>
 			<layout>p2</layout>
@@ -51,6 +45,7 @@
 	</repositories>
 
 	<modules>
+		<module>../org.condast.js.target</module>
 		<module>../nl.martijndwars.webpush</module>
 		<module>../org.condast.js.commons</module>
 		<module>../org.condast.js.push</module>
@@ -75,6 +70,14 @@
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho.version}</version>
 				<configuration>
+ 					<pomDependencies>consider</pomDependencies>
+					<target>
+						<artifact>
+							<groupId>org.condast.js</groupId>
+							<artifactId>commons.js.target</artifactId>
+							<version>${project.version}</version>
+						</artifact>
+					</target>
 					<environments>
 						<environment>
 							<os>linux</os>
