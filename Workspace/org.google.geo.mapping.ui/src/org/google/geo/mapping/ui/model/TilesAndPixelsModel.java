@@ -56,25 +56,22 @@ public class TilesAndPixelsModel {
 		this.tileSize = tileSize;
 		String[] params=  new String[1];
 		params[0] = String.valueOf( tileSize );		
-		controller.setQuery(Functions.SET_TILE_SIZE.toString(), params);
+		controller.setQuery(Functions.SET_TILE_SIZE.toString(), params, false);
 	}
 
-	public void synchronize(){
-		controller.synchronize();
-	}
 
 	public void setLocation( LatLng lnglat, int zoom ){
 		String[] params=  new String[3];
 		params[0] = String.valueOf( lnglat.getLatitude() );
 		params[1] = String.valueOf( lnglat.getLongitude() );
 		params[2] = String.valueOf( zoom );
-		controller.setQuery(Functions.SET_LOCATION.toString(), params);
+		controller.setQuery(Functions.SET_LOCATION.toString(), params, false);
 	}
 
 	public void setZoom( int zoom ){
 		String[] params=  new String[1];
 		params[0] = String.valueOf( zoom );
-		controller.setQuery(Functions.SET_ZOOM.toString(), params);
+		controller.setQuery(Functions.SET_ZOOM.toString(), params, false);
 	}
 
 	public void createLocationInfo( String name, String description, LatLng lnglat, int zoom ){
@@ -85,7 +82,7 @@ public class TilesAndPixelsModel {
 		params[3] = String.valueOf( lnglat.getLongitude() );
 		params[4] = String.valueOf( zoom );
 		logger.info("locationinfo: " + params[0] +" " + params[1] +" "+ params[2] +" "+ params[3] +" "+ params[4]);
-		controller.setQuery(Functions.CREATE_LOCATION_INFO.toString(), params);
+		controller.setQuery(Functions.CREATE_LOCATION_INFO.toString(), params, false);
 	}
 
 	public void alertZoom(){

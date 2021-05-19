@@ -52,6 +52,8 @@ public class EvaluationEvent<T extends Object> extends EventObject {
 
 	public IEvaluationListener.EventTypes getEventType() {
 		String str = StringStyler.styleToEnum(data[0].toString());
+		if( !IEvaluationListener.EventTypes.isValid(str))
+			return IEvaluationListener.EventTypes.UNKNOWN;
 		return IEvaluationListener.EventTypes.valueOf(str);
 	}
 	public EvaluationEvents getEvaluationEvent() {

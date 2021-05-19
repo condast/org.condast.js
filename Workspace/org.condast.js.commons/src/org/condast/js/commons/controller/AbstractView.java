@@ -4,8 +4,11 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.condast.commons.Utils;
+import org.condast.commons.strings.StringUtils;
 
 public abstract class AbstractView<E extends Enum<E>> {
+
+	public static final String S_WINDOW = "window";
 
 	/**
 	 * There are three types of commands:
@@ -22,9 +25,16 @@ public abstract class AbstractView<E extends Enum<E>> {
 	}
 
 	private IJavascriptController controller;
+	
+	private String module;
 
 	protected AbstractView( IJavascriptController controller) {
+		this( null, controller );
+	}
+	
+	protected AbstractView( String module, IJavascriptController controller) {
 		this.controller = controller;
+		this.module = module;
 	}
 	
 	protected IJavascriptController getController() {
@@ -61,7 +71,8 @@ public abstract class AbstractView<E extends Enum<E>> {
 	}
 	
 	protected String perform( CommandTypes type, E command, String[] parameters, boolean array ){
-		String query = command.toString();
+		String query =  StringUtils.isEmpty(module)? command.toString(): module + "." + command.toString();
+		query = query.replace("()", "");
 		if( Utils.assertNull(parameters))
 			controller.setQuery( type, query);
 		else

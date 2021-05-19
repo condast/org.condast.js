@@ -1,13 +1,13 @@
-var collection = new ol.Collection();
+let collection = new ol.Collection();
 
-var select = new ol.interaction.Select({
+let select = new ol.interaction.Select({
 	  wrapX: false
 });
 
 //the SHIFT key must be pressed to delete vertices, so
 //that new vertices can be drawn at the same position
 //of existing vertices
-var modify = new ol.interaction.Modify({
+let modify = new ol.interaction.Modify({
 	features: select.getFeatures(),
 	deleteCondition: function(event) {
 		return ol.events.condition.shiftKeyOnly(event) &&
@@ -22,13 +22,18 @@ var pointDraw;
 var pointer = 0;
 
 function initInteraction() {
-	draw = new ol.interaction.Draw( 'LineString' );
-	draw.on('drawend', function(e) {
-		sendCoordinates( 'drawend', e );
-	});
-	draw.on('drawstart', function(e) {
-		sendCoordinates( 'drawstart', e );
-	});
+	try{
+		draw = new ol.interaction.Draw( 'LineString' );
+		draw.on('drawend', function(e) {
+			sendCoordinates( 'drawend', e );
+		});
+		draw.on('drawstart', function(e) {
+			sendCoordinates( 'drawstart', e );
+		});
+	}
+	catch( err ){
+		console.log( err);
+	}
 
 	pointDraw = addInteraction('Point');
 	pointDraw.on('drawend', function(e) {

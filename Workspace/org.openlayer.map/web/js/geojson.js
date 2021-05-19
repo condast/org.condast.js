@@ -1,8 +1,8 @@
-var styles;
+let styles;
 
-    var styleFunction = function(feature) {
-        return styles[feature.getGeometry().getType()];
-      };
+let styleFunction = function(feature) {
+    return styles[feature.getGeometry().getType()];
+};
 
  function addStyle( jsonStyle ){
 	 
@@ -14,11 +14,11 @@ var styles;
  * @returns
  */
 function draw( style, geojsonObject ){
-    var vectorSource = new ol.source.Vector({
+    let vectorSource = new ol.source.Vector({
         features: (new ol.format.GeoJSON()).readFeatures(geojsonObject)
       });
 
-    var vectorLayer = new ol.layer.Vector({
+    let vectorLayer = new ol.layer.Vector({
         source: vectorSource,
         style: style
       });

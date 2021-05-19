@@ -10,6 +10,7 @@ public interface IEvaluationListener<T extends Object> {
 	 *
 	 */
 	public enum EventTypes{
+		UNKNOWN,
 		DRAWEND,
 		ADD_SHAPE,
 		ADDEND_SHAPE,
@@ -18,6 +19,14 @@ public interface IEvaluationListener<T extends Object> {
 		@Override
 		public String toString() {
 			return StringStyler.xmlStyleString(super.toString());
+		}
+		
+		public static boolean isValid( String str ) {
+			for( EventTypes type: values()) {
+				if( type.name().equals(str))
+					return true;
+			}
+			return false;
 		}
 	}
 

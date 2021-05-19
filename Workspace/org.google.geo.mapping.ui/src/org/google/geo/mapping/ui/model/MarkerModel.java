@@ -64,7 +64,7 @@ public class MarkerModel {
 		String[] params = fillLngLatParams(4, lnglat);
 		params[3] = image;
 		data.add( lnglat );
-		controller.setQuery(Functions.CREATE_MARKER.toString(), params );
+		controller.setQuery(Functions.CREATE_MARKER.toString(), params, false );
 	}	
 
 	public void addMarker( String id, double latitude, double longtitude ) {
@@ -83,12 +83,12 @@ public class MarkerModel {
 		String[] params = fillLngLatParams(4, lnglat);
 		params[3] = image;
 		data.add( lnglat );
-		controller.setQuery(Functions.ADD_MARKER_WITH_IMAGE.toString(), params );
+		controller.setQuery(Functions.ADD_MARKER_WITH_IMAGE.toString(), params, false );
 	}
 
 	protected void addMarker( Functions function, LatLng lnglat ) {
 		data.add( lnglat );
-		controller.setQuery( function.toString(), getLngLatParams(lnglat));
+		controller.setQuery( function.toString(), getLngLatParams(lnglat), false);
 	}	
 
 	public void removeMarker( String id ) {
@@ -110,19 +110,15 @@ public class MarkerModel {
 		String[] params=  new String[2];
 		params[0] = String.valueOf( index );
 		params[1] = image;
-		controller.setQuery(Functions.SET_MARKER_ICON.toString(), params );		
+		controller.setQuery(Functions.SET_MARKER_ICON.toString(), params, false );		
 	}
 	
 	public void fitBounds( int zoom  ) {
 		String[] params=  new String[1];
 		params[0] = String.valueOf( zoom );
-		controller.setQuery( Functions.FIT_BOUNDS.toString(), params );
+		controller.setQuery( Functions.FIT_BOUNDS.toString(), params, false );
 	}
 
-	public void synchronize(){
-		controller.synchronize();
-	}
-	
 	public void dispose(){
 		this.markerClicked.dispose();
 	}

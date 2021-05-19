@@ -18,22 +18,18 @@ import org.condast.js.commons.controller.AbstractView.CommandTypes;
 import org.condast.js.commons.eval.EvaluationEvent;
 import org.condast.js.commons.eval.IEvaluationListener;
 import org.condast.js.commons.eval.IEvaluationListener.EvaluationEvents;
-import org.condast.js.commons.session.AbstractSessionHandler;
-import org.condast.js.commons.session.SessionEvent;
 import org.condast.js.commons.utils.StringUtils;
-import org.eclipse.rap.rwt.widgets.BrowserCallback;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.BrowserFunction;
 import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.events.DisposeEvent;
-import org.eclipse.swt.widgets.Display;
 
 public abstract class AbstractJavascriptController implements IJavascriptController{
 
 	public static final String S_IS_INITIALISTED = "isInitialised";
 
-	public static final int DEFAULT_UPDATE_TIME = 300;
+	public static final int DEFAULT_UPDATE_TIME = 10;
 
 	protected static String S_BODY = "</body>";
 
@@ -51,7 +47,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	private boolean disposed;
 	private boolean warnPending;
 	private boolean busy;
-	private int busycounter;
 	
 	private Collection<String> scripts;
 	
@@ -65,7 +60,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		this.id = idn;
 		this.initialised = false;
 		this.busy = false;
-		this.busycounter = 0;
 		this.disposed = false;
 		this.browser = browser;
 		this.browser.addDisposeListener(e->onWidgetDisposed(e));
@@ -209,6 +203,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	
 	@Override
 	public  Object[] evaluate( String query, String[] params ) {
+		this.busy = true;
 		StringBuilder builder = new StringBuilder();
 		builder.append( "return ");
 		builder.append( query );
@@ -229,9 +224,10 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			if( this.warnPending )
 				logger.info(ex.getMessage());
 			else {
-				logger.fine(ex.getMessage());				
+				logger.info(ex.getMessage());				
 			}
 		}
+		this.busy = false;
 		return results;
 	}
 
@@ -328,6 +324,17 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		return builder.toString();
 	}
 
+	/**
+	 * Create a pretty code of the javascript by putting in line breaks and tabs
+	 * @param code
+	 * @return
+	 */
+	protected String prettyCode( String code ){
+		String retval = code.replace("; ", ";");
+		retval = code.replace(";", ";\n\t");
+		return "\t" + retval + "\n";
+	}
+
 	@Override
 	public String toString() {
 		return controller.toString();
@@ -342,53 +349,10 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		private ScheduledExecutorService timer;
 		private int time;
 		
-		private SessionHandler handler;
-
-		private BrowserCallback getCallBack( Command command ){
-			BrowserCallback callback = new BrowserCallback() {
-
-				private static final long serialVersionUID = 1L;
-
-				@Override
-				public void evaluationSucceeded(Object result) {
-					try {
-						notifyEvaluation( new EvaluationEvent<Object>( browser, command, id, EvaluationEvents.SUCCEEDED ));
-					}
-					catch( Exception ex ) {
-						ex.printStackTrace();
-					}
-					finally {
-						controller.clearHistory();
-						busy = false;
-					}
-				}
-				@Override
-				public void evaluationFailed(Exception exception) {
-					try {
-						notifyEvaluation( new EvaluationEvent<Object>( browser, command, id, EvaluationEvents.FAILED ));
-					}
-					catch( Exception ex ) {
-						logger.warning(ex.getMessage());
-						//ex.printStackTrace();
-					}
-					finally {
-						StringBuffer buffer = new StringBuffer();
-						buffer.append( "EXECUTION FAILED: \n" );
-						buffer.append( controller.retrieve() );
-						logger.warning(buffer.toString());
-						controller.clearHistory();
-						busy = false;
-					}
-				}
-			};
-			return callback;
-		}
-
 		private CommandController( int time ) {
 			this.time = time;
 			commands = new ArrayList<>();
 			history = new Stack<String>();
-			handler = new SessionHandler( browser.getDisplay());
 		}
 
 		private void init() {
@@ -408,10 +372,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			this.history.clear();
 		}
 		
-		private String retrieve(){
-			return history.pop();
-		}
-
 		/**
 		 * Set a query. It will be carried out as soon as possible
 		 * @param function
@@ -423,7 +383,8 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 				if(!this.commands.contains(command))
 					this.commands.add( command );
 			}
-			finally {
+			catch( Exception ex ) {
+				ex.printStackTrace();
 			}
 		}	
 
@@ -434,47 +395,39 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 				if( Utils.assertNull(this.commands)) {
 					return;
 				}
-				if(( busy && ( busycounter <= 10 ))  || Utils.assertNull(this.commands)) {
-					busycounter++;
+				if( busy || Utils.assertNull(this.commands)) {
 					return;
 				}
 				busy = true;
-				busycounter = 0;
-				Command command = this.commands.remove(0);
 				
-				
-				if( command == null )
-					return;
-				handler.addData( command);
+				StringBuilder builder = new StringBuilder();
+				while( !commands.isEmpty()) {
+					Command command = this.commands.remove(0);
+					if( command == null )
+						continue;
+					builder.append(command.getFunction());
+				}
+				browser.getDisplay().asyncExec( new Runnable() {
+
+					@Override
+					public void run() {
+						String commands = builder.toString();
+						if( StringUtils.isEmpty(commands))
+							return;
+						try {
+							browser.evaluate(commands);
+						} catch (Exception e) {
+							logger.warning(commands);
+						}
+						finally {
+							busy=false;
+						}
+					}
+					
+				});
 			}
 			finally {
 			}
-		}
-		
-		/* (non-Javadoc)
-		 * @see org.condast.js.commons.controller.IJavascriptController#evaluate(java.lang.String)
-		 */
-		private Object evaluate( Command command, String query ){
-			try{
-				browser.evaluate( query, getCallBack( command ) );
-				browser.requestLayout();
-			}
-			catch( Exception se ){
-				logger.warning( se.getMessage() + ": " + query );
-				return false;
-			}
-			return true;
-		}
-
-		/**
-		 * Create a pretty code of the javascript by putting in line breaks and tabs
-		 * @param code
-		 * @return
-		 */
-		protected String prettyCode( String code ){
-			String retval = code.replace("; ", ";");
-			retval = code.replace(";", ";\n\t");
-			return "\t" + retval + "\n";
 		}
 		
 		@Override
@@ -492,27 +445,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 			}
 			finally {
 			}
-		}	
-		
-		private class SessionHandler extends AbstractSessionHandler<Command> {
-
-			protected SessionHandler(Display display) {
-				super(display);
-			}
-
-			@Override
-			protected void onHandleSession(SessionEvent<Command> sevent) {
-				Command command = sevent.getData();
-				if( command == null )
-					return;
-				String function = command.getFunction();
-				if( StringUtils.isEmpty(function))
-					return;
-				logger.fine( "Processing: " + function);
-				history.push( prettyCode( function ));
-				evaluate( command, function );
-			}	
-		}
+		}		
 	}
 	
 	/**

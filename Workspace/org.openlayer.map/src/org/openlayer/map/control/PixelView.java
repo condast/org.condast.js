@@ -3,8 +3,10 @@ package org.openlayer.map.control;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.condast.commons.Utils;
 import org.condast.commons.data.colours.RGBA;
 import org.condast.commons.data.latlng.LatLng;
+import org.condast.commons.data.latlng.LatLngUtils;
 import org.condast.commons.data.plane.IField;
 import org.condast.commons.strings.StringStyler;
 import org.condast.js.commons.controller.AbstractView;
@@ -102,6 +104,31 @@ public class PixelView extends AbstractView<PixelView.Commands>{
 			rgbs.add( new RGBA((Object[])result ));
 		}
 		return rgbs;		
+	}
+
+	/**
+	 * Get the pixels between the two locations
+	 * @param first
+	 * @return the distance to the first different colour
+	 */
+	public int hasSingleColour( LatLng first, LatLng last, int value ){
+		List<RGBA> colours = getPixelsColours(first, last);
+		if( Utils.assertNull(colours))
+			return -1;
+		RGBA current = null;
+		int distance = -1;
+		for( RGBA rgba: colours) {
+			if( current == null ) {
+				current = rgba;
+				continue;
+			}
+			if( current.approximate(rgba, value))
+				continue;
+			double total = LatLngUtils.distance(first, last);
+			int location = (int) (colours.indexOf(rgba)*total/colours.size());
+			return location;
+		}
+		return distance;
 	}
 
 	/**

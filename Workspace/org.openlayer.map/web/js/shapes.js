@@ -1,10 +1,9 @@
+let shape_source;
+let shape_layer;
 
-var shape_source;
-var shape_layer;
-
-var draw;
-var feature;
-var geometry;
+let shapes_draw;
+let feature;
+let geometry;
 
 init();
 
@@ -25,7 +24,7 @@ function clearShapes() {
 }
 
 function setShape( name, value ) {
-	if(draw != null )
+	if(shapes_draw != null )
 		map.removeInteraction(draw);
 	if (value === 'None')
 		return;
@@ -49,13 +48,13 @@ function setShape( name, value ) {
 			return geometry;
 		};
 	}
-	draw = new ol.interaction.Draw({
+	shapes_draw = new ol.interaction.Draw({
 		source: shape_source,
 		type: /** @type {ol.geom.GeometryType} */ (value),
 		geometryFunction: geometryFunction,
 		maxPoints: maxPoints
 	});
-	draw.on('drawend',function(e){
+	shapes_draw.on('drawend',function(e){
 		try{
 			feature = e.feature;
 			feature.set('name', name );
@@ -66,19 +65,23 @@ function setShape( name, value ) {
 			console.log( err);			
 		}
 	});	
-	map.addInteraction(draw);
+	map.addInteraction(shapes_draw);
 	console.log("drawing enabled");
 }
 
 function addShape( wkt_str){
+	console.log('ADD SHAPE');
 	let format = new ol.format.WKT();
 	let geometry = format.readGeometry(wkt_str );
 	geometry.transform('EPSG:4326', 'EPSG:3857');
 	let feature = new ol.Feature({
 		geometry: geometry
 	});
-	shape_source.addFeature( feature );
+	
+ 	shape_source.addFeature( feature );
+	console.log('SHAPE ADDED');
 	onCallBack( 'add-shape', wkt_str, geometry.getCoordinates() );
+	console.log('CALLBACK SHAPE');
 }
 
 function addendShape( wkt_str){
