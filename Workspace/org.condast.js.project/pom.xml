@@ -20,23 +20,11 @@
 		<workspace-root>P:/Windows/Condast/Workspace/org.condast.commons</workspace-root>
 		<virgo-root>file:${generics}/Root/Workspace/Virgo</virgo-root>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<eclipse-update-repo.url>http://download.eclipse.org/eclipse/updates/4.7</eclipse-update-repo.url>
-		<rap-repo.url>http://download.eclipse.org/rt/rap/3.4/</rap-repo.url>
 		<condast-commons>file:${generics}/org.condast.commons/Workspace</condast-commons>
 		<condast-js>file:${generics}/org.condast.js/Workspace/</condast-js>
 	</properties>
 
 	<repositories>
-		<repository>
-			<id>eclipse-update</id>
-			<url>${eclipse-update-repo.url}</url>
-			<layout>p2</layout>
-		</repository>
-		<repository>
-			<id>rap-update</id>
-			<url>${rap-repo.url}</url>
-			<layout>p2</layout>
-		</repository>
 		<repository>
 			<id>org-condast-commons</id>
 			<url>${condast-commons}/org.condast.commons.update/target/site</url>
