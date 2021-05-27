@@ -11,7 +11,7 @@ let correction = 1.7;
 //center on RDM, transforming to map projection
 let center = ol.proj.transform([4.42240, 51.9005], 'EPSG:4326', 'EPSG:3857');
 
-var context;
+let context;
 
 function isInitialised(){
 	return true;

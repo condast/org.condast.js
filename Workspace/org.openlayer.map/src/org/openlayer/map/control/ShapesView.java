@@ -67,6 +67,7 @@ public class ShapesView extends AbstractView<ShapesView.Commands> {
 
 	public static enum Types{
 		POINT,
+		POLYGON,
 		LINE_STRING,
 		LINEAR_RING,
 		MULTI_POINT,
