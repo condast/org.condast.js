@@ -21,20 +21,20 @@ public class AuthenticationData{
 	private String identifier;
 	
 	public AuthenticationData( Object[] data) {
-		this.id = new Double((double) data[0]).longValue();
-		this.token = new Double((double) data[1]).longValue();
+		this.id = Double.valueOf((double) data[0]).longValue();
+		this.token = Double.valueOf((double) data[1]).longValue();
 		this.identifier = (String) data[2];
 	}
 
 	public AuthenticationData( Map<Authentication, String> data) {
-		this.id = new Double( data.get( Authentication.ID)).longValue();
-		this.token = new Double(data.get( Authentication.TOKEN)).longValue();
+		this.id = Double.valueOf( data.get( Authentication.ID)).longValue();
+		this.token = Double.valueOf(data.get( Authentication.TOKEN)).longValue();
 		this.identifier = data.get(Authentication.IDENTIFIER);
 	}
 
 	public AuthenticationData( String[] data) {
-		this.id = new Double( data[0]).longValue();
-		this.token = new Double(data[1]).longValue();
+		this.id = Double.valueOf( data[0]).longValue();
+		this.token = Double.valueOf(data[1]).longValue();
 		this.identifier = data[2];
 	}
 
