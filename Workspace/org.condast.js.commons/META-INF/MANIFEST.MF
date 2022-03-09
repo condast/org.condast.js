@@ -4,7 +4,7 @@ Bundle-Name: Common JavaScript Support
 Bundle-SymbolicName: org.condast.js.commons
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Condast
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Export-Package: org.condast.js.commons.controller,
  org.condast.js.commons.def,
  org.condast.js.commons.eval,
