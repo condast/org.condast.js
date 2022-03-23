@@ -52,6 +52,8 @@ public class RefreshSession<T extends Object> {
 	}
 	
 	public void start(){
+		if( this.started)
+			return;
 		session.start();
 		this.started = true;
 	}
