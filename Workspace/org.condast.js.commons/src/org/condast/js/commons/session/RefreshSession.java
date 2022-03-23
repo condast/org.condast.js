@@ -21,16 +21,6 @@ public class RefreshSession<T extends Object> {
 	
 	private Collection<ISessionListener<T>> listeners;
 
-	private Listener listener = new Listener() {
-		private static final long serialVersionUID = 1L;
-
-		@Override
-		public void handleEvent(Event event) {
-			disposed = true;
-		}
-		
-	};
-	
 	public RefreshSession() {
 		listeners = new ArrayList<ISessionListener<T>>();
 		this.started = false;
@@ -50,7 +40,7 @@ public class RefreshSession<T extends Object> {
 
 	public void init( Display display ){
 		this.display = display;
-		this.display.addListener(SWT.Dispose, listener);
+		this.display.addListener(SWT.Dispose, e->{ disposed=true;});
 	}
 
 	/**
@@ -86,7 +76,6 @@ public class RefreshSession<T extends Object> {
 	public void dispose(){
 		if( this.listeners != null )
 			this.listeners.clear();
-		this.display.removeListener(SWT.Dispose, listener);
 		this.display = null;
 		this.stop();
 	}
