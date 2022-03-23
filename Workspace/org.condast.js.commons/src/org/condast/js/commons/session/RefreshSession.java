@@ -37,6 +37,7 @@ public class RefreshSession<T extends Object> {
 		this.refresh = false;
 		this.disposed = false;;
 		data = new ArrayList<>();
+		session = new ServerPushSession();
 	}
 
 	public void addSessionListener( ISessionListener<T> listener ){
@@ -61,13 +62,13 @@ public class RefreshSession<T extends Object> {
 	}
 	
 	public void start(){
-		session = new ServerPushSession();
 		session.start();
 		this.started = true;
 	}
 
 	public void stop(){
 		this.started = false;
+		this.session.stop();
 	}
 	
 	protected void notifyListeners( SessionEvent<T> event ) {
