@@ -1,5 +1,10 @@
 package org.condast.js.commons.session;
 
+import java.util.ArrayList;
+import java.util.Collection;
+
+import org.condast.commons.ui.session.RefreshSession;
+import org.condast.commons.ui.session.SessionEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -14,26 +19,14 @@ import org.eclipse.swt.widgets.Listener;
  */
 public abstract class AbstractSessionHandler<D extends Object> {
 
-	private RefreshSession<D> session;
+	private RefreshSession session;
 
+	private Collection<D> data;
+	
 	private boolean disposed;
-	
-	private ISessionListener<D> listener = new ISessionListener<D>(){
 
-		@Override
-		public void notifySessionChanged(SessionEvent<D> event) {
-			if(!disposed )
-				onHandleSession( event );
-		}
-	};
-
-	public void addData( D data ) {
-		if( !disposed)
-			session.addData(data);
-	}
-	
 	protected AbstractSessionHandler( Display display ) {
-		this.session = new RefreshSession<>();
+		this.session = new RefreshSession();
 		this.disposed = false;
 		display.addListener( SWT.Dispose, new Listener(){
 			private static final long serialVersionUID = 1L;
@@ -42,19 +35,29 @@ public abstract class AbstractSessionHandler<D extends Object> {
 			public void handleEvent(Event event) {
 				disposed = true;
 				dispose();
-			}	
+			}
 		});
+		data = new ArrayList<>();
+		
 		this.session.init( display );
-		this.session.addSessionListener( listener);
+		this.session.addSessionListener( e-> onNotifySessionChanged(e));
 		this.session.start();
 	}
-	
-	public void addSessionListener( ISessionListener<D> listener ) {
-		this.session.addSessionListener(listener);
+
+	public void addData( D datum ) {
+		if( disposed)
+			return;
+		data.add(datum);
+		session.activate();
 	}
 
-	public void removeSessionListener( ISessionListener<D> listener ) {
-		this.session.removeSessionListener(listener);
+	private void onNotifySessionChanged(SessionEvent<Object> event) {
+		if( disposed )
+			return;
+		Collection<D> temp = new ArrayList<D>( data );
+		data.clear();
+		for( D datum: temp)
+			onHandleSession( new SessionEvent<D>( this, datum ));
 	}
 
 	protected boolean isDisposed() {
@@ -62,13 +65,13 @@ public abstract class AbstractSessionHandler<D extends Object> {
 	}
 
 	protected abstract void onHandleSession( SessionEvent<D> sevent );
-	
+
 	public void dispose() {
 		try {
-			this.session.removeSessionListener(listener);
-			this.session.stop();
+			this.session.removeSessionListener( e->onNotifySessionChanged(e));
+			this.session.dispose();
 		} catch (Exception e) {
 			e.printStackTrace();
-		}		
+		}
 	}
 }

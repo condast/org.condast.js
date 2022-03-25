@@ -6,15 +6,12 @@ import java.util.Collection;
 import org.eclipse.rap.rwt.service.ServerPushSession;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
-import org.eclipse.swt.widgets.Event;
-import org.eclipse.swt.widgets.Listener;
 
-public class RefreshSession<T extends Object> {
+class RefreshSession<T extends Object> {
 
 	private Display display;
 	
 	private ServerPushSession session;
-	private Collection<T> data;
 	private boolean started;
 	private boolean refresh;
 	private boolean disposed;
@@ -26,7 +23,6 @@ public class RefreshSession<T extends Object> {
 		this.started = false;
 		this.refresh = false;
 		this.disposed = false;;
-		data = new ArrayList<>();
 		session = new ServerPushSession();
 	}
 
@@ -46,8 +42,7 @@ public class RefreshSession<T extends Object> {
 	/**
 	 * Called to refresh the UI
 	 */
-	public synchronized void addData( T data ){
-		this.data.add( data );
+	public synchronized void activate( ){
 		refresh();
 	}
 	
@@ -60,6 +55,8 @@ public class RefreshSession<T extends Object> {
 
 	public void stop(){
 		this.started = false;
+		if( this.disposed)
+			return;
 		this.session.stop();
 	}
 	
@@ -96,15 +93,8 @@ public class RefreshSession<T extends Object> {
 					@Override
 					public void run() {
 						try {
-							SessionEvent<T> event = null;
 							session.stop();
-							Collection<T> temp = new ArrayList<T>( data );
-							data.clear();
-							for( T dt: temp ) {
-								event = new SessionEvent<T>( this, dt );
-								notifyListeners(event);
-							}
-							notifyListeners( new SessionEvent<T>( this, ISessionListener.EventTypes.COMPLETED, null ));
+							notifyListeners(new SessionEvent<T>( this ));
 							refresh = false;
 						}
 						catch( Exception ex ) {

@@ -112,7 +112,7 @@ function drawLine( name, lat1, lon1, lat2, lon2 ){
 }
 
 /**
- * Draw a line with the given name between the two latlng coordinates
+ * Draw a shape with the given name between the two latlng coordinates
  * @param name
  * @param lat1
  * @param lon1
@@ -120,7 +120,7 @@ function drawLine( name, lat1, lon1, lat2, lon2 ){
  * @param lon2
  * @returns
  */
-function drawShape( name, value, amount, coords ){
+function drawShape( name, lat1, lon1, lat2, lon2 ){
 	let points = [];
 	let lat = parseFloat( lat1 );
 	let lon = parseFloat( lon1 );
