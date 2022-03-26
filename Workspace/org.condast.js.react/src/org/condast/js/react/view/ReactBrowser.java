@@ -6,7 +6,8 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.condast.commons.ui.session.PushSession;
+import org.condast.commons.ui.session.ISessionListener;
+import org.condast.commons.ui.session.RefreshSession;
 import org.condast.js.commons.eval.EvaluationEvent;
 import org.condast.js.commons.eval.IEvaluationListener;
 import org.eclipse.rap.rwt.widgets.BrowserCallback;
@@ -14,7 +15,6 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
-import org.condast.js.commons.session.ISessionListener;
 import org.condast.js.commons.eval.IEvaluationListener.EvaluationEvents;
 
 public class ReactBrowser extends Browser {
@@ -27,7 +27,7 @@ public class ReactBrowser extends Browser {
 	private Browser browser;
 	private CommandController controller;
 
-	private PushSession<Map<String, String>> session = new PushSession<Map<String, String>>();
+	private RefreshSession session = new RefreshSession();
 
 	private Logger logger = Logger.getLogger( this.getClass().getName());
 		
@@ -44,12 +44,12 @@ public class ReactBrowser extends Browser {
 
 	@SuppressWarnings("unchecked")
 	public void addSessionListener( ISessionListener<Map<String, String>> listener ){
-		this.session.addSessionListener((org.condast.commons.ui.session.ISessionListener<Map<String, String>>) listener);
+		//this.session.addSessionListener( listener);
 	}
 	
 	@SuppressWarnings("unchecked")
 	public void removeSesionListener( ISessionListener<Map<String, String>> listener ){
-		this.session.removeSessionListener((org.condast.commons.ui.session.ISessionListener<Map<String, String>>) listener);
+		//this.session.removeSessionListener((org.condast.commons.ui.session.ISessionListener<Map<String, String>>) listener);
 	}
 
 	public void addEvaluationListener( IEvaluationListener<Map<String, String>> listener ){

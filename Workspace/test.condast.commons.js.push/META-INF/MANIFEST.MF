@@ -4,10 +4,10 @@ Bundle-Name: Push notification tests
 Bundle-SymbolicName: test.condast.commons.js.push;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: test.condast.commons.js.push.Activator
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Automatic-Module-Name: test.condast.com
 Import-Package: com.google.gson;version="2.8.2",
- javax.servlet;version="3.1.0.20170128",
+ javax.servlet;version="3.1.0",
  nl.martijndwars.webpush,
  nl.martijndwars.webpush.core,
  org.bouncycastle.crypto,
