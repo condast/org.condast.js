@@ -18,6 +18,7 @@ public abstract class AbstractResourceParser {
 		AUTHENTICATION,
 		MAXVISIBLEACTIONS,
 		SCRIPT,
+		TOKEN,
 		VAPID,
 		WORKER;
 
@@ -51,6 +52,8 @@ public abstract class AbstractResourceParser {
 	protected abstract String onCreateLink( String link, String url, String arguments);
 
 	protected abstract String onHandleLabel( String id, Attributes attr );
+
+	protected abstract String getToken();
 
 	protected String onHandleFunction( String[] split ) {
 		return split[0];
@@ -98,6 +101,11 @@ public abstract class AbstractResourceParser {
 			case LABEL:
 				attr = Attributes.valueOf(split[2].toUpperCase());
 				builder.append( onHandleLabel(split[1], attr ));
+				break;
+			case TOKEN:
+				builder.append(Functions.TOKEN.toString());
+				builder.append("=");
+				builder.append( getToken());
 				break;
 			default:
 				builder.append( onHandleFunction( split ));
