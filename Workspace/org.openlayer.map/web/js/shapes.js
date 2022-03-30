@@ -1,5 +1,4 @@
 let shape_source;
-let shape_layer;
 
 let shapes_draw;
 let feature;
@@ -9,7 +8,7 @@ init();
 
 function init(){
 	shape_source = new ol.source.Vector();
-	shape_layer = new ol.layer.Vector({
+	let shape_layer = new ol.layer.Vector({
 		source: shape_source
 	});
 

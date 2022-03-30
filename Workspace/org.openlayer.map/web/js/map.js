@@ -28,6 +28,10 @@ function clear(){
 	}
 }
 
+function refresh(){
+	map.getLayers().forEach(layer => layer.getSource().refresh());	
+}
+
 function getLocation(){
 	return map.getView().getCenter();
 }

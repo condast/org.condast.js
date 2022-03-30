@@ -12,6 +12,7 @@ public class MapField extends AbstractView<MapField.Commands>{
 		
 	public static enum Commands{
 		CLEAR,
+		REFRESH,
 		CLEAR_FIELD,
 		GET_PIXEL,
 		SET_STROKE,
@@ -69,6 +70,13 @@ public class MapField extends AbstractView<MapField.Commands>{
 		return super.clear( Commands.CLEAR );
 	}
 
+	/**
+	 * Refresh the map
+	 * @return
+	 */
+	public String refresh() {
+		return super.clear( Commands.REFRESH );
+	}
 
 	/**
 	 * Clear the shapes

@@ -3,7 +3,6 @@
  * and add it to the map
  */
 let iconVectorSource;
-let iconVector;
 let styleMap;
 
 init();
@@ -12,7 +11,7 @@ function init(){
 	console.log( "INITALISING ICONS ");
 	styleMap = new Map();
 	iconVectorSource = new ol.source.Vector();
-	iconVector = new ol.layer.Vector({
+	let iconVector = new ol.layer.Vector({
 	    style: function(feature) {
 	        return feature.get('style');
 	    },
@@ -40,7 +39,7 @@ function createStyle( img ){
 
 //Removes the markers from the map, but keeps them in the array.
 function clearIcons() {
-	console.log( "CLEAR ICONS ");
+	//console.log( "CLEAR ICONS ");
 	iconVectorSource.clear();
 	styleMap.clear();
 }
