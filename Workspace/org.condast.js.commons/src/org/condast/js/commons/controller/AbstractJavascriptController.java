@@ -24,6 +24,7 @@ import org.eclipse.swt.browser.BrowserFunction;
 import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.events.DisposeEvent;
+import org.eclipse.swt.events.DisposeListener;
 
 public abstract class AbstractJavascriptController implements IJavascriptController{
 
@@ -51,6 +52,8 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 	private Collection<String> scripts;
 	
 	private Logger logger = Logger.getLogger( this.getClass().getName());	
+	
+	private DisposeListener dlistener = e->onWidgetDisposed(e);
 
 	protected AbstractJavascriptController( Browser browser, String idn ) {
 		this( browser, idn, false );
@@ -62,7 +65,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		this.busy = false;
 		this.disposed = false;
 		this.browser = browser;
-		this.browser.addDisposeListener(e->onWidgetDisposed(e));
+		this.browser.addDisposeListener(dlistener);
 		listeners = new ArrayList<>();
 		this.scripts = new ArrayList<>();
 		this.controller = new CommandController( DEFAULT_UPDATE_TIME );
@@ -71,16 +74,24 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 
 			@Override
 			public void completed(ProgressEvent event) {
-				onLoadCompleted();
-				initialised = true;
-				controller.init();
-				notifyEvaluation( new EvaluationEvent<Object>( getBrowser(), null, id, EvaluationEvents.INITIALISED ));
+				try {
+					onLoadCompleted();
+					initialised = true;
+					controller.init();
+					notifyEvaluation( new EvaluationEvent<Object>( getBrowser(), null, id, EvaluationEvents.INITIALISED ));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 			
 			@Override
 			public void changed(ProgressEvent event) {
-				onLoadChanged();
-				notifyEvaluation( new EvaluationEvent<Object>( getBrowser(), null, id, EvaluationEvents.CHANGED ));
+				try {
+					onLoadChanged();
+					notifyEvaluation( new EvaluationEvent<Object>( getBrowser(), null, id, EvaluationEvents.CHANGED ));
+				} catch (Exception e) {
+					e.printStackTrace();
+				}
 			}
 		});
 	}
@@ -417,7 +428,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 						try {
 							browser.evaluate(commands);
 						} catch (Exception e) {
-							logger.warning(commands);
+							logger.warning(e.getMessage() + "\n\t" + commands);
 						}
 						finally {
 							busy=false;

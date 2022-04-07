@@ -35,7 +35,11 @@ public class OpenLayerController extends AbstractJavascriptController{
 	public OpenLayerController( Browser browser, String[] scripts ) {
 		this( browser, S_INITIALISTED_ID, scripts );
 	}
-	
+
+	public OpenLayerController( Browser browser, InputStream inp ) {
+		this( browser, S_INITIALISTED_ID, createScript( inp ));
+	}
+
 	public OpenLayerController( Browser browser, String id, String[] scripts ) {
 		super( browser, id );
 		if( !Utils.assertNull(scripts)) {
