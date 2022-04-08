@@ -2,6 +2,7 @@ package org.openlayer.map.control;
 
 import java.util.Collection;
 
+import org.condast.commons.data.plane.FieldData;
 import org.condast.commons.data.plane.FieldData.Shapes;
 import org.condast.commons.data.plane.IField;
 import org.condast.commons.data.plane.IPolygon;
@@ -81,7 +82,7 @@ public class ShapesView extends AbstractView<ShapesView.Commands> {
 			return StringStyler.prettyString( this.name());
 		}
 
-		public static Types fromShape(Shapes shape) {
+		public static Types fromShape(FieldData.Shapes shape) {
 			Types type = Types.POINT;
 			switch( shape ) {
 			case LINE:
