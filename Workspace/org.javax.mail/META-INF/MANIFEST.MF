@@ -8,8 +8,8 @@ Automatic-Module-Name: org.javax.mail
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: lib/javax.mail-1.6.2.jar,
  .
-Export-Package: javax.mail,
+Export-Package: javax.mail;version="1.6.2",
  javax.mail.event,
- javax.mail.internet,
+ javax.mail.internet;version="1.6.2",
  javax.mail.search,
  javax.mail.util

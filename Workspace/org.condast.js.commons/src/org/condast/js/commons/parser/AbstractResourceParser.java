@@ -1,8 +1,8 @@
 package org.condast.js.commons.parser;
 
-import java.io.ByteArrayOutputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Scanner;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
@@ -59,14 +59,26 @@ public abstract class AbstractResourceParser {
 		return split[0];
 	}
 
+	protected String onAppendEOL() {
+		return null;
+	}
+	
 	public String parse( InputStream in ) throws IOException {
-		ByteArrayOutputStream result = new ByteArrayOutputStream();
-		byte[] buffer = new byte[1024];
-		int length;
-		while ((length = in.read(buffer)) != -1) {
-			result.write(buffer, 0, length);
+		StringBuilder builder = new StringBuilder();
+		Scanner scanner = new Scanner( in );
+		try {
+			while ( scanner.hasNextLine() ) {
+				String line = scanner.nextLine();
+				builder.append( line );
+				line = onAppendEOL();
+				if( !StringUtils.isEmpty(line))
+					builder.append(line);
+			}
 		}
-		return parse( result.toString("UTF-8"));
+		finally {
+			scanner.close();
+		}
+		return parse( builder.toString());
 	}
 
 	protected String parse( String str ) throws IOException {
