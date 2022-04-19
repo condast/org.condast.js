@@ -5,7 +5,7 @@ Bundle-SymbolicName: nl.martijndwars.webpush
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Condast
 Automatic-Module-Name: nl.martijndwars.webpush
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: lib/bcprov-jdk15on-154.jar,
  .,
  lib/httpcore-4.4.10.jar,
