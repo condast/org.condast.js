@@ -12,7 +12,8 @@ Export-Package: javax.mail;version="1.6.2",
  javax.mail.event,
  javax.mail.internet;version="1.6.2",
  javax.mail.search,
- javax.mail.util
+ javax.mail.util,
+ org.javax.mail.utils
 Import-Package: javax.activation;version="1.1.0",
  org.condast.commons.authentication.core,
  org.condast.commons.authentication.user,

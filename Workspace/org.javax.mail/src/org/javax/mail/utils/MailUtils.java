@@ -32,34 +32,41 @@ import org.condast.js.commons.parser.AbstractResourceParser;
  */
 public class MailUtils {
 
-	public static final String S_CONDAST_EMAIL = "condast.auth@gmail.com";
-	public static final String S_CONDAST_PASSWORD = "Kl00st3rtu1n@2012";
 	public static final String S_RESOURCE_CONFIRM = "/resources/confirmation.txt";
 	public static final String S_RESOURCE_CONFIRM_CODE = "/resources/confirmcode.txt";
 
 	public static final String S_PLEASE_CONFIRM_TITLE = "Please Confirm your Registration:";
+	public static final String S_PLEASE_CONFIRM_LOGIN_TITLE = "Please Confirm your Login:";
 
-	public static final String S_DEFAULT_MAIL_RESOURCE = "mail.properties";
+	public static final String S_DEFAULT_MAIL_RESOURCE = "/resources/mail.properties";
 
 	public enum MailProperties{
 		AUTH,
 		STARTTLS,
 		HOST,
 		PORT,
-		SSL_TRUST;
+		SSL_TRUST,
+		EMAIL_HOST,
+		EMAIL_PASSWORD;
 
 		@Override
 		public String toString() {
 			String str = "mail.smtp.";
 			switch( this ) {
 			case SSL_TRUST:
-				str += "mail.smtp.auth"; 
-				break;
-			case STARTTLS:
 				str += "ssl.trust"; 
 				break;
+			case STARTTLS:
+				str += "starttls.enable"; 
+				break;
+			case EMAIL_HOST:
+			case EMAIL_PASSWORD:
+				str = name().toLowerCase();
+				str = str.replace("_", ".");
+				break;
 			default:
-				str += name().toLowerCase();
+				String lower = name().toLowerCase();
+				str += lower;
 				break;
 			}
 			return str;
@@ -78,6 +85,7 @@ public class MailUtils {
 	private enum Parameters{
 		NAME,
 		CONFIRMATION,
+		CONFIRM_CODE,
 		DOMAIN;
 
 		@Override
@@ -90,22 +98,18 @@ public class MailUtils {
 		}
 	}
 
-	public static void sendMail( InputStream inp ) {
-		Properties props = createProperties(inp);
-	}
-	
-	public static void sendConfirmationdMail( LoginData login, String recipient, String domain, long confirmation ) throws Exception {
-		String msg = createConfirmationMail( login, domain, confirmation);
-		sendMail(S_CONDAST_EMAIL, recipient, S_PLEASE_CONFIRM_TITLE, msg);
+	public MailUtils() {
+		super();
 	}
 
-	public static void sendConfirmCodeMail( ILoginUser user, String domain ) throws Exception {
-		String msg = createConfirmCodeMail( user, domain);
-		sendMail(S_CONDAST_EMAIL, user.getEmail(), S_PLEASE_CONFIRM_TITLE, msg);
+	public static void sendConfirmationdMail( InputStream in, Properties properties, LoginData login, String recipient, String domain, long confirmation ) throws Exception {
+		String msg = createConfirmationMail( in, login, domain, confirmation);
+		sendMail( properties, recipient, S_PLEASE_CONFIRM_TITLE, msg);
 	}
 
-	public static void sendMail( String recipient, String subject, String msg ) throws AddressException, MessagingException {
-		sendMail(S_CONDAST_EMAIL, recipient, subject, msg);
+	public static void sendConfirmCodeMail( InputStream in, Properties props, ILoginUser user, String domain ) throws Exception {
+		String msg = createConfirmCodeMail( in, user, domain);
+		sendMail( props, user.getEmail(), S_PLEASE_CONFIRM_LOGIN_TITLE, msg);
 	}
 	
 	public static Properties createProperties( InputStream in ) {
@@ -116,6 +120,8 @@ public class MailUtils {
 				String line = scanner.nextLine();
 				String[] split = line.split("[:]");
 				MailProperties mp = MailProperties.getProperty(split[0]);
+				if( mp == null )
+					continue;
 				switch( mp ) {
 				default:
 					props.put(split[0].trim(), split[1].trim());
@@ -132,11 +138,12 @@ public class MailUtils {
 		return props;
 	}
 
-	public static void sendMail( Properties props, String host, String recipient, String subject, String msg ) throws AddressException, MessagingException {		
+	public static void sendMail( Properties props, String recipient, String subject, String msg ) throws AddressException, MessagingException {		
+		String host = props.getProperty(MailProperties.EMAIL_HOST.toString());
 		Session session = Session.getInstance(props, new Authenticator() {
 		    @Override
 		    protected PasswordAuthentication getPasswordAuthentication() {
-		        return new PasswordAuthentication(host, S_CONDAST_PASSWORD);
+		        return new PasswordAuthentication(host, props.getProperty( MailProperties.EMAIL_PASSWORD.toString()));
 		    }
 		});
 		Message message = new MimeMessage(session);
@@ -153,25 +160,15 @@ public class MailUtils {
 		message.setContent(multipart);
 		Transport.send(message);
 	}
-
-	public static void sendMail( String host, String recipient, String subject, String msg ) throws AddressException, MessagingException {
-		Properties prop = new Properties();
-		prop.put("mail.smtp.auth", true);
-		prop.put("mail.smtp.starttls.enable", "true");
-		prop.put("mail.smtp.host", "smtp.gmail.com");
-		prop.put("mail.smtp.port", "587");
-		prop.put("mail.smtp.ssl.trust", "smtp.gmail.com");
-		sendMail(prop, host, recipient, subject, msg);
-	}
 	
-	public static String createConfirmationMail( LoginData login, String domain, long confirmation ) throws IOException {
+	public static String createConfirmationMail( InputStream inp, LoginData login, String domain, long confirmation ) throws IOException {
 		FileParser parser = new FileParser( login, domain, confirmation);
-		return parser.parse( MailUtils.class.getResourceAsStream(S_RESOURCE_CONFIRM) );
+		return parser.parse( inp );
 	}
 
-	public static String createConfirmCodeMail( ILoginUser user, String domain ) throws IOException {
+	public static String createConfirmCodeMail( InputStream inp, ILoginUser user, String domain ) throws IOException {
 		FileParser parser = new FileParser( new LoginData( user ), domain, user.getSecurity());
-		return parser.parse( MailUtils.class.getResourceAsStream(S_RESOURCE_CONFIRM_CODE) );
+		return parser.parse( inp );
 	}
 
 	private static class FileParser extends AbstractResourceParser{
@@ -196,14 +193,16 @@ public class MailUtils {
 		@Override
 		protected String onHandleLabel(String id, Attributes attr) {
 			String result = null;
+			Config config = new Config();
 			switch( Parameters.getParameter(id)) {
 			case NAME:
 				result = login.getNickName();
 				break;
 			case CONFIRMATION:
-				Config config = new Config();
-				config.setPort(10081);
-				result = "<a href=" + config.getServerContext() + "condast/rest/auth/confirm-registration?confirm=" + this.confirmation + ">confirm</a>";
+				result = "<a href=" + config.getServerContext() + "arnac-auth/confirm-registration?confirm=" + this.confirmation + ">confirm</a>";
+				break;
+			case CONFIRM_CODE:
+				result = "<a href=" + config.getServerContext() + "arnac-auth/confirm?confirm=" + this.confirmation + ">confirm login</a>";
 				break;
 			case DOMAIN:
 				result = domain;
