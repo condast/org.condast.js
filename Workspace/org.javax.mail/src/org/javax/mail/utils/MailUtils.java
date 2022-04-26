@@ -139,6 +139,7 @@ public class MailUtils {
 	}
 
 	public static void sendMail( Properties props, String recipient, String subject, String msg ) throws AddressException, MessagingException {		
+		Thread.currentThread().setContextClassLoader( MailUtils.class.getClassLoader() );
 		String host = props.getProperty(MailProperties.EMAIL_HOST.toString());
 		Session session = Session.getInstance(props, new Authenticator() {
 		    @Override
@@ -199,10 +200,10 @@ public class MailUtils {
 				result = login.getNickName();
 				break;
 			case CONFIRMATION:
-				result = "<a href=" + config.getServerContext() + "arnac-auth/confirm-registration?confirm=" + this.confirmation + ">confirm</a>";
+				result = "<a href=" + config.getServerContext() + domain + "/auth/confirm-registration?confirm=" + this.confirmation + ">confirm</a>";
 				break;
 			case CONFIRM_CODE:
-				result = "<a href=" + config.getServerContext() + "arnac-auth/confirm?confirm=" + this.confirmation + ">confirm login</a>";
+				result = "<a href=" + config.getServerContext() + domain + "/auth/confirm?confirm=" + this.confirmation + ">confirm login</a>";
 				break;
 			case DOMAIN:
 				result = domain;
