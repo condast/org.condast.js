@@ -55,7 +55,6 @@ function addIcon( id, name, latitude, longitude, img ){
 	iconFeature.setId( id );
 	iconFeature.set( 'name', name );
 	iconVectorSource.addFeature( iconFeature );
-	addSelectEvent( iconFeature );
 }
 
 function addIcons( ...icons ){
@@ -98,27 +97,4 @@ function popup( location ){
       element: document.getElementById('vienna')
     });
     map.addOverlay(vienna);
-}
-
-function addSelectEvent( feature ){
-	let ft = feature;
-	let select = new ol.interaction.Select({
-		condition: ol.events.condition.pointerMove,
-		style: function(feature) {
-			// Popup showing the position the user clicked
-			var popup = new ol.Overlay({
-				element: document.getElementById('popup')
-			});
-			map.addOverlay(popup);	
-			popup.setPosition(ft.getGeometry().getCoordinates());       
-		}
-	});
-	map.addInteraction(select);
-	//select = new ol.interaction.Select({
-	//	condition: ol.events.condition.doubleclick,
-	//	style: function(feature) {
-	//		sendFeature( 'selected', feature )
-	//	}
-	//});
-	//map.addInteraction(select);
 }

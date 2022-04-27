@@ -17,6 +17,10 @@ function isInitialised(){
 	return true;
 }
 
+function initMap(){
+	addSelectEvent;
+}
+
 /**
   * Clear the interactions
 */
@@ -158,6 +162,29 @@ function sendFeature( tp, feature ){
 		console.log(e);
 	}
 }
+
+function addSelectEvent(){
+	let select = new ol.interaction.Select({
+		condition: ol.events.condition.pointerMove,
+		style: function(feature) {
+			try{
+				// Popup showing the position the user clicked
+				var popup = new ol.Overlay({
+					element: document.getElementById('popup')
+				});
+				map.addOverlay(popup);	
+				popup.setPosition(ft.getGeometry().getCoordinates()); 
+				console.log('Selected: ' + feature);
+				sendFeature( 'select', feature);      
+			}
+			catch( e ){
+				console.log(e);
+			}
+		}
+	});
+	map.addInteraction(select);
+}
+
 // view, starting at the center
 let view = new ol.View({
 	center: center,
@@ -168,7 +195,6 @@ let imagery = new ol.layer.Tile({
 	source: new ol.source.OSM(),
     crossOrigin: 'anonymous'
 });
-
 
 // before rendering the layer, determine the pixel ratio
 imagery.on('prerender', function(event) {
@@ -204,3 +230,5 @@ let map = new ol.Map({
 	}),
 	view: view
 });
+
+initMap();
