@@ -4,32 +4,31 @@ import java.util.EventObject;
 
 import org.condast.commons.strings.StringStyler;
 import org.condast.js.commons.controller.Command;
-import org.condast.js.commons.eval.IEvaluationListener.EvaluationEvents;
 
 public class EvaluationEvent<T extends Object> extends EventObject {
 	private static final long serialVersionUID = 1L;
 
-	private EvaluationEvents ee;
+	private IEvaluationListener.EvaluationEvents ee;
 	
 	private Command command;
 	
 	private String id;
 	private T[] data;
 
-	public EvaluationEvent( Object arg0, String id, EvaluationEvents ee ) {
+	public EvaluationEvent( Object arg0, String id, IEvaluationListener.EvaluationEvents ee ) {
 		this( arg0, null, id, ee, null );
 	}
 	
 
-	public EvaluationEvent( Object arg0, Command command, String id, EvaluationEvents ee ) {
+	public EvaluationEvent( Object arg0, Command command, String id, IEvaluationListener.EvaluationEvents ee ) {
 		this( arg0, command, id, ee, null );
 	}
 
-	public EvaluationEvent( Object arg0,  String id, EvaluationEvents ee, T[] data ) {
+	public EvaluationEvent( Object arg0,  String id, IEvaluationListener.EvaluationEvents ee, T[] data ) {
 		this( arg0, null, id, ee, data );
 	}
 	
-	public EvaluationEvent( Object arg0, Command command, String id, EvaluationEvents ee, T[] data ) {
+	public EvaluationEvent( Object arg0, Command command, String id, IEvaluationListener.EvaluationEvents ee, T[] data ) {
 		super(arg0);
 		this.id = id;
 		this.command = command;
@@ -56,7 +55,7 @@ public class EvaluationEvent<T extends Object> extends EventObject {
 			return IEvaluationListener.EventTypes.UNKNOWN;
 		return IEvaluationListener.EventTypes.valueOf(str);
 	}
-	public EvaluationEvents getEvaluationEvent() {
+	public IEvaluationListener.EvaluationEvents getEvaluationEvent() {
 		return ee;
 	}
 }

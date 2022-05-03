@@ -77,11 +77,11 @@ function getPixels( ln1, lt1, ln2, lt2 ){
 	let pixel2 = map.getPixelFromCoordinate( coord2 );
 	let results = null;
 	try{
-		let diff = math.subtract( pixel2, pixel1);
+		let diff = Math.subtract( pixel2, pixel1);
 		let length = parseInt( math.distance( pixel1, pixel2));
 		results = new Array(length);
 		for( let i=0; i<length; i++){
-			let vec = math.add( pixel1, math.multiply(diff, i/length ));
+			let vec = Math.add( pixel1, math.multiply(diff, i/length ));
 			results[i] = context.getImageData(vec[0], vec[1], 1, 1).data;
 		}
 	}
@@ -111,6 +111,62 @@ function getAreaPixels( ln1, lt1, length, width ){
 	return results;
 }
 
+function toRadians( angle ){
+	let degrees	= ( 360 + angle)%360;
+	return degrees*Math.PI/180;
+}
+
+
+function getAreaPixelsWithAngle( ln1, lt1, length, width, angle ){
+	if( context == null )
+		return;
+	let lat1 = parseFloat( lt1 );
+	let lon1 = parseFloat( ln1 );
+	let coord1 = ol.proj.transform( [lon1, lat1], 'EPSG:4326', 'EPSG:3857' );
+	let pixel = map.getPixelFromCoordinate( coord1 );
+	let results = new Array(length*width);
+	let counter = 0;
+	let halfLength = pixel[0]-parseInt(length/2);
+	for( let j=0; j<width; j++){
+		let y = correction*j/view.getResolution();
+		for( let i=0; i<length; i++){
+			let x = correction*i/view.getResolution();
+			if( x<0.001) x=0.001;	
+		    let phi = Math.atan(y/x) - toRadians(180+angle );
+			let len = Math.sqrt(x*x+y*y);
+			let xa = halfLength + parseInt(len*Math.cos(phi));
+			let ya = pixel[1] + parseInt(len*Math.sin(phi)); 
+			results[counter] = context.getImageData(xa, ya, 1, 1).data;
+			counter++;
+		}
+	}
+	return results;
+}
+
+function getPanorama( ln1, lt1, length, width, angle ){
+	if( context == null )
+		return;
+	let lat1 = parseFloat( lt1 );
+	let lon1 = parseFloat( ln1 );
+	let coord1 = ol.proj.transform( [lon1, lat1], 'EPSG:4326', 'EPSG:3857' );
+	let pixel = map.getPixelFromCoordinate( coord1 );
+	let results = new Array(length*width);
+	let counter = 0;
+	let halfLength = pixel[0]-parseInt(length/2);
+	for( let j=0; j<width; j++){
+		let diffy = parseInt( correction*j/view.getResolution());
+		for( let i=0; i<length; i++){
+			let diffx = parseInt( correction*i/view.getResolution());	
+			let phi = Math.atan(diffy, diffx) + angle * Math.PI/180;
+			let len = Math.sqrt(diffx*diffx+diffy*diffy);
+			let xa = halfLength + parseInt(len*Math.cos(phi));
+			let ya = pixel[1] + parseInt(len*Math.sin(phi)); 
+			results[counter] = context.getImageData(xa, ya, 1, 1).data;
+			counter++;
+		}
+	}
+	return results;
+}
 /**
  * Send the given coordinates as a JAVA callback
  * @param coordinates

@@ -193,23 +193,7 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 
 	@Override
 	public Object[] evaluate( String query ) {
-		StringBuilder builder = new StringBuilder();
-		builder.append( "return ");
-		builder.append( query );
-		builder.append("();");
-		Object[] results = null;
-		try {
-			logger.fine(query);
-			results = (Object[]) browser.evaluate( builder.toString() );
-		}
-		catch( IllegalStateException ex ) {
-			if( this.warnPending )
-				logger.info(ex.getMessage());
-			else {
-				logger.fine(ex.getMessage());				
-			}
-		}
-		return results;
+		return this.evaluate( query, null );
 	}
 	
 	@Override
@@ -219,16 +203,23 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		builder.append( "return ");
 		builder.append( query );
 		builder.append("(");
-		for( int i=0; i<params.length; i++ ) {
-			String p = params[i];
-			builder.append(p);
-			if( i < params.length -1)
-				builder.append(",");
+		if( !Utils.assertNull(params)) {
+			for( int i=0; i<params.length; i++ ) {
+				String p = params[i];
+				builder.append(p);
+				if( i < params.length -1)
+					builder.append(",");
+			}
 		}
 		builder.append(");");
+		Object[] results = evaluate( builder );
+		this.busy = false;
+		return results;
+	}
+
+	private Object[] evaluate( StringBuilder builder ) {
 		Object[] results = null;
 		try {
-			logger.fine(query);
 			results = (Object[]) browser.evaluate( builder.toString() );
 		}
 		catch( IllegalStateException ex ) {
@@ -238,7 +229,6 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 				logger.info(ex.getMessage());				
 			}
 		}
-		this.busy = false;
 		return results;
 	}
 
@@ -280,17 +270,17 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 
 	@Override
 	public synchronized void setQuery( CommandTypes type, String function ){
-		controller.setQuery(type, function, new String[0], false);
+		controller.setQuery(type, function, new String[0], false, false );
 	}
 
 	@Override
 	public synchronized void setQuery( String function, String[] params, boolean array ){
-		controller.setQuery( CommandTypes.SEQUENTIAL, function, params, array);
+		controller.setQuery( CommandTypes.SEQUENTIAL, function, params, array, false);
 	}
 
 	@Override
-	public synchronized void setQuery( CommandTypes type, String function, String[] params, boolean array ){
-		controller.setQuery(type, function, params, array);
+	public synchronized void setQuery( CommandTypes type, String function, String[] params, boolean array, boolean results ){
+		controller.setQuery(type, function, params, array, results);
 	}
 
 	 /* Create a default call back function for javascript handling
@@ -388,9 +378,9 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		 * @param function
 		 * @param params
 		 */
-		public synchronized void setQuery( CommandTypes type, String function, String[] params, boolean array ){
+		public synchronized void setQuery( CommandTypes type, String function, String[] params, boolean array, boolean results ){
 			try {
-				Command command = new Command( type, function, Arrays.asList( params ), array);
+				Command command = new Command( type, function, Arrays.asList( params ), array, results);
 				if(!this.commands.contains(command))
 					this.commands.add( command );
 			}
@@ -402,45 +392,46 @@ public abstract class AbstractJavascriptController implements IJavascriptControl
 		private void handleTimer() {
 			if( !initialised )
 				return;
-			try {
-				if( Utils.assertNull(this.commands)) {
-					return;
-				}
-				if( busy || Utils.assertNull(this.commands)) {
-					return;
-				}
-				busy = true;
-				
-				StringBuilder builder = new StringBuilder();
-				while( !commands.isEmpty()) {
-					Command command = this.commands.remove(0);
-					if( command == null )
-						continue;
-					builder.append(command.getFunction());
-				}
-				browser.getDisplay().asyncExec( new Runnable() {
+			if( Utils.assertNull(this.commands)) {
+				return;
+			}
+			if( busy || Utils.assertNull(this.commands)) {
+				return;
+			}
+			busy = true;
 
-					@Override
-					public void run() {
+			browser.getDisplay().asyncExec( new Runnable() {
+
+				@Override
+				public void run() {
+					try {
+						StringBuilder builder = new StringBuilder();
+						Command command = null;
+						while( !commands.isEmpty()) {
+							command = commands.remove(0);
+							if( command == null )
+								continue;
+							builder.append(command.getFunction());
+							if( command.hasResults())
+								break;
+						}
 						String commands = builder.toString();
 						if( StringUtils.isEmpty(commands))
 							return;
-						try {
-							browser.evaluate(commands);
-						} catch (Exception e) {
-							logger.warning(e.getMessage() + "\n\t" + commands);
-						}
-						finally {
-							busy=false;
-						}
+						Object[] results = (Object[]) browser.evaluate(commands);
+						if( !Utils.assertNull( results ))
+							notifyEvaluation( new EvaluationEvent<>( this, command, id, IEvaluationListener.EvaluationEvents.PERFORMED, results ));
+					} catch (Exception e) {
+						logger.warning(e.getMessage() + "\n\t" + commands);
 					}
-					
-				});
-			}
-			finally {
-			}
+					finally {
+						busy=false;
+					}
+				}
+
+			});
 		}
-		
+
 		@Override
 		public String toString() {
 			StringBuilder builder = new StringBuilder();

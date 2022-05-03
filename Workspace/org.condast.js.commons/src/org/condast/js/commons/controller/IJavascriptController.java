@@ -49,6 +49,10 @@ public interface IJavascriptController {
 	 */
 	Object[] evaluate(String query, String[] params);
 
+	//Object[] evaluate(Command command);
+
+	//Object[] evaluate(Command command, String[] params);
+
 	void addEvaluationListener(IEvaluationListener<Object> listener);
 
 	void removeEvaluationListener(IEvaluationListener<Object> listener);
@@ -65,7 +69,7 @@ public interface IJavascriptController {
 
 	void setQuery(String function, String[] params, boolean array);
 
-	void setQuery(CommandTypes type, String function, String[] params, boolean array);
+	void setQuery(CommandTypes type, String function, String[] params, boolean array, boolean results);
 
 	/**
 	 * returns true if the controller has not pening commands

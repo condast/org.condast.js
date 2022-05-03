@@ -1,6 +1,5 @@
 package org.condast.js.commons.controller;
 
-import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.Collection;
 import java.util.Map;
@@ -11,35 +10,37 @@ import org.condast.js.commons.controller.AbstractView.CommandTypes;
 public class Command implements Map.Entry<String, String[]>, Comparable<Command>{
 	
 	private CommandTypes type;
-	private String key;
-	private Collection<String> value;
+	private String command;
+	private Collection<String> parameters;
 	private boolean array;
-	private boolean completed;
-	private Collection<Object> results;
+	private boolean results;
+
+	public Command( CommandTypes type, String key, Collection<String> paramaters, boolean array) {
+		this( type, key, paramaters, array, false );
+	}
 	
-	public Command( CommandTypes type, String key, Collection<String> value, boolean array) {
+	public Command( CommandTypes type, String key, Collection<String> paramaters, boolean array, boolean results) {
 		super();
 		this.type = type;
 		this.array = array;
-		this.key = key;
-		this.value = value;
-		this.completed = false;
-		this.results = new ArrayList<>();
+		this.command = key;
+		this.parameters = paramaters;
+		this.results = results;
 	}
 
 	@Override
 	public String getKey() {
-		return key;
+		return command;
 	}
 
 	@Override
 	public String[] getValue() {
-		return value.toArray( new String[ value.size()]);
+		return parameters.toArray( new String[ parameters.size()]);
 	}
 
 	@Override
 	public String[] setValue(String[] value) {
-		this.value = Arrays.asList(value);
+		this.parameters = Arrays.asList(value);
 		return getValue();
 	}
 
@@ -47,35 +48,30 @@ public class Command implements Map.Entry<String, String[]>, Comparable<Command>
 		return array;
 	}
 
-	public boolean isCompleted() {
-		return completed;
-	}
-
-	public void setCompleted(boolean completed) {
-		this.completed = completed;
-	}
-
-	public Collection<Object> getResults() {
+	/**
+	 * Returns true if the command generates results
+	 */
+    public boolean hasResults() {
 		return results;
 	}
 
-	public void setResults(Collection<Object> results) {
+	public void setResults(boolean results) {
 		this.results = results;
 	}
 
-    /**
+	/**
 	 * Create the correct string from the function enum
 	 * @param function
 	 * @param params
 	 * @return
 	 */
 	public String getFunction(){
-		return setFunction(this.key, getValue(), array );
+		return setFunction(this.command, getValue(), array );
 	}
 	
 	@Override
 	public int hashCode() {
-		return setFunction(key, getValue(), array ).hashCode();
+		return setFunction(command, getValue(), array ).hashCode();
 	}
 
 	@Override
@@ -92,24 +88,30 @@ public class Command implements Map.Entry<String, String[]>, Comparable<Command>
 	public int compareTo(Command o) {
 		if( super.equals(o))
 			return 0;
+		//Always put the commands with results to the end
+		if( this.results && !o.hasResults())
+			return -1;
+		else if( !this.results && o.hasResults())
+			return 1;
+		
 		int result = 0;
 		switch( type ){
 		case EQUAL:
-			result = key.compareTo(o.getKey());
+			result = command.compareTo(o.getKey());
 			break;
 		case EQUAL_ATTR:
-			result = key.compareTo(o.getKey());
+			result = command.compareTo(o.getKey());
 			if( result != 0 )
 				break;
-			result = (( value == null ) && ( o.getValue() == null ))?0: (( value == null ) && ( o.getValue() != null ))?-1:
-				 (( value != null ) && ( o.getValue() == null ))?1:0;
-			if(( result != 0) || ( value == null ))
+			result = (( parameters == null ) && ( o.getValue() == null ))?0: (( parameters == null ) && ( o.getValue() != null ))?-1:
+				 (( parameters != null ) && ( o.getValue() == null ))?1:0;
+			if(( result != 0) || ( parameters == null ))
 				break;
-			result = ( value.size() > o.getValue().length)?1:( value.size()< o.getValue().length)?-1:0;
+			result = ( parameters.size() > o.getValue().length)?1:( parameters.size()< o.getValue().length)?-1:0;
 			if( result != 0 )
 				break;
 			int index = 0;
-			for( String str: value ) {
+			for( String str: parameters ) {
 				result = str.compareTo(o.getValue()[index++]);
 				if( result != 0)
 					break;

@@ -39,6 +39,7 @@ public interface IEvaluationListener<T extends Object> {
 		EVENT,
 		INITIALISED,
 		CHANGED,
+		PERFORMED,
 		SUCCEEDED,
 		FAILED
 	}

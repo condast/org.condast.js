@@ -2,6 +2,8 @@ package org.openlayer.map.control;
 
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 import org.condast.commons.Utils;
 import org.condast.commons.data.colours.RGBA;
@@ -18,7 +20,8 @@ public class PixelView extends AbstractView<PixelView.Commands>{
 		GET_LOCATION,
 		GET_PIXEL,
 		GET_PIXELS,
-		GET_AREA_PIXELS;
+		GET_AREA_PIXELS,
+		GET_AREA_PIXELS_WITH_ANGLE;
 
 		public CommandTypes getCommandType() {
 			CommandTypes type = CommandTypes.SEQUENTIAL;
@@ -136,7 +139,7 @@ public class PixelView extends AbstractView<PixelView.Commands>{
 	 * @param first
 	 * @return
 	 */
-	public List<RGBA> getPixelsColours( IField field ){
+	public Map<Integer, List<RGBA>> getPixelsColours( IField field ){
 		return getPixelsColours( field.getCoordinates(), field.getLength(), field.getWidth());
 	}
 	
@@ -145,7 +148,21 @@ public class PixelView extends AbstractView<PixelView.Commands>{
 	 * @param first
 	 * @return
 	 */
-	public List<RGBA> getPixelsColours( LatLng first, long length, long width ){
+	public void requestPixelsColours( LatLng first, long length, long width ){
+		String[] params = new String[4];
+		params[0] = String.valueOf( first.getLongitude() );
+		params[1] = String.valueOf( first.getLatitude() );
+		params[2] = String.valueOf( length );
+		params[3] = String.valueOf( width );
+		super.perform( Commands.GET_AREA_PIXELS, params, true, true );	
+	}
+
+	/**
+	 * Get the pixels for the given field
+	 * @param first
+	 * @return
+	 */
+	public Map<Integer, List<RGBA>> getPixelsColours( LatLng first, long length, long width ){
 		String[] params = new String[4];
 		params[0] = String.valueOf( first.getLongitude() );
 		params[1] = String.valueOf( first.getLatitude() );
@@ -155,10 +172,47 @@ public class PixelView extends AbstractView<PixelView.Commands>{
 		Object[] results = getController().evaluate( query, params);
 		if( results == null )
 			return null;
-		List<RGBA> rgbs = new ArrayList<>();
-		for( Object result: results ) {
-			rgbs.add( new RGBA((Object[])result ));
-		}
-		return rgbs;		
+		return getRadar( length, results);		
 	}
+	
+	/**
+	 * Get the pixels for the given field
+	 * @param first
+	 * @return
+	 */
+	public Map<Integer, List<RGBA>> getPixelsColours( LatLng first, long length, long width, double angle ){
+		String[] params = new String[5];
+		params[0] = String.valueOf( first.getLongitude() );
+		params[1] = String.valueOf( first.getLatitude() );
+		params[2] = String.valueOf( length );
+		params[3] = String.valueOf( width );
+		params[4] = String.valueOf( angle );
+		String query = Commands.GET_AREA_PIXELS_WITH_ANGLE.toString();
+		Object[] results = getController().evaluate( query, params);
+		return getRadar( length, results);		
+	}
+
+	/**
+	 * Get the pixels for the given field
+	 * @param first
+	 * @return
+	 */
+	private static Map<Integer, List<RGBA>> getRadar( long length, Object[] results ){
+		if( results == null )
+			return null;
+		Map<Integer, List<RGBA>> radar = new TreeMap<>();
+		int y=results.length;
+		for( Object result: results ) {
+			List<RGBA> rgbs = radar.get(y);
+			if( rgbs == null ) {
+				rgbs = new ArrayList<>();
+				radar.put(y, rgbs);
+			}
+			rgbs.add( new RGBA((Object[])result ));
+			if( rgbs.size() >= length )
+				y--;
+		}
+		return radar;		
+	}
+
 }
