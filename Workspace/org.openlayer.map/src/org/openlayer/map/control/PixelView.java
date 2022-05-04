@@ -21,6 +21,7 @@ public class PixelView extends AbstractView<PixelView.Commands>{
 		GET_PIXEL,
 		GET_PIXELS,
 		GET_AREA_PIXELS,
+		GET_AREA_PIXELS_WITH_OFFSET,
 		GET_AREA_PIXELS_WITH_ANGLE;
 
 		public CommandTypes getCommandType() {
@@ -148,20 +149,6 @@ public class PixelView extends AbstractView<PixelView.Commands>{
 	 * @param first
 	 * @return
 	 */
-	public void requestPixelsColours( LatLng first, long length, long width ){
-		String[] params = new String[4];
-		params[0] = String.valueOf( first.getLongitude() );
-		params[1] = String.valueOf( first.getLatitude() );
-		params[2] = String.valueOf( length );
-		params[3] = String.valueOf( width );
-		super.perform( Commands.GET_AREA_PIXELS, params, true, true );	
-	}
-
-	/**
-	 * Get the pixels for the given field
-	 * @param first
-	 * @return
-	 */
 	public Map<Integer, List<RGBA>> getPixelsColours( LatLng first, long length, long width ){
 		String[] params = new String[4];
 		params[0] = String.valueOf( first.getLongitude() );
@@ -174,7 +161,25 @@ public class PixelView extends AbstractView<PixelView.Commands>{
 			return null;
 		return getRadar( length, results);		
 	}
-	
+
+	/**
+	 * Get the pixels for the given field
+	 * @param first
+	 * @return
+	 */
+	public Map<Integer, List<RGBA>> getPixelsColourswithOffset( LatLng first, long length, long width ){
+		String[] params = new String[4];
+		params[0] = String.valueOf( first.getLongitude() );
+		params[1] = String.valueOf( first.getLatitude() );
+		params[2] = String.valueOf( length );
+		params[3] = String.valueOf( width );
+		String query = Commands.GET_AREA_PIXELS_WITH_OFFSET.toString();
+		Object[] results = getController().evaluate( query, params);
+		if( results == null )
+			return null;
+		return getRadar( length, results);		
+	}
+
 	/**
 	 * Get the pixels for the given field
 	 * @param first

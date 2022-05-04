@@ -15,6 +15,7 @@ public class MapField extends AbstractView<MapField.Commands>{
 		REFRESH,
 		CLEAR_FIELD,
 		GET_PIXEL,
+		SET_ROTATION,
 		SET_STROKE,
 		SET_STYLE,
 		SET_LINE_STYLE,
@@ -88,6 +89,19 @@ public class MapField extends AbstractView<MapField.Commands>{
 	public String clearField(){
 		String query = Commands.CLEAR_FIELD.toString();
 		getController().setQuery( Commands.CLEAR_FIELD.getCommandType(), query );
+		return query;		
+	}
+
+	/**
+	 * rotate the map in degrees
+	 * @param angle
+	 * @return
+	 */
+	public String setRotation( int angle ){
+		String[] params = new String[1];
+		params[0] = String.valueOf( angle );
+		String query = Commands.SET_ROTATION.toString();
+		getController().setQuery( query, params, false );
 		return query;		
 	}
 

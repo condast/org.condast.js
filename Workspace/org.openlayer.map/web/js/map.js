@@ -48,6 +48,15 @@ function setLocation( latitude, longitude, zoom ){
 	view.setZoom( parseInt( zoom ));
 }
 
+function toRadians( angle ){
+	let degrees	= ( 360 + angle)%360;
+	return degrees*Math.PI/180;
+}
+
+function setRotation( angle ){
+	map.getView().setRotation( toRadians( angle ));	
+}
+
 function getPixel( latitude, longitude ){
 	if( context == null )
 		return;
@@ -97,13 +106,13 @@ function getAreaPixels( ln1, lt1, length, width ){
 	let lat1 = parseFloat( lt1 );
 	let lon1 = parseFloat( ln1 );
 	let coord1 = ol.proj.transform( [lon1, lat1], 'EPSG:4326', 'EPSG:3857' );
-	let pixel1 = map.getPixelFromCoordinate( coord1 );
+	let pixel = map.getPixelFromCoordinate( coord1 );
 	let results = new Array(length*width);
 	let counter = 0;
 	for( let j=0; j<width; j++){
-		let y = pixel1[1] + parseInt( correction*j/view.getResolution());
+		let y = pixel[1] + parseInt( correction*j/view.getResolution());
 		for( let i=0; i<length; i++){
-			let x = pixel1[0] + parseInt( correction*i/view.getResolution());		
+			let x = pixel[0] + parseInt( correction*i/view.getResolution());		
 			results[counter] = context.getImageData(x, y, 1, 1).data;
 			counter++;
 		}
@@ -111,11 +120,26 @@ function getAreaPixels( ln1, lt1, length, width ){
 	return results;
 }
 
-function toRadians( angle ){
-	let degrees	= ( 360 + angle)%360;
-	return degrees*Math.PI/180;
+function getAreaPixelsWithOffset( ln1, lt1, length, width ){
+	if( context == null )
+		return;
+	let lat1 = parseFloat( lt1 );
+	let lon1 = parseFloat( ln1 );
+	let coord1 = ol.proj.transform( [lon1, lat1], 'EPSG:4326', 'EPSG:3857' );
+	let pixel = map.getPixelFromCoordinate( coord1 );
+	let results = new Array(length*width);
+	let counter = 0;
+	let halfLength = pixel[0]-parseInt(length/2);
+	for( let j=0; j<width; j++){
+		let y = pixel[1] - parseInt( correction*j/view.getResolution());
+		for( let i=0; i<length; i++){
+			let x = halfLength + parseInt( correction*i/view.getResolution());		
+			results[counter] = context.getImageData(x, y, 1, 1).data;
+			counter++;
+		}
+	}
+	return results;
 }
-
 
 function getAreaPixelsWithAngle( ln1, lt1, length, width, angle ){
 	if( context == null )
@@ -131,11 +155,12 @@ function getAreaPixelsWithAngle( ln1, lt1, length, width, angle ){
 		let y = correction*j/view.getResolution();
 		for( let i=0; i<length; i++){
 			let x = correction*i/view.getResolution();
-			if( x<0.001) x=0.001;	
-		    let phi = Math.atan(y/x) - toRadians(180+angle );
-			let len = Math.sqrt(x*x+y*y);
+			let xdiff = Math.abs( pixel[0]-x );
+			if( xdiff<0.000001)xdiff=0.000001;	
+		    let phi = Math.atan(y/(pixel[0]-x)) - toRadians(10+angle );
+			let len = Math.sqrt(xdiff*xdiff+y*y);
 			let xa = halfLength + parseInt(len*Math.cos(phi));
-			let ya = pixel[1] + parseInt(len*Math.sin(phi)); 
+			let ya = pixel[1] - parseInt(len*Math.sin(phi)); 
 			results[counter] = context.getImageData(xa, ya, 1, 1).data;
 			counter++;
 		}
