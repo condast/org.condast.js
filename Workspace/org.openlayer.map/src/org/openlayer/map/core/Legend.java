@@ -1,12 +1,15 @@
 package org.openlayer.map.core;
 
 import java.util.ArrayList;
+import java.util.Collection;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
 import java.util.Map;
 import java.util.Scanner;
+import java.util.TreeMap;
 
+import org.condast.commons.Utils;
 import org.condast.commons.data.colours.RGBA;
 import org.condast.commons.strings.StringStyler;
 import org.condast.commons.strings.StringUtils;
@@ -54,6 +57,8 @@ public class Legend {
 	private List<Surroundings> area;
 	private int scanArea;
 	private Surroundings current;
+	
+	private static Map<RGBA, Surroundings> map = Legend.getSurroundings();
 
 	public Legend() {
 		this( DEFAULT_SCAN_AREA);
@@ -64,10 +69,23 @@ public class Legend {
 		this.scanArea = scanArea;
 	}
 
-	public Surroundings scanArea( int[] rgba ) {
-		Surroundings surr = getLegend(rgba );
+	public static Map<RGBA, Surroundings> getMap(){
+		return map;
+	}
+	
+	public List<Surroundings> getArea() {
+		return area;
+	}
+
+	public Surroundings getCurrent() {
+		return current;
+	}
+
+	public Surroundings scanArea( RGBA rgba ) {
 		if( area.size() >= this.scanArea)
 			area.remove(0);
+		
+		Surroundings surr = getLegend(rgba );
 		switch( surr ) {
 		case UNKNOWN:
 			if( !Surroundings.WATER.equals(current))
@@ -92,9 +110,10 @@ public class Legend {
 			area.add(surr);
 			break;
 		}
+		
 		current = surr;
 		current =  ( surr == null )? Surroundings.UNKNOWN: surr;
-		current.setRgba(rgba);
+		current.setRgba(rgba.toArray());
 		return current;
 	}
 
@@ -146,7 +165,7 @@ public class Legend {
 				str.startsWith("*");
 	}
 
-	public static Map<RGBA,Legend.Surroundings> getLegend() {
+	private static Map<RGBA,Legend.Surroundings> getSurroundings() {
 		Map<RGBA, Legend.Surroundings> results = new HashMap<>();
 		Scanner scanner = new Scanner( Legend.class.getResourceAsStream(S_LEGEND_LOC));
 		try {
@@ -175,10 +194,79 @@ public class Legend {
 		return results;
 	}
 
-	public static Surroundings getLegend( int[] rgba ) {
-		Map<RGBA, Surroundings> legend = Legend.getLegend();
-		Surroundings surr = ( rgba == null )? Surroundings.UNKNOWN: legend.get( new RGBA( rgba ));
+	public static Map<Integer, List<RGBA>> getImage( Collection<Legend> legends ) {
+		Map<Integer, List<RGBA>> results = new HashMap<>();
+		int index = 0;
+		for( Legend legend: legends) {
+			results.put( index++, getColours( legend ));
+			return results;
+		}
+		return results;
+	}
+
+	public static List<RGBA> getColours( Legend legend ){
+		List<RGBA> results = new ArrayList<>();
+		legend.area.forEach( s->{ results.add( new RGBA( s.rgba ));});
+		return results;
+	}
+	
+	public Surroundings getLegend( RGBA rgba ) {
+		Surroundings surr = ( rgba == null )? Surroundings.UNKNOWN: map.get( rgba );
 		return ( surr == null )? Surroundings.UNKNOWN: surr;
 	}
 
+	public static Map<Integer, List<Legend>> getLegends( Map<Integer,List<RGBA>> radarData ){
+		return getLegends(1, radarData);
+	}
+	
+	public static Map<Integer, List<Legend>> getLegends( int radius, Map<Integer,List<RGBA>> radarData ){
+		Map<Integer, List<Legend>> legends = new TreeMap<>();
+		if( Utils.assertNull(radarData ))
+			return legends;
+		radarData.entrySet().forEach( e->{ 
+			int centre = e.getKey();
+			List<RGBA> colours = e.getValue();
+
+			for( int o=0; o<colours.size(); o++ ){
+				try {
+ 					Collection<RGBA> area = new ArrayList<>();
+					area.add(colours.get(o));
+					
+					List<Legend> row = legends.get(centre);
+					if( row == null ) {
+						row = new ArrayList<Legend>();
+						legends.put(centre, row);
+					}
+									
+					for( int i=0; i<2*radius; i++ ) {
+						int y = centre-radius +i ;
+						if( !radarData.containsKey(y ))
+							continue;
+
+						List<RGBA> rrow = radarData.get(y);
+						int length = rrow.size();
+						for( int j=0; j<=radius; j++ ) {
+							int x = o-radius +j ;
+							if(( x<0 ) || ( x >= length ))
+								continue;
+							area.add(rrow.get(x));
+						}
+					}
+
+					int size = ( area.size()==0?1:area.size());
+					Legend legend = new Legend( size);
+					row.add(legend);
+					if( Utils.assertNull(area))
+						return;
+
+					for( RGBA rgba: area )
+						legend.scanArea( rgba);
+
+				} catch (Exception e1) {
+					e1.printStackTrace();
+				}
+			};
+		});
+		return legends;
+	}
 }

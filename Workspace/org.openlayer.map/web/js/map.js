@@ -171,7 +171,7 @@ function getAreaPixelsRotation( ln1, lt1, length, width ){
             counter++;
         }
     }
-    document.body.appendChild(canvas);
+    context = newContext;
     return results;
 }
 
@@ -202,30 +202,6 @@ function getAreaPixelsWithAngle( ln1, lt1, length, width, angle ){
 	return results;
 }
 
-function getPanorama( ln1, lt1, length, width, angle ){
-	if( context == null )
-		return;
-	let lat1 = parseFloat( lt1 );
-	let lon1 = parseFloat( ln1 );
-	let coord1 = ol.proj.transform( [lon1, lat1], 'EPSG:4326', 'EPSG:3857' );
-	let pixel = map.getPixelFromCoordinate( coord1 );
-	let results = new Array(length*width);
-	let counter = 0;
-	let halfLength = pixel[0]-parseInt(length/2);
-	for( let j=0; j<width; j++){
-		let diffy = parseInt( correction*j/view.getResolution());
-		for( let i=0; i<length; i++){
-			let diffx = parseInt( correction*i/view.getResolution());	
-			let phi = Math.atan(diffy, diffx) + angle * Math.PI/180;
-			let len = Math.sqrt(diffx*diffx+diffy*diffy);
-			let xa = halfLength + parseInt(len*Math.cos(phi));
-			let ya = pixel[1] + parseInt(len*Math.sin(phi)); 
-			results[counter] = context.getImageData(xa, ya, 1, 1).data;
-			counter++;
-		}
-	}
-	return results;
-}
 /**
  * Send the given coordinates as a JAVA callback
  * @param coordinates
