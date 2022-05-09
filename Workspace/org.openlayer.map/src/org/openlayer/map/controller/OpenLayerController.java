@@ -62,7 +62,6 @@ public class OpenLayerController extends AbstractJavascriptController{
 		}
 		browser.setText( builder.toString());
 		this.callback = createCallBackFunction( S_CALLBACK_ID, S_CALLBACK_FUNCTION );	
-		//this.timer = createCallBackFunction( S_TIMER_ID, S_TIMER_FUNCTION );	
 	}
 
 	@Override

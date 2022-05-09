@@ -46,6 +46,7 @@ function setLocation( latitude, longitude, zoom ){
 	center = ol.proj.transform([ln, lt], 'EPSG:4326', 'EPSG:3857');
 	view.setCenter( center );
 	view.setZoom( parseInt( zoom ));
+	map.updateSize();
 }
 
 function toRadians( angle ){
@@ -55,6 +56,7 @@ function toRadians( angle ){
 
 function setRotation( angle ){
 	map.getView().setRotation( toRadians( angle ));	
+	map.updateSize();
 }
 
 function getPixel( latitude, longitude ){
@@ -120,6 +122,77 @@ function getAreaPixels( ln1, lt1, length, width ){
 	return results;
 }
 
+function getSituationalAwareness( ln1, lt1, radius, sample ){
+    if( context == null )
+        return;
+ 
+    let lat1 = parseFloat( lt1 );
+    let lon1 = parseFloat( ln1 );    
+    center = ol.proj.transform( [lon1, lat1], 'EPSG:4326', 'EPSG:3857' );
+    let pixel = map.getPixelFromCoordinate( center );
+
+    let projection = view.getProjection();
+    let resolutionAtCoords = ol.proj.getPointResolution( projection, view.getResolution(), center );
+    
+    let adjust = sample*radius;	
+    let resolution = resolutionAtCoords*sample;
+    let half = parseInt(adjust/2);
+
+    let results = new Array(adjust*adjust);
+    
+    let counter = 0;
+    for( let j=0; j<adjust; j++){
+        let y = pixel[1] - parseInt((j-half)/resolution);
+        for( let i=0; i<adjust; i++){
+            let x = pixel[0] + parseInt((i-half)/resolution);     
+            results[counter] = context.getImageData(x, y, 1, 1).data;
+            counter++;
+        }
+    }
+	view.setCenter( center );
+    return results;
+}
+
+/**
+* @See: https://codepen.io/mike-000/pen/eYVNGNM
+* @See: https://stackoverflow.com/questions/72113059/openlayers-4-getting-pixels-from-a-rotated-map?noredirect=1#comment127421948_72113059
+*/
+function getAreaPixelsRotation( ln1, lt1, length, width, sample ){
+    if( context == null )
+        return;
+    let lat1 = parseFloat( lt1 );
+    let lon1 = parseFloat( ln1 );
+    center = ol.proj.transform( [lon1, lat1], 'EPSG:4326', 'EPSG:3857' );
+    let pixel = map.getPixelFromCoordinate( center );
+    
+    let projection = view.getProjection();
+    let resolution = sample*ol.proj.getPointResolution( projection, view.getResolution(), center );
+
+    let halfLength = parseInt(sample*length/2);
+    let halfWidth = parseInt(sample*width/2 );
+	console.log(pixel[0]);
+	console.log(pixel[1]);
+    let canvas = document.createElement('canvas');
+    canvas.width = parseInt( length*resolution);
+    canvas.height = parseInt( width*resolution);
+    let newContext = canvas.getContext('2d');
+    newContext.rotate( view.getRotation());
+    newContext.drawImage(context.canvas, -pixel[0], -pixel[1]);
+
+    let results = new Array(sample*length*sample*width);
+    let counter = 0;
+    for( let j=sample*length; j>=0; j--){
+        let y = parseInt((j-halfWidth)/resolution);
+        for( let i=0; i<sample*width; i++){
+            let x = parseInt((i-halfLength)/resolution);     
+            results[counter] = newContext.getImageData(x, y, 1, 1).data;
+            counter++;
+        }
+    }
+	view.setCenter( center );
+    return results;
+}
+
 function getAreaPixelsWithOffset( ln1, lt1, length, width ){
 	if( context == null )
 		return;
@@ -131,48 +204,14 @@ function getAreaPixelsWithOffset( ln1, lt1, length, width ){
 	let counter = 0;
 	let halfLength = pixel[0]-parseInt(length/2);
 	for( let j=0; j<width; j++){
-		let y = pixel[1] - parseInt( correction*j/view.getResolution());
+		let y = pixel[1] - parseInt( j/view.getResolution());
 		for( let i=0; i<length; i++){
-			let x = halfLength + parseInt( correction*i/view.getResolution());		
+			let x = parseInt( (halfLength + i)/view.getResolution());		
 			results[counter] = context.getImageData(x, y, 1, 1).data;
 			counter++;
 		}
 	}
 	return results;
-}
-
-/**
-* @See: https://codepen.io/mike-000/pen/eYVNGNM
-* @See: https://stackoverflow.com/questions/72113059/openlayers-4-getting-pixels-from-a-rotated-map?noredirect=1#comment127421948_72113059
-*/
-function getAreaPixelsRotation( ln1, lt1, length, width ){
-    if( context == null )
-        return;
-    let lat1 = parseFloat( lt1 );
-    let lon1 = parseFloat( ln1 );
-    let coord1 = ol.proj.transform( [lon1, lat1], 'EPSG:4326', 'EPSG:3857' );
-    let pixel = map.getPixelFromCoordinate( coord1 );
-    let halfLength = parseInt(length/2);
-    let halfWidth = parseInt(width/2);
-
-    let canvas = document.createElement('canvas');
-    canvas.width = width;
-    canvas.height = length;
-    let newContext = canvas.getContext('2d');
-    newContext.rotate( view.getRotation());
-    newContext.drawImage(context.canvas, -pixel[0], -pixel[1]);
-    let results = new Array(length*width);
-    let counter = 0;
-    for( let j=width-1; j>=0; j--){
-        let y = parseInt(j/view.getResolution());
-        for( let i=0; i<length; i++){
-            let x = parseInt( i/view.getResolution());     
-            results[counter] = newContext.getImageData(x, y, 1, 1).data;
-            counter++;
-        }
-    }
-    context = newContext;
-    return results;
 }
 
 function getAreaPixelsWithAngle( ln1, lt1, length, width, angle ){

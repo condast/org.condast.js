@@ -16,6 +16,9 @@ import org.condast.js.commons.controller.IJavascriptController;
 
 public class PixelView extends AbstractView<PixelView.Commands>{
 
+	public static final int NO_RESOLUTION = 1;
+	public static final int DEFAULT_RESOLUTION = 3;
+	
 	public static enum Commands{
 		GET_LOCATION,
 		GET_PIXEL,
@@ -23,7 +26,8 @@ public class PixelView extends AbstractView<PixelView.Commands>{
 		GET_AREA_PIXELS,
 		GET_AREA_PIXELS_WITH_OFFSET,
 		GET_AREA_PIXELS_ROTATION,
-		GET_AREA_PIXELS_WITH_ANGLE;
+		GET_AREA_PIXELS_WITH_ANGLE,
+		GET_SITUATIONAL_AWARENESS;
 
 		public CommandTypes getCommandType() {
 			CommandTypes type = CommandTypes.SEQUENTIAL;
@@ -144,7 +148,31 @@ public class PixelView extends AbstractView<PixelView.Commands>{
 	public Map<Integer, List<RGBA>> getPixelsColours( IField field ){
 		return getPixelsColours( field.getCoordinates(), field.getLength(), field.getWidth());
 	}
+
+	/**
+	 * Get the pixels for the given field
+	 * @param first
+	 * @return
+	 */
+	public Object[] getSituationalAwareness( LatLng first, long length ){
+		return getSituationalAwareness(first, length, DEFAULT_RESOLUTION );
+	}
 	
+	/**
+	 * Get the pixels for the given field
+	 * @param first
+	 * @return
+	 */
+	public Object[] getSituationalAwareness( LatLng first, long length, int resolution ){
+		String[] params = new String[4];
+		params[0] = String.valueOf( first.getLongitude() );
+		params[1] = String.valueOf( first.getLatitude() );
+		params[2] = String.valueOf( length );
+		params[3] = String.valueOf( resolution );
+		String query = Commands.GET_SITUATIONAL_AWARENESS.toString();
+		return getController().evaluate( query, params);
+	}
+
 	/**
 	 * Get the pixels for the given field
 	 * @param first
@@ -186,17 +214,15 @@ public class PixelView extends AbstractView<PixelView.Commands>{
 	 * @param first
 	 * @return
 	 */
-	public Map<Integer, List<RGBA>> getPixelsColoursWithRotation( LatLng first, long length, long width ){
-		String[] params = new String[4];
+	public Object[] getPixelsColoursWithRotation( LatLng first, long length, long width, int resolution ){
+		String[] params = new String[5];
 		params[0] = String.valueOf( first.getLongitude() );
 		params[1] = String.valueOf( first.getLatitude() );
 		params[2] = String.valueOf( length );
 		params[3] = String.valueOf( width );
+		params[4] = String.valueOf( resolution );
 		String query = Commands.GET_AREA_PIXELS_ROTATION.toString();
-		Object[] results = getController().evaluate( query, params);
-		if( results == null )
-			return null;
-		return getRadar( length, results);		
+		return getController().evaluate( query, params);
 	}
 
 	/**
@@ -221,18 +247,19 @@ public class PixelView extends AbstractView<PixelView.Commands>{
 	 * @param first
 	 * @return
 	 */
-	private static Map<Integer, List<RGBA>> getRadar( long length, Object[] results ){
-		if( results == null )
+	public static Map<Integer, List<RGBA>> getRadar( long length, Object[] results ){
+		if( Utils.assertNull( results))
 			return null;
 		Map<Integer, List<RGBA>> radar = new TreeMap<>();
 		int y=results.length;
 		for( Object result: results ) {
 			List<RGBA> rgbs = radar.get(y);
-			if( rgbs == null ) {
+			if( Utils.assertNull( rgbs )) {
 				rgbs = new ArrayList<>();
 				radar.put(y, rgbs);
 			}
-			rgbs.add( new RGBA((Object[])result ));
+			RGBA rgba = ( result == null )?new RGBA(): new RGBA((Object[])result );
+			rgbs.add( rgba);
 			if( rgbs.size() >= length )
 				y--;
 		}

@@ -14,7 +14,8 @@ public interface IEvaluationListener<T extends Object> {
 		DRAWEND,
 		ADD_SHAPE,
 		ADDEND_SHAPE,
-		SELECTED;
+		SELECTED,
+		PIXEL;
 
 		@Override
 		public String toString() {
