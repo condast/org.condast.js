@@ -24,7 +24,6 @@ import org.condast.commons.config.Config;
 import org.condast.commons.strings.StringStyler;
 import org.condast.js.commons.parser.AbstractResourceParser;
 
-
 /**
  * @See: https://www.baeldung.com/java-email
  * @author info
@@ -34,9 +33,11 @@ public class MailUtils {
 
 	public static final String S_RESOURCE_CONFIRM = "/resources/confirmation.txt";
 	public static final String S_RESOURCE_CONFIRM_CODE = "/resources/confirmcode.txt";
+	public static final String S_RESOURCE_FORGOT_PASSWORD_CODE = "/resources/forgot.txt";
 
 	public static final String S_PLEASE_CONFIRM_TITLE = "Please Confirm your Registration:";
 	public static final String S_PLEASE_CONFIRM_LOGIN_TITLE = "Please Confirm your Login:";
+	public static final String S_PASSWORD_RECOVERY_TITLE = "Password Recovery:";
 
 	public static final String S_DEFAULT_MAIL_RESOURCE = "/resources/mail.properties";
 
@@ -86,6 +87,7 @@ public class MailUtils {
 		NAME,
 		CONFIRMATION,
 		CONFIRM_CODE,
+		FORGOTTEN,
 		DOMAIN;
 
 		@Override
@@ -111,7 +113,12 @@ public class MailUtils {
 		String msg = createConfirmCodeMail( in, user, domain);
 		sendMail( props, user.getEmail(), S_PLEASE_CONFIRM_LOGIN_TITLE, msg);
 	}
-	
+
+	public static void sendForgotPasswordMail( InputStream in, Properties props, ILoginUser user, String domain ) throws Exception {
+		String msg = createForgotPasswordMail( in, user, domain);
+		sendMail(props, user.getEmail(), S_PASSWORD_RECOVERY_TITLE, msg);
+	}
+
 	public static Properties createProperties( InputStream in ) {
 		Properties props = new Properties();
 		Scanner scanner = new Scanner(in );
@@ -172,6 +179,11 @@ public class MailUtils {
 		return parser.parse( inp );
 	}
 
+	public static String createForgotPasswordMail( InputStream inp, ILoginUser user, String domain ) throws IOException {
+		FileParser parser = new FileParser( new LoginData( user ), domain, user.getSecurity());
+		return parser.parse( inp);
+	}
+
 	private static class FileParser extends AbstractResourceParser{
 
 		private long confirmation;
@@ -195,15 +207,19 @@ public class MailUtils {
 		protected String onHandleLabel(String id, Attributes attr) {
 			String result = null;
 			Config config = new Config();
+			String path = config.getServerContext() + domain;
 			switch( Parameters.getParameter(id)) {
 			case NAME:
 				result = login.getNickName();
 				break;
 			case CONFIRMATION:
-				result = "<a href=" + config.getServerContext() + domain + "/auth/confirm-registration?confirm=" + this.confirmation + ">confirm</a>";
+				result = "<a href=" + path + "/auth/confirm-registration?confirm=" + this.confirmation + ">confirm</a>";
 				break;
 			case CONFIRM_CODE:
-				result = "<a href=" + config.getServerContext() + domain + "/auth/confirm?confirm=" + this.confirmation + ">confirm login</a>";
+				result = "<a href=" + path + "/auth/confirm?confirm=" + this.confirmation + ">confirm login</a>";
+				break;
+			case FORGOTTEN:
+				result = "<a href=" + path + "/restore-password?confirm=" + this.confirmation + ">restore password</a>";
 				break;
 			case DOMAIN:
 				result = domain;
