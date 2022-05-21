@@ -265,5 +265,4 @@ public class PixelView extends AbstractView<PixelView.Commands>{
 		}
 		return radar;		
 	}
-
 }

@@ -11,6 +11,7 @@ import org.condast.commons.strings.StringStyler;
 import org.condast.commons.ui.session.AbstractSessionHandler;
 import org.condast.commons.ui.session.SessionEvent;
 import org.condast.js.commons.eval.EvaluationEvent;
+import org.condast.js.commons.eval.IEvaluationListener;
 import org.condast.js.commons.images.IDefaultMarkers.Markers;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.ProgressEvent;
@@ -53,13 +54,15 @@ public class TestMapBrowser extends Browser {
 		public void changed(ProgressEvent event) {
 		}
 	};
+	
+	private IEvaluationListener<Object> listener= e->onNotifyEvaluation(e);
 
 	private Logger logger = Logger.getLogger( this.getClass().getName() );
 
 	public TestMapBrowser(Composite parent, int style) {
 		super(parent, style);
 		this.mapController = new OpenLayerController( this );
-		this.mapController.addEvaluationListener(e->onNotifyEvaluation(e));
+		this.mapController.addEvaluationListener(listener);
 		this.addProgressListener(plistener);
 		this.handler = new SessionHandler( this.getDisplay() );
 		this.busy = false;
@@ -133,6 +136,7 @@ public class TestMapBrowser extends Browser {
 	}
 	
 	public void dispose() {
+		this.mapController.removeEvaluationListener(listener);
 		this.mapController.dispose();
 		this.removeProgressListener(plistener);
 		super.dispose();
