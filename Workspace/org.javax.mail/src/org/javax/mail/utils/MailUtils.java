@@ -21,8 +21,8 @@ import javax.mail.internet.MimeMultipart;
 import org.condast.commons.authentication.core.LoginData;
 import org.condast.commons.authentication.user.ILoginUser;
 import org.condast.commons.config.Config;
+import org.condast.commons.parser.AbstractResourceParser;
 import org.condast.commons.strings.StringStyler;
-import org.condast.js.commons.parser.AbstractResourceParser;
 
 /**
  * @See: https://www.baeldung.com/java-email

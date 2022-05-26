@@ -10,9 +10,9 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
+import org.condast.commons.parser.AbstractResourceParser;
+import org.condast.commons.parser.AbstractResourceParser.Functions;
 import org.condast.js.commons.parser.AbstractFileParser;
-import org.condast.js.commons.parser.AbstractResourceParser;
-import org.condast.js.commons.parser.AbstractResourceParser.Functions;
 import org.condast.js.commons.utils.StringStyler;
 import org.condast.js.commons.utils.StringUtils;
 import org.condast.js.commons.utils.AuthenticationData.Authentication;

@@ -2,8 +2,9 @@ package org.condast.js.commons.wizard;
 
 import java.io.IOException;
 import java.io.InputStream;
+
+import org.condast.commons.parser.AbstractResourceParser;
 import org.condast.js.commons.parser.AbstractFileParser;
-import org.condast.js.commons.parser.AbstractResourceParser;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.BrowserFunction;
 

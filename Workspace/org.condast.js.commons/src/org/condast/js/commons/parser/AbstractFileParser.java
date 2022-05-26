@@ -6,6 +6,7 @@ import java.io.InputStream;
 import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
+import org.condast.commons.parser.AbstractResourceParser;
 import org.condast.js.commons.utils.AuthenticationData;
 
 public abstract class AbstractFileParser {
