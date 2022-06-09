@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.condast.postcode.api;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.condast.postcode.api.Activator
 Bundle-Vendor: Condast
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: com.google.gson;version="2.7.0",
  javax.servlet;version="3.0.0",
  javax.ws.rs;version="2.0.1",
