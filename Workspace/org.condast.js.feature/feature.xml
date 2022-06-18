@@ -1,0 +1,75 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<feature
+      id="org.condast.js.feature"
+      label="JavaScript Support Feature"
+      version="1.0.0.qualifier">
+
+   <description url="http://www.example.com/description">
+      [Enter Feature Description here.]
+   </description>
+
+   <copyright url="http://www.example.com/copyright">
+      [Enter Copyright Description here.]
+   </copyright>
+
+   <license url="http://www.example.com/license">
+      [Enter License Description here.]
+   </license>
+
+   <requires>
+      <import plugin="org.condast.commons"/>
+      <import plugin="org.eclipse.rap.rwt"/>
+      <import plugin="com.google.gson"/>
+      <import plugin="javax.servlet"/>
+      <import plugin="org.condast.commons.data"/>
+      <import plugin="org.apache.commons.logging"/>
+      <import plugin="org.condast.commons.messaging"/>
+      <import plugin="org.eclipse.osgi"/>
+      <import plugin="org.eclipse.rap.filedialog"/>
+      <import plugin="org.apache.commons.commons-codec"/>
+      <import plugin="slf4j.api"/>
+      <import plugin="javax.ws.rs-api"/>
+   </requires>
+
+   <plugin
+         id="org.condast.js.commons"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.openlayer.map"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="nl.martijndwars.webpush"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.condast.js.push"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"/>
+
+   <plugin
+         id="org.google.geo.mapping.ui"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+   <plugin
+         id="org.javax.mail"
+         download-size="0"
+         install-size="0"
+         version="0.0.0"
+         unpack="false"/>
+
+</feature>

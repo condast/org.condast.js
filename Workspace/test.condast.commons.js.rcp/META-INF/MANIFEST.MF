@@ -1,0 +1,16 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Test Environment for RCP
+Bundle-SymbolicName: test.condast.commons.js.rcp;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Activator: test.condast.commons.js.rcp.Activator
+Bundle-Vendor: Condast
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Automatic-Module-Name: test.condast.commons.js.rcp
+Bundle-ActivationPolicy: lazy
+Require-Bundle: org.eclipse.rap.rwt;bundle-version="[3.0.0,4.0.0)"
+Import-Package: org.condast.commons.strings,
+ org.condast.commons.ui.xml,
+ org.condast.commons.xml,
+ org.osgi.framework
+Service-Component: OSGI-INF/contribution.xml

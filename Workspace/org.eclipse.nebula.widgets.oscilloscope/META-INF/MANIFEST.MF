@@ -1,0 +1,18 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Oscilloscope
+Bundle-SymbolicName: org.eclipse.nebula.widgets.oscilloscope
+Bundle-Version: 1.0.0.qualifier
+Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-Vendor: Eclipse Nebula
+Import-Package: org.eclipse.swt,
+ org.eclipse.swt.events,
+ org.eclipse.swt.graphics,
+ org.eclipse.swt.widgets
+Export-Package: org.eclipse.nebula.widgets.oscilloscope.multichannel;
+  uses:="org.eclipse.swt.events,
+   org.eclipse.swt.graphics,
+   org.eclipse.swt.widgets,
+   javax.sound.sampled"
+Automatic-Module-Name: org.eclipse.nebula.widgets.oscilloscope
+Bundle-ActivationPolicy: lazy

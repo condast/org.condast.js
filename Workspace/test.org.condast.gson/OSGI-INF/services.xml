@@ -1,0 +1,5 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" immediate="false" name="test.org.condast.gson">
+   <implementation class="test.org.condast.gson.service.ServiceComponent"/>
+   <reference bind="addFactory" cardinality="1..n" interface="org.condast.commons.ui.factory.ICompositeFactory" name="org.condast.test.gson.composites" policy="dynamic" unbind="removeFactory"/>
+</scr:component>

@@ -1,0 +1,101 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project
+	xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 
+    http://maven.apache.org/xsd/maven-4.0.0.xsd"
+	xmlns="http://maven.apache.org/POM/4.0.0"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance">
+
+	<modelVersion>4.0.0</modelVersion>
+	<groupId>org.condast.js</groupId>
+	<artifactId>org.condast.js.parent</artifactId>
+	<version>1.0.0-SNAPSHOT</version>
+	<packaging>pom</packaging>
+
+	<properties>
+		<maven.compiler.target>1.8</maven.compiler.target>
+		<maven.compiler.source>1.8</maven.compiler.source>
+		<tycho.version>2.3.0</tycho.version>
+		<generics>P:/GitHub</generics>
+		<project-root>P:/GitHub/org.condast.commons</project-root>
+		<workspace-root>P:/Windows/Condast/Workspace/org.condast.commons</workspace-root>
+		<virgo-root>file:${generics}/Root/Workspace/Virgo</virgo-root>
+		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
+		<condast-commons>file:${generics}/org.condast.commons/Workspace</condast-commons>
+		<condast-js>file:${generics}/org.condast.js/Workspace/</condast-js>
+	</properties>
+
+	<repositories>
+		<repository>
+			<id>org-condast-commons</id>
+			<url>${condast-commons}/org.condast.commons.update/target/site</url>
+			<layout>p2</layout>
+		</repository>
+	</repositories>
+
+	<modules>
+		<module>../org.condast.js.target</module>
+		<module>../nl.martijndwars.webpush</module>
+		<module>../org.condast.js.commons</module>
+		<module>../org.condast.js.push</module>
+		<module>../org.openlayer.map</module>
+		<!-- <module>../org.condast.postcode.api</module> -->
+		<module>../org.google.geo.mapping.ui</module>
+		<module>../org.javax.mail</module>
+		<module>../org.condast.js.feature</module>
+		<module>../org.condast.js.update</module>
+	</modules>
+
+	<build>
+		<plugins>
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>tycho-maven-plugin</artifactId>
+				<version>${tycho.version}</version>
+				<extensions>true</extensions>
+			</plugin>
+
+			<plugin>
+				<groupId>org.eclipse.tycho</groupId>
+				<artifactId>target-platform-configuration</artifactId>
+				<version>${tycho.version}</version>
+				<configuration>
+ 					<pomDependencies>consider</pomDependencies>
+					<target>
+						<artifact>
+							<groupId>org.condast.js</groupId>
+							<artifactId>commons.js.target</artifactId>
+							<version>${project.version}</version>
+						</artifact>
+					</target>
+					<environments>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>linux</os>
+							<ws>gtk</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86</arch>
+						</environment>
+						<environment>
+							<os>win32</os>
+							<ws>win32</ws>
+							<arch>x86_64</arch>
+						</environment>
+						<environment>
+							<os>macosx</os>
+							<ws>cocoa</ws>
+							<arch>x86_64</arch>
+						</environment>
+					</environments>
+				</configuration>
+			</plugin>
+		</plugins>
+	</build>
+</project> 
