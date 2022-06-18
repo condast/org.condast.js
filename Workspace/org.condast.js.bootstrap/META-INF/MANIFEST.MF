@@ -1,0 +1,13 @@
+Manifest-Version: 1.0
+Bundle-ManifestVersion: 2
+Bundle-Name: Bootstrap 2 JAVA Engine
+Bundle-SymbolicName: org.condast.js.bootstrap;singleton:=true
+Bundle-Version: 1.0.0.qualifier
+Bundle-Vendor: Condast
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Import-Package: org.condast.commons.strings,
+ org.condast.js.commons.controller,
+ org.eclipse.swt.browser,
+ org.osgi.framework
+Export-Package: org.condast.js.bootstrap.controller
+Automatic-Module-Name: org.condast.js.bootstrap
