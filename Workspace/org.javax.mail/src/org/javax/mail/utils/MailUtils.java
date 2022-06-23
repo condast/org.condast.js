@@ -202,6 +202,21 @@ public class MailUtils {
 			return "<BR>";
 		}
 
+		@Override
+		protected String onHandleTitle(String subject, Attributes attr) {
+			String result = null;
+			switch( attr ){
+			case HTML:
+				result = "Condast Mail";
+				break;
+			case PAGE:
+				result = "Condast Mail";
+				break;
+			default:
+				break;
+			}
+			return result;
+		}
 
 		@Override
 		protected String onHandleLabel(String id, Attributes attr) {
