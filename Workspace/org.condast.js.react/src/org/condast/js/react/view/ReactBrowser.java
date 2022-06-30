@@ -42,12 +42,10 @@ public class ReactBrowser extends Browser {
 		super.setUrl( S_INDEX_HTML);
 	}
 
-	@SuppressWarnings("unchecked")
 	public void addSessionListener( ISessionListener<Map<String, String>> listener ){
 		//this.session.addSessionListener( listener);
 	}
 	
-	@SuppressWarnings("unchecked")
 	public void removeSesionListener( ISessionListener<Map<String, String>> listener ){
 		//this.session.removeSessionListener((org.condast.commons.ui.session.ISessionListener<Map<String, String>>) listener);
 	}

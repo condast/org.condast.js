@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.youtube.viewer;singleton:=true
 Bundle-Version: 1.0.0.qualifier
 Bundle-Activator: org.youtube.viewer.Activator
 Bundle-Vendor: Condast
-Bundle-RequiredExecutionEnvironment: JavaSE-1.7
+Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: javax.servlet;version="2.6.0",
  javax.servlet.http;version="2.6.0",
  org.condast.commons,

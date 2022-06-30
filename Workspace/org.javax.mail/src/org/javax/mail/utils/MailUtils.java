@@ -221,7 +221,7 @@ public class MailUtils {
 		@Override
 		protected String onHandleLabel(String id, Attributes attr) {
 			String result = null;
-			Config config = new Config();
+			Config config = Config.getInstance();
 			String path = config.getServerContext() + domain;
 			switch( Parameters.getParameter(id)) {
 			case NAME:
