@@ -62,6 +62,11 @@ public class GeoView {
 		jump();		
 	}
 
+	public void setLocation( LatLng location ){
+		this.fieldData.setCoordinates(location);
+		jump();		
+	}
+
 	public void setLatlng(LatLng latlng) {
 		this.fieldData.setCoordinates( latlng );
 	}
