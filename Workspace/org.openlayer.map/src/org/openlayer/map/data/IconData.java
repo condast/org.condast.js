@@ -15,6 +15,10 @@ public class IconData {
 	private String path;
 	private double opacity;
 
+	public IconData(LatLng latlng, Markers marker, char type) {
+		this( latlng.getId(), latlng.getDescription(), latlng, marker, type, 0);
+	}
+	
 	public IconData(String id, String name, LatLng latlng, Markers marker, char type, double opacity) {
 		this( id, name, latlng, marker.getImage(IconsView.S_OPENLAYERS_ROOT, type), opacity );
 	}

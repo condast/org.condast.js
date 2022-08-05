@@ -4,7 +4,7 @@ import java.io.IOException;
 import java.security.InvalidKeyException;
 import java.util.Collection;
 
-import org.condast.commons.Utils;
+import org.condast.commons.strings.StringUtils;
 
 import com.google.code.geocoder.model.GeocodeResponse;
 import com.google.code.geocoder.model.GeocoderAddressComponent;
@@ -117,7 +117,7 @@ public abstract class AbstractGeoBuilder<T extends Object> {
 	
 	protected T parse( GeocoderRequest request ) throws IOException, InvalidKeyException{
 		GeoCoderParser parser = new GeoCoderParser( this.clientId, this.clientKey );
-		if( !Utils.assertNull(language ))
+		if( !StringUtils.isEmpty(language ))
 			request.setLanguage(language);
 		response = parser.parseRequest(request);
 		status = response.getStatus();

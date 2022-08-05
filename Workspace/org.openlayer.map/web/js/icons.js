@@ -46,15 +46,21 @@ function clearIcons() {
 
 //Path: path to the image
 function addIcon( id, name, latitude, longitude, img ){
-	let lat = parseFloat( latitude );
-	let lon = parseFloat( longitude );
-	let coords = ol.proj.transform( [lon, lat], 'EPSG:4326', 'EPSG:3857' );
+	try{
+		let lat = parseFloat( latitude );
+		let lon = parseFloat( longitude );
+		let coords = ol.proj.transform( [lon, lat], 'EPSG:4326', 'EPSG:3857' );
 
-	let iconFeature = new ol.Feature( new ol.geom.Point(coords) );
-	iconFeature.set('style', createStyle(img));
-	iconFeature.setId( id );
-	iconFeature.set( 'name', name );
-	iconVectorSource.addFeature( iconFeature );
+		let iconFeature = new ol.Feature( new ol.geom.Point(coords) );
+		iconFeature.set('style', createStyle(img));
+		iconFeature.setId( id );
+		iconFeature.set( 'name', name );
+		iconVectorSource.addFeature( iconFeature );
+		console.log(coords);
+	}
+	catch( e ){ 
+	   	console.log( e );
+	}
 }
 
 function addIcons( ...icons ){

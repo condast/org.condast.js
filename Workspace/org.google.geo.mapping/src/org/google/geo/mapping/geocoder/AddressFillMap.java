@@ -14,7 +14,7 @@ import org.condast.commons.data.latlng.LatLng;
 import org.condast.commons.na.community.ICommunityQuery;
 import org.condast.commons.na.filler.FillMapException;
 import org.condast.commons.na.filler.IFillMapProvider;
-
+import org.condast.commons.strings.StringUtils;
 import com.google.code.geocoder.model.GeocoderAddressComponent;
 import com.google.code.geocoder.model.GeocoderGeometry;
 import com.google.code.geocoder.model.GeocoderResult;
@@ -74,7 +74,7 @@ public class AddressFillMap implements IFillMapProvider<String>{
 		}
 
 		public static Fields toValidType( String str ){
-			if( Utils.assertNull( str ))
+			if( StringUtils.isEmpty( str ))
 				return null;
 			for( Fields addr: values() ){
 				if( addr.toString().equals( str ))
@@ -84,7 +84,7 @@ public class AddressFillMap implements IFillMapProvider<String>{
 		}
 
 		public static boolean isValidKey( String str ){
-			if( Utils.assertNull( str ))
+			if( StringUtils.isEmpty( str ))
 				return false;
 			for( Fields addr: values() ){
 				if( addr.name().equals( str ))
@@ -177,7 +177,7 @@ public class AddressFillMap implements IFillMapProvider<String>{
 	@Override
 	public Map<String, String> fillMap(String request, String[] params, String[] keys) {
 		this.keyset.clear();
-		if( Utils.assertNull( request ) || ( !request.equals(id )))
+		if( StringUtils.isEmpty( request ) || ( !request.equals(id )))
 			return null;
 		if( !Utils.assertNull(keys ))
 			this.keyset.addAll( Arrays.asList( keys ));

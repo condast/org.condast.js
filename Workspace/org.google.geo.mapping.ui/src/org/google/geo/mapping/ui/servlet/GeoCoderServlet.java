@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-import org.condast.commons.Utils;
+import org.condast.commons.strings.StringUtils;
 import org.condast.commons.ui.session.ISessionListener;
 
 public class GeoCoderServlet extends HttpServlet {
@@ -38,7 +38,7 @@ public class GeoCoderServlet extends HttpServlet {
 	public void doGet(HttpServletRequest req, HttpServletResponse resp)
 			throws ServletException, IOException {
 		String token = req.getParameter( ISessionListener.Parameters.TOKEN.toString() );
-		if( Utils.assertNull( token) || ( !S_TOKEN.equals( token ))){
+		if( StringUtils.isEmpty( token) || ( !S_TOKEN.equals( token ))){
 			super.doGet(req, resp);
 			return;
 		}
