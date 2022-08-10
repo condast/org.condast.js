@@ -15,21 +15,29 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<tycho.version>2.3.0</tycho.version>
+		<bundle-name>org.condast.js</bundle-name>
 		<generics>P:/GitHub</generics>
-		<project-root>P:/GitHub/org.condast.commons</project-root>
-		<workspace-root>P:/Windows/Condast/Workspace/org.condast.commons</workspace-root>
-		<virgo-root>file:${generics}/Root/Workspace/Virgo</virgo-root>
+		<project-root>P:/GitHub/org.condast.js</project-root>
+		<workspace-root>P:/Windows/Condast/Workspace/org.condast.js</workspace-root>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<condast-commons>file:${generics}/org.condast.commons/Workspace</condast-commons>
-		<condast-js>file:${generics}/org.condast.js/Workspace/</condast-js>
+		<update-site>${project-root}/${bundle-name}.update/target/site/plugins</update-site>
+		<release-dir>P:/Releases</release-dir>
+        <condast-commons>file:${generics}/org.condast.commons/Workspace</condast-commons>
 	</properties>
 
-	<repositories>
+	<distributionManagement>
 		<repository>
-			<id>org-condast-commons</id>
-			<url>${condast-commons}/org.condast.commons.update/target/site</url>
-			<layout>p2</layout>
+			<id>release directory</id>
+			<url>file:${release-dir}/deploy/${bundle-name}</url>
 		</repository>
+	</distributionManagement>
+
+	<repositories>
+         <repository>
+            <id>org-condast-commons</id>
+            <url>${condast-commons}/org.condast.commons.update/target/site/</url>
+            <layout>p2</layout>
+        </repository>
 	</repositories>
 
 	<modules>
