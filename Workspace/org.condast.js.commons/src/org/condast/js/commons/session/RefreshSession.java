@@ -7,30 +7,27 @@ import org.eclipse.rap.rwt.service.ServerPushSession;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 
-class RefreshSession<T extends Object> {
+public class RefreshSession {
 
 	private Display display;
-	
+
 	private ServerPushSession session;
 	private boolean started;
-	private boolean refresh;
 	private boolean disposed;
-	
-	private Collection<ISessionListener<T>> listeners;
+
+	private Collection<ISessionListener<Object>> listeners;
 
 	public RefreshSession() {
-		listeners = new ArrayList<ISessionListener<T>>();
+		listeners = new ArrayList<>();
 		this.started = false;
-		this.refresh = false;
-		this.disposed = false;;
-		session = new ServerPushSession();
+		this.disposed = false;
 	}
 
-	public void addSessionListener( ISessionListener<T> listener ){
+	public void addSessionListener( ISessionListener<Object> listener ){
 		this.listeners.add( listener );
 	}
 
-	public void removeSessionListener( ISessionListener<T> listener ){
+	public void removeSessionListener( ISessionListener<Object> listener ){
 		this.listeners.remove( listener );
 	}
 
@@ -42,26 +39,25 @@ class RefreshSession<T extends Object> {
 	/**
 	 * Called to refresh the UI
 	 */
-	public synchronized void activate( ){
+	public synchronized void activate(){
 		refresh();
 	}
-	
+
 	public void start(){
 		if( this.started)
 			return;
+		session = new ServerPushSession();	
 		session.start();
 		this.started = true;
 	}
 
 	public void stop(){
 		this.started = false;
-		if( this.disposed)
-			return;
 		this.session.stop();
 	}
-	
-	protected void notifyListeners( SessionEvent<T> event ) {
-		for(ISessionListener<T> listener: listeners){
+
+	protected void notifyListeners( SessionEvent<Object> event ) {
+		for(ISessionListener<Object> listener: listeners){
 			try{
 				if( listener != null )
 					listener.notifySessionChanged( event );
@@ -69,7 +65,7 @@ class RefreshSession<T extends Object> {
 			catch( Exception ex ){
 				ex.printStackTrace();
 			}
-		}		
+		}
 	}
 
 	public void dispose(){
@@ -78,35 +74,25 @@ class RefreshSession<T extends Object> {
 		this.display = null;
 		this.stop();
 	}
-	
-	protected void refresh() {
-		if( disposed || !started || this.refresh || ( display == null ) || ( display.isDisposed()))
-			return;
-		this.refresh = true;
 
-		Runnable bgRunnable = new Runnable() {
+	protected void refresh() {
+		if( disposed || !started || ( display == null ) || ( display.isDisposed()))
+			return;
+
+		display.asyncExec( new Runnable() {
 			@Override
 			public void run() {
-				if( disposed )
-					return;
-				display.asyncExec( new Runnable() {
-					@Override
-					public void run() {
-						try {
-							session.stop();
-							notifyListeners(new SessionEvent<T>( this ));
-							refresh = false;
-						}
-						catch( Exception ex ) {
-							ex.printStackTrace();
-						}
-						start();
-					}
-				});
+				try {
+					stop();
+					notifyListeners(new SessionEvent<>( this ));
+				}
+				catch( Exception ex ) {
+					ex.printStackTrace();
+				}
+				finally {
+					start();
+				}
 			}
-		};
-		Thread bgThread = new Thread( bgRunnable );
-		bgThread.setDaemon( true );
-		bgThread.start();
+		});
 	}
 }

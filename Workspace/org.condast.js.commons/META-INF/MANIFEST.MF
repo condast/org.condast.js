@@ -11,6 +11,7 @@ Export-Package: org.condast.js.commons.controller,
  org.condast.js.commons.images,
  org.condast.js.commons.parser,
  org.condast.js.commons.push,
+ org.condast.js.commons.session,
  org.condast.js.commons.utils,
  org.condast.js.commons.wizard
 Import-Package: org.condast.commons,
