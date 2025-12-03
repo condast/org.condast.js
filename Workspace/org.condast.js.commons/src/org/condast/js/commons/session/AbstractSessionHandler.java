@@ -3,8 +3,6 @@ package org.condast.js.commons.session;
 import java.util.ArrayList;
 import java.util.Collection;
 
-import org.condast.commons.ui.session.RefreshSession;
-import org.condast.commons.ui.session.SessionEvent;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Event;
@@ -19,14 +17,14 @@ import org.eclipse.swt.widgets.Listener;
  */
 public abstract class AbstractSessionHandler<D extends Object> {
 
-	private RefreshSession session;
+	private RefreshSession<D> session;
 
 	private Collection<D> data;
 	
 	private boolean disposed;
 
 	protected AbstractSessionHandler( Display display ) {
-		this.session = new RefreshSession();
+		this.session = new RefreshSession<>();
 		this.disposed = false;
 		display.addListener( SWT.Dispose, new Listener(){
 			private static final long serialVersionUID = 1L;
@@ -51,7 +49,7 @@ public abstract class AbstractSessionHandler<D extends Object> {
 		session.activate();
 	}
 
-	private void onNotifySessionChanged(SessionEvent<Object> event) {
+	private void onNotifySessionChanged(SessionEvent<D> event) {
 		if( disposed )
 			return;
 		Collection<D> temp = new ArrayList<D>( data );

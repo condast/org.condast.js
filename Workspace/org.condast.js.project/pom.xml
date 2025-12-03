@@ -12,25 +12,109 @@
 	<packaging>pom</packaging>
 
 	<properties>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<tycho.version>2.3.0</tycho.version>
+		<maven.compiler.release>8</maven.compiler.release>
+		<tycho.version>5.0.0</tycho.version>
 		<generics>P:/GitHub</generics>
-		<project-root>P:/GitHub/org.condast.commons</project-root>
-		<workspace-root>P:/Windows/Condast/Workspace/org.condast.commons</workspace-root>
+		<bundle-name>org.condast.js</bundle-name>
+		<project-root>P:/GitHub/P:/GitHub/${bundle-name}</project-root>
+		<workspace-root>P:/Windows/Condast/Workspace/P:/GitHub/${bundle-name}</workspace-root>
 		<virgo-root>file:${generics}/Root/Workspace/Virgo</virgo-root>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<condast-commons>file:${generics}/org.condast.commons/Workspace</condast-commons>
-		<condast-js>file:${generics}/org.condast.js/Workspace/</condast-js>
+		<condast-js>file:${generics}/P:/GitHub/${bundle-name}/Workspace/</condast-js>
 	</properties>
 
+	<distributionManagement>
+		<repository>
+			<id>release directory</id>
+			<url>file:${release-dir}/deploy/${bundle-name}</url>
+		</repository>
+	</distributionManagement>
+
 	<repositories>
+      <repository>
+         <id>2025-12</id>
+         <url>https://download.eclipse.org/releases/2025-12</url>
+         <layout>p2</layout>
+     </repository>
 		<repository>
 			<id>org-condast-commons</id>
-			<url>${condast-commons}/org.condast.commons.update/target/site</url>
+			<url>${condast-commons}/org.condast.commons.update/target/repository</url>
 			<layout>p2</layout>
 		</repository>
 	</repositories>
+
+    <dependencies>
+		<!-- https://mvnrepository.com/artifact/javax.activation/activation -->
+		<dependency>
+    		<groupId>javax.activation</groupId>
+		    <artifactId>activation</artifactId>
+    		<version>1.1.1</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api -->
+		<dependency>
+    		<groupId>javax.persistence</groupId>
+		    <artifactId>javax.persistence-api</artifactId>
+    		<version>2.2</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
+		<dependency>
+    		<groupId>commons-codec</groupId>
+ 	   	<artifactId>commons-codec</artifactId>
+    		<version>1.15</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.eclipse.platform/org.eclipse.equinox.security -->
+		<dependency>
+   			<groupId>org.eclipse.platform</groupId>
+    		<artifactId>org.eclipse.equinox.security</artifactId>
+    		<version>1.3.800</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/com.google.code.gson/gson -->
+		<dependency>
+    		<groupId>com.google.code.gson</groupId>
+	    	<artifactId>gson</artifactId>
+    		<version>2.13.2</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api -->
+		<dependency>
+    		<groupId>javax.ws.rs</groupId>
+    		<artifactId>javax.ws.rs-api</artifactId>
+    		<version>2.1.1</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/javax.xml.bind/jaxb-api -->
+		<dependency>
+    		<groupId>javax.xml.bind</groupId>
+    		<artifactId>jaxb-api</artifactId>
+    		<version>2.3.1</version>
+		</dependency>
+
+		<!-- https://mvnrepository.com/artifact/com.sun.activation/javax.activation -->
+		<dependency>
+    		<groupId>com.sun.activation</groupId>
+    		<artifactId>javax.activation</artifactId>
+    		<version>1.2.0</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.freemarker/freemarker -->
+		<dependency>
+		    <groupId>org.freemarker</groupId>
+		    <artifactId>freemarker</artifactId>
+		    <version>2.3.31</version>
+		</dependency>
+		
+		<!-- https://mvnrepository.com/artifact/org.apache.felix/org.apache.felix.scr -->
+		<dependency>
+    		<groupId>org.apache.felix</groupId>
+    		<artifactId>org.apache.felix.scr</artifactId>
+    		<version>2.2.0</version>
+		</dependency>
+	</dependencies>
 
 	<modules>
 		<module>../org.condast.js.target</module>
@@ -40,10 +124,10 @@
 		<module>../org.openlayer.map</module>
 		<!-- <module>../org.condast.postcode.api</module> -->
 		<module>../org.google.geo.mapping.ui</module>
-		<module>../org.condast.postcode.api</module>
+		<!--<module>../org.condast.postcode.api</module><-->
 		<module>../org.javax.mail</module>
 		<module>../org.condast.js.feature</module>
-		<module>../org.condast.js.update</module>
+		<!--<module>../org.condast.js.update</module> -->
 	</modules>
 
 	<build>
