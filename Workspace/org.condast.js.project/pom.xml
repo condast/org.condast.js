@@ -45,19 +45,19 @@
 	</repositories>
 
     <dependencies>
-		<!-- https://mvnrepository.com/artifact/javax.activation/activation -->
-		<dependency>
-    		<groupId>javax.activation</groupId>
-		    <artifactId>activation</artifactId>
-    		<version>1.1.1</version>
-		</dependency>
+	  <!-- https://mvnrepository.com/artifact/javax.activation/activation -->
+	  <dependency>
+    	<groupId>javax.activation</groupId>
+		<artifactId>activation</artifactId>
+    	<version>1.1.1</version>
+	  </dependency>
 
-		<!-- https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api -->
-		<dependency>
-    		<groupId>javax.persistence</groupId>
-		    <artifactId>javax.persistence-api</artifactId>
-    		<version>2.2</version>
-		</dependency>
+	  <!-- https://mvnrepository.com/artifact/javax.persistence/javax.persistence-api -->
+	  <dependency>
+    	<groupId>javax.persistence</groupId>
+		<artifactId>javax.persistence-api</artifactId>
+    	<version>2.2</version>
+	  </dependency>
 
 		<!-- https://mvnrepository.com/artifact/commons-codec/commons-codec -->
 		<dependency>
@@ -108,12 +108,27 @@
 		    <version>2.3.31</version>
 		</dependency>
 		
-		<!-- https://mvnrepository.com/artifact/org.apache.felix/org.apache.felix.scr -->
-		<dependency>
-    		<groupId>org.apache.felix</groupId>
-    		<artifactId>org.apache.felix.scr</artifactId>
-    		<version>2.2.0</version>
-		</dependency>
+	  <!-- https://mvnrepository.com/artifact/org.apache.felix/org.apache.felix.scr -->
+	  <dependency>
+    	<groupId>org.apache.felix</groupId>
+    	<artifactId>org.apache.felix.scr</artifactId>
+    	<version>2.2.0</version>
+	  </dependency>
+		
+	  <!-- https://mvnrepository.com/artifact/jakarta.security.jacc/jakarta.security.jacc-api -->
+      <dependency>
+        <groupId>jakarta.security.jacc</groupId>
+        <artifactId>jakarta.security.jacc-api</artifactId>
+        <version>1.6.1</version>
+      </dependency>
+
+	  <!-- https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+      <dependency>
+        <groupId>javax.servlet</groupId>
+        <artifactId>javax.servlet-api</artifactId>
+        <version>4.0.1</version>
+        <scope>provided</scope>
+      </dependency>		
 	</dependencies>
 
 	<modules>

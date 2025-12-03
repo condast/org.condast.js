@@ -5,10 +5,10 @@ import java.util.ArrayList;
 import java.util.Collection;
 import java.util.Scanner;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.condast.commons.parser.AbstractResourceParser;
 import org.condast.commons.parser.AbstractResourceParser.Functions;
