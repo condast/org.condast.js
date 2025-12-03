@@ -20,8 +20,8 @@ import javax.mail.internet.MimeMultipart;
 
 import org.condast.commons.authentication.core.LoginData;
 import org.condast.commons.authentication.user.ILoginUser;
-import org.condast.commons.config.Config;
 import org.condast.commons.parser.AbstractResourceParser;
+import org.condast.commons.preferences.config.Config;
 import org.condast.commons.strings.StringStyler;
 
 /**

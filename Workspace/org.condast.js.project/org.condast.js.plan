@@ -6,7 +6,8 @@
 		        http://www.eclipse.org/virgo/schema/plan
 		        http://www.eclipse.org/virgo/schema/plan/eclipse-virgo-plan.xsd">
      <artifact type="bundle" name="org.condast.js.commons" version="[1.0.0, 2.0.0)"/>
-     <artifact type="bundle" name="org.openlayer.map" version="[1.0.0, 2.0.0)"/>
-     <artifact type="bundle" name="org.google.geo.mapping" version="[1.0.0, 2.0.0)"/>
+     <artifact type="bundle" name="org.openlayer.map" version="[1.0.0, 2.0.0)"/>     
+     <artifact type="bundle" name="nl.martijndwars.webpush" version="[1.0.0, 2.0.0)"/>
+     <artifact type="bundle" name="org.condast.js.push" version="[1.0.0, 2.0.0)"/>
      <artifact type="bundle" name="org.google.geo.mapping.ui" version="[1.0.0, 2.0.0)"/>
 </plan>
