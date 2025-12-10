@@ -1,7 +1,7 @@
 package org.condast.postcode.api;
 
-import javax.servlet.Servlet;
-import javax.ws.rs.ApplicationPath;
+import jakarta.servlet.Servlet;
+import jakarta.ws.rs.ApplicationPath;
 
 import org.condast.commons.messaging.http.AbstractServletWrapper;
 import org.condast.postcode.api.rest.PostCodeResource;
@@ -19,17 +19,17 @@ public class RestServlet extends AbstractServletWrapper {
 	
 	@Override
 	protected Servlet onCreateServlet(String contextPath) {
-		RestApplication resourceConfig = new RestApplication();
-		return new ServletContainer(resourceConfig);
+		//RestApplication resourceConfig = new RestApplication();
+		return (Servlet) new ServletContainer();
 	}
 
-	@ApplicationPath(S_CONTEXT_PATH)
-	private class RestApplication extends ResourceConfig {
+//	@ApplicationPath(S_CONTEXT_PATH)
+//	private class RestApplication extends ResourceConfig {
 
 		//Loading classes is the safest way...
 		//in equinox the scanning of packages may not work
-		private RestApplication() {
-			register( PostCodeResource.class );
-		}
-	}
+//		private RestApplication() {
+//			register( PostCodeResource.class );
+//		}
+//	}
 }

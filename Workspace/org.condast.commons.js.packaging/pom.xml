@@ -1,0 +1,275 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!--
+    Copyright (c) 2016 Condast and others.
+    All rights reserved. This program and the accompanying materials
+    are made available under the terms of the Apache Public License v1.0
+    which accompanies this distribution, and is available at
+    http://www.apache.org/licenses/LICENSE-2.0
+   
+    Contributors:
+        Condast  
+        IBM Corporation - initial API and implementation
+ -->
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+  <!-- Link to the parent pom -->
+  <parent>
+    <artifactId>org.condast.js.parent</artifactId>
+    <groupId>org.condast.js</groupId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../org.condast.js.project</relativePath>
+  </parent>
+
+  <packaging>pom</packaging>
+  <artifactId>org.condast.commons.js.packaging</artifactId>
+  
+	<properties>
+		<build-helper-version>3.6.1</build-helper-version>
+		<maven-copy-version>3.4.0</maven-copy-version>
+		<wagon-version>3.5.1</wagon-version>
+		<update-site>${project-root}/Workspace/${bundle-name}.update/target</update-site>
+		<release-dir>P:/Release/${bundle-name}</release-dir>
+		<stable-dir>P:/Release/Stable/${bundle-name}</stable-dir>
+		<time-pattern>yyyy-MM-dd_HHmmss</time-pattern>
+		<project-release-directory>${release-dir}</project-release-directory>
+		<!-- Required properties for releasing -->
+		<github-update-repo>git@github.com:condast/p2composite-github-pages-repo.git</github-update-repo>
+
+		<!-- The label for the Composite sites -->
+		<site.label>org.condast.commons P2 Repository</site.label>
+		<condast-ssh>condast_ssh</condast-ssh>
+		<condast-port>2222</condast-port>
+		<condast-url>sftp://www.condast.com</condast-url>
+		<server-repo>${condast-url}:${condast-port}/repository/${project.groupId}</server-repo>
+	</properties>
+  
+    <repositories>
+      <repository>
+         <id>2025-12</id>
+         <url>https://download.eclipse.org/releases/2025-12</url>
+         <layout>p2</layout>
+     </repository>
+    </repositories>
+    
+    <dependencies>
+      <!-- https://mvnrepository.com/artifact/javax.annotation/javax.annotation-api -->
+      <dependency>
+        <groupId>javax.annotation</groupId>
+        <artifactId>javax.annotation-api</artifactId>
+        <version>1.3.2</version>
+      </dependency>
+      <!-- https://mvnrepository.com/artifact/net.java.dev.jna/jna-platform -->
+      <dependency>
+        <groupId>net.java.dev.jna</groupId>
+          <artifactId>jna-platform</artifactId>
+          <version>5.18.1</version>
+      </dependency>
+      <dependency>
+        <groupId>org.eclipse.platform</groupId>
+        <artifactId>org.eclipse.equinox.p2.ui.sdk</artifactId>
+        <version>1.3.500</version>
+      </dependency>
+    </dependencies>
+  	<distributionManagement>
+<!--
+  		<snapshotRepository>
+    		<id>ossrh</id>
+    		<url>https://s01.oss.sonatype.org/content/repositories/snapshots</url>
+  		</snapshotRepository>
+-->  		
+  		<site>
+      		<id>sftp-repository</id>
+      		<url>${server-repo}</url>
+    	</site>
+ 		<repository>
+      		<id>sftp-repository</id>
+      		<url>${server-repo}</url>
+    	</repository>
+	</distributionManagement>
+
+  	<build>
+    	<extensions>
+      		<!-- Enabling the use of FTP -->
+      		<!-- https://rmannibucau.metawerx.net/maven-ftp-upload.html-->
+      		<extension>
+        		<groupId>org.apache.maven.wagon</groupId>
+         		<artifactId>wagon-ssh-external</artifactId>
+         		<version>${wagon-version}</version>
+      		</extension>
+    	</extensions>
+		<plugins>
+
+		<plugin>
+  		  <groupId>org.codehaus.mojo</groupId>
+  		  <artifactId>build-helper-maven-plugin</artifactId>
+		  <version>${build-helper-version}</version>
+		  <executions>
+		    <execution>
+		      <id>timestamp-property</id>
+		      <goals>
+		        <goal>timestamp-property</goal>
+		      </goals>
+		      <phase>validate</phase>
+		      <configuration>
+		        <name>time.pattern</name>
+		        <pattern>${time-pattern}</pattern>
+		      </configuration>
+		    </execution>
+	  	  </executions>
+	   </plugin>
+       <plugin>
+            <groupId>org.eclipse.tycho.extras</groupId>
+            <artifactId>tycho-p2-extras-plugin</artifactId>
+            <version>${tycho.version}</version>
+            <executions>
+                <execution>
+                    <id>copy-to-central-site</id>
+                    <phase>clean</phase>
+                    <goals>
+                        <goal>mirror</goal>
+                    </goals>
+                    <configuration>
+                        <source>
+                            <repository>
+                                <url>${update-site}</url>
+                            </repository>
+                        </source>
+                        <append>true</append>
+                        <destination>${release-dir}/${time.pattern}</destination>
+                    </configuration>
+                </execution>
+                <!-- step 3: regenerate the full p2 metadata for the mirrored artifacts -->
+                <execution>
+                    <id>generate-full-metadata</id>
+                    <phase>compile</phase>
+                    <goals>
+                        <goal>publish-features-and-bundles</goal>
+                    </goals>
+                    <configuration>
+                        <append>true</append>
+                        <compress>false</compress>
+                        <sourceLocation>${update-site}/repository</sourceLocation>
+                        <metadataRepositoryLocation>${release-dir}/${time.pattern}</metadataRepositoryLocation>
+                        <artifactRepositoryLocation>${release-dir}/${time.pattern}</artifactRepositoryLocation>
+                    </configuration>
+                </execution>
+            </executions>
+        </plugin>
+
+            <plugin>
+               	<groupId>org.apache.maven.plugins</groupId>
+            	<artifactId>maven-resources-plugin</artifactId>
+               	<version>${maven-copy-version}</version>
+  				<executions>
+    				<execution>
+       					<id>copy-update-site-to-stable</id>
+       					<phase>compile</phase>
+       					<goals>
+          					<goal>copy-resources</goal>
+       					</goals>
+    					<configuration>
+        					<outputDirectory>${stable-dir}</outputDirectory>
+            					<resources>
+                					<resource>
+                						<directory>${update-site}</directory>
+                					</resource>
+                				</resources>
+            			</configuration>
+        			</execution>
+    			</executions>
+           	</plugin>
+<!--
+		<plugin>
+	       <artifactId>maven-resources-plugin</artifactId>
+	   	    <executions>
+        	  <execution>
+            	<id>copy-repository</id>
+           		<phase>package</phase>
+ 	            <goals>
+    	           <goal>copy-resources</goal>
+        	   	</goals>
+            	<configuration>
+            	  <propertiesEncoding>ISO-8859-1</propertiesEncoding>
+                  <outputDirectory>${project-release-directory}</outputDirectory>
+	              <resources>
+    	          	<resource>
+        	        	<directory>${p2-update-site}</directory>
+        	        	<filtering>true</filtering>
+        				<includes>
+          					<include>**/*</include>
+        				</includes>
+            	    </resource>
+                </resources>
+	          </configuration>
+    	    </execution>
+        </executions>		
+      </plugin>
+ 
+      <plugin>
+       	<groupId>org.apache.maven.plugins</groupId>
+       	<artifactId>maven-site-plugin</artifactId>
+       	<version>3.11.0</version>
+      </plugin>
+                 	
+      <plugin>
+		<groupId>org.codehaus.mojo</groupId>
+  		<artifactId>wagon-maven-plugin</artifactId>
+  		<version>2.0.0</version>
+  		<executions>
+    		<execution>
+      			<id>upload-doc</id>
+      			<phase>deploy</phase>
+		      	<goals>
+        			<goal>upload</goal>
+      	  	    </goals>
+      			<configuration>
+        			<fromDir>${project-release-directory}</fromDir>
+        			<includes>*.jar</includes>
+        		    <url>${condast-url}</url>
+        		    <toDir>/repository/test</toDir>
+        			<serverId>${condast-ssh}</serverId>
+      			</configuration>
+    		</execution>
+  		</executions>
+	</plugin>
+
+		    <plugin>
+      			<groupId>org.sonatype.plugins</groupId>
+      				<artifactId>nexus-staging-maven-plugin</artifactId>
+      				<version>1.6.7</version>
+      				<extensions>true</extensions>
+      				<configuration>
+        				<serverId>ossrh</serverId>
+        				<nexusUrl>https://s01.oss.sonatype.org/</nexusUrl>
+        				<autoReleaseAfterClose>true</autoReleaseAfterClose>
+				   </configuration>	
+    		</plugin>
+    	-->
+		</plugins>
+	</build>
+	
+	  <reporting>
+    <plugins>
+      <plugin>
+        <groupId>org.apache.maven.plugins</groupId>
+        <artifactId>maven-project-info-reports-plugin</artifactId>
+        <version>3.2.2</version>
+        <reportSets>
+          <reportSet>
+            <reports>
+              <report>dependencies</report>
+              <report>team</report>
+              <report>mailing-lists</report>
+              <report>ci-management</report>
+              <report>issue-management</report>
+              <report>licenses</report>
+              <report>scm</report>
+            </reports>
+          </reportSet>
+        </reportSets>
+      </plugin>
+    </plugins>
+  </reporting>
+</project>

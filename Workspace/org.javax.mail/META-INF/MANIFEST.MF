@@ -5,7 +5,7 @@ Bundle-SymbolicName: org.javax.mail
 Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Condast
 Automatic-Module-Name: org.javax.mail
-Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-RequiredExecutionEnvironment: JavaSE-21
 Bundle-ClassPath: lib/javax.mail-1.6.2.jar,
  .
 Export-Package: javax.mail;version="1.6.2",

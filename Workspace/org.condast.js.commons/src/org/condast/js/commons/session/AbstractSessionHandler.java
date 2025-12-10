@@ -2,6 +2,7 @@ package org.condast.js.commons.session;
 
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
@@ -83,5 +84,10 @@ public abstract class AbstractSessionHandler<D extends Object> {
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
+	}
+
+	protected void onHandleSession(org.condast.commons.ui.session.SessionEvent<Map<String, String>> sevent) {
+		// TODO Auto-generated method stub
+		
 	}
 }

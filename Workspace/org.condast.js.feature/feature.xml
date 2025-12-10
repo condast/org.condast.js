@@ -16,67 +16,28 @@
       [Enter License Description here.]
    </license>
 
-   <requires>
-      <import plugin="org.condast.commons"/>
-      <import plugin="org.eclipse.rap.rwt"/>
-      <import plugin="com.google.gson"/>
-      <import plugin="javax.servlet"/>
-      <import plugin="org.condast.commons.data"/>
-      <import plugin="org.apache.commons.logging"/>
-      <import plugin="org.condast.commons.messaging"/>
-      <import plugin="org.eclipse.osgi"/>
-      <import plugin="org.eclipse.rap.filedialog"/>
-      <import plugin="org.apache.commons.commons-codec"/>
-      <import plugin="slf4j.api"/>
-      <import plugin="javax.ws.rs-api"/>
-   </requires>
-
    <plugin
          id="org.condast.js.commons"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.openlayer.map"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="nl.martijndwars.webpush"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.condast.js.push"
-         download-size="0"
-         install-size="0"
          version="0.0.0"/>
 
    <plugin
          id="org.google.geo.mapping.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
    <plugin
          id="org.javax.mail"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
-         id="org.condast.postcode.api"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
+         version="0.0.0"/>
 
 </feature>

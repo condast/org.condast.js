@@ -7,7 +7,6 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.condast.commons.ui.session.ISessionListener;
-import org.condast.commons.ui.session.RefreshSession;
 import org.condast.js.commons.eval.EvaluationEvent;
 import org.condast.js.commons.eval.IEvaluationListener;
 import org.eclipse.rap.rwt.widgets.BrowserCallback;
@@ -16,6 +15,7 @@ import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
 import org.condast.js.commons.eval.IEvaluationListener.EvaluationEvents;
+import org.condast.js.commons.session.RefreshSession;
 
 public class ReactBrowser extends Browser {
 	private static final long serialVersionUID = -7462050265419768312L;

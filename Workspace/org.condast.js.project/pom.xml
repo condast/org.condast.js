@@ -11,18 +11,26 @@
 	<version>1.0.0-SNAPSHOT</version>
 	<packaging>pom</packaging>
 
+  	<licenses>
+    	<license>
+      		<name>Apache License, Version 2.0</name>
+      		<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      		<distribution>repo</distribution>
+    	</license>
+  	</licenses>
+
 	<properties>
 		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<tycho.version>2.3.0</tycho.version>
+		<maven.compiler.source>21</maven.compiler.source>
+		<tycho.version>5.0.1</tycho.version>
 		<bundle-name>org.condast.js</bundle-name>
 		<generics>P:/GitHub</generics>
 		<project-root>P:/GitHub/org.condast.js</project-root>
-		<workspace-root>P:/Windows/Condast/Workspace/org.condast.js</workspace-root>
+		<workspace-root>P:/Windows/Condast/Workspace/${bundle-name}</workspace-root>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<update-site>${project-root}/${bundle-name}.update/target/site/plugins</update-site>
-		<release-dir>P:/Releases</release-dir>
-        <condast-commons>file:${generics}/org.condast.commons/Workspace</condast-commons>
+		<release-dir>P:/Release</release-dir>
+		<release-dir-stable>${release-dir}/Stable</release-dir-stable>
+        <condast-commons>org.condast.commons</condast-commons>
 	</properties>
 
 	<distributionManagement>
@@ -32,14 +40,6 @@
 		</repository>
 	</distributionManagement>
 
-	<repositories>
-         <repository>
-            <id>org-condast-commons</id>
-            <url>${condast-commons}/org.condast.commons.update/target/site/</url>
-            <layout>p2</layout>
-        </repository>
-	</repositories>
-
 	<modules>
 		<module>../org.condast.js.target</module>
 		<module>../nl.martijndwars.webpush</module>
@@ -48,10 +48,11 @@
 		<module>../org.openlayer.map</module>
 		<!-- <module>../org.condast.postcode.api</module> -->
 		<module>../org.google.geo.mapping.ui</module>
-		<module>../org.condast.postcode.api</module>
+		<!-- <module>../org.condast.postcode.api</module> -->
 		<module>../org.javax.mail</module>
 		<module>../org.condast.js.feature</module>
 		<module>../org.condast.js.update</module>
+		<module>../org.condast.commons.js.packaging</module>
 	</modules>
 
 	<build>

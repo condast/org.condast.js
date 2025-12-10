@@ -4,7 +4,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
   <modelVersion>4.0.0</modelVersion>
 
 	<properties>
-		<update-site>${project-root}/${bundle-name}/target/site/plugins</update-site>
+		<update-site>${project-root}/${bundle-name}/target/repository</update-site>
 	</properties>
 
   <!-- Link to the parent pom -->
@@ -16,29 +16,5 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
   </parent>
 
   <artifactId>org.condast.js.update</artifactId>
-  <packaging>eclipse-update-site</packaging>
-  
-  	<build>
-		<plugins>
-			<plugin>
-				<artifactId>maven-antrun-plugin</artifactId>
-				<version>3.0.0</version>
-				<executions>
-					<execution>
-						<phase>deploy</phase>
-						<configuration>
-							<target>
-								<ant antfile="${basedir}\build.xml">
-									<target name="dist" />
-								</ant>
-							</target>
-						</configuration>
-						<goals>
-							<goal>run</goal>
-						</goals>
-					</execution>
-				</executions>
-			</plugin>
-		</plugins>
-	</build>
+  <packaging>eclipse-repository</packaging>
 </project> 
