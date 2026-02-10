@@ -13,7 +13,7 @@ import org.condast.commons.ui.controller.EditEvent;
 import org.condast.commons.ui.controller.EditEvent.EditTypes;
 import org.condast.commons.ui.controller.IEditListener;
 import org.condast.commons.ui.session.SessionEvent;
-import org.condast.commons.ui.widgets.session.AbstractSessionHandler;
+import org.condast.commons.ui.session.AbstractSessionHandler;
 import org.condast.js.commons.eval.EvaluationEvent;
 import org.condast.js.commons.eval.IEvaluationListener;
 import org.condast.js.commons.images.IDefaultMarkers.Markers;

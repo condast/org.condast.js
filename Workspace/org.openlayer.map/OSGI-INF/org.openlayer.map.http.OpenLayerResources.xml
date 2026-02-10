@@ -1,0 +1,7 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.openlayer.map.http.OpenLayerResources">
+   <service>
+      <provide interface="org.openlayer.map.http.OpenLayerResources"/>
+   </service>
+   <implementation class="org.openlayer.map.http.OpenLayerResources"/>
+</scr:component>

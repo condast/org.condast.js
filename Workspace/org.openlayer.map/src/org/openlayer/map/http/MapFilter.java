@@ -1,4 +1,4 @@
-package org.openlayer.map.servlet;
+package org.openlayer.map.http;
 
 import java.io.IOException;
 import java.util.logging.Logger;
@@ -10,6 +10,12 @@ import javax.servlet.ServletException;
 import javax.servlet.ServletRequest;
 import javax.servlet.ServletResponse;
 
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ServiceScope;
+import org.osgi.service.http.whiteboard.propertytypes.HttpWhiteboardFilterPattern;
+
+@Component(scope=ServiceScope.PROTOTYPE)
+@HttpWhiteboardFilterPattern("/*")
 public class MapFilter implements Filter {
 
 	private Logger logger = Logger.getLogger( this.getClass().getName() );
