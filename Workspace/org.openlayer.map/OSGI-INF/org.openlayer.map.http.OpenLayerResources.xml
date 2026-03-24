@@ -1,5 +1,7 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.1.0" name="org.openlayer.map.http.OpenLayerResources">
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.4.0" name="org.openlayer.map.http.OpenLayerResources">
+   <property name="osgi.http.whiteboard.resource.pattern" type="String" value="/openlayer/*"/>
+   <property name="osgi.http.whiteboard.resource.prefix" type="String" value="/WEB-INF"/>
    <service>
       <provide interface="org.openlayer.map.http.OpenLayerResources"/>
    </service>

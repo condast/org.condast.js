@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.3.0" name="org.openlayer.map.http.MapFilter">
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.4.0" name="org.openlayer.map.http.MapFilter">
+   <property name="osgi.http.whiteboard.filter.pattern" type="String" value="/*"/>
    <service scope="prototype">
       <provide interface="jakarta.servlet.Filter"/>
    </service>
