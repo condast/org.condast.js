@@ -20,31 +20,58 @@ public class AuthenticationData{
 	private long token;
 	private String identifier;
 	
-	public AuthenticationData( Object[] data) {
+	private static AuthenticationData data = new AuthenticationData();
+	
+	protected AuthenticationData( Object[] data) {
 		this.id = Double.valueOf((double) data[0]).longValue();
 		this.token = Double.valueOf((double) data[1]).longValue();
 		this.identifier = (String) data[2];
 	}
 
-	public AuthenticationData( Map<Authentication, String> data) {
+	protected AuthenticationData( Map<Authentication, String> data) {
 		this.id = Double.valueOf( data.get( Authentication.ID)).longValue();
 		this.token = Double.valueOf(data.get( Authentication.TOKEN)).longValue();
 		this.identifier = data.get(Authentication.IDENTIFIER);
 	}
 
-	public AuthenticationData( String[] data) {
+	protected AuthenticationData( String[] data) {
 		this.id = Double.valueOf( data[0]).longValue();
 		this.token = Double.valueOf(data[1]).longValue();
 		this.identifier = data[2];
 	}
 
-	public AuthenticationData(long id, long token, String identifier) {
+	protected AuthenticationData(long id, long token, String identifier) {
 		super();
 		this.id = id;
 		this.token = token;
 		this.identifier = identifier;
 	}
-	
+
+	protected AuthenticationData() {
+		super();
+		this.id = 0;
+		this.token = 0;
+		this.identifier = "???";
+	}
+
+	public static AuthenticationData getInstance( ) {
+		return data;
+	}
+
+	public Map<Authentication, String> getData(){
+		Map<Authentication, String> params = new HashMap<>();
+		params.put( Authentication.ID, String.valueOf( id));
+		params.put( Authentication.TOKEN, String.valueOf( token ));
+		params.put( Authentication.IDENTIFIER, identifier);
+		return params;
+	}
+
+	public void setData( Map<Authentication, String> data ){
+		this.id = Long.parseLong( data.get( Authentication.ID ));
+		this.token = Long.parseLong( data.get( Authentication.TOKEN ));
+		this.identifier = data.get( Authentication.IDENTIFIER );
+	}
+
 	public Map<String, String> toMap(){
 		Map<String, String> params = new HashMap<>();
 		params.put( Authentication.ID.toString(), String.valueOf( id));
