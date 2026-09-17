@@ -1,13 +1,16 @@
 package org.condast.postcode.api;
 
-import javax.servlet.Servlet;
-import javax.ws.rs.ApplicationPath;
+import jakarta.servlet.Servlet;
+import jakarta.ws.rs.ApplicationPath;
 
 import org.condast.commons.messaging.http.AbstractServletWrapper;
 import org.condast.postcode.api.rest.PostCodeResource;
-import org.glassfish.jersey.server.ResourceConfig;
-import org.glassfish.jersey.servlet.ServletContainer;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ServiceScope;
 
+@Component(service = Servlet.class, 
+scope=ServiceScope.PROTOTYPE,
+property= "osgi.http.whiteboard.servlet.pattern=/postcode")
 public class RestServlet extends AbstractServletWrapper {
 
 	//Same as portion behind /eetmee/ in the alias in plugin.xml
@@ -19,10 +22,11 @@ public class RestServlet extends AbstractServletWrapper {
 	
 	@Override
 	protected Servlet onCreateServlet(String contextPath) {
-		RestApplication resourceConfig = new RestApplication();
-		return new ServletContainer(resourceConfig);
+		//RestApplication resourceConfig = new RestApplication();
+		return null;//new ServletContainer(resourceConfig);
 	}
 
+/*
 	@ApplicationPath(S_CONTEXT_PATH)
 	private class RestApplication extends ResourceConfig {
 
@@ -32,4 +36,4 @@ public class RestServlet extends AbstractServletWrapper {
 			register( PostCodeResource.class );
 		}
 	}
-}
+	*/}

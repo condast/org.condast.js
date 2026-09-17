@@ -1,4 +1,4 @@
-package org.condast.js.bootstrap.controller;
+package org.condast.js.bootstrap.http;
 
 import java.io.InputStream;
 import java.util.Scanner;

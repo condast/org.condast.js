@@ -1,4 +1,4 @@
-package org.google.geo.mapping.ui.servlet;
+package org.google.geo.mapping.ui.http;
 
 import java.util.Map;
 
