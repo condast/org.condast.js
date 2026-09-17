@@ -16,8 +16,8 @@ import org.apache.http.client.methods.HttpGet;
 import org.apache.http.impl.client.BasicCredentialsProvider;
 import org.apache.http.impl.client.CloseableHttpClient;
 import org.apache.http.impl.client.HttpClientBuilder;
-import org.condast.commons.Utils;
 import org.condast.commons.strings.PostCodeUtils;
+import org.condast.commons.strings.StringUtils;
 
 import com.google.gson.Gson;
 
@@ -35,7 +35,7 @@ public class PostCodeParser {
 		CloseableHttpClient httpclient = HttpClientBuilder.create().setDefaultCredentialsProvider(credsProvider).build();
 		
 		String completedUri = S_POSTCODE_API + PostCodeUtils.toStyledPostcode(postcode) + "/" + number;
-		if( !Utils.assertNull(numberExtension))
+		if( !StringUtils.isEmpty(numberExtension))
 			completedUri += "/" + numberExtension.replace(" ", "" );
 		HttpGet httpget = new HttpGet( completedUri );
 		CloseableHttpResponse response = httpclient.execute( httpget );

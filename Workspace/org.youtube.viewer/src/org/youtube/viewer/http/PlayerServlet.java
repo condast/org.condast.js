@@ -1,4 +1,4 @@
-package org.youtube.viewer.servlet;
+package org.youtube.viewer.http;
 
 import java.io.IOException;
 import java.net.URLDecoder;
@@ -7,14 +7,21 @@ import java.util.HashMap;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
+import jakarta.servlet.Servlet;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 
 import org.condast.commons.strings.StringUtils;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ServiceScope;
+import org.youtube.viewer.servlet.PlayerSession;
 import org.youtube.viewer.session.ISessionListener;
 
+@Component(service = Servlet.class, 
+scope=ServiceScope.PROTOTYPE,
+property= "osgi.http.whiteboard.servlet.pattern=/youtube")
 public class PlayerServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
 

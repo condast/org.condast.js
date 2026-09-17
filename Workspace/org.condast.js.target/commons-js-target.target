@@ -1,279 +1,99 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="commons.js.target" sequenceNumber="254">
+<target name="commons-js-maven.target" sequenceNumber="254">
 <locations>
-	<location path="P:\Virgo\virgo-jetty-server-3.7.4.RELEASE\repository\nebula-2.4.1" type="Directory"/>
-	<location path="P:\Virgo\virgo-jetty-server-3.7.4.POM\repository\EclipseLink" type="Directory"/>
-	<location path="P:\Virgo\virgo-jetty-server-3.7.4.POM\repository\jpa" type="Directory"/>
-	<location path="P:\Virgo\virgo-jetty-server-3.7.4.POM\repository\security" type="Directory"/>
-	<location path="P:\Virgo\virgo-jetty-server-3.7.4.POM\repository\log" type="Directory"/>
-	<location path="P:\Virgo\virgo-jetty-server-3.7.4.POM\repository\ext" type="Directory"/>
-	<location path="P:\Virgo\virgo-jetty-server-3.7.4.POM\repository\jaxrs" type="Directory"/>
-	<location path="P:\Virgo\virgo-jetty-server-3.7.4.RELEASE\repository\orientdb" type="Directory"/>
-	<location path="P:\Virgo\virgo-jetty-server-3.7.4.POM\repository\persistence" type="Directory"/>
-	<location followRepositoryReferences="false" includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
-		<repository location="https://download.eclipse.org/rt/rap/4.4"/>
-		<unit id="org.eclipse.rap.equinox.target.feature.feature.group" version="4.4.0.20250829-1200"/>
-		<unit id="org.eclipse.rap.examples.feature.feature.group" version="4.4.0.20250829-1200"/>
-		<unit id="org.eclipse.rap.feature.feature.group" version="4.4.0.20250829-1200"/>
-		<unit id="org.eclipse.rap.sdk.feature.feature.group" version="4.4.0.20250829-1200"/>
+	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
+		<repository location="http://download.eclipse.org/rt/rap/4.6"/>
+		<unit id="org.eclipse.rap.equinox.target.feature.feature.group" version="4.6.0.20260303-1200"/>
+		<unit id="org.eclipse.rap.examples.feature.feature.group" version="4.6.0.20260303-1200"/>
+		<unit id="org.eclipse.rap.feature.feature.group" version="4.6.0.20260303-1200"/>
+		<unit id="org.eclipse.rap.sdk.feature.feature.group" version="4.6.0.20260303-1200"/>
 	</location>
-	<location path="P:\Virgo\Repository\2025\apache" type="Directory"/>
-	<location path="P:\Virgo\Repository\2025\gson" type="Directory"/>
-	<location path="P:\Virgo\Repository\2025\http" type="Directory"/>
-	<location path="P:\Virgo\Repository\2025\osgi" type="Directory"/>
-	<location path="P:\Virgo\Repository\2025\security" type="Directory"/>
-	<location followRepositoryReferences="false" includeAllPlatforms="true" includeConfigurePhase="false" includeMode="slicer" includeSource="true" type="InstallableUnit">
-		<repository location="file:/P:/Release/Stable/org.condast.commons/repository/"/>
-		<unit id="org.condast.commons.feature.feature.group" version="1.0.0.202512101515"/>
+	<location path="P:\Virgo\virgo-jetty-server-3.7.4.POM\repository\jpa" type="Directory"/>
+	<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
+		<dependencies>
+		    <dependency>
+			    <groupId>org.apache.felix</groupId>
+			    <artifactId>org.apache.felix.http.servlet-api</artifactId>
+			    <version>3.0.0</version>
+			    <type>jar</type>
+		    </dependency>
+			<dependency>
+				<groupId>com.google.code.gson</groupId>
+				<artifactId>gson</artifactId>
+				<version>2.13.2</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>commons-codec</groupId>
+				<artifactId>commons-codec</artifactId>
+				<version>1.22.0</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>jakarta.persistence</groupId>
+				<artifactId>jakarta.persistence-api</artifactId>
+				<version>4.0.0-M1</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>jakarta.ws.rs</groupId>
+				<artifactId>jakarta.ws.rs-api</artifactId>
+				<version>4.0.0</version>
+				<type>jar</type>
+			</dependency>
+			<!-- Source: https://mvnrepository.com/artifact/jakarta.activation/jakarta.activation-api -->
+			<dependency>
+			    <groupId>jakarta.activation</groupId>
+			    <artifactId>jakarta.activation-api</artifactId>
+			    <version>2.1.4</version>
+			    <scope>compile</scope>
+			</dependency>
+			<dependency>
+				<groupId>org.eclipse.platform</groupId>
+				<artifactId>org.eclipse.equinox.security</artifactId>
+				<version>1.4.700</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.freemarker</groupId>
+				<artifactId>freemarker</artifactId>
+				<version>2.3.34</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish.jersey.containers</groupId>
+				<artifactId>jersey-container-servlet-core</artifactId>
+				<version>2.48</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish.jersey.core</groupId>
+				<artifactId>jersey-common</artifactId>
+				<version>2.48</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.glassfish.jersey.core</groupId>
+				<artifactId>jersey-server</artifactId>
+				<version>2.48</version>
+				<type>jar</type>
+			</dependency>
+			<!-- Source: https://mvnrepository.com/artifact/jakarta.mail/jakarta.mail-api -->
+			<dependency>
+			    <groupId>jakarta.mail</groupId>
+			    <artifactId>jakarta.mail-api</artifactId>
+			    <version>2.1.5</version>
+			    <scope>compile</scope>
+			</dependency>
+	        <dependency>
+		        <groupId>org.osgi</groupId>
+		        <artifactId>org.osgi.service.http.whiteboard</artifactId>
+		        <version>1.1.1</version>
+		        <type>jar</type>
+	        </dependency>
+
+		</dependencies>
 	</location>
 </locations>
-<includeBundles>
-<plugin id="javax.persistence"/>
-<plugin id="javax.validation.api"/>
-<plugin id="org.apache.commons.logging"/>
-<plugin id="org.apache.felix.gogo.runtime" version="1.1.6"/>
-<plugin id="org.eclipse.equinox.console" version="1.4.1100.v20250722-0745"/>
-<plugin id="org.eclipse.equinox.console.ssh"/>
-<plugin id="org.eclipse.persistence.antlr"/>
-<plugin id="org.eclipse.persistence.asm"/>
-<plugin id="org.eclipse.persistence.core"/>
-<plugin id="org.eclipse.persistence.dbws"/>
-<plugin id="org.eclipse.persistence.jpa"/>
-<plugin id="org.eclipse.persistence.jpa.jpql"/>
-<plugin id="org.eclipse.persistence.nosql"/>
-<plugin id="org.glassfish.hk2.api" version="2.6.1"/>
-<plugin id="org.glassfish.hk2.external.aopalliance-repackaged" version="2.6.1"/>
-<plugin id="org.glassfish.hk2.external.javax.inject" version="2.5.0.b62"/>
-<plugin id="org.glassfish.hk2.locator" version="2.6.1"/>
-<plugin id="org.glassfish.hk2.utils" version="2.6.1"/>
-	<plugin id="com.orientechnologies.orientdb-server"/>
-	<plugin id="com.orientechnologies.orientdb-client"/>
-	<plugin id="com.orientechnologies.orientdb-core"/>
-	<plugin id="com.orientechnologies.orientdb-tools"/>
-	<plugin id="com.googlecode.concurrentlinkedhashmap.lru"/>
-	<plugin id="com.orientechnologies.orientdb-community"/>
-	<plugin id="com.orientechnologies.orientdb-distributed"/>
-	<plugin id="com.orientechnologies.orientdb-jdbc"/>
-	<plugin id="com.orientechnologies.orientdb-lucene"/>
-	<plugin id="com.orientechnologies.orientdb-object"/>
-	<plugin id="com.orientechnologies.orientdb-graphdb"/>
-	<plugin id="com.fasterxml.jackson.core.jackson-annotations"/>
-	<plugin id="com.ibm.icu.source"/>
-	<plugin id="org.eclipse.core.commands"/>
-	<plugin id="org.eclipse.core.commands.source"/>
-	<plugin id="org.eclipse.core.contenttype"/>
-	<plugin id="org.eclipse.core.contenttype.source"/>
-	<plugin id="org.eclipse.core.expressions"/>
-	<plugin id="org.eclipse.core.expressions.source"/>
-	<plugin id="org.eclipse.core.jobs" version="3.15.700.v20250725-1147"/>
-	<plugin id="org.eclipse.core.jobs.source"/>
-	<plugin id="org.eclipse.core.runtime.source"/>
-	<plugin id="org.eclipse.equinox.app"/>
-	<plugin id="org.eclipse.equinox.app.source"/>
-	<plugin id="org.eclipse.equinox.common.source"/>
-	<plugin id="org.eclipse.equinox.preferences.source"/>
-	<plugin id="org.eclipse.equinox.registry" version="3.12.500.v20250708-0540"/>
-	<plugin id="org.eclipse.equinox.registry.source"/>
-	<plugin id="org.eclipse.help"/>
-	<plugin id="org.eclipse.help.source"/>
-	<plugin id="org.eclipse.osgi.source"/>
-	<plugin id="org.eclipse.osgi.util"/>
-	<plugin id="org.eclipse.rap.filedialog"/>
-	<plugin id="org.eclipse.rap.filedialog.source"/>
-	<plugin id="org.eclipse.rap.fileupload"/>
-	<plugin id="org.eclipse.rap.fileupload.source"/>
-	<plugin id="org.eclipse.rap.jface"/>
-	<plugin id="org.eclipse.rap.jface.databinding"/>
-	<plugin id="org.eclipse.rap.jface.databinding.source"/>
-	<plugin id="org.eclipse.rap.jface.source"/>
-	<plugin id="org.eclipse.rap.nebula.jface.gridviewer"/>
-	<plugin id="org.eclipse.rap.nebula.jface.gridviewer.source"/>
-	<plugin id="org.eclipse.rap.nebula.widgets.grid"/>
-	<plugin id="org.eclipse.rap.nebula.widgets.grid.source"/>
-	<plugin id="org.eclipse.rap.nebula.widgets.richtext"/>
-	<plugin id="org.eclipse.rap.nebula.widgets.richtext.source"/>
-	<plugin id="org.eclipse.rap.rwt"/>
-	<plugin id="org.eclipse.rap.rwt.osgi"/>
-	<plugin id="org.eclipse.rap.rwt.osgi.source"/>
-	<plugin id="org.eclipse.rap.rwt.source"/>
-	<plugin id="org.eclipse.nebula.cwt"/>
-	<plugin id="org.eclipse.nebula.effects.stw"/>
-	<plugin id="org.eclipse.nebula.effects.stw.example"/>
-	<plugin id="org.eclipse.nebula.effects.stw.example.source"/>
-	<plugin id="org.eclipse.nebula.examples"/>
-	<plugin id="org.eclipse.nebula.jface.cdatetime"/>
-	<plugin id="org.eclipse.nebula.jface.cdatetime.source"/>
-	<plugin id="org.eclipse.nebula.paperclips.core"/>
-	<plugin id="org.eclipse.nebula.paperclips.widgets"/>
-	<plugin id="org.eclipse.nebula.visualization.example"/>
-	<plugin id="org.eclipse.nebula.visualization.widgets"/>
-	<plugin id="org.eclipse.nebula.visualization.xygraph"/>
-	<plugin id="org.eclipse.nebula.visualization.xygraph.exampleview"/>
-	<plugin id="org.eclipse.nebula.widgets.badgedlabel"/>
-	<plugin id="org.eclipse.nebula.widgets.badgedlabel.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.carousel"/>
-	<plugin id="org.eclipse.nebula.widgets.carousel.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.cdatetime"/>
-	<plugin id="org.eclipse.nebula.widgets.cdatetime.css"/>
-	<plugin id="org.eclipse.nebula.widgets.cdatetime.example"/>
-	<plugin id="org.eclipse.nebula.widgets.chips"/>
-	<plugin id="org.eclipse.nebula.widgets.compositetable"/>
-	<plugin id="org.eclipse.nebula.widgets.ctreecombo"/>
-	<plugin id="org.eclipse.nebula.widgets.ctreecombo.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.floatingtext"/>
-	<plugin id="org.eclipse.nebula.widgets.floatingtext.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.fontawesome"/>
-	<plugin id="org.eclipse.nebula.widgets.fontawesome.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.gallery"/>
-	<plugin id="org.eclipse.nebula.widgets.gallery.example"/>
-	<plugin id="org.eclipse.nebula.widgets.ganttchart"/>
-	<plugin id="org.eclipse.nebula.widgets.ganttchart.example"/>
-	<plugin id="org.eclipse.nebula.widgets.geomap"/>
-	<plugin id="org.eclipse.nebula.widgets.geomap.example"/>
-	<plugin id="org.eclipse.nebula.widgets.grid"/>
-	<plugin id="org.eclipse.nebula.widgets.grid.css"/>
-	<plugin id="org.eclipse.nebula.widgets.grid.example"/>
-	<plugin id="org.eclipse.nebula.widgets.led"/>
-	<plugin id="org.eclipse.nebula.widgets.led.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.nebulaslider"/>
-	<plugin id="org.eclipse.nebula.widgets.nebulaslider.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.breadcrumb"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.breadcrumb.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.calculator"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.calculator.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.checkboxgroup"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.checkboxgroup.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.columnbrowser"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.columnbrowser.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.commons"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.dialog"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.dialog.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.duallist"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.duallist.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.header"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.header.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.heapmanager"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.heapmanager.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.horizontalspinner"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.horizontalspinner.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.launcher"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.launcher.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.logindialog"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.logindialog.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.multichoice"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.multichoice.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.notifier"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.notifier.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.panels"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.panels.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.preferencewindow"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.preferencewindow.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.promptsupport"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.promptsupport.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.propertytable"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.propertytable.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.rangeslider"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.rangeslider.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.roundedtoolbar"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.roundedtoolbar.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.starrating"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.starrating.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.switchbutton"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.switchbutton.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.textassist"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.textassist.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.tipoftheday"/>
-	<plugin id="org.eclipse.nebula.widgets.opal.tipoftheday.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.oscilloscope"/>
-	<plugin id="org.eclipse.nebula.widgets.oscilloscope.css"/>
-	<plugin id="org.eclipse.nebula.widgets.oscilloscope.example"/>
-	<plugin id="org.eclipse.nebula.widgets.paperclips.example"/>
-	<plugin id="org.eclipse.nebula.widgets.passwordrevealer"/>
-	<plugin id="org.eclipse.nebula.widgets.passwordrevealer.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.pgroup"/>
-	<plugin id="org.eclipse.nebula.widgets.pgroup.example"/>
-	<plugin id="org.eclipse.nebula.widgets.progresscircle"/>
-	<plugin id="org.eclipse.nebula.widgets.progresscircle.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.pshelf"/>
-	<plugin id="org.eclipse.nebula.widgets.pshelf.css"/>
-	<plugin id="org.eclipse.nebula.widgets.pshelf.example"/>
-	<plugin id="org.eclipse.nebula.widgets.richtext"/>
-	<plugin id="org.eclipse.nebula.widgets.splitbutton"/>
-	<plugin id="org.eclipse.nebula.widgets.splitbutton.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.stepbar"/>
-	<plugin id="org.eclipse.nebula.widgets.stepbar.snippets"/>
-	<plugin id="org.eclipse.nebula.widgets.tablecombo"/>
-	<plugin id="org.eclipse.nebula.widgets.tablecombo.css"/>
-	<plugin id="org.eclipse.nebula.widgets.tablecombo.example"/>
-	<plugin id="org.eclipse.nebula.widgets.xviewer"/>
-	<plugin id="org.eclipse.nebula.widgets.xviewer.core"/>
-	<plugin id="org.eclipse.nebula.widgets.xviewer.example"/>
-	<plugin id="javassist" version="3.22.0.GA"/>
-	<plugin id="javax.annotation-api" version="1.3.2"/>
-	<plugin id="com.mysql.jdbc"/>
-	<plugin id="org.eclipse.gemini.dbaccess.mysql"/>
-	<plugin id="org.eclipse.gemini.dbaccess.util"/>
-	<plugin id="org.eclipse.jetty.xml"/>
-	<plugin id="org.eclipse.jetty.continuation"/>
-	<plugin id="org.osgi.service.jdbc"/>
-	<plugin id="org.osgi.service.jndi"/>
-	<plugin id="javax.activation"/>
-	<plugin id="org.apache.felix.gogo.shell" version="1.1.4"/>
-	<plugin id="slf4j.api" version="2.0.17"/>
-	<plugin id="slf4j.jcl"/>
-	<plugin id="org.glassfish.hk2.osgi-resource-locator" version="1.0.3"/>
-	<plugin id="org.apache.commons.commons-codec"/>
-	<plugin id="com.google.gson"/>
-	<plugin id="org.eclipse.equinox.security" version="1.4.700.v20250622-1644"/>
-	<plugin id="org.osgi.framework"/>
-	<plugin id="org.eclipse.gemini.jpa"/>
-	<plugin id="org.osgi.service.component" version="1.3.0.201505202024"/>
-	<plugin id="javax.security.jacc-api" version="1.6.1"/>
-	<plugin id="org.glassfish.jersey.core.jersey-server" version="2.25.1"/>
-	<plugin id="org.glassfish.jersey.core.jersey-common" version="2.25.1"/>
-	<plugin id="org.glassfish.jersey.core.jersey-client" version="2.25.1"/>
-	<plugin id="org.glassfish.jersey.containers.jersey-container-servlet-core" version="2.25.1"/>
-	<plugin id="org.glassfish.jersey.containers.jersey-container-servlet"/>
-	<plugin id="org.glassfish.jersey.bundles.repackaged.jersey-guava" version="2.26.0.b03"/>
-	<plugin id="org.glassfish.jersey.media.jersey-media-jaxb" version="2.25.1"/>
-	<plugin id="org.eclipse.jetty.http"/>
-	<plugin id="org.eclipse.rap.http.jetty"/>
-	<plugin id="org.eclipse.rap.http.registry"/>
-	<plugin id="org.eclipse.rap.http.servlet"/>
-	<plugin id="org.eclipse.rap.http.servletbridge"/>
-	<plugin id="org.eclipse.core.runtime"/>
-	<plugin id="org.osgi.service.prefs"/>
-	<plugin id="jakarta.servlet-api.source"/>
-	<plugin id="org.apache.felix.gogo.runtime.source"/>
-	<plugin id="org.apache.felix.gogo.shell.source"/>
-	<plugin id="org.eclipse.equinox.console.source"/>
-	<plugin id="org.eclipse.jetty.http.source"/>
-	<plugin id="org.eclipse.rap.http.jetty.source"/>
-	<plugin id="org.eclipse.rap.http.registry.source"/>
-	<plugin id="org.eclipse.rap.http.servlet.source"/>
-	<plugin id="org.eclipse.rap.http.servletbridge.source"/>
-	<plugin id="org.osgi.service.component.source"/>
-	<plugin id="org.osgi.service.prefs.source"/>
-	<plugin id="org.eclipse.equinox.preferences"/>
-	<plugin id="org.eclipse.equinox.http.registry"/>
-	<plugin id="org.osgi.service.http" version="1.2.2.LIFERAY-PATCHED-1"/>
-	<plugin id="org.freemarker.freemarker"/>
-	<plugin id="jakarta.ws.rs-api"/>
-	<plugin id="org.osgi.service.component.annotations"/>
-	<plugin id="jakarta.servlet-api" version="6.1.0"/>
-	<plugin id="org.condast.commons"/>
-	<plugin id="org.condast.commons.messaging"/>
-	<plugin id="org.condast.commons.ui"/>
-	<plugin id="org.condast.commons.data"/>
-	<plugin id="org.condast.commons.na"/>
-	<plugin id="org.apache.httpcomponents.httpclient"/>
-	<plugin id="org.apache.httpcomponents.httpcore"/>
-	<plugin id="org.condast.commons.authentication"/>
-	<plugin id="org.condast.commons.persistence"/>
-	<plugin id="org.condast.commons.preferences"/>
-	<plugin id="org.condast.commons.ui.widgets"/>
-	<plugin id="javax.servlet-api"/>
-	<plugin id="javax.servlet.jsp.jstl-api"/>
-</includeBundles>
 </target>

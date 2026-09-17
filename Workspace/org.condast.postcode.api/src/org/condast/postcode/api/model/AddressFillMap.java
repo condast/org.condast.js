@@ -17,6 +17,7 @@ import org.condast.commons.na.filler.FillMapException;
 import org.condast.commons.na.filler.IFillMapProvider;
 import org.condast.commons.na.location.CommunityQuery;
 import org.condast.commons.strings.StringStyler;
+import org.condast.commons.strings.StringUtils;
 
 public class AddressFillMap implements IFillMapProvider<String>{
 
@@ -87,7 +88,7 @@ public class AddressFillMap implements IFillMapProvider<String>{
 		}
 
 		public static Fields toValidType( String str ){
-			if( Utils.assertNull( str ))
+			if( StringUtils.isEmpty( str ))
 				return null;
 			for( Fields addr: values() ){
 				if( addr.name().equals( str ))
@@ -97,7 +98,7 @@ public class AddressFillMap implements IFillMapProvider<String>{
 		}
 
 		public static boolean isValidKey( String str ){
-			if( Utils.assertNull( str ))
+			if( StringUtils.isEmpty( str ))
 				return false;
 			for( Fields addr: values() ){
 				if( addr.name().equals( str ))
@@ -187,12 +188,12 @@ public class AddressFillMap implements IFillMapProvider<String>{
 	@Override
 	public Map<String, String> fillMap(String request, String[] params, String[] keys) throws FillMapException {
 		this.keyset.clear();
-		if( Utils.assertNull( request ) || ( !request.equals(id )))
+		if( StringUtils.isEmpty( request ) || ( !request.equals(id )))
 			return null;
 		if( !Utils.assertNull(keys ))
 			this.keyset.addAll( Arrays.asList( keys ));
 		results = new HashMap<String, String>();
-		if( Utils.assertNull( params[3]))
+		if( StringUtils.isEmpty( params[3]))
 			return results;
 		String[] split = params[3].split(S_REGEX_SPLIT_ALPHA_NUMERIC);
 		String extension = (split.length == 1 )?null: split[1];
@@ -259,7 +260,7 @@ public class AddressFillMap implements IFillMapProvider<String>{
 			if( value instanceof String )
 				return (String) value;
 			if( Fields.NUMBER.toString().equals( key)){
-				Double dbl = new Double( (double) value );
+				Double dbl = Double.valueOf( (double) value );
 				return Integer.toString( dbl.intValue() );
 			}
 			if( value instanceof Double)

@@ -1,9 +1,9 @@
-package org.google.geo.mapping.ui.servlet;
+package org.google.geo.mapping.ui.http;
 
 import java.util.Map;
 
+import org.condast.commons.ui.session.AbstractSessionHandler;
 import org.condast.commons.ui.session.SessionEvent;
-import org.condast.js.commons.session.AbstractSessionHandler;
 import org.eclipse.swt.widgets.Display;
 
 
@@ -20,12 +20,6 @@ public class GeocoderSession extends AbstractSessionHandler<Map<String, String>>
 
 	@Override
 	protected void onHandleSession(SessionEvent<Map<String, String>> sevent) {
-		// TODO Auto-generated method stub
-		
-	}
-
-	@Override
-	protected void onHandleSession(org.condast.js.commons.session.SessionEvent<Map<String, String>> sevent) {
 		// TODO Auto-generated method stub
 		
 	}	

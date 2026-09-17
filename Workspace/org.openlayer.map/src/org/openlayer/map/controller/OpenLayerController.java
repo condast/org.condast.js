@@ -52,15 +52,16 @@ public class OpenLayerController extends AbstractJavascriptController{
 	
 	public OpenLayerController( Browser browser, String id, LatLng location, int zoom ) {
 		super( browser, id );
-		Scanner scanner = new Scanner( OpenLayerController.class.getResourceAsStream( S_INDEX_HTML ));
-		StringBuilder builder = new StringBuilder();
-		while( scanner.hasNext()) {
-			String line = scanner.nextLine();
-			if( line.trim().startsWith("setLocation"))
-				line = "setLocation( " + location.getLatitude() + "," + location.getLongitude() + "," + zoom + ");";
-			builder.append(line);
+		try (Scanner scanner = new Scanner( OpenLayerController.class.getResourceAsStream( S_INDEX_HTML ))) {
+			StringBuilder builder = new StringBuilder();
+			while( scanner.hasNext()) {
+				String line = scanner.nextLine();
+				if( line.trim().startsWith("setLocation"))
+					line = "setLocation( " + location.getLatitude() + "," + location.getLongitude() + "," + zoom + ");";
+				builder.append(line);
+			}
+			browser.setText( builder.toString());
 		}
-		browser.setText( builder.toString());
 		this.callback = createCallBackFunction( S_CALLBACK_ID, S_CALLBACK_FUNCTION );	
 	}
 

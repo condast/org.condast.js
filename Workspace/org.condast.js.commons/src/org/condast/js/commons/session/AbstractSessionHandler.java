@@ -2,7 +2,6 @@ package org.condast.js.commons.session;
 
 import java.util.ArrayList;
 import java.util.Collection;
-import java.util.Map;
 
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
@@ -10,7 +9,7 @@ import org.eclipse.swt.widgets.Event;
 import org.eclipse.swt.widgets.Listener;
 
 /**
- * Handle the session. This is usually implemented as an inner class in
+ * Handle the session. This is usually implmenented as an inner class in
  * a composite or other widget
  * @author Condast
  *
@@ -18,51 +17,39 @@ import org.eclipse.swt.widgets.Listener;
  */
 public abstract class AbstractSessionHandler<D extends Object> {
 
-	private RefreshSession session;
+	private RefreshSession<D> session;
 
 	private Collection<D> data;
 	
 	private boolean disposed;
-	
-	private ISessionListener<Object> listener = e-> onNotifySessionChanged(e);
 
 	protected AbstractSessionHandler( Display display ) {
-		this( new RefreshSession(), display );
-	}
-	
-	protected AbstractSessionHandler( RefreshSession session, Display display ) {
-		this.session = session;
+		this.session = new RefreshSession<>();
 		this.disposed = false;
 		display.addListener( SWT.Dispose, new Listener(){
 			private static final long serialVersionUID = 1L;
 
 			@Override
 			public void handleEvent(Event event) {
-				try {
-					disposed = true;
-					dispose();
-				} catch (Exception e) {
-					e.printStackTrace();
-				}
+				disposed = true;
+				dispose();
 			}
 		});
 		data = new ArrayList<>();
 		
 		this.session.init( display );
-		this.session.addSessionListener( listener );
+		this.session.addSessionListener( e-> onNotifySessionChanged(e));
 		this.session.start();
 	}
 
-	public RefreshSession getSession() {
-		return session;
-	}
-
 	public void addData( D datum ) {
+		if( disposed)
+			return;
 		data.add(datum);
 		session.activate();
 	}
 
-	private void onNotifySessionChanged(SessionEvent<Object> event) {
+	private void onNotifySessionChanged(SessionEvent<D> event) {
 		if( disposed )
 			return;
 		Collection<D> temp = new ArrayList<D>( data );
@@ -79,15 +66,10 @@ public abstract class AbstractSessionHandler<D extends Object> {
 
 	public void dispose() {
 		try {
-			this.session.removeSessionListener( listener );
+			this.session.removeSessionListener( e->onNotifySessionChanged(e));
 			this.session.dispose();
 		} catch (Exception e) {
 			e.printStackTrace();
 		}
-	}
-
-	protected void onHandleSession(org.condast.commons.ui.session.SessionEvent<Map<String, String>> sevent) {
-		// TODO Auto-generated method stub
-		
 	}
 }

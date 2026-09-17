@@ -12,7 +12,7 @@ import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.widgets.Composite;
-import org.google.geo.mapping.ui.servlet.GeocoderSession;
+import org.google.geo.mapping.ui.http.GeocoderSession;
 import org.google.geo.mapping.ui.view.IEvaluationListener.EvaluationEvents;
 
 public class GeoCoderBrowser extends Browser {
