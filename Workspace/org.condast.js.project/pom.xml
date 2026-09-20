@@ -14,7 +14,7 @@
 	<properties>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
-		<tycho.version>2.3.0</tycho.version>
+		<tycho.version>5.0.4</tycho.version>
 		<bundle-name>org.condast.js</bundle-name>
 		<generics>P:/GitHub</generics>
 		<project-root>P:/GitHub/org.condast.js</project-root>
@@ -46,7 +46,6 @@
 		<module>../org.condast.js.commons</module>
 		<module>../org.condast.js.push</module>
 		<module>../org.openlayer.map</module>
-		<module>../org.condast.postcode.api</module>
 		<module>../org.javax.mail</module>
 		<module>../org.condast.js.feature</module>
 		<module>../org.condast.js.update</module>
@@ -66,6 +65,7 @@
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho.version}</version>
 				<configuration>
+                    <executionEnvironment>JavaSE-25</executionEnvironment>
  					<pomDependencies>consider</pomDependencies>
 					<target>
 						<artifact>
