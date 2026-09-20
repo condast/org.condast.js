@@ -16,12 +16,12 @@ Bundle-ClassPath: lib/bcprov-jdk15on-154.jar,
  lib/jcommander-1.72.jar
 Import-Package: com.google.gson;version="2.6.2",
  org.apache.commons.codec.binary;version="1.0.0",
- org.apache.commons.logging;version="1.2.0",
  org.condast.commons.messaging.push,
  org.condast.commons.strings,
  org.slf4j;version="1.7.2"
 Export-Package: nl.martijndwars.webpush,
  nl.martijndwars.webpush.core,
+ org.apache.http.client,
  org.bouncycastle.crypto,
  org.bouncycastle.crypto.generators,
  org.bouncycastle.crypto.params,

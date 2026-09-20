@@ -15,7 +15,7 @@ import java.util.TreeMap;
 import java.util.TreeSet;
 import java.util.logging.Logger;
 
-import org.condast.commons.na.community.CommunityResource;
+import org.condast.commons.jpa.na.community.CommunityResource;
 import org.condast.commons.project.ProjectFolderUtils;
 import org.condast.commons.strings.StringUtils;
 

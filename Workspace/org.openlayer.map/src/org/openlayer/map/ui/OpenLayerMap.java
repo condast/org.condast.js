@@ -12,11 +12,10 @@ import org.condast.commons.strings.StringUtils;
 import org.condast.commons.ui.controller.EditEvent;
 import org.condast.commons.ui.controller.EditEvent.EditTypes;
 import org.condast.commons.ui.controller.IEditListener;
-import org.condast.commons.ui.session.SessionEvent;
-import org.condast.commons.ui.widgets.session.AbstractSessionHandler;
 import org.condast.js.commons.eval.EvaluationEvent;
 import org.condast.js.commons.eval.IEvaluationListener;
 import org.condast.js.commons.images.IDefaultMarkers.Markers;
+import org.condast.js.commons.session.AbstractSessionHandler;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
@@ -209,8 +208,10 @@ public class OpenLayerMap extends Browser {
 		}
 
 		@Override
-		protected void onHandleSession(SessionEvent<String> sevent) {
-			// NOTHING
+		protected void onHandleSession(org.condast.js.commons.session.SessionEvent<String> sevent) {
+			// TODO Auto-generated method stub
+			
 		}
+
 	}
 }
