@@ -1,7 +1,8 @@
 <?xml version="1.0" encoding="UTF-8" standalone="no"?>
 <?pde version="3.8"?>
-<target name="commons-js-maven.target" sequenceNumber="254">
+<target name="commons-maven-3x.target" sequenceNumber="254">
 <locations>
+	<location path="P:\Virgo\virgo-jetty-server-3.7.4.POM\repository\jpa" type="Directory"/>
 	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 		<repository location="http://download.eclipse.org/rt/rap/4.6"/>
 		<unit id="org.eclipse.rap.equinox.target.feature.feature.group" version="4.6.0.20260303-1200"/>
@@ -9,15 +10,8 @@
 		<unit id="org.eclipse.rap.feature.feature.group" version="4.6.0.20260303-1200"/>
 		<unit id="org.eclipse.rap.sdk.feature.feature.group" version="4.6.0.20260303-1200"/>
 	</location>
-	<location path="P:\Virgo\virgo-jetty-server-3.7.4.POM\repository\jpa" type="Directory"/>
 	<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
 		<dependencies>
-		    <dependency>
-			    <groupId>org.apache.felix</groupId>
-			    <artifactId>org.apache.felix.http.servlet-api</artifactId>
-			    <version>3.0.0</version>
-			    <type>jar</type>
-		    </dependency>
 			<dependency>
 				<groupId>com.google.code.gson</groupId>
 				<artifactId>gson</artifactId>
@@ -31,52 +25,9 @@
 				<type>jar</type>
 			</dependency>
 			<dependency>
-				<groupId>jakarta.persistence</groupId>
-				<artifactId>jakarta.persistence-api</artifactId>
-				<version>4.0.0-M1</version>
-				<type>jar</type>
-			</dependency>
-			<dependency>
 				<groupId>jakarta.ws.rs</groupId>
 				<artifactId>jakarta.ws.rs-api</artifactId>
 				<version>4.0.0</version>
-				<type>jar</type>
-			</dependency>
-			<!-- Source: https://mvnrepository.com/artifact/jakarta.activation/jakarta.activation-api -->
-			<dependency>
-			    <groupId>jakarta.activation</groupId>
-			    <artifactId>jakarta.activation-api</artifactId>
-			    <version>2.1.4</version>
-			    <scope>compile</scope>
-			</dependency>
-			<dependency>
-				<groupId>org.eclipse.platform</groupId>
-				<artifactId>org.eclipse.equinox.security</artifactId>
-				<version>1.4.700</version>
-				<type>jar</type>
-			</dependency>
-			<dependency>
-				<groupId>org.freemarker</groupId>
-				<artifactId>freemarker</artifactId>
-				<version>2.3.34</version>
-				<type>jar</type>
-			</dependency>
-			<dependency>
-				<groupId>org.glassfish.jersey.containers</groupId>
-				<artifactId>jersey-container-servlet-core</artifactId>
-				<version>2.48</version>
-				<type>jar</type>
-			</dependency>
-			<dependency>
-				<groupId>org.glassfish.jersey.core</groupId>
-				<artifactId>jersey-common</artifactId>
-				<version>2.48</version>
-				<type>jar</type>
-			</dependency>
-			<dependency>
-				<groupId>org.glassfish.jersey.core</groupId>
-				<artifactId>jersey-server</artifactId>
-				<version>2.48</version>
 				<type>jar</type>
 			</dependency>
 			<!-- Source: https://mvnrepository.com/artifact/jakarta.mail/jakarta.mail-api -->
@@ -86,14 +37,218 @@
 			    <version>2.1.5</version>
 			    <scope>compile</scope>
 			</dependency>
-	        <dependency>
-		        <groupId>org.osgi</groupId>
-		        <artifactId>org.osgi.service.http.whiteboard</artifactId>
-		        <version>1.1.1</version>
-		        <type>jar</type>
-	        </dependency>
-
+			<dependency>
+				<groupId>org.freemarker</groupId>
+				<artifactId>freemarker</artifactId>
+				<version>2.3.34</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>org.osgi</groupId>
+				<artifactId>org.osgi.service.component</artifactId>
+				<version>1.5.1</version>
+				<type>jar</type>
+			</dependency>
+			<!-- Source: https://mvnrepository.com/artifact/org.osgi/org.osgi.service.http.whiteboard -->
+			<dependency>
+			    <groupId>org.osgi</groupId>
+			    <artifactId>org.osgi.service.http.whiteboard</artifactId>
+			    <version>1.1.1</version>
+			    <scope>provided</scope>
+			</dependency>
 		</dependencies>
 	</location>
 </locations>
+	<includeBundles>
+		<plugin id="com.google.gson"/>
+		<plugin id="com.google.gson.source"/>
+		<plugin id="com.ibm.icu"/>
+		<plugin id="com.ibm.icu.source"/>
+		<plugin id="com.mysql.jdbc"/>
+		<plugin id="jakarta.servlet-api"/>
+		<plugin id="jakarta.servlet-api.source"/>
+		<plugin id="org.apache.aries.spifly.dynamic.bundle"/>
+		<plugin id="org.apache.commons.commons-codec"/>
+		<plugin id="org.apache.commons.commons-codec.source"/>
+		<plugin id="org.apache.commons.commons-io"/>
+		<plugin id="org.apache.felix.gogo.command"/>
+		<plugin id="org.apache.felix.gogo.command.source"/>
+		<plugin id="org.apache.felix.gogo.runtime"/>
+		<plugin id="org.apache.felix.gogo.runtime.source"/>
+		<plugin id="org.apache.felix.gogo.shell"/>
+		<plugin id="org.apache.felix.gogo.shell.source"/>
+		<plugin id="org.apache.felix.scr"/>
+		<plugin id="org.apache.felix.scr.source"/>
+		<plugin id="org.eclipse.core.commands"/>
+		<plugin id="org.eclipse.core.commands.source"/>
+		<plugin id="org.eclipse.core.contenttype"/>
+		<plugin id="org.eclipse.core.contenttype.source"/>
+		<plugin id="org.eclipse.core.databinding"/>
+		<plugin id="org.eclipse.core.databinding.beans"/>
+		<plugin id="org.eclipse.core.databinding.beans.source"/>
+		<plugin id="org.eclipse.core.databinding.observable"/>
+		<plugin id="org.eclipse.core.databinding.observable.source"/>
+		<plugin id="org.eclipse.core.databinding.property"/>
+		<plugin id="org.eclipse.core.databinding.property.source"/>
+		<plugin id="org.eclipse.core.databinding.source"/>
+		<plugin id="org.eclipse.core.expressions"/>
+		<plugin id="org.eclipse.core.expressions.source"/>
+		<plugin id="org.eclipse.core.jobs"/>
+		<plugin id="org.eclipse.core.jobs.source"/>
+		<plugin id="org.eclipse.core.runtime"/>
+		<plugin id="org.eclipse.core.runtime.source"/>
+		<plugin id="org.eclipse.equinox.app"/>
+		<plugin id="org.eclipse.equinox.app.source"/>
+		<plugin id="org.eclipse.equinox.cm"/>
+		<plugin id="org.eclipse.equinox.cm.source"/>
+		<plugin id="org.eclipse.equinox.common"/>
+		<plugin id="org.eclipse.equinox.common.source"/>
+		<plugin id="org.eclipse.equinox.console"/>
+		<plugin id="org.eclipse.equinox.console.source"/>
+		<plugin id="org.eclipse.equinox.event"/>
+		<plugin id="org.eclipse.equinox.event.source"/>
+		<plugin id="org.eclipse.equinox.preferences"/>
+		<plugin id="org.eclipse.equinox.preferences.source"/>
+		<plugin id="org.eclipse.equinox.registry"/>
+		<plugin id="org.eclipse.equinox.registry.source"/>
+		<plugin id="org.eclipse.gemini.dbaccess.mysql"/>
+		<plugin id="org.eclipse.gemini.dbaccess.util"/>
+		<plugin id="org.eclipse.gemini.jpa" version="1.2.0.M1"/>
+		<plugin id="org.eclipse.help"/>
+		<plugin id="org.eclipse.help.source"/>
+		<plugin id="org.eclipse.jdt.junit.runtime"/>
+		<plugin id="org.eclipse.jdt.junit.runtime.source"/>
+		<plugin id="org.eclipse.jetty.http"/>
+		<plugin id="org.eclipse.jetty.http.source"/>
+		<plugin id="org.eclipse.jetty.io"/>
+		<plugin id="org.eclipse.jetty.io.source"/>
+		<plugin id="org.eclipse.jetty.logging"/>
+		<plugin id="org.eclipse.jetty.security"/>
+		<plugin id="org.eclipse.jetty.security.source"/>
+		<plugin id="org.eclipse.jetty.server"/>
+		<plugin id="org.eclipse.jetty.server.source"/>
+		<plugin id="org.eclipse.jetty.session"/>
+		<plugin id="org.eclipse.jetty.util"/>
+		<plugin id="org.eclipse.jetty.util.ajax"/>
+		<plugin id="org.eclipse.jetty.util.ajax.source"/>
+		<plugin id="org.eclipse.jetty.util.source"/>
+		<plugin id="org.eclipse.osgi"/>
+		<plugin id="org.eclipse.osgi.source"/>
+		<plugin id="org.eclipse.osgi.util"/>
+		<plugin id="org.eclipse.rap.demo"/>
+		<plugin id="org.eclipse.rap.demo.controls"/>
+		<plugin id="org.eclipse.rap.demo.controls.source"/>
+		<plugin id="org.eclipse.rap.demo.databinding"/>
+		<plugin id="org.eclipse.rap.demo.databinding.source"/>
+		<plugin id="org.eclipse.rap.demo.source"/>
+		<plugin id="org.eclipse.rap.design.example"/>
+		<plugin id="org.eclipse.rap.design.example.source"/>
+		<plugin id="org.eclipse.rap.examples"/>
+		<plugin id="org.eclipse.rap.examples.pages"/>
+		<plugin id="org.eclipse.rap.examples.pages.source"/>
+		<plugin id="org.eclipse.rap.examples.source"/>
+		<plugin id="org.eclipse.rap.filedialog"/>
+		<plugin id="org.eclipse.rap.filedialog.demo.examples"/>
+		<plugin id="org.eclipse.rap.filedialog.demo.examples.source"/>
+		<plugin id="org.eclipse.rap.filedialog.source"/>
+		<plugin id="org.eclipse.rap.fileupload"/>
+		<plugin id="org.eclipse.rap.fileupload.source"/>
+		<plugin id="org.eclipse.rap.jface"/>
+		<plugin id="org.eclipse.rap.jface.databinding"/>
+		<plugin id="org.eclipse.rap.jface.databinding.source"/>
+		<plugin id="org.eclipse.rap.jface.source"/>
+		<plugin id="org.eclipse.rap.nebula.jface.gridviewer"/>
+		<plugin id="org.eclipse.rap.nebula.jface.gridviewer.source"/>
+		<plugin id="org.eclipse.rap.nebula.widgets.grid"/>
+		<plugin id="org.eclipse.rap.nebula.widgets.grid.demo.examples"/>
+		<plugin id="org.eclipse.rap.nebula.widgets.grid.demo.examples.source"/>
+		<plugin id="org.eclipse.rap.nebula.widgets.grid.source"/>
+		<plugin id="org.eclipse.rap.nebula.widgets.richtext"/>
+		<plugin id="org.eclipse.rap.nebula.widgets.richtext.demo.examples"/>
+		<plugin id="org.eclipse.rap.nebula.widgets.richtext.demo.examples.source"/>
+		<plugin id="org.eclipse.rap.nebula.widgets.richtext.source"/>
+		<plugin id="org.eclipse.rap.rwt"/>
+		<plugin id="org.eclipse.rap.rwt.osgi"/>
+		<plugin id="org.eclipse.rap.rwt.osgi.source"/>
+		<plugin id="org.eclipse.rap.rwt.source"/>
+		<plugin id="org.eclipse.rap.rwt.testfixture"/>
+		<plugin id="org.eclipse.rap.rwt.testfixture.source"/>
+		<plugin id="org.eclipse.rap.ui"/>
+		<plugin id="org.eclipse.rap.ui.cheatsheets"/>
+		<plugin id="org.eclipse.rap.ui.cheatsheets.source"/>
+		<plugin id="org.eclipse.rap.ui.forms"/>
+		<plugin id="org.eclipse.rap.ui.forms.source"/>
+		<plugin id="org.eclipse.rap.ui.source"/>
+		<plugin id="org.eclipse.rap.ui.views"/>
+		<plugin id="org.eclipse.rap.ui.views.source"/>
+		<plugin id="org.eclipse.rap.ui.workbench"/>
+		<plugin id="org.eclipse.rap.ui.workbench.source"/>
+		<plugin id="org.freemarker.freemarker"/>
+		<plugin id="org.freemarker.freemarker.source"/>
+		<plugin id="org.hamcrest"/>
+		<plugin id="org.hamcrest.core"/>
+		<plugin id="org.hamcrest.core.source"/>
+		<plugin id="org.junit"/>
+		<plugin id="org.junit.source"/>
+		<plugin id="org.objectweb.asm"/>
+		<plugin id="org.objectweb.asm.commons"/>
+		<plugin id="org.objectweb.asm.tree"/>
+		<plugin id="org.objectweb.asm.tree.analysis"/>
+		<plugin id="org.objectweb.asm.util"/>
+		<plugin id="org.osgi.service.cm"/>
+		<plugin id="org.osgi.service.cm.source"/>
+		<plugin id="org.osgi.service.component" version="1.5.1.202212101352"/>
+		<plugin id="org.osgi.service.component.source" version="1.5.1.202212101352"/>
+		<plugin id="org.osgi.service.coordinator"/>
+		<plugin id="org.osgi.service.device"/>
+		<plugin id="org.osgi.service.device.source"/>
+		<plugin id="org.osgi.service.event"/>
+		<plugin id="org.osgi.service.event.source"/>
+		<plugin id="org.osgi.service.jdbc"/>
+		<plugin id="org.osgi.service.jndi"/>
+		<plugin id="org.osgi.service.metatype"/>
+		<plugin id="org.osgi.service.metatype.source"/>
+		<plugin id="org.osgi.service.prefs"/>
+		<plugin id="org.osgi.service.prefs.source"/>
+		<plugin id="org.osgi.service.provisioning"/>
+		<plugin id="org.osgi.service.provisioning.source"/>
+		<plugin id="org.osgi.service.upnp"/>
+		<plugin id="org.osgi.service.upnp.source"/>
+		<plugin id="org.osgi.service.useradmin"/>
+		<plugin id="org.osgi.service.useradmin.source"/>
+		<plugin id="org.osgi.service.wireadmin"/>
+		<plugin id="org.osgi.service.wireadmin.source"/>
+		<plugin id="org.osgi.util.function"/>
+		<plugin id="org.osgi.util.function.source"/>
+		<plugin id="org.osgi.util.measurement"/>
+		<plugin id="org.osgi.util.measurement.source"/>
+		<plugin id="org.osgi.util.position"/>
+		<plugin id="org.osgi.util.position.source"/>
+		<plugin id="org.osgi.util.promise"/>
+		<plugin id="org.osgi.util.promise.source"/>
+		<plugin id="org.osgi.util.xml"/>
+		<plugin id="org.osgi.util.xml.source"/>
+		<plugin id="slf4j.api"/>
+		<plugin id="org.apache.commons.commons-fileupload2-core"/>
+		<plugin id="org.apache.commons.commons-fileupload2-jakarta-servlet6"/>
+		<plugin id="org.eclipse.jetty.ee10.servlet"/>
+		<plugin id="org.eclipse.rap.http.jetty"/>
+		<plugin id="org.eclipse.rap.http.jetty.source"/>
+		<plugin id="org.eclipse.rap.http.registry"/>
+		<plugin id="org.eclipse.rap.http.registry.source"/>
+		<plugin id="org.eclipse.rap.http.servlet"/>
+		<plugin id="org.eclipse.rap.http.servlet.source"/>
+		<plugin id="org.eclipse.rap.http.servletbridge"/>
+		<plugin id="org.eclipse.rap.http.servletbridge.source"/>
+		<plugin id="org.eclipse.rap.rwt.addons"/>
+		<plugin id="org.eclipse.rap.rwt.addons.source"/>
+		<plugin id="org.eclipse.rap.servletbridge"/>
+		<plugin id="org.eclipse.rap.servletbridge.source"/>
+		<plugin id="jakarta.ws.rs-api.source"/>
+		<plugin id="jakarta.ws.rs-api"/>
+		<plugin id="org.osgi.service.http.whiteboard"/>
+		<plugin id="org.osgi.service.http.whiteboard.source"/>
+		<plugin id="jakarta.mail-api"/>
+		<plugin id="jakarta.mail-api.source"/>
+	</includeBundles>
 </target>

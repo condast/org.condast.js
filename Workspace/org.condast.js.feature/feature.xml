@@ -26,6 +26,7 @@
       <import plugin="org.eclipse.rap.filedialog"/>
       <import plugin="org.apache.commons.commons-codec"/>
       <import plugin="slf4j.api"/>
+      <import plugin="javax.ws.rs-api"/>
    </requires>
 
    <plugin
@@ -56,17 +57,9 @@
          version="0.0.0"/>
 
    <plugin
-         id="org.google.geo.mapping.ui"
-         download-size="0"
-         install-size="0"
-         version="0.0.0"
-         unpack="false"/>
-
-   <plugin
          id="org.javax.mail"
          download-size="0"
          install-size="0"
          version="0.0.0"
          unpack="false"/>
-
 </feature>

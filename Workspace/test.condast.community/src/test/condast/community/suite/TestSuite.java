@@ -7,8 +7,8 @@ import java.util.Collection;
 import java.util.logging.Logger;
 
 import org.condast.commons.io.IOUtils;
-import org.condast.commons.na.community.CommunityResource;
-import org.condast.commons.na.location.CommunityQuery;
+import org.condast.commons.jpa.na.community.CommunityResource;
+import org.condast.commons.jpa.na.location.CommunityQuery;
 import org.condast.commons.project.ProjectFolderUtils;
 import org.condast.commons.test.core.AbstractTestSuite;
 import org.condast.commons.test.core.ITestEvent;

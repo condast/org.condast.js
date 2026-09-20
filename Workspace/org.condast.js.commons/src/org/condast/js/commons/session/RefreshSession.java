@@ -4,7 +4,6 @@ import java.util.ArrayList;
 import java.util.Collection;
 
 import org.eclipse.rap.rwt.service.ServerPushSession;
-import org.eclipse.swt.SWT;
 import org.eclipse.swt.widgets.Display;
 
 public class RefreshSession<D extends Object> {
@@ -33,7 +32,7 @@ public class RefreshSession<D extends Object> {
 
 	public void init( Display display ){
 		this.display = display;
-		this.display.addListener(SWT.Dispose, e->{ disposed=true;});
+		//this.display.addListener(SWT.Dispose, e->{ disposed=true;});
 	}
 
 	/**
