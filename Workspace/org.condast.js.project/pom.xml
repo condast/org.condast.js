@@ -16,12 +16,15 @@
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<tycho.version>5.0.4</tycho.version>
 		<bundle-name>org.condast.js</bundle-name>
+		<build-name>RAP3X</build-name>
 		<generics>P:/GitHub</generics>
+        <maven.build.timestamp.format>yyyy-MM-dd-HHmmss</maven.build.timestamp.format>
 		<project-root>P:/GitHub/org.condast.js</project-root>
 		<workspace-root>P:/Windows/Condast/Workspace/org.condast.js</workspace-root>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<update-site>${project-root}/${bundle-name}.update/target/site/plugins</update-site>
-		<release-dir>P:/Releases</release-dir>
+		<project-root>P:/GitHub/${bundle-name}</project-root>
+		<update-site>${project-root}/Workspace/${bundle-name}.update/target/repository/plugins</update-site>
+		<release-dir>P:/Releases/${bundle-name}/${build-name}</release-dir>
         <condast-commons>file:${generics}/org.condast.commons/Workspace</condast-commons>
 	</properties>
 
@@ -31,14 +34,6 @@
 			<url>file:${release-dir}/deploy/${bundle-name}</url>
 		</repository>
 	</distributionManagement>
-
-	<repositories>
-         <repository>
-            <id>org-condast-commons</id>
-            <url>${condast-commons}/org.condast.commons.update/target/site/</url>
-            <layout>p2</layout>
-        </repository>
-	</repositories>
 
 	<modules>
 		<module>../org.condast.js.target</module>
@@ -52,6 +47,15 @@
 	</modules>
 
 	<build>
+ 	    <pluginManagement>
+	       <plugins>
+	         <plugin>
+	           <groupId>org.eclipse.tycho</groupId>
+	           <artifactId>tycho-p2-director-plugin</artifactId>
+	           <version>${tycho.version}</version>
+	         </plugin>
+	       </plugins>
+	    </pluginManagement>
 		<plugins>
 			<plugin>
 				<groupId>org.eclipse.tycho</groupId>
@@ -103,6 +107,38 @@
 					</environments>
 				</configuration>
 			</plugin>
+			<plugin>
+			   <groupId>org.eclipse.tycho</groupId>
+			   <artifactId>tycho-p2-repository-plugin</artifactId>
+			   <version>${tycho.version}</version>
+			   <configuration>
+			     <skipArchive>true</skipArchive>
+			     <includeAllDependencies>false</includeAllDependencies>
+			   </configuration>
+			</plugin>
+            <plugin>
+               	<groupId>org.apache.maven.plugins</groupId>
+            	<artifactId>maven-resources-plugin</artifactId>
+               	<version>3.2.0</version>
+  				<executions>
+    				<execution>
+       					<id>copy-resource-one</id>
+       					<phase>package</phase>
+       					<goals>
+          					<goal>copy-resources</goal>
+       					</goals>
+    					<configuration>
+        					<overwrite>true</overwrite>
+        					<outputDirectory>${release-dir}/${maven.build.timestamp}</outputDirectory>
+            					<resources>
+                					<resource>
+                						<directory>${update-site}</directory>
+                					</resource>
+                				</resources>
+            			</configuration>
+        			</execution>
+    			</executions>
+           	</plugin>			
 		</plugins>
 	</build>
 </project> 
