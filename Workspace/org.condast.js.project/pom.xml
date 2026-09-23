@@ -24,7 +24,7 @@
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
 		<project-root>P:/GitHub/${bundle-name}</project-root>
 		<update-site>${project-root}/Workspace/${bundle-name}.update/target/repository/plugins</update-site>
-		<release-dir>P:/Releases/${bundle-name}/${build-name}</release-dir>
+		<release-dir>P:/Releases/${build-name}/${bundle-name}</release-dir>
         <condast-commons>file:${generics}/org.condast.commons/Workspace</condast-commons>
 	</properties>
 
