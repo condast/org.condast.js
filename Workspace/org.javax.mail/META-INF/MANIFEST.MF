@@ -9,8 +9,8 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: .
 Import-Package: jakarta.mail;version="[2.1.0,3.0.0)",
  jakarta.mail.internet;version="[2.1.0,3.0.0)",
- org.condast.commons.authentication.core,
  org.condast.commons.data.user,
+ org.condast.commons.data.util,
  org.condast.commons.parser,
  org.condast.commons.preferences.config,
  org.condast.commons.strings

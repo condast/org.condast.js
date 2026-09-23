@@ -11,5 +11,4 @@ Import-Package: org.condast.commons.strings,
  org.osgi.framework,
  org.osgi.service.http.whiteboard;version="[1.1.0,2.0.0)",
  org.osgi.service.http.whiteboard.propertytypes;version="[1.1.0,2.0.0)"
-Export-Package: org.condast.js.bootstrap.http
 Automatic-Module-Name: org.condast.js.bootstrap

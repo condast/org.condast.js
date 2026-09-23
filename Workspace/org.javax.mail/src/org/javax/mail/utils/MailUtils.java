@@ -18,8 +18,8 @@ import jakarta.mail.internet.MimeBodyPart;
 import jakarta.mail.internet.MimeMessage;
 import jakarta.mail.internet.MimeMultipart;
 
-import org.condast.commons.authentication.core.LoginData;
 import org.condast.commons.data.user.ILoginUser;
+import org.condast.commons.data.util.LoginData;
 import org.condast.commons.parser.AbstractResourceParser;
 import org.condast.commons.preferences.config.Config;
 import org.condast.commons.strings.StringStyler;
