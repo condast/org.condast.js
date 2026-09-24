@@ -6,6 +6,7 @@ import java.util.logging.Logger;
 
 import org.condast.commons.Utils;
 import org.condast.commons.data.latlng.LatLng;
+import org.condast.commons.io.IOUtils;
 import org.condast.js.commons.controller.AbstractJavascriptController;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.BrowserFunction;
@@ -52,13 +53,18 @@ public class OpenLayerController extends AbstractJavascriptController{
 	
 	public OpenLayerController( Browser browser, String id, LatLng location, int zoom ) {
 		super( browser, id );
-		Scanner scanner = new Scanner( OpenLayerController.class.getResourceAsStream( S_INDEX_HTML ));
+		Scanner scanner = null;
 		StringBuilder builder = new StringBuilder();
-		while( scanner.hasNext()) {
-			String line = scanner.nextLine();
-			if( line.trim().startsWith("setLocation"))
-				line = "setLocation( " + location.getLatitude() + "," + location.getLongitude() + "," + zoom + ");";
-			builder.append(line);
+		try{
+			scanner = new Scanner( OpenLayerController.class.getResourceAsStream( S_INDEX_HTML ));
+			while( scanner.hasNext()) {
+				String line = scanner.nextLine();
+				if( line.trim().startsWith("setLocation"))
+					line = "setLocation( " + location.getLatitude() + "," + location.getLongitude() + "," + zoom + ");";
+				builder.append(line);
+			}
+		}finally {
+			IOUtils.closeQuietly(scanner);
 		}
 		browser.setText( builder.toString());
 		this.callback = createCallBackFunction( S_CALLBACK_ID, S_CALLBACK_FUNCTION );	

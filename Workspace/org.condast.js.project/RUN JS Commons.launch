@@ -24,7 +24,6 @@
     <setAttribute key="selected_target_bundles">
         <setEntry value="com.google.gson@default:default"/>
         <setEntry value="com.ibm.icu@default:default"/>
-        <setEntry value="com.mysql.jdbc@default:default"/>
         <setEntry value="jakarta.servlet-api@default:default"/>
         <setEntry value="javax.ws.rs-api@default:default"/>
         <setEntry value="jaxb-api@default:default"/>
@@ -58,8 +57,6 @@
         <setEntry value="org.eclipse.equinox.preferences@default:default"/>
         <setEntry value="org.eclipse.equinox.registry@default:default"/>
         <setEntry value="org.eclipse.equinox.servletbridge@default:default"/>
-        <setEntry value="org.eclipse.gemini.dbaccess.mysql@default:default"/>
-        <setEntry value="org.eclipse.gemini.dbaccess.util@default:default"/>
         <setEntry value="org.eclipse.help@default:default"/>
         <setEntry value="org.eclipse.jdt.junit.runtime@default:default"/>
         <setEntry value="org.eclipse.jetty.ee8.security@default:default"/>
@@ -106,8 +103,6 @@
         <setEntry value="org.osgi.service.device@default:default"/>
         <setEntry value="org.osgi.service.event@default:default"/>
         <setEntry value="org.osgi.service.http.whiteboard@default:default"/>
-        <setEntry value="org.osgi.service.jdbc@default:default"/>
-        <setEntry value="org.osgi.service.jndi@default:default"/>
         <setEntry value="org.osgi.service.metatype@default:default"/>
         <setEntry value="org.osgi.service.prefs@default:default"/>
         <setEntry value="org.osgi.service.provisioning@default:default"/>
@@ -123,43 +118,20 @@
     </setAttribute>
     <setAttribute key="selected_workspace_bundles">
         <setEntry value="nl.martijndwars.webpush@default:default"/>
-        <setEntry value="org.apache.oltu@default:default"/>
-        <setEntry value="org.condast.birt.webviewer@default:default"/>
-        <setEntry value="org.condast.commons.autonomy.ui@default:default"/>
-        <setEntry value="org.condast.commons.autonomy@default:default"/>
-        <setEntry value="org.condast.commons.bugzilla@default:default"/>
         <setEntry value="org.condast.commons.data@default:default"/>
-        <setEntry value="org.condast.commons.jinput@default:default"/>
-        <setEntry value="org.condast.commons.jpa.authentication.ui@default:default"/>
-        <setEntry value="org.condast.commons.jpa.authentication@default:default"/>
-        <setEntry value="org.condast.commons.jpa.google.geo.ui@default:default"/>
-        <setEntry value="org.condast.commons.jpa.google.geo@default:default"/>
-        <setEntry value="org.condast.commons.jpa.na@default:default"/>
-        <setEntry value="org.condast.commons.jpa.persistence@default:default"/>
-        <setEntry value="org.condast.commons.jpa.postcode@default:default"/>
-        <setEntry value="org.condast.commons.jpa.ui.na@default:default"/>
-        <setEntry value="org.condast.commons.legacy@default:default"/>
-        <setEntry value="org.condast.commons.legal@default:default"/>
         <setEntry value="org.condast.commons.messaging@default:default"/>
         <setEntry value="org.condast.commons.preferences@default:default"/>
-        <setEntry value="org.condast.commons.test@default:default"/>
-        <setEntry value="org.condast.commons.tinkerpop@default:default"/>
-        <setEntry value="org.condast.commons.ui.messaging@default:default"/>
-        <setEntry value="org.condast.commons.ui.widgets@default:default"/>
         <setEntry value="org.condast.commons.ui@default:default"/>
         <setEntry value="org.condast.commons@default:default"/>
         <setEntry value="org.condast.js.bootstrap@default:default"/>
         <setEntry value="org.condast.js.commons@default:default"/>
         <setEntry value="org.condast.js.push@default:default"/>
         <setEntry value="org.condast.js.react@default:default"/>
-        <setEntry value="org.condast.reporting@default:default"/>
         <setEntry value="org.eclipse.nebula.widgets.oscilloscope@default:default"/>
         <setEntry value="org.eclipse.rap.chartjs@default:default"/>
         <setEntry value="org.javax.mail@default:default"/>
         <setEntry value="org.openlayer.map@default:default"/>
         <setEntry value="org.youtube.viewer@default:default"/>
-        <setEntry value="test.condast.commons.data@default:default"/>
-        <setEntry value="test.condast.commons.jinput@default:default"/>
     </setAttribute>
     <booleanAttribute key="show_selected_only" value="false"/>
     <booleanAttribute key="tracing" value="false"/>
