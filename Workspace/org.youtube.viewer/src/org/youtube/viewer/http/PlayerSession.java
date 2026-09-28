@@ -1,4 +1,4 @@
-package org.youtube.viewer.servlet;
+package org.youtube.viewer.http;
 
 import java.util.Map;
 

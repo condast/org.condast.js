@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.4.0" name="org.condast.js.react.http.ReactWebResources">
+   <property name="osgi.http.whiteboard.resource.pattern" type="String" value="/react/web/*"/>
+   <property name="osgi.http.whiteboard.resource.prefix" type="String" value="/WEB-INF"/>
+   <service>
+      <provide interface="org.condast.js.react.http.ReactWebResources"/>
+   </service>
+   <implementation class="org.condast.js.react.http.ReactWebResources"/>
+</scr:component>

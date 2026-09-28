@@ -5,7 +5,6 @@
 	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
 		<repository location="https://download.eclipse.org/rt/rap/3.29"/>
 		<unit id="org.eclipse.rap.equinox.target.feature.feature.group" version="3.29.0.20240605-1200"/>
-		<unit id="org.eclipse.rap.examples.feature.feature.group" version="3.29.0.20240605-1200"/>
 		<unit id="org.eclipse.rap.feature.feature.group" version="3.29.0.20240605-1200"/>
 		<unit id="org.eclipse.rap.sdk.feature.feature.group" version="3.29.0.20240605-1200"/>
 	</location>
@@ -41,6 +40,20 @@
 				<version>2.4.0-b180830.0359</version>
 				<type>jar</type>
 			</dependency>
+			<!-- Source: https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+			<dependency>
+			    <groupId>javax.servlet</groupId>
+			    <artifactId>javax.servlet-api</artifactId>
+			    <version>4.0.1</version>
+			    <scope>provided</scope>
+			</dependency>
+			<!-- Source: https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
+			<dependency>
+			    <groupId>javax.servlet</groupId>
+			    <artifactId>servlet-api</artifactId>
+			    <version>2.5</version>
+			    <scope>provided</scope>
+			</dependency>
 			<dependency>
 				<groupId>org.freemarker</groupId>
 				<artifactId>freemarker</artifactId>
@@ -53,6 +66,13 @@
 				<version>1.5.1</version>
 				<type>jar</type>
 			</dependency>
+			<!-- Source: https://mvnrepository.com/artifact/org.osgi/org.osgi.service.http -->
+			<dependency>
+			    <groupId>org.osgi</groupId>
+			    <artifactId>org.osgi.service.http</artifactId>
+			    <version>1.2.2</version>
+			    <scope>provided</scope>
+            </dependency>
 		</dependencies>
 	</location>
 </locations>
@@ -148,21 +168,7 @@
 		<plugin id="org.eclipse.osgi.source"/>
 		<plugin id="org.eclipse.osgi.util"/>
 		<plugin id="org.eclipse.osgi.util.source"/>
-		<plugin id="org.eclipse.rap.demo"/>
-		<plugin id="org.eclipse.rap.demo.controls"/>
-		<plugin id="org.eclipse.rap.demo.controls.source"/>
-		<plugin id="org.eclipse.rap.demo.databinding"/>
-		<plugin id="org.eclipse.rap.demo.databinding.source"/>
-		<plugin id="org.eclipse.rap.demo.source"/>
-		<plugin id="org.eclipse.rap.design.example"/>
-		<plugin id="org.eclipse.rap.design.example.source"/>
-		<plugin id="org.eclipse.rap.examples"/>
-		<plugin id="org.eclipse.rap.examples.pages"/>
-		<plugin id="org.eclipse.rap.examples.pages.source"/>
-		<plugin id="org.eclipse.rap.examples.source"/>
 		<plugin id="org.eclipse.rap.filedialog"/>
-		<plugin id="org.eclipse.rap.filedialog.demo.examples"/>
-		<plugin id="org.eclipse.rap.filedialog.demo.examples.source"/>
 		<plugin id="org.eclipse.rap.filedialog.source"/>
 		<plugin id="org.eclipse.rap.fileupload"/>
 		<plugin id="org.eclipse.rap.fileupload.source"/>
@@ -173,12 +179,8 @@
 		<plugin id="org.eclipse.rap.nebula.jface.gridviewer"/>
 		<plugin id="org.eclipse.rap.nebula.jface.gridviewer.source"/>
 		<plugin id="org.eclipse.rap.nebula.widgets.grid"/>
-		<plugin id="org.eclipse.rap.nebula.widgets.grid.demo.examples"/>
-		<plugin id="org.eclipse.rap.nebula.widgets.grid.demo.examples.source"/>
 		<plugin id="org.eclipse.rap.nebula.widgets.grid.source"/>
 		<plugin id="org.eclipse.rap.nebula.widgets.richtext"/>
-		<plugin id="org.eclipse.rap.nebula.widgets.richtext.demo.examples"/>
-		<plugin id="org.eclipse.rap.nebula.widgets.richtext.demo.examples.source"/>
 		<plugin id="org.eclipse.rap.nebula.widgets.richtext.source"/>
 		<plugin id="org.eclipse.rap.rwt"/>
 		<plugin id="org.eclipse.rap.rwt.osgi"/>
@@ -245,5 +247,10 @@
 		<plugin id="com.sun.activation.javax.activation"/>
 		<plugin id="javax.ws.rs-api"/>
 		<plugin id="javax.ws.rs-api.source"/>
+		<plugin id="javax.servlet-api"/>
+		<plugin id="javax.servlet-api.source"/>
+		<plugin id="org.osgi.service.http"/>
+		<plugin id="wrapped.javax.servlet.servlet-api.source"/>
+		<plugin id="wrapped.javax.servlet.servlet-api"/>
 	</includeBundles>
 </target>

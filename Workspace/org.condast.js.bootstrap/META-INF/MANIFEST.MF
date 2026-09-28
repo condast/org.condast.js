@@ -8,6 +8,10 @@ Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Import-Package: org.condast.commons.strings,
  org.condast.js.commons.controller,
  org.eclipse.swt.browser,
- org.osgi.framework
+ org.osgi.framework,
+ org.osgi.service.http.whiteboard;version="[1.1.0,2.0.0)",
+ org.osgi.service.http.whiteboard.propertytypes;version="[1.1.0,2.0.0)"
+Service-Component: OSGI-INF/org.condast.js.bootstrap.http.BootstrapWebResources.xml
 Export-Package: org.condast.js.bootstrap.controller
 Automatic-Module-Name: org.condast.js.bootstrap
+Bundle-ActivationPolicy: lazy

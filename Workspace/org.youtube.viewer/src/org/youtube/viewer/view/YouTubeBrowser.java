@@ -13,7 +13,7 @@ import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.browser.ProgressEvent;
 import org.eclipse.swt.browser.ProgressListener;
 import org.eclipse.swt.widgets.Composite;
-import org.youtube.viewer.servlet.PlayerSession;
+import org.youtube.viewer.http.PlayerSession;
 import org.youtube.viewer.session.ISessionListener;
 
 public class YouTubeBrowser extends Browser {
