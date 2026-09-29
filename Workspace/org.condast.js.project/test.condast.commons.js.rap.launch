@@ -91,7 +91,6 @@
         <setEntry value="org.osgi.service.device@default:default"/>
         <setEntry value="org.osgi.service.event@default:default"/>
         <setEntry value="org.osgi.service.http.whiteboard@default:default"/>
-        <setEntry value="org.osgi.service.http@default:default"/>
         <setEntry value="org.osgi.service.metatype@default:default"/>
         <setEntry value="org.osgi.service.prefs@default:default"/>
         <setEntry value="org.osgi.service.provisioning@default:default"/>
@@ -104,7 +103,6 @@
         <setEntry value="org.osgi.util.promise@default:default"/>
         <setEntry value="org.osgi.util.xml@default:default"/>
         <setEntry value="slf4j.api@default:default"/>
-        <setEntry value="wrapped.javax.servlet.servlet-api@default:default"/>
     </setAttribute>
     <setAttribute key="selected_workspace_bundles">
         <setEntry value="org.condast.commons.data@default:default"/>
