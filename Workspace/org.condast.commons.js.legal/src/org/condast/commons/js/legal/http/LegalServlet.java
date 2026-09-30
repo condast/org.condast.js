@@ -89,5 +89,17 @@ public class LegalServlet extends HttpServlet {
 		protected String onCreateLink(String link, String url, String arguments) {
 			return domain;
 		}
+
+		@Override
+		protected String onHandleApplication() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		protected String onHandleBody(String body, Attributes attr) {
+			// TODO Auto-generated method stub
+			return null;
+		}
 	}
 }

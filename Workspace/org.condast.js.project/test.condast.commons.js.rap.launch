@@ -54,7 +54,6 @@
         <setEntry value="org.eclipse.equinox.common@2:true"/>
         <setEntry value="org.eclipse.equinox.console@default:default"/>
         <setEntry value="org.eclipse.equinox.http.jetty@default:default"/>
-        <setEntry value="org.eclipse.equinox.http.registry@default:default"/>
         <setEntry value="org.eclipse.equinox.http.service.api@default:default"/>
         <setEntry value="org.eclipse.equinox.http.servlet@default:default"/>
         <setEntry value="org.eclipse.equinox.http.servletbridge@default:default"/>
@@ -111,7 +110,6 @@
         <setEntry value="org.condast.js.commons@default:default"/>
         <setEntry value="org.condast.js.react@default:default"/>
         <setEntry value="org.openlayer.map@default:default"/>
-        <setEntry value="org.youtube.viewer@default:default"/>
     </setAttribute>
     <booleanAttribute key="show_selected_only" value="false"/>
     <booleanAttribute key="tracing" value="false"/>
