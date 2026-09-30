@@ -17,12 +17,6 @@
 				<type>jar</type>
 			</dependency>
 			<dependency>
-				<groupId>com.sun.activation</groupId>
-				<artifactId>javax.activation</artifactId>
-				<version>1.2.0</version>
-				<type>jar</type>
-			</dependency>
-			<dependency>
 				<groupId>commons-codec</groupId>
 				<artifactId>commons-codec</artifactId>
 				<version>1.22.0</version>
@@ -35,17 +29,19 @@
 			    <version>2.1.5</version>
 			    <scope>compile</scope>
 			</dependency>
+			<!-- Source: https://mvnrepository.com/artifact/jakarta.ws.rs/jakarta.ws.rs-api -->
 			<dependency>
-				<groupId>javax.ws.rs</groupId>
-				<artifactId>javax.ws.rs-api</artifactId>
-				<version>2.1.1</version>
-				<type>jar</type>
+			    <groupId>jakarta.ws.rs</groupId>
+			    <artifactId>jakarta.ws.rs-api</artifactId>
+			    <version>4.0.0</version>
+			    <scope>compile</scope>
 			</dependency>
+			<!-- Source: https://mvnrepository.com/artifact/jakarta.activation/jakarta.activation-api -->
 			<dependency>
-				<groupId>javax.xml.bind</groupId>
-				<artifactId>jaxb-api</artifactId>
-				<version>2.4.0-b180830.0359</version>
-				<type>jar</type>
+			    <groupId>jakarta.activation</groupId>
+			    <artifactId>jakarta.activation-api</artifactId>
+			    <version>2.1.4</version>
+			    <scope>compile</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.freemarker</groupId>
@@ -76,8 +72,6 @@
 		<plugin id="com.ibm.icu.source"/>
 		<plugin id="jakarta.servlet-api"/>
 		<plugin id="jakarta.servlet-api.source"/>
-		<plugin id="jaxb-api"/>
-		<plugin id="jaxb-api.source"/>
 		<plugin id="org.apache.aries.spifly.dynamic.bundle"/>
 		<plugin id="org.apache.commons.commons-codec"/>
 		<plugin id="org.apache.commons.commons-codec.source"/>
@@ -236,12 +230,12 @@
 		<plugin id="org.osgi.util.xml"/>
 		<plugin id="org.osgi.util.xml.source"/>
 		<plugin id="slf4j.api"/>
-		<plugin id="com.sun.activation.javax.activation.source"/>
-		<plugin id="com.sun.activation.javax.activation"/>
-		<plugin id="javax.ws.rs-api"/>
-		<plugin id="javax.ws.rs-api.source"/>
 		<plugin id="org.osgi.service.http"/>
 		<plugin id="jakarta.mail-api.source"/>
 		<plugin id="jakarta.mail-api"/>
+		<plugin id="jakarta.ws.rs-api"/>
+		<plugin id="jakarta.ws.rs-api.source"/>
+		<plugin id="jakarta.activation-api"/>
+		<plugin id="jakarta.activation-api.source"/>
 	</includeBundles>
 </target>
