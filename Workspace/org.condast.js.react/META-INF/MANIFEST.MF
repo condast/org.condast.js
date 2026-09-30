@@ -21,3 +21,4 @@ Import-Package: org.condast.commons.strings,
 Bundle-ActivationPolicy: lazy
 Export-Package: org.condast.js.react.controller
 Automatic-Module-Name: org.condast.js.react
+Service-Component: OSGI-INF/org.condast.js.react.http.ReactWebResources.xml

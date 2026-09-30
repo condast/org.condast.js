@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.4.0" name="org.youtube.viewer.http.YouTubeWebResources">
+   <property name="osgi.http.whiteboard.resource.pattern" type="String" value="/youtube/web/*"/>
+   <property name="osgi.http.whiteboard.resource.prefix" type="String" value="/WEB-INF"/>
+   <service>
+      <provide interface="org.youtube.viewer.http.YouTubeWebResources"/>
+   </service>
+   <implementation class="org.youtube.viewer.http.YouTubeWebResources"/>
+</scr:component>

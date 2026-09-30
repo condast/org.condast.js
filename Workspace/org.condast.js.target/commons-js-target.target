@@ -2,20 +2,24 @@
 <?pde version="3.8"?>
 <target name="commons-maven-3x.target" sequenceNumber="254">
 <locations>
-	<location path="P:\Virgo\virgo-jetty-server-3.7.4.POM\repository\jpa" type="Directory"/>
 	<location includeAllPlatforms="false" includeConfigurePhase="true" includeMode="planner" includeSource="true" type="InstallableUnit">
-		<repository location="http://download.eclipse.org/rt/rap/4.6"/>
-		<unit id="org.eclipse.rap.equinox.target.feature.feature.group" version="4.6.0.20260303-1200"/>
-		<unit id="org.eclipse.rap.examples.feature.feature.group" version="4.6.0.20260303-1200"/>
-		<unit id="org.eclipse.rap.feature.feature.group" version="4.6.0.20260303-1200"/>
-		<unit id="org.eclipse.rap.sdk.feature.feature.group" version="4.6.0.20260303-1200"/>
+		<repository location="https://download.eclipse.org/rt/rap/3.29"/>
+		<unit id="org.eclipse.rap.equinox.target.feature.feature.group" version="3.29.0.20240605-1200"/>
+		<unit id="org.eclipse.rap.feature.feature.group" version="3.29.0.20240605-1200"/>
+		<unit id="org.eclipse.rap.sdk.feature.feature.group" version="3.29.0.20240605-1200"/>
 	</location>
 	<location includeDependencyDepth="none" includeDependencyScopes="compile" includeSource="true" missingManifest="generate" type="Maven">
 		<dependencies>
 			<dependency>
 				<groupId>com.google.code.gson</groupId>
 				<artifactId>gson</artifactId>
-				<version>2.13.2</version>
+				<version>2.14.0</version>
+				<type>jar</type>
+			</dependency>
+			<dependency>
+				<groupId>com.sun.activation</groupId>
+				<artifactId>javax.activation</artifactId>
+				<version>1.2.0</version>
 				<type>jar</type>
 			</dependency>
 			<dependency>
@@ -25,16 +29,36 @@
 				<type>jar</type>
 			</dependency>
 			<dependency>
-				<groupId>jakarta.ws.rs</groupId>
-				<artifactId>jakarta.ws.rs-api</artifactId>
-				<version>4.0.0</version>
+				<groupId>javax.ws.rs</groupId>
+				<artifactId>javax.ws.rs-api</artifactId>
+				<version>2.1.1</version>
 				<type>jar</type>
 			</dependency>
-			<!-- Source: https://mvnrepository.com/artifact/jakarta.mail/jakarta.mail-api -->
 			<dependency>
-			    <groupId>jakarta.mail</groupId>
-			    <artifactId>jakarta.mail-api</artifactId>
-			    <version>2.1.5</version>
+				<groupId>javax.xml.bind</groupId>
+				<artifactId>jaxb-api</artifactId>
+				<version>2.4.0-b180830.0359</version>
+				<type>jar</type>
+			</dependency>
+			<!-- Source: https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
+			<dependency>
+			    <groupId>javax.servlet</groupId>
+			    <artifactId>javax.servlet-api</artifactId>
+			    <version>4.0.1</version>
+			    <scope>provided</scope>
+			</dependency>
+			<!-- Source: https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
+			<dependency>
+			    <groupId>javax.servlet</groupId>
+			    <artifactId>servlet-api</artifactId>
+			    <version>2.5</version>
+			    <scope>provided</scope>
+			</dependency>
+			<!-- Source: https://mvnrepository.com/artifact/javax.mail/javax.mail-api -->
+			<dependency>
+			    <groupId>javax.mail</groupId>
+			    <artifactId>javax.mail-api</artifactId>
+			    <version>1.6.2</version>
 			    <scope>compile</scope>
 			</dependency>
 			<dependency>
@@ -49,13 +73,13 @@
 				<version>1.5.1</version>
 				<type>jar</type>
 			</dependency>
-			<!-- Source: https://mvnrepository.com/artifact/org.osgi/org.osgi.service.http.whiteboard -->
+			<!-- Source: https://mvnrepository.com/artifact/org.osgi/org.osgi.service.http -->
 			<dependency>
 			    <groupId>org.osgi</groupId>
-			    <artifactId>org.osgi.service.http.whiteboard</artifactId>
-			    <version>1.1.1</version>
+			    <artifactId>org.osgi.service.http</artifactId>
+			    <version>1.2.2</version>
 			    <scope>provided</scope>
-			</dependency>
+            </dependency>
 		</dependencies>
 	</location>
 </locations>
@@ -64,12 +88,14 @@
 		<plugin id="com.google.gson.source"/>
 		<plugin id="com.ibm.icu"/>
 		<plugin id="com.ibm.icu.source"/>
-		<plugin id="com.mysql.jdbc"/>
 		<plugin id="jakarta.servlet-api"/>
 		<plugin id="jakarta.servlet-api.source"/>
+		<plugin id="jaxb-api"/>
+		<plugin id="jaxb-api.source"/>
 		<plugin id="org.apache.aries.spifly.dynamic.bundle"/>
 		<plugin id="org.apache.commons.commons-codec"/>
 		<plugin id="org.apache.commons.commons-codec.source"/>
+		<plugin id="org.apache.commons.commons-fileupload"/>
 		<plugin id="org.apache.commons.commons-io"/>
 		<plugin id="org.apache.felix.gogo.command"/>
 		<plugin id="org.apache.felix.gogo.command.source"/>
@@ -107,17 +133,27 @@
 		<plugin id="org.eclipse.equinox.console.source"/>
 		<plugin id="org.eclipse.equinox.event"/>
 		<plugin id="org.eclipse.equinox.event.source"/>
+		<plugin id="org.eclipse.equinox.http.jetty"/>
+		<plugin id="org.eclipse.equinox.http.jetty.source"/>
+		<plugin id="org.eclipse.equinox.http.registry"/>
+		<plugin id="org.eclipse.equinox.http.registry.source"/>
+		<plugin id="org.eclipse.equinox.http.service.api"/>
+		<plugin id="org.eclipse.equinox.http.servlet"/>
+		<plugin id="org.eclipse.equinox.http.servlet.source"/>
+		<plugin id="org.eclipse.equinox.http.servletbridge"/>
 		<plugin id="org.eclipse.equinox.preferences"/>
 		<plugin id="org.eclipse.equinox.preferences.source"/>
 		<plugin id="org.eclipse.equinox.registry"/>
 		<plugin id="org.eclipse.equinox.registry.source"/>
-		<plugin id="org.eclipse.gemini.dbaccess.mysql"/>
-		<plugin id="org.eclipse.gemini.dbaccess.util"/>
-		<plugin id="org.eclipse.gemini.jpa" version="1.2.0.M1"/>
+		<plugin id="org.eclipse.equinox.servletbridge"/>
 		<plugin id="org.eclipse.help"/>
 		<plugin id="org.eclipse.help.source"/>
 		<plugin id="org.eclipse.jdt.junit.runtime"/>
 		<plugin id="org.eclipse.jdt.junit.runtime.source"/>
+		<plugin id="org.eclipse.jetty.ee8.security"/>
+		<plugin id="org.eclipse.jetty.ee8.server"/>
+		<plugin id="org.eclipse.jetty.ee8.servlet"/>
+		<plugin id="org.eclipse.jetty.ee8.servlet.source"/>
 		<plugin id="org.eclipse.jetty.http"/>
 		<plugin id="org.eclipse.jetty.http.source"/>
 		<plugin id="org.eclipse.jetty.io"/>
@@ -127,29 +163,19 @@
 		<plugin id="org.eclipse.jetty.security.source"/>
 		<plugin id="org.eclipse.jetty.server"/>
 		<plugin id="org.eclipse.jetty.server.source"/>
+		<plugin id="org.eclipse.jetty.servlet-api"/>
 		<plugin id="org.eclipse.jetty.session"/>
 		<plugin id="org.eclipse.jetty.util"/>
 		<plugin id="org.eclipse.jetty.util.ajax"/>
 		<plugin id="org.eclipse.jetty.util.ajax.source"/>
 		<plugin id="org.eclipse.jetty.util.source"/>
 		<plugin id="org.eclipse.osgi"/>
+		<plugin id="org.eclipse.osgi.services"/>
+		<plugin id="org.eclipse.osgi.services.source"/>
 		<plugin id="org.eclipse.osgi.source"/>
 		<plugin id="org.eclipse.osgi.util"/>
-		<plugin id="org.eclipse.rap.demo"/>
-		<plugin id="org.eclipse.rap.demo.controls"/>
-		<plugin id="org.eclipse.rap.demo.controls.source"/>
-		<plugin id="org.eclipse.rap.demo.databinding"/>
-		<plugin id="org.eclipse.rap.demo.databinding.source"/>
-		<plugin id="org.eclipse.rap.demo.source"/>
-		<plugin id="org.eclipse.rap.design.example"/>
-		<plugin id="org.eclipse.rap.design.example.source"/>
-		<plugin id="org.eclipse.rap.examples"/>
-		<plugin id="org.eclipse.rap.examples.pages"/>
-		<plugin id="org.eclipse.rap.examples.pages.source"/>
-		<plugin id="org.eclipse.rap.examples.source"/>
+		<plugin id="org.eclipse.osgi.util.source"/>
 		<plugin id="org.eclipse.rap.filedialog"/>
-		<plugin id="org.eclipse.rap.filedialog.demo.examples"/>
-		<plugin id="org.eclipse.rap.filedialog.demo.examples.source"/>
 		<plugin id="org.eclipse.rap.filedialog.source"/>
 		<plugin id="org.eclipse.rap.fileupload"/>
 		<plugin id="org.eclipse.rap.fileupload.source"/>
@@ -160,12 +186,8 @@
 		<plugin id="org.eclipse.rap.nebula.jface.gridviewer"/>
 		<plugin id="org.eclipse.rap.nebula.jface.gridviewer.source"/>
 		<plugin id="org.eclipse.rap.nebula.widgets.grid"/>
-		<plugin id="org.eclipse.rap.nebula.widgets.grid.demo.examples"/>
-		<plugin id="org.eclipse.rap.nebula.widgets.grid.demo.examples.source"/>
 		<plugin id="org.eclipse.rap.nebula.widgets.grid.source"/>
 		<plugin id="org.eclipse.rap.nebula.widgets.richtext"/>
-		<plugin id="org.eclipse.rap.nebula.widgets.richtext.demo.examples"/>
-		<plugin id="org.eclipse.rap.nebula.widgets.richtext.demo.examples.source"/>
 		<plugin id="org.eclipse.rap.nebula.widgets.richtext.source"/>
 		<plugin id="org.eclipse.rap.rwt"/>
 		<plugin id="org.eclipse.rap.rwt.osgi"/>
@@ -204,8 +226,7 @@
 		<plugin id="org.osgi.service.device.source"/>
 		<plugin id="org.osgi.service.event"/>
 		<plugin id="org.osgi.service.event.source"/>
-		<plugin id="org.osgi.service.jdbc"/>
-		<plugin id="org.osgi.service.jndi"/>
+		<plugin id="org.osgi.service.http.whiteboard"/>
 		<plugin id="org.osgi.service.metatype"/>
 		<plugin id="org.osgi.service.metatype.source"/>
 		<plugin id="org.osgi.service.prefs"/>
@@ -229,26 +250,16 @@
 		<plugin id="org.osgi.util.xml"/>
 		<plugin id="org.osgi.util.xml.source"/>
 		<plugin id="slf4j.api"/>
-		<plugin id="org.apache.commons.commons-fileupload2-core"/>
-		<plugin id="org.apache.commons.commons-fileupload2-jakarta-servlet6"/>
-		<plugin id="org.eclipse.jetty.ee10.servlet"/>
-		<plugin id="org.eclipse.rap.http.jetty"/>
-		<plugin id="org.eclipse.rap.http.jetty.source"/>
-		<plugin id="org.eclipse.rap.http.registry"/>
-		<plugin id="org.eclipse.rap.http.registry.source"/>
-		<plugin id="org.eclipse.rap.http.servlet"/>
-		<plugin id="org.eclipse.rap.http.servlet.source"/>
-		<plugin id="org.eclipse.rap.http.servletbridge"/>
-		<plugin id="org.eclipse.rap.http.servletbridge.source"/>
-		<plugin id="org.eclipse.rap.rwt.addons"/>
-		<plugin id="org.eclipse.rap.rwt.addons.source"/>
-		<plugin id="org.eclipse.rap.servletbridge"/>
-		<plugin id="org.eclipse.rap.servletbridge.source"/>
-		<plugin id="jakarta.ws.rs-api.source"/>
-		<plugin id="jakarta.ws.rs-api"/>
-		<plugin id="org.osgi.service.http.whiteboard"/>
-		<plugin id="org.osgi.service.http.whiteboard.source"/>
-		<plugin id="jakarta.mail-api"/>
-		<plugin id="jakarta.mail-api.source"/>
+		<plugin id="com.sun.activation.javax.activation.source"/>
+		<plugin id="com.sun.activation.javax.activation"/>
+		<plugin id="javax.ws.rs-api"/>
+		<plugin id="javax.ws.rs-api.source"/>
+		<plugin id="javax.servlet-api"/>
+		<plugin id="javax.servlet-api.source"/>
+		<plugin id="org.osgi.service.http"/>
+		<plugin id="wrapped.javax.servlet.servlet-api.source"/>
+		<plugin id="wrapped.javax.servlet.servlet-api"/>
+		<plugin id="javax.mail-api.source"/>
+		<plugin id="javax.mail-api"/>
 	</includeBundles>
 </target>
