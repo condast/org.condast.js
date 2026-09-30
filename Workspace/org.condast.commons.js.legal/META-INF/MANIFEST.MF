@@ -23,3 +23,7 @@ Export-Package: org.condast.commons.js.legal.core,
  org.condast.commons.js.legal.model,
  org.condast.commons.js.legal.services,
  org.condast.commons.js.legal.ui
+Service-Component: OSGI-INF/org.condast.commons.js.legal.http.LegalServlet.xml,
+ OSGI-INF/org.condast.commons.js.legal.http.LegalWebResources.xml,
+ OSGI-INF/org.condast.commons.js.legal.http.MapFilter.xml
+Bundle-ActivationPolicy: lazy

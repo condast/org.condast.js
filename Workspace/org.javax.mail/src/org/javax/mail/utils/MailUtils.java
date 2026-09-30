@@ -252,6 +252,18 @@ public class MailUtils {
 		@Override
 		protected String getToken() {
 			return String.valueOf(-1);
+		}
+
+		@Override
+		protected String onHandleApplication() {
+			// TODO Auto-generated method stub
+			return null;
+		}
+
+		@Override
+		protected String onHandleBody(String body, Attributes attr) {
+			// TODO Auto-generated method stub
+			return null;
 		}		
 	}
 
