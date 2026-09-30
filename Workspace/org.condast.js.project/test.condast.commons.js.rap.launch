@@ -39,7 +39,6 @@
     <setAttribute key="selected_target_bundles">
         <setEntry value="com.google.gson@default:default"/>
         <setEntry value="jakarta.servlet-api@default:default"/>
-        <setEntry value="javax.servlet-api@default:default"/>
         <setEntry value="org.apache.aries.spifly.dynamic.bundle@default:default"/>
         <setEntry value="org.apache.commons.commons-fileupload@default:default"/>
         <setEntry value="org.apache.commons.commons-io@default:default"/>

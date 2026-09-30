@@ -95,27 +95,20 @@
     </setAttribute>
     <setAttribute key="selected_workspace_bundles">
         <setEntry value="nl.martijndwars.webpush@default:default"/>
-        <setEntry value="org.condast.commons.autonomy.ui@default:default"/>
-        <setEntry value="org.condast.commons.autonomy@default:default"/>
-        <setEntry value="org.condast.commons.bugzilla@default:default"/>
         <setEntry value="org.condast.commons.data@default:default"/>
-        <setEntry value="org.condast.commons.legal@default:default"/>
         <setEntry value="org.condast.commons.messaging@default:default"/>
         <setEntry value="org.condast.commons.preferences@default:default"/>
-        <setEntry value="org.condast.commons.test@default:default"/>
-        <setEntry value="org.condast.commons.ui.messaging@default:default"/>
-        <setEntry value="org.condast.commons.ui.widgets@default:default"/>
         <setEntry value="org.condast.commons.ui@default:default"/>
         <setEntry value="org.condast.commons@default:default"/>
+        <setEntry value="org.condast.js.bootstrap@default:default"/>
         <setEntry value="org.condast.js.commons@default:default"/>
+        <setEntry value="org.condast.js.push@default:default"/>
+        <setEntry value="org.condast.js.react@default:default"/>
+        <setEntry value="org.eclipse.nebula.widgets.oscilloscope@default:default"/>
+        <setEntry value="org.eclipse.rap.chartjs@default:default"/>
+        <setEntry value="org.javax.mail@default:default"/>
         <setEntry value="org.openlayer.map@default:default"/>
-        <setEntry value="org.satr.arnac.authentication@default:default"/>
-        <setEntry value="org.satr.arnac.core@default:default"/>
-        <setEntry value="org.satr.arnac.dashboard@default:default"/>
-        <setEntry value="org.satr.arnac.management@default:default"/>
-        <setEntry value="org.satr.arnac.rest@default:default"/>
-        <setEntry value="org.satr.arnac.ui@default:default"/>
-        <setEntry value="org.satr.usvrdm.simulator@default:default"/>
+        <setEntry value="org.youtube.viewer@default:default"/>
     </setAttribute>
     <booleanAttribute key="show_selected_only" value="false"/>
     <booleanAttribute key="tracing" value="false"/>

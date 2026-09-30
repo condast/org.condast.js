@@ -28,6 +28,13 @@
 				<version>1.22.0</version>
 				<type>jar</type>
 			</dependency>
+			<!-- Source: https://mvnrepository.com/artifact/jakarta.mail/jakarta.mail-api -->
+			<dependency>
+			    <groupId>jakarta.mail</groupId>
+			    <artifactId>jakarta.mail-api</artifactId>
+			    <version>2.1.5</version>
+			    <scope>compile</scope>
+			</dependency>
 			<dependency>
 				<groupId>javax.ws.rs</groupId>
 				<artifactId>javax.ws.rs-api</artifactId>
@@ -39,20 +46,6 @@
 				<artifactId>jaxb-api</artifactId>
 				<version>2.4.0-b180830.0359</version>
 				<type>jar</type>
-			</dependency>
-			<!-- Source: https://mvnrepository.com/artifact/javax.servlet/javax.servlet-api -->
-			<dependency>
-			    <groupId>javax.servlet</groupId>
-			    <artifactId>javax.servlet-api</artifactId>
-			    <version>4.0.1</version>
-			    <scope>provided</scope>
-			</dependency>
-			<!-- Source: https://mvnrepository.com/artifact/javax.servlet/servlet-api -->
-			<dependency>
-			    <groupId>javax.servlet</groupId>
-			    <artifactId>servlet-api</artifactId>
-			    <version>2.5</version>
-			    <scope>provided</scope>
 			</dependency>
 			<dependency>
 				<groupId>org.freemarker</groupId>
@@ -247,10 +240,8 @@
 		<plugin id="com.sun.activation.javax.activation"/>
 		<plugin id="javax.ws.rs-api"/>
 		<plugin id="javax.ws.rs-api.source"/>
-		<plugin id="javax.servlet-api"/>
-		<plugin id="javax.servlet-api.source"/>
 		<plugin id="org.osgi.service.http"/>
-		<plugin id="wrapped.javax.servlet.servlet-api.source"/>
-		<plugin id="wrapped.javax.servlet.servlet-api"/>
+		<plugin id="jakarta.mail-api.source"/>
+		<plugin id="jakarta.mail-api"/>
 	</includeBundles>
 </target>

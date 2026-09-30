@@ -6,7 +6,7 @@ import org.osgi.service.component.annotations.Component;
 import org.osgi.service.http.whiteboard.propertytypes.HttpWhiteboardResource;
 
 @Component( service = OpenLayerResources.class )
-@HttpWhiteboardResource(pattern="/openlayer/*", prefix="/WEB-INF")
+@HttpWhiteboardResource(pattern="/openlayer/*", prefix="/resources")
 public class OpenLayerResources {
 
 	private Logger logger = Logger.getLogger(OpenLayerResources.class.getName());
