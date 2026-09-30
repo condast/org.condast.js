@@ -8,13 +8,9 @@ Automatic-Module-Name: org.javax.mail
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: lib/javax.mail-1.6.2.jar,
  .
-Export-Package: javax.mail;version="1.6.2",
- javax.mail.event,
- javax.mail.internet;version="1.6.2",
- javax.mail.search,
- javax.mail.util,
- org.javax.mail.utils
-Import-Package: org.condast.commons.data.user,
+Import-Package: javax.mail;version="[1.6.0,2.0.0)",
+ javax.mail.internet;version="[1.6.0,2.0.0)",
+ org.condast.commons.data.user,
  org.condast.commons.data.util,
  org.condast.commons.parser,
  org.condast.commons.preferences.config,

@@ -6,7 +6,7 @@ import java.util.Collection;
 import org.eclipse.rap.rwt.service.ServerPushSession;
 import org.eclipse.swt.widgets.Display;
 
-public class RefreshSession {
+public class RefreshSession<D extends Object> {
 
 	private Display display;
 
@@ -14,7 +14,7 @@ public class RefreshSession {
 	private boolean started;
 	private boolean disposed;
 
-	private Collection<ISessionListener<Object>> listeners;
+	private Collection<ISessionListener<D>> listeners;
 
 	public RefreshSession() {
 		listeners = new ArrayList<>();
@@ -22,11 +22,11 @@ public class RefreshSession {
 		this.disposed = false;
 	}
 
-	public void addSessionListener( ISessionListener<Object> listener ){
+	public void addSessionListener( ISessionListener<D> listener ){
 		this.listeners.add( listener );
 	}
 
-	public void removeSessionListener( ISessionListener<Object> listener ){
+	public void removeSessionListener( ISessionListener<D> listener ){
 		this.listeners.remove( listener );
 	}
 
@@ -55,8 +55,8 @@ public class RefreshSession {
 		this.session.stop();
 	}
 
-	protected void notifyListeners( SessionEvent<Object> event ) {
-		for(ISessionListener<Object> listener: listeners){
+	protected void notifyListeners( SessionEvent<D> event ) {
+		for(ISessionListener<D> listener: listeners){
 			try{
 				if( listener != null )
 					listener.notifySessionChanged( event );
