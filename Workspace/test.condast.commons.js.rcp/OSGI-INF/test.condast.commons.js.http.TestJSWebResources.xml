@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.4.0" name="test.condast.commons.js.http.TestJSWebResources">
+   <property name="osgi.http.whiteboard.resource.pattern" type="String" value="/test/*"/>
+   <property name="osgi.http.whiteboard.resource.prefix" type="String" value="/WEB-INF"/>
+   <service>
+      <provide interface="test.condast.commons.js.http.TestJSWebResources"/>
+   </service>
+   <implementation class="test.condast.commons.js.http.TestJSWebResources"/>
+</scr:component>

@@ -14,7 +14,7 @@ package org.eclipse.nebula.widgets.oscilloscope.snippets;
 import java.io.File;
 import java.util.Random;
 
-import org.eclipse.nebula.widgets.oscilloscope.multichannel.Oscilloscope;
+import org.eclipse.nebula.widgets.oscilloscope.multichannel.OscilloscopeDispatcher;
 import org.eclipse.swt.layout.GridLayout;
 import org.eclipse.swt.widgets.Display;
 import org.eclipse.swt.widgets.Shell;
@@ -84,7 +84,7 @@ public class MultiScope_Basic {
 					private File FLATLINEFILE;
 
 					public void hookSetValues(int value) {
-						getOscilloscope().setValues(0, Oscilloscope.HEARTBEAT);
+						getOscilloscope().setValues(0, OscilloscopeDispatcher.BACKGROUND_MONITOR);
 					}
 
 					public File getActiveSoundfile() {

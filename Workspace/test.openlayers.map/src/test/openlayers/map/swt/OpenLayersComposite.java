@@ -10,11 +10,11 @@ import org.condast.commons.data.plane.FieldData;
 import org.condast.commons.data.plane.IField;
 import org.condast.commons.strings.StringStyler;
 import org.condast.commons.strings.StringUtils;
-import org.condast.commons.ui.field.FieldChangeEvent;
-import org.condast.commons.ui.field.FieldComposite;
-import org.condast.commons.ui.field.IFieldChangeListener;
+import org.condast.commons.ui.widgets.field.FieldChangeEvent;
+import org.condast.commons.ui.widgets.field.IFieldChangeListener;
 import org.condast.js.commons.eval.EvaluationEvent;
 import org.condast.js.commons.eval.IEvaluationListener;
+import org.condast.js.commons.ui.widgets.field.FieldComposite;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
 import org.eclipse.swt.events.SelectionAdapter;
@@ -84,7 +84,7 @@ public class OpenLayersComposite extends Composite {
 							shapes.addShape(pg.toWKT());
 							pg.setAngle(90);
 							//shapes.addShape(pg.toWKT());
-							controller.synchronize();
+							//controller.synchronize();
 							requestLayout();
 						}
 						break;
@@ -98,7 +98,7 @@ public class OpenLayersComposite extends Composite {
 							shapes.addShape(pg.toWKT());
 							//pg.setAngle(90);
 							//shapes.addShape(pg.toWKT());
-							controller.synchronize();
+							//controller.synchronize();
 							requestLayout();
 						}
 						break;
@@ -170,8 +170,8 @@ public class OpenLayersComposite extends Composite {
 		this.fieldComposite = new FieldComposite( this, SWT.NONE);
 		this.fieldComposite.enableDraw(true);
 		this.fieldComposite.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, false, 2, 1));
-		this.fieldComposite.setInput( PolygonBuilder.getFieldData(), 0);
-		this.fieldComposite.addLocationListener(listener);
+		//this.fieldComposite.setInput( PolygonBuilder.getFieldData(), 0);
+		//this.fieldComposite.addLocationListener(listener);
 
 		Composite composite = new Composite(this, SWT.NONE);
 		composite.setLayout(new GridLayout(1, false));
@@ -201,7 +201,7 @@ public class OpenLayersComposite extends Composite {
 				try {
 					CCombo combo = (CCombo) e.widget;
 					FieldData selected = fieldComposite.getFieldData(); 
-					fieldComposite.setInput(PolygonBuilder.getFieldData(), combo.getSelectionIndex() );
+					//fieldComposite.setInput(PolygonBuilder.getFieldData(), combo.getSelectionIndex() );
 					Polygon pg = createPolygon(combo.getText());
 					GeoView geo = new GeoView( controller);
 					geo.setFieldData(pg.toFieldData(18));
@@ -209,7 +209,7 @@ public class OpenLayersComposite extends Composite {
 					ShapesView shapes = new ShapesView( controller );
 					//shapes.addShape(selected.getWtkString());
 					//shapes.addShape(pg).
-					controller.synchronize();
+					//controller.synchronize();
 				}
 				catch( Exception ex ) {
 					ex.printStackTrace();
@@ -223,7 +223,7 @@ public class OpenLayersComposite extends Composite {
 		
 		this.browser = new Browser( this, SWT.NONE);
 		browser.setLayoutData(new GridData(SWT.FILL, SWT.FILL, true, true, 1, 1));
-		this.controller = new OpenLayerController(browser, "TEST");
+		this.controller = new OpenLayerController(browser);
 		this.controller.addEvaluationListener(elistener);
 		new Label(this, SWT.NONE);
 		//this.fieldComposite.addLocationListener(listener);
@@ -272,7 +272,7 @@ public class OpenLayersComposite extends Composite {
 	}
 
 	public void dispose() {
-		this.fieldComposite.removeLocationListener(listener);
+		//this.fieldComposite.removeLocationListener(listener);
 		this.controller.removeEvaluationListener(elistener);
 		super.dispose();
 	}

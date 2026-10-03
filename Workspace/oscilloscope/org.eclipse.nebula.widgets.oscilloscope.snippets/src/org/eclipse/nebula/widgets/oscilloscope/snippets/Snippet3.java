@@ -85,11 +85,6 @@ public class Snippet3 {
 				return 40;
 			}
 
-			@Override
-			public boolean getFade() {
-				return false;
-			}
-
 			public int getPulse() {
 				return 60;
 			};
@@ -100,7 +95,7 @@ public class Snippet3 {
 
 			@Override
 			public void hookSetValues(int value) {
-				scope.setValues(0,Oscilloscope.HEARTBEAT);
+				scope.setValues(0,OscilloscopeDispatcher.BACKGROUND_MONITOR);
 			}
 
 			public File getActiveSoundfile() {

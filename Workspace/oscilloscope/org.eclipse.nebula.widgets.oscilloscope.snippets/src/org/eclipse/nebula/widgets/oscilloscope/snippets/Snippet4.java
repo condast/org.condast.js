@@ -13,9 +13,9 @@ package org.eclipse.nebula.widgets.oscilloscope.snippets;
 
 import java.io.File;
 
-import org.eclipse.nebula.widgets.oscilloscope.Oscilloscope;
-import org.eclipse.nebula.widgets.oscilloscope.OscilloscopeDispatcher;
-import org.eclipse.nebula.widgets.oscilloscope.OscilloscopeStackAdapter;
+import org.eclipse.nebula.widgets.oscilloscope.multichannel.Oscilloscope;
+import org.eclipse.nebula.widgets.oscilloscope.multichannel.OscilloscopeDispatcher;
+import org.eclipse.nebula.widgets.oscilloscope.multichannel.OscilloscopeStackAdapter;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.layout.GridData;
 import org.eclipse.swt.layout.GridLayout;
@@ -95,10 +95,11 @@ public class Snippet4 {
 
 				OscilloscopeStackAdapter listener = new OscilloscopeStackAdapter() {
 					@Override
-					public void stackEmpty(Oscilloscope scope) {
+
+					public void stackEmpty(Oscilloscope scope, int running) {
 
 						if (isSoundRequired()) {
-							getClipper().playClip(getActiveSoundfile(), 0);
+							//getClipper().playClip(getActiveSoundfile(), 0);
 						}
 						
 
@@ -109,19 +110,13 @@ public class Snippet4 {
 							value += .1;
 
 							int intValue = (int) (Math.sin(value) * 100);
-							getOscilloscope().setValue(intValue);
+							getOscilloscope().setValue(0, intValue);
 						}
 					}
 				};
 
-				scope.addStackListener(listener);
+				scope.addStackListener(0, listener);
 			}
-
-			@Override
-			public boolean getFade() {
-				return false;
-			}
-			
 
 			public int getPulse() {
 				return NO_PULSE;
@@ -133,7 +128,7 @@ public class Snippet4 {
 
 			@Override
 			public void hookSetValues(int value) {
-				scope.setValues(Oscilloscope.HEARTBEAT);
+				scope.setValues(0, OscilloscopeDispatcher.BACKGROUND_MONITOR);
 			}
 
 			public File getActiveSoundfile() {
