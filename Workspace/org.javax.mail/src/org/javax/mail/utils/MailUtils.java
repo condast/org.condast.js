@@ -17,6 +17,7 @@ import javax.mail.internet.InternetAddress;
 import javax.mail.internet.MimeBodyPart;
 import javax.mail.internet.MimeMessage;
 import javax.mail.internet.MimeMultipart;
+
 import org.condast.commons.data.user.ILoginUser;
 import org.condast.commons.data.util.LoginData;
 import org.condast.commons.parser.AbstractResourceParser;

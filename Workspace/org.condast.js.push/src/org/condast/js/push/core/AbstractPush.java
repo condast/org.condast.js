@@ -3,6 +3,8 @@ package org.condast.js.push.core;
 import java.io.IOException;
 import java.net.HttpURLConnection;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.util.ArrayList;
 import java.util.Collection;
 import java.util.logging.Logger;
@@ -80,7 +82,8 @@ public class AbstractPush implements IPushListener{
 	}
 
 	protected void initialise( String path ) throws IOException {
-		URL url = new URL( path );
+		Path pth = Paths.get(path);
+		URL url = pth.toUri().toURL();
 		HttpURLConnection con = (HttpURLConnection) url.openConnection();
 		con.setRequestMethod("GET");
 	}

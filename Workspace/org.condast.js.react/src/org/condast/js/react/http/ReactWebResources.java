@@ -9,6 +9,8 @@ import org.osgi.service.http.whiteboard.propertytypes.HttpWhiteboardResource;
 @HttpWhiteboardResource(pattern="/react/web/*", prefix="/WEB-INF")
 public class ReactWebResources {
 
+	public static final String S_REACT_RESOURCE = "react-resource";
+
 	private Logger logger = Logger.getLogger(ReactWebResources.class.getName());
 
 	public ReactWebResources() {

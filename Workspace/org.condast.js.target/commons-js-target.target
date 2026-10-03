@@ -33,6 +33,13 @@
 			    <version>1.6.2</version>
 			    <scope>compile</scope>
 			</dependency>
+		<!-- Source: https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api -->
+		<dependency>
+		    <groupId>javax.ws.rs</groupId>
+		    <artifactId>javax.ws.rs-api</artifactId>
+		    <version>2.1.1</version>
+		    <scope>compile</scope>
+		</dependency>
 			<dependency>
 				<groupId>org.freemarker</groupId>
 				<artifactId>freemarker</artifactId>
@@ -60,8 +67,6 @@
 		<plugin id="com.google.gson.source"/>
 		<plugin id="com.ibm.icu"/>
 		<plugin id="com.ibm.icu.source"/>
-		<plugin id="jakarta.servlet-api"/>
-		<plugin id="jakarta.servlet-api.source"/>
 		<plugin id="org.apache.aries.spifly.dynamic.bundle"/>
 		<plugin id="org.apache.commons.commons-codec"/>
 		<plugin id="org.apache.commons.commons-codec.source"/>
@@ -224,5 +229,8 @@
 		<plugin id="com.sun.mail.javax.mail"/>
 		<plugin id="com.sun.activation.javax.activation.source"/>
 		<plugin id="org.osgi.service.http.source"/>
+		<plugin id="jakarta.servlet-api.source"/>
+		<plugin id="jakarta.servlet-api"/>
 	</includeBundles>
+	<targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk-22"/>
 </target>

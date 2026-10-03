@@ -6,6 +6,7 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Condast
 Automatic-Module-Name: org.javax.mail
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
+Bundle-ClassPath: .
 Import-Package: javax.mail;version="[1.0.0,2.0.0)",
  javax.mail.internet;version="[1.0.0,2.0.0)",
  org.condast.commons.data.user,

@@ -16,6 +16,7 @@ import javax.servlet.http.HttpServletResponse;
 import org.condast.commons.strings.StringUtils;
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
+import org.youtube.viewer.servlet.PlayerSession;
 import org.youtube.viewer.session.ISessionListener;
 
 @Component(service = Servlet.class, 

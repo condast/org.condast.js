@@ -4,6 +4,8 @@ import org.bouncycastle.jce.interfaces.ECPublicKey;
 
 import java.net.MalformedURLException;
 import java.net.URL;
+import java.nio.file.Path;
+import java.nio.file.Paths;
 import java.security.NoSuchAlgorithmException;
 import java.security.NoSuchProviderException;
 import java.security.PublicKey;
@@ -100,7 +102,8 @@ public class Notification {
     }
 
     public String getOrigin() throws MalformedURLException {
-        URL url = new URL(getEndpoint());
+		Path pth = Paths.get(getEndpoint());
+		URL url = pth.toUri().toURL();
 
         return url.getProtocol() + "://" + url.getHost();
     }

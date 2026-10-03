@@ -1,0 +1,9 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.4.0" name="org.google.geo.mapping.ui.http.GeoCoderWebResources">
+   <property name="osgi.http.whiteboard.resource.pattern" type="String" value="/geo/web/*"/>
+   <property name="osgi.http.whiteboard.resource.prefix" type="String" value="/WEB-INF"/>
+   <service>
+      <provide interface="org.google.geo.mapping.ui.http.GeoCoderWebResources"/>
+   </service>
+   <implementation class="org.google.geo.mapping.ui.http.GeoCoderWebResources"/>
+</scr:component>

@@ -37,8 +37,9 @@
 
 	<modules>
 		<module>../org.condast.js.target</module>
-		<module>../nl.martijndwars.webpush</module>
 		<module>../org.condast.js.commons</module>
+		<module>../org.condast.js.commons.ui</module>
+		<module>../nl.martijndwars.webpush</module>
 		<module>../org.condast.js.push</module>
 		<module>../org.openlayer.map</module>
 		<module>../org.javax.mail</module>
@@ -69,7 +70,7 @@
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho.version}</version>
 				<configuration>
-                    <executionEnvironment>JavaSE-25</executionEnvironment>
+                    <executionEnvironment>JavaSE-22</executionEnvironment>
  					<pomDependencies>consider</pomDependencies>
 					<target>
 						<artifact>

@@ -3,5 +3,5 @@
    <feature id="org.condast.js.feature">
       <category name="org.condast.commons.js.update"/>
    </feature>
-   <category-def name="org.condast.commons.js.update" label="Commons JSD Update Site"/>
+   <category-def name="org.condast.commons.js.update" label="Commons JS Update Site"/>
 </site>
