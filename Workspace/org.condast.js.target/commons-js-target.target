@@ -59,6 +59,13 @@
 			    <version>1.2.2</version>
 			    <scope>provided</scope>
             </dependency>
+            <!-- Source: https://mvnrepository.com/artifact/org.osgi/org.osgi.service.http.whiteboard -->
+			<dependency>
+			    <groupId>org.osgi</groupId>
+			    <artifactId>org.osgi.service.http.whiteboard</artifactId>
+			    <version>1.1.1</version>
+			    <scope>provided</scope>
+			</dependency>
 		</dependencies>
 	</location>
 </locations>
@@ -199,7 +206,7 @@
 		<plugin id="org.osgi.service.device.source"/>
 		<plugin id="org.osgi.service.event"/>
 		<plugin id="org.osgi.service.event.source"/>
-		<plugin id="org.osgi.service.http.whiteboard"/>
+		<plugin id="org.osgi.service.http.whiteboard" version="1.1.1.202109301733"/>
 		<plugin id="org.osgi.service.metatype"/>
 		<plugin id="org.osgi.service.metatype.source"/>
 		<plugin id="org.osgi.service.prefs"/>
@@ -231,6 +238,7 @@
 		<plugin id="org.osgi.service.http.source"/>
 		<plugin id="jakarta.servlet-api.source"/>
 		<plugin id="jakarta.servlet-api"/>
+		<plugin id="org.osgi.service.http.whiteboard.source"/>
 	</includeBundles>
 	<targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk-22"/>
 </target>
