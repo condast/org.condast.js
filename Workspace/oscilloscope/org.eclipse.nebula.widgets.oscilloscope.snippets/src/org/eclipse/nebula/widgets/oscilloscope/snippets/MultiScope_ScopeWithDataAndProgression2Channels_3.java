@@ -92,7 +92,7 @@ public class MultiScope_ScopeWithDataAndProgression2Channels_3 {
 			
 			@Override
 			public void hookChangeAttributes() {
-				getOscilloscope().setBackgroundImage(getBackgroundImage());
+				getOscilloscope().setBackgroundImage(getBackgroundImage(true));
 
 				for (int i = 0; i < getOscilloscope().getChannels(); i++) {
 

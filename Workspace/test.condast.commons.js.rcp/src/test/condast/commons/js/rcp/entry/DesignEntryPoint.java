@@ -1,7 +1,6 @@
 package test.condast.commons.js.rcp.entry;
 
-import org.condast.commons.ui.xml.XMLFactoryBuilder;
-
+import org.condast.js.commons.ui.widgets.xml.XMLFactoryBuilder;
 import org.eclipse.rap.rwt.application.AbstractEntryPoint;
 import org.eclipse.swt.layout.FillLayout;
 import org.eclipse.swt.widgets.Composite;

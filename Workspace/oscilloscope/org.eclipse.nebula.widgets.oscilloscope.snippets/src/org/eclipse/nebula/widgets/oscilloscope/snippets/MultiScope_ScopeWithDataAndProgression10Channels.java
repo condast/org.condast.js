@@ -74,13 +74,6 @@ public class MultiScope_ScopeWithDataAndProgression10Channels {
 			}
 
 			@Override
-			public boolean getFade() {
-				return false;
-			}
-			
-		
-
-			@Override
 			public int getTailSize() {
 				return Oscilloscope.TAILSIZE_MAX;
 			}
