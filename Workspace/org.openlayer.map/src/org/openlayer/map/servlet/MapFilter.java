@@ -3,16 +3,16 @@ package org.openlayer.map.servlet;
 import java.io.IOException;
 import java.util.logging.Logger;
 
-import javax.servlet.Filter;
-import javax.servlet.FilterChain;
-import javax.servlet.FilterConfig;
-import javax.servlet.ServletException;
-import javax.servlet.ServletRequest;
-import javax.servlet.ServletResponse;
+import jakarta.servlet.Filter;
+import jakarta.servlet.FilterChain;
+import jakarta.servlet.FilterConfig;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.ServletRequest;
+import jakarta.servlet.ServletResponse;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
-import org.osgi.service.http.whiteboard.propertytypes.HttpWhiteboardFilterPattern;
+import org.osgi.service.servlet.whiteboard.propertytypes.HttpWhiteboardFilterPattern;
 
 @Component(scope=ServiceScope.PROTOTYPE,
 property= MapFilter.S_OSGI_FILTER_PATTERN)

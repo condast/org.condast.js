@@ -2,7 +2,7 @@
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.4.0" name="org.openlayer.map.servlet.MapFilter">
    <property name="osgi.http.whiteboard.filter.pattern" value="/openlayer/*"/>
    <service scope="prototype">
-      <provide interface="javax.servlet.Filter"/>
+      <provide interface="jakarta.servlet.Filter"/>
    </service>
    <implementation class="org.openlayer.map.servlet.MapFilter"/>
 </scr:component>

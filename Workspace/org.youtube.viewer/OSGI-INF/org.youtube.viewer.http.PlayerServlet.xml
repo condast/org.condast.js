@@ -2,7 +2,7 @@
 <scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.3.0" name="org.youtube.viewer.http.PlayerServlet">
    <property name="osgi.http.whiteboard.servlet.pattern" value="/youtube"/>
    <service scope="prototype">
-      <provide interface="javax.servlet.Servlet"/>
+      <provide interface="jakarta.servlet.Servlet"/>
    </service>
    <implementation class="org.youtube.viewer.http.PlayerServlet"/>
 </scr:component>

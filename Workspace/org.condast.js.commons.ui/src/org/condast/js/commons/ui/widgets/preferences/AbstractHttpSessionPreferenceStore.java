@@ -2,9 +2,9 @@ package org.condast.js.commons.ui.widgets.preferences;
 
 import java.util.logging.Logger;
 
-import javax.servlet.http.HttpSession;
-import javax.servlet.http.HttpSessionEvent;
-import javax.servlet.http.HttpSessionListener;
+import jakarta.servlet.http.HttpSession;
+import jakarta.servlet.http.HttpSessionEvent;
+import jakarta.servlet.http.HttpSessionListener;
 
 import org.condast.commons.preferences.IPreferenceStore;
 

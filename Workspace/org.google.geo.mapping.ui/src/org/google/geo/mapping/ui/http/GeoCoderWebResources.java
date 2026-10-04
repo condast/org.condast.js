@@ -3,7 +3,7 @@ package org.google.geo.mapping.ui.http;
 import java.util.logging.Logger;
 
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.http.whiteboard.propertytypes.HttpWhiteboardResource;
+import org.osgi.service.servlet.whiteboard.propertytypes.HttpWhiteboardResource;
 
 @Component( service = GeoCoderWebResources.class )
 @HttpWhiteboardResource(pattern="/geo/web/*", prefix="/WEB-INF")

@@ -3,7 +3,7 @@ package test.condast.commons.js.http;
 import java.util.logging.Logger;
 
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.http.whiteboard.propertytypes.HttpWhiteboardResource;
+import org.osgi.service.servlet.whiteboard.propertytypes.HttpWhiteboardResource;
 
 @Component( service = TestJSWebResources.class )
 @HttpWhiteboardResource(pattern="/test/*", prefix="/WEB-INF")

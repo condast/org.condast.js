@@ -33,13 +33,13 @@
 			    <version>1.6.2</version>
 			    <scope>compile</scope>
 			</dependency>
-		<!-- Source: https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api -->
-		<dependency>
-		    <groupId>javax.ws.rs</groupId>
-		    <artifactId>javax.ws.rs-api</artifactId>
-		    <version>2.1.1</version>
-		    <scope>compile</scope>
-		</dependency>
+			<!-- Source: https://mvnrepository.com/artifact/javax.ws.rs/javax.ws.rs-api -->
+			<dependency>
+			    <groupId>javax.ws.rs</groupId>
+			    <artifactId>javax.ws.rs-api</artifactId>
+			    <version>2.1.1</version>
+			    <scope>compile</scope>
+			</dependency>
 			<dependency>
 				<groupId>org.freemarker</groupId>
 				<artifactId>freemarker</artifactId>
@@ -239,6 +239,22 @@
 		<plugin id="jakarta.servlet-api.source"/>
 		<plugin id="jakarta.servlet-api"/>
 		<plugin id="org.osgi.service.http.whiteboard.source"/>
+		<plugin id="javax.ws.rs-api.source"/>
+		<plugin id="javax.ws.rs-api"/>
+		<plugin id="javax.persistence"/>
+		<plugin id="javax.persistence.source"/>
+		<plugin id="org.eclipse.persistence.antlr"/>
+		<plugin id="org.eclipse.persistence.antlr.source"/>
+		<plugin id="org.eclipse.persistence.asm"/>
+		<plugin id="org.eclipse.persistence.asm.source"/>
+		<plugin id="org.eclipse.persistence.core"/>
+		<plugin id="org.eclipse.persistence.core.source"/>
+		<plugin id="org.eclipse.persistence.jpa"/>
+		<plugin id="org.eclipse.persistence.jpa.jpql"/>
+		<plugin id="org.eclipse.persistence.jpa.jpql.source"/>
+		<plugin id="org.eclipse.persistence.jpa.source"/>
+		<plugin id="org.eclipse.persistence.nosql"/>
+		<plugin id="org.eclipse.persistence.nosql.source"/>
 	</includeBundles>
 	<targetJRE path="org.eclipse.jdt.launching.JRE_CONTAINER/org.eclipse.jdt.internal.debug.ui.launcher.StandardVMType/jdk-22"/>
 </target>
