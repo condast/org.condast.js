@@ -52,6 +52,7 @@ Import-Package: jakarta.servlet;version="[6.1.0,7.0.0)",
 Require-Bundle: org.eclipse.core.runtime;bundle-version="[3.0.0,4.0.0)"
 Export-Package: org.condast.js.commons.ui.utils,
  org.condast.js.commons.ui.widgets.combo,
+ org.condast.js.commons.ui.widgets.edit,
  org.condast.js.commons.ui.widgets.entry,
  org.condast.js.commons.ui.widgets.field,
  org.condast.js.commons.ui.widgets.location,

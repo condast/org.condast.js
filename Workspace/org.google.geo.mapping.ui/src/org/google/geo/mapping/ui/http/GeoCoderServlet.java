@@ -8,7 +8,7 @@ import java.util.Map;
 import java.util.logging.Logger;
 
 import org.condast.commons.strings.StringUtils;
-import org.condast.commons.ui.session.ISessionListener;
+import org.condast.js.commons.session.ISessionListener;
 
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;

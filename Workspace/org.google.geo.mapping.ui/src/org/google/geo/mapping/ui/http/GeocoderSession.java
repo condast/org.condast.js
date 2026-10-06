@@ -2,8 +2,8 @@ package org.google.geo.mapping.ui.http;
 
 import java.util.Map;
 
-import org.condast.commons.ui.session.AbstractSessionHandler;
-import org.condast.commons.ui.session.SessionEvent;
+import org.condast.js.commons.session.AbstractSessionHandler;
+import org.condast.js.commons.session.SessionEvent;
 import org.eclipse.swt.widgets.Display;
 
 
