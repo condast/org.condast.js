@@ -6,8 +6,8 @@ Bundle-Version: 1.0.0.qualifier
 Bundle-Vendor: Condast
 Automatic-Module-Name: org.condast.commons.js.ui
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
-Import-Package: jakarta.servlet;version="[6.1.0,7.0.0)",
- jakarta.servlet.http;version="[6.1.0,7.0.0)",
+Import-Package: jakarta.servlet;version="[6.0.0,7.0.0)",
+ jakarta.servlet.http;version="[6.0.0,7.0.0)",
  org.condast.commons,
  org.condast.commons.data.latlng,
  org.condast.commons.data.plane,

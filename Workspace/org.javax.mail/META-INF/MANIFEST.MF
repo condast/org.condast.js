@@ -7,8 +7,8 @@ Bundle-Vendor: Condast
 Automatic-Module-Name: org.javax.mail
 Bundle-RequiredExecutionEnvironment: JavaSE-1.8
 Bundle-ClassPath: .
-Import-Package: javax.mail;version="[1.0.0,2.0.0)",
- javax.mail.internet;version="[1.0.0,2.0.0)",
+Import-Package: jakarta.mail;version="[2.0.0,3.0.0)",
+ jakarta.mail.internet;version="[2.0.0,3.0.0)",
  org.condast.commons.data.user,
  org.condast.commons.data.util,
  org.condast.commons.parser,

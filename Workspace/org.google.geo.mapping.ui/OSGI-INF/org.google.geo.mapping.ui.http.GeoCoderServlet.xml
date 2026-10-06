@@ -1,0 +1,8 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<scr:component xmlns:scr="http://www.osgi.org/xmlns/scr/v1.3.0" name="org.google.geo.mapping.ui.http.GeoCoderServlet">
+   <property name="osgi.http.whiteboard.servlet.pattern" value="/geo/*"/>
+   <service scope="prototype">
+      <provide interface="jakarta.servlet.Servlet"/>
+   </service>
+   <implementation class="org.google.geo.mapping.ui.http.GeoCoderServlet"/>
+</scr:component>
