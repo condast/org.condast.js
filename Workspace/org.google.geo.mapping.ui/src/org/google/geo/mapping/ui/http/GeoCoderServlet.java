@@ -9,15 +9,22 @@ import java.util.logging.Logger;
 
 import org.condast.commons.strings.StringUtils;
 import org.condast.js.commons.session.ISessionListener;
-
+import jakarta.servlet.Servlet;
 import jakarta.servlet.ServletException;
 import jakarta.servlet.http.HttpServlet;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ServiceScope;
 
+@Component(service = Servlet.class, 
+scope=ServiceScope.PROTOTYPE,
+property= "osgi.http.whiteboard.servlet.pattern=/" + GeoCoderServlet.S_CONTEXT_PATH + "/*")
 public class GeoCoderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
+	public static final String S_CONTEXT_PATH = "geo";
 
 	private static final String S_TOKEN = "9812365834502355000";
 

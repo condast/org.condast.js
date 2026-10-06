@@ -1,7 +1,6 @@
 package org.google.geo.mapping.ui.controller;
 
 import java.util.logging.Logger;
-
 import org.condast.js.commons.controller.AbstractJavascriptController;
 import org.condast.js.commons.eval.EvaluationEvent;
 import org.eclipse.swt.browser.Browser;

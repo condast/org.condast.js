@@ -3,10 +3,9 @@ package org.condast.js.bootstrap.http;
 import java.util.logging.Logger;
 
 import org.osgi.service.component.annotations.Component;
-import org.osgi.service.servlet.whiteboard.propertytypes.HttpWhiteboardResource;
 
-@Component( service = BootstrapWebResources.class )
-@HttpWhiteboardResource(pattern="/bootstrap/web/*", prefix="/WEB-INF")
+@Component( service = BootstrapWebResources.class)
+//@HttpWhiteboardResource(pattern="/bootstrap/web/*", prefix="/WEB-INF")
 public class BootstrapWebResources {
 
 	public static final String S_BOOTSTRAP_RESOURCE = "bootstrap-resource";

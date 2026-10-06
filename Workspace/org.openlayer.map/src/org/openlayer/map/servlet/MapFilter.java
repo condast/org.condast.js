@@ -12,11 +12,10 @@ import jakarta.servlet.ServletResponse;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
-import org.osgi.service.servlet.whiteboard.propertytypes.HttpWhiteboardFilterPattern;
 
 @Component(scope=ServiceScope.PROTOTYPE,
 property= MapFilter.S_OSGI_FILTER_PATTERN)
-@HttpWhiteboardFilterPattern( MapFilter.S_CONTEXT_PATH)
+//@HttpWhiteboardFilterPattern( MapFilter.S_CONTEXT_PATH)
 public class MapFilter implements Filter {
 
 	public static final String S_CONTEXT_PATH = "/openlayer/*";
