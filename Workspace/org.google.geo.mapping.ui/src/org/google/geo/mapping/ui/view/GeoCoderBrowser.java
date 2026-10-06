@@ -6,7 +6,7 @@ import java.util.LinkedList;
 import java.util.Map;
 import java.util.logging.Logger;
 
-import org.condast.commons.ui.session.ISessionListener;
+import org.condast.js.commons.session.ISessionListener;
 import org.eclipse.rap.rwt.widgets.BrowserCallback;
 import org.eclipse.swt.SWT;
 import org.eclipse.swt.browser.Browser;
