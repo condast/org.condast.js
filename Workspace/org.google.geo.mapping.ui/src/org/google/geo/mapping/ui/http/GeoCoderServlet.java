@@ -9,14 +9,24 @@ import java.util.logging.Logger;
 
 import org.condast.commons.strings.StringUtils;
 import org.condast.js.commons.session.ISessionListener;
+import org.osgi.service.component.annotations.Component;
+import org.osgi.service.component.annotations.ServiceScope;
+import org.osgi.service.http.whiteboard.propertytypes.HttpWhiteboardServletPattern;
+
+import javax.servlet.Servlet;
 import javax.servlet.ServletException;
 import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 
-
+@Component(service = Servlet.class, 
+scope=ServiceScope.PROTOTYPE,
+property= "osgi.http.whiteboard.servlet.pattern=/" + GeoCoderServlet.S_CONTEXT_PATH + "/*")
+@HttpWhiteboardServletPattern("/geo")
 public class GeoCoderServlet extends HttpServlet {
 	private static final long serialVersionUID = 1L;
+
+	public static final String S_CONTEXT_PATH = "geo";
 
 	private static final String S_TOKEN = "9812365834502355000";
 
