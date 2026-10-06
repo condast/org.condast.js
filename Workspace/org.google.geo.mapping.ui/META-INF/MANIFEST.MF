@@ -29,4 +29,5 @@ Export-Package: org.google.geo.mapping.ui.controller,
  org.google.geo.mapping.ui.model,
  org.google.geo.mapping.ui.view
 Automatic-Module-Name: org.google.geo.mapping.ui
-Service-Component: OSGI-INF/org.google.geo.mapping.ui.http.GeoCoderWebResources.xml
+Service-Component: OSGI-INF/org.google.geo.mapping.ui.http.GeoCoderServlet.xml,
+ OSGI-INF/org.google.geo.mapping.ui.http.GeoCoderWebResources.xml
