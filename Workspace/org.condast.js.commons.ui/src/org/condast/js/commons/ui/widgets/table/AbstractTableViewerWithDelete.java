@@ -28,6 +28,7 @@ import org.eclipse.jface.viewers.ArrayContentProvider;
 import org.eclipse.jface.viewers.ColumnWeightData;
 import org.eclipse.jface.viewers.DoubleClickEvent;
 import org.eclipse.jface.viewers.IDoubleClickListener;
+import org.eclipse.jface.viewers.ILabelProviderListener;
 import org.eclipse.jface.viewers.ISelectionChangedListener;
 import org.eclipse.jface.viewers.IStructuredSelection;
 import org.eclipse.jface.viewers.ITableLabelProvider;
@@ -690,6 +691,30 @@ public abstract class AbstractTableViewerWithDelete<T extends Object> extends Co
 					return true;
 			}
 			return false;
+		}
+
+		@Override
+		public void addListener(ILabelProviderListener listener) {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public void dispose() {
+			// TODO Auto-generated method stub
+			
+		}
+
+		@Override
+		public boolean isLabelProperty(Object element, String property) {
+			// TODO Auto-generated method stub
+			return false;
+		}
+
+		@Override
+		public void removeListener(ILabelProviderListener listener) {
+			// TODO Auto-generated method stub
+			
 		}
 	}
 
