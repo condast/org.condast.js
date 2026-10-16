@@ -30,9 +30,13 @@
 
 	<distributionManagement>
 		<repository>
-			<id>release directory</id>
-			<url>file:${release-dir}/deploy/${bundle-name}</url>
-		</repository>
+          <id>nexus-releases</id>
+          <url>http://localhost:8081/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+          <id>nexus-snapshots</id>
+          <url>http://localhost:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
 	</distributionManagement>
 
 	<modules>
@@ -42,7 +46,6 @@
 		<module>../nl.martijndwars.webpush</module>
 		<module>../org.condast.js.push</module>
 		<module>../org.openlayer.map</module>
-		<module>../org.javax.mail</module>
 		<module>../org.condast.js.feature</module>
 		<module>../org.condast.js.update</module>
 	</modules>
@@ -139,7 +142,18 @@
             			</configuration>
         			</execution>
     			</executions>
-           	</plugin>			
+           	</plugin>	
+           	<plugin>
+                <groupId>org.sonatype.central</groupId>
+                <artifactId>central-publishing-maven-plugin</artifactId>
+                <version>0.12.0</version>
+                <extensions>true</extensions>
+                <configuration>
+                    <publishingServerId>central</publishingServerId>
+                    <autoPublish>false</autoPublish>
+                    <waitUntil>validated</waitUntil>
+                </configuration>
+            </plugin>		
 		</plugins>
 	</build>
 </project> 
