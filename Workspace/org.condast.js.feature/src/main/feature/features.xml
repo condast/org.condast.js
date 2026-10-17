@@ -1,13 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?>
-<features name="org.condast.js.commons.karaf-features"
-          xmlns="http://karaf.apache.org/xmlns/features/v1.4.0">
-    <feature name="org.condast.js.commons.features.karaf" version="1.0.0-SNAPSHOT">
-        <bundle>
-            mvn:org.condast/org.condast.js.commons/1.0.0-SNAPSHOT
-            mvn:org.condast/org.condast.js.commons.ui/1.0.0-SNAPSHOT
-            mvn:org.condast/org.condast.js.commons.ui.widgets/1.0.0-SNAPSHOT
-            mvn:org.condast/org.condast.js.push/1.0.0-SNAPSHOT
-            mvn:org.condast/org.condast.js.geo.mapping.ui/1.0.0-SNAPSHOT
-        </bundle>
+<?xml version="1.0" encoding="UTF-8"?><features name="org.condast.js.feature.karaf" xmlns="http://karaf.apache.org/xmlns/features/v1.4.0">
+    <feature name="org.condast.js.feature" version="1.0.0-SNAPSHOT">
+        <bundle>mvn:org.condast.js/org.condast.js.commons/1.0.0-SNAPSHOT</bundle>
+        <bundle>mvn:org.condast.js/org.openlayer.map/1.0.0-SNAPSHOT</bundle>
+        <bundle>mvn:org.condast.js/nl.martijndwars.webpush/1.0.0-SNAPSHOT</bundle>
+        <bundle>mvn:org.condast.js/org.condast.js.push/1.0.0-SNAPSHOT</bundle>
+        <bundle>mvn:org.condast.js/org.javax.mail/1.0.0-SNAPSHOT</bundle>
+        <bundle>mvn:org.condast.js/org.condast.js.commons.ui/1.0.0-SNAPSHOT</bundle>
     </feature>
 </features>

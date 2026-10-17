@@ -1,0 +1,27 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project name="Karaf Generator" default="generate-karaf"
+	basedir=".">
+
+	<property name="karaf.dir"
+		location="${basedir}/src/main/feature" />
+
+	<target name="init-karaf"
+		depends="create-directories, generate-karaf" />
+
+	<target name="create-directories">
+		<mkdir dir="${karaf.dir}" />
+	</target>
+
+	<target name="generate-karaf" depends="create-directories">
+
+		<xslt in="${basedir}/feature.xml"
+			out="${karaf.dir}/features.xml"
+			style="${basedir}/karaf-features.xsl">
+
+			<param name="groupId" expression="${karaf.groupId}" />
+
+			<param name="version" expression="${karaf.version}" />
+
+		</xslt>
+	</target>
+</project>
