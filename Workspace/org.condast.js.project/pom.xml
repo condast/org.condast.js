@@ -44,6 +44,7 @@
 		<module>../org.openlayer.map</module>
 		<module>../org.javax.mail</module>
 		<module>../org.condast.js.feature</module>
+		<module>../org.condast.js.feature/src/main/feature</module>
 		<module>../org.condast.js.update</module>
 	</modules>
 
