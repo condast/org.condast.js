@@ -8,8 +8,9 @@
                 encoding="UTF-8"/>
 
     <!-- Read Maven POM -->
-    <xsl:param name="groupId"/>
-    <xsl:param name="version"/>
+	<xsl:param name="repositoryGroupId" />
+	<xsl:param name="version" />
+    <xsl:param name="majorVersion"/> 
     
     <!-- Keep your existing feature conversion templates -->
 
@@ -19,7 +20,7 @@
 
 		<features
 			xmlns="http://karaf.apache.org/xmlns/features/v1.4.0"
-			name="{@id}.karaf">
+			name="{$repositoryGroupId}-{$majorVersion}">
 
 			<feature name="{@id}" version="{$version}">
 
@@ -32,11 +33,11 @@
 						</xsl:if>
 
 						<xsl:text>mvn:</xsl:text>
-						<xsl:value-of select="$groupId" />
+						<xsl:value-of select="$repositoryGroupId" />
 						<xsl:text>/</xsl:text>
 						<xsl:value-of select="@id" />
 						<xsl:text>/</xsl:text>
-						<xsl:value-of select="$version" />
+						<xsl:value-of select="$majorVersion" />
 					</bundle>
 				</xsl:for-each>
 

@@ -42,9 +42,7 @@ xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xs
 			                        
 			                        <property
                                         name="karaf.dir"
-                                        location="${karaf.dir}"/>
-                                    <property name="karaf.version"
-                                        value="${project.version}"/>
+                                        location="${karaf.dir}"/>                             
 			                </target>
 			            </configuration>
 			        </execution>

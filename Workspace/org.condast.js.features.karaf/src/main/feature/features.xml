@@ -1,14 +1,10 @@
-<?xml version="1.0" encoding="UTF-8"?><features name="org.condast.commons.feature.karaf" xmlns="http://karaf.apache.org/xmlns/features/v1.4.0">
-    <feature name="org.condast.commons.feature" version="${karaf.version}">
-        <bundle>mvn:${karaf.groupId}/org.condast.commons/${karaf.version}</bundle>
-        <bundle>mvn:${karaf.groupId}/org.condast.commons.data/${karaf.version}</bundle>
-        <bundle>mvn:${karaf.groupId}/org.condast.commons.messaging/${karaf.version}</bundle>
-        <bundle>mvn:${karaf.groupId}/org.condast.commons.ui/${karaf.version}</bundle>
-        <bundle>mvn:${karaf.groupId}/org.condast.commons.autonomy/${karaf.version}</bundle>
-        <bundle>mvn:${karaf.groupId}/org.condast.commons.autonomy.ui/${karaf.version}</bundle>
-        <bundle>mvn:${karaf.groupId}/org.condast.commons.preferences/${karaf.version}</bundle>
-        <bundle>mvn:${karaf.groupId}/org.condast.commons.test/${karaf.version}</bundle>
-        <bundle>mvn:${karaf.groupId}/org.condast.commons.tinkerpop/${karaf.version}</bundle>
-        <bundle>mvn:${karaf.groupId}/org.condast.commons.ui.widgets/${karaf.version}</bundle>
+<?xml version="1.0" encoding="UTF-8"?><features name="org.condast.js-1.0.0" xmlns="http://karaf.apache.org/xmlns/features/v1.4.0">
+    <feature name="org.condast.js.feature" version="1.0.0-SNAPSHOT">
+        <bundle>mvn:org.condast.js/org.condast.js.commons/1.0.0</bundle>
+        <bundle>mvn:org.condast.js/org.openlayer.map/1.0.0</bundle>
+        <bundle>mvn:org.condast.js/nl.martijndwars.webpush/1.0.0</bundle>
+        <bundle>mvn:org.condast.js/org.condast.js.push/1.0.0</bundle>
+        <bundle>mvn:org.condast.js/org.javax.mail/1.0.0</bundle>
+        <bundle>mvn:org.condast.js/org.condast.js.commons.ui/1.0.0</bundle>
     </feature>
 </features>

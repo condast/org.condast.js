@@ -21,9 +21,9 @@
 			out="${karaf.dir}/features.xml"
 			style="${basedir}/karaf-features.xsl">
 
-			<param name="groupId" expression="${karaf.groupId}" />
-
-			<param name="version" expression="${karaf.version}" />
+			<param name="repositoryGroupId" expression="${project.groupId}" />
+			<param name="version" expression="${project.version}" />
+			<param name="majorVersion" expression="${major.version}" />
 
 		</xslt>
 	</target>

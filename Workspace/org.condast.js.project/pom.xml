@@ -15,18 +15,20 @@
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<tycho.version>5.0.4</tycho.version>
-		<bundle-name>org.condast.js</bundle-name>
-		<build-name>RAP3X</build-name>
+		<bundle.name>org.condast.js</bundle.name>
+		<major.version>1.0.0</major.version>
+		<minor.version>SNAPSHOT</minor.version>
+		<build.name>RAP3X</build.name>
 		<generics>P:/GitHub</generics>
         <maven.build.timestamp.format>yyyy-MM-dd-HHmmss</maven.build.timestamp.format>
 		<project-root>P:/GitHub/org.condast.js</project-root>
 		<workspace-root>P:/Windows/Condast/Workspace/org.condast.js</workspace-root>
 		<project.build.sourceEncoding>UTF-8</project.build.sourceEncoding>
-		<project-root>P:/GitHub/${bundle-name}</project-root>
-		<project.workspace>${project-root}/Workspace</project.workspace>
-		<update-site>${project.workspace}/${bundle-name}.update/target/repository/plugins</update-site>
-		<release-dir>P:/Releases/${build-name}/${bundle-name}</release-dir>
-        <condast-commons>org.condast.commons</condast-commons>
+		<project-root>P:/GitHub/${bundle.name}</project-root>
+		<project.workspace>${project.root}/Workspace</project.workspace>
+		<update.site>${project.workspace}/${bundle.name}.update/target/repository/plugins</update.site>
+		<release.dir>P:/Releases/${build.name}/${bundle.name}</release.dir>
+        <condast.commons>org.condast.commons</condast.commons>
 	</properties>
 
 	<distributionManagement>
@@ -136,10 +138,10 @@
        					</goals>
     					<configuration>
         					<overwrite>true</overwrite>
-        					<outputDirectory>${release-dir}/${maven.build.timestamp}</outputDirectory>
+        					<outputDirectory>${release.dir}/${maven.build.timestamp}</outputDirectory>
             					<resources>
                 					<resource>
-                						<directory>${update-site}</directory>
+                						<directory>${update.site}</directory>
                 					</resource>
                 				</resources>
             			</configuration>
