@@ -31,9 +31,13 @@
 
 	<distributionManagement>
 		<repository>
-			<id>release directory</id>
-			<url>file:${release-dir}/deploy/${bundle-name}</url>
-		</repository>
+          <id>nexus-releases</id>
+          <url>http://localhost:8081/repository/maven-releases/</url>
+        </repository>
+        <snapshotRepository>
+          <id>nexus-snapshots</id>
+          <url>http://localhost:8081/repository/maven-snapshots/</url>
+        </snapshotRepository>
 	</distributionManagement>
 
 	<modules>
@@ -45,7 +49,7 @@
 		<module>../org.openlayer.map</module>
 		<module>../org.javax.mail</module>
 		<module>../org.condast.js.feature</module>
-		<module>../org.condast.js.feature/src/main/feature</module>
+		<module>../org.condast.js.features.karaf</module>
 		<module>../org.condast.js.update</module>
 	</modules>
 
@@ -119,31 +123,6 @@
 			     <includeAllDependencies>false</includeAllDependencies>
 			   </configuration>
 			</plugin>
-			<!-- Update the version of the byndles in Karaf Features-->
-			<plugin>
-			    <groupId>org.apache.maven.plugins</groupId>
-			    <artifactId>maven-antrun-plugin</artifactId>
-			    <version>3.2.0</version>
-			    <executions>
-			        <execution>
-			            <id>generate-karaf-feature</id>
-			            <phase>generate-resources</phase>
-			
-			            <goals>
-			                <goal>run</goal>
-			            </goals>
-			
-			            <configuration>
-			                <target>
-			                    <ant
-			                        antfile="${project.workspace}/${bundle-name}.feature/createKarafFeature.xml"
-			                        dir="${project.workspace}/${bundle-name}.feature"
-			                        target="generate-karaf"/>
-			                </target>
-			            </configuration>
-			        </execution>
-			    </executions>
-			</plugin>	
             <plugin>
                	<groupId>org.apache.maven.plugins</groupId>
             	<artifactId>maven-resources-plugin</artifactId>

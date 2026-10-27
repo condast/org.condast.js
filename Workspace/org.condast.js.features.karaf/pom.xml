@@ -1,0 +1,70 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<project xmlns="http://maven.apache.org/POM/4.0.0" xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+xsi:schemaLocation="http://maven.apache.org/POM/4.0.0 http://maven.apache.org/xsd/maven-4.0.0.xsd">
+  <modelVersion>4.0.0</modelVersion>
+
+<properties>
+	<feature.bundle>${project.workspace}/${bundle-name}.feature</feature.bundle>
+	<karaf.dir>${project.basedir}/src/main/feature</karaf.dir>
+</properties>
+
+  <!-- Link to the parent pom -->
+  <parent>
+    <artifactId>org.condast.js.parent</artifactId>
+    <groupId>org.condast.js</groupId>
+    <version>1.0.0-SNAPSHOT</version>
+    <relativePath>../org.condast.js.project</relativePath>
+  </parent>
+
+  <packaging>pom</packaging>
+
+  <artifactId>org.condast.js.features.karaf</artifactId>
+  
+  <build>
+  		<plugins>
+			<plugin>
+			    <groupId>org.apache.maven.plugins</groupId>
+			    <artifactId>maven-antrun-plugin</artifactId>
+			    <version>3.2.0</version>
+			    <executions>
+			        <execution>
+			            <id>generate-karaf-feature</id>
+			            <phase>generate-resources</phase>
+			            <goals>
+			                <goal>run</goal>
+			            </goals>
+			            <configuration>
+			                <target>
+			                    <ant
+			                        antfile="${project.basedir}/createKarafFeature.xml"
+			                        dir="${project.basedir}"
+			                        target="generate-karaf"/>
+			                        
+			                        <property
+                                        name="karaf.dir"
+                                        location="${karaf.dir}"/>
+                                    <property name="karaf.version"
+                                        value="${project.version}"/>
+			                </target>
+			            </configuration>
+			        </execution>
+					<execution>
+					    <id>attach-karaf-feature</id>
+					    <phase>package</phase>
+					    <goals>
+					        <goal>run</goal>
+					    </goals>
+					    <configuration>
+					        <target xmlns:mvn="http://maven.apache.org/ANTRUN">
+					            <mvn:attachartifact
+					                file="${project.basedir}/src/main/feature/features.xml"
+					                type="xml"
+					                classifier="features"/>
+					        </target>
+					    </configuration>
+					</execution>			        
+			    </executions>
+			</plugin>  				
+  		</plugins>
+  </build>
+</project> 

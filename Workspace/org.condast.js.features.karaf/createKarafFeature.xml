@@ -5,6 +5,9 @@
 	<property name="karaf.dir"
 		location="${basedir}/src/main/feature" />
 
+    <property name="feature.dir"
+              location="${basedir}/../org.condast.js.feature"/>
+
 	<target name="init-karaf"
 		depends="create-directories, generate-karaf" />
 
@@ -14,7 +17,7 @@
 
 	<target name="generate-karaf" depends="create-directories">
 
-		<xslt in="${basedir}/feature.xml"
+		<xslt in="${feature.dir}/feature.xml"
 			out="${karaf.dir}/features.xml"
 			style="${basedir}/karaf-features.xsl">
 

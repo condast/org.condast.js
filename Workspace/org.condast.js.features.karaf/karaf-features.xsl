@@ -8,33 +8,9 @@
                 encoding="UTF-8"/>
 
     <!-- Read Maven POM -->
-    <xsl:variable name="pom"
-                  select="document('pom.xml')/pom:project"/>
-
-    <!-- Resolve groupId -->
-    <xsl:variable name="groupId">
-        <xsl:choose>
-            <xsl:when test="$pom/pom:groupId">
-                <xsl:value-of select="$pom/pom:groupId"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:value-of select="$pom/pom:parent/pom:groupId"/>
-            </xsl:otherwise>
-        </xsl:choose>
-    </xsl:variable>
-
-    <!-- Resolve version -->
-    <xsl:variable name="version">
-        <xsl:choose>
-            <xsl:when test="$pom/pom:version">
-                <xsl:value-of select="$pom/pom:version"/>
-            </xsl:when>
-            <xsl:otherwise>
-                <xsl:value-of select="$pom/pom:parent/pom:version"/>
-            </xsl:otherwise>
-        </xsl:choose>
-    </xsl:variable>
-
+    <xsl:param name="groupId"/>
+    <xsl:param name="version"/>
+    
     <!-- Keep your existing feature conversion templates -->
 
 	<xsl:output method="xml" indent="yes" encoding="UTF-8" />

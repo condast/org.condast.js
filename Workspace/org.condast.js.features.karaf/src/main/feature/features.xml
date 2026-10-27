@@ -1,0 +1,14 @@
+<?xml version="1.0" encoding="UTF-8"?><features name="org.condast.commons.feature.karaf" xmlns="http://karaf.apache.org/xmlns/features/v1.4.0">
+    <feature name="org.condast.commons.feature" version="${karaf.version}">
+        <bundle>mvn:${karaf.groupId}/org.condast.commons/${karaf.version}</bundle>
+        <bundle>mvn:${karaf.groupId}/org.condast.commons.data/${karaf.version}</bundle>
+        <bundle>mvn:${karaf.groupId}/org.condast.commons.messaging/${karaf.version}</bundle>
+        <bundle>mvn:${karaf.groupId}/org.condast.commons.ui/${karaf.version}</bundle>
+        <bundle>mvn:${karaf.groupId}/org.condast.commons.autonomy/${karaf.version}</bundle>
+        <bundle>mvn:${karaf.groupId}/org.condast.commons.autonomy.ui/${karaf.version}</bundle>
+        <bundle>mvn:${karaf.groupId}/org.condast.commons.preferences/${karaf.version}</bundle>
+        <bundle>mvn:${karaf.groupId}/org.condast.commons.test/${karaf.version}</bundle>
+        <bundle>mvn:${karaf.groupId}/org.condast.commons.tinkerpop/${karaf.version}</bundle>
+        <bundle>mvn:${karaf.groupId}/org.condast.commons.ui.widgets/${karaf.version}</bundle>
+    </feature>
+</features>
