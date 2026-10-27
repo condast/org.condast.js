@@ -37,7 +37,7 @@
 						<xsl:text>/</xsl:text>
 						<xsl:value-of select="@id" />
 						<xsl:text>/</xsl:text>
-						<xsl:value-of select="$majorVersion" />
+						<xsl:value-of select="$version" />
 					</bundle>
 				</xsl:for-each>
 
