@@ -6,7 +6,7 @@
 		location="${basedir}/src/main/feature" />
 
     <property name="feature.dir"
-              location="${basedir}/../org.condast.js.feature"/>
+        location="${basedir}/../org.condast.js.feature"/>
 
 	<target name="init-karaf"
 		depends="create-directories, generate-karaf" />
@@ -15,10 +15,11 @@
 		<mkdir dir="${karaf.dir}" />
 	</target>
 
+	<!-- We read feature.xml from org.condast.commons.feature and create a template for Karaf features -->
 	<target name="generate-karaf" depends="create-directories">
 
 		<xslt in="${feature.dir}/feature.xml"
-			out="${karaf.dir}/features.xml"
+			out="${karaf.dir}/features.xml.template"
 			style="${basedir}/karaf-features.xsl">
 
 			<param name="repositoryGroupId" expression="${project.groupId}" />

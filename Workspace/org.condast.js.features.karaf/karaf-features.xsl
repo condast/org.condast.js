@@ -22,7 +22,10 @@
 			xmlns="http://karaf.apache.org/xmlns/features/v1.4.0"
 			name="{$repositoryGroupId}-{$majorVersion}">
 
-			<feature name="{@id}" version="{$version}">
+			<feature name="{substring-before(@id, '.feature')}">
+				<xsl:attribute name="version">
+        			<xsl:text>${project.version}</xsl:text>
+    			</xsl:attribute>
 
 				<xsl:for-each select="plugin">
 					<bundle>
@@ -40,9 +43,7 @@
 						<xsl:value-of select="$version" />
 					</bundle>
 				</xsl:for-each>
-
 			</feature>
 		</features>
-
 	</xsl:template>
 </xsl:stylesheet>

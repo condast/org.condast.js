@@ -1,0 +1,10 @@
+<?xml version="1.0" encoding="UTF-8"?><features name="${project.groupId}-${major.version}" xmlns="http://karaf.apache.org/xmlns/features/v1.4.0">
+    <feature name="org.condast.js" version="${project.version}">
+        <bundle>mvn:${project.groupId}/org.condast.js.commons/${project.version}</bundle>
+        <bundle>mvn:${project.groupId}/org.openlayer.map/${project.version}</bundle>
+        <bundle>mvn:${project.groupId}/nl.martijndwars.webpush/${project.version}</bundle>
+        <bundle>mvn:${project.groupId}/org.condast.js.push/${project.version}</bundle>
+        <bundle>mvn:${project.groupId}/org.javax.mail/${project.version}</bundle>
+        <bundle>mvn:${project.groupId}/org.condast.js.commons.ui/${project.version}</bundle>
+    </feature>
+</features>
