@@ -12,14 +12,17 @@ import javax.servlet.ServletResponse;
 
 import org.osgi.service.component.annotations.Component;
 import org.osgi.service.component.annotations.ServiceScope;
+import org.osgi.service.http.whiteboard.propertytypes.HttpWhiteboardFilterName;
 import org.osgi.service.http.whiteboard.propertytypes.HttpWhiteboardFilterPattern;
 
 @Component(scope=ServiceScope.PROTOTYPE,
 property= MapFilter.S_OSGI_FILTER_PATTERN)
+@HttpWhiteboardFilterName( MapFilter.S_FILTER_NAME)
 @HttpWhiteboardFilterPattern( MapFilter.S_CONTEXT_PATH)
 public class MapFilter implements Filter {
 
-	public static final String S_CONTEXT_PATH = "/openlayer/*";
+	public static final String S_FILTER_NAME = "openlayer";
+	public static final String S_CONTEXT_PATH = "/" + S_FILTER_NAME + "/*";
 	public static final String S_OSGI_FILTER_PATTERN = "osgi.http.whiteboard.filter.pattern=" + S_CONTEXT_PATH;
 
 	private Logger logger = Logger.getLogger( this.getClass().getName() );
