@@ -7,6 +7,7 @@ import java.util.regex.Matcher;
 import java.util.regex.Pattern;
 
 import org.condast.commons.parser.AbstractResourceParser;
+import org.condast.commons.parser.IResourceParser;
 import org.condast.js.commons.utils.AuthenticationData;
 
 public abstract class AbstractFileParser {
@@ -60,7 +61,7 @@ public abstract class AbstractFileParser {
 
 	protected String parse( String str ) throws IOException {
 		StringBuilder builder = new StringBuilder();
-		Pattern pattern = Pattern.compile( AbstractResourceParser.REGEX );
+		Pattern pattern = Pattern.compile( IResourceParser.REGEX );
 		Matcher matcher = pattern.matcher(str);
 
 		int i=0;
@@ -71,7 +72,7 @@ public abstract class AbstractFileParser {
 			if( split.length < 2)
 				continue;
 
-			AbstractResourceParser.Functions function = AbstractResourceParser.Functions.valueOf(split[0].toUpperCase());
+			AbstractResourceParser.Functions function = IResourceParser.Functions.valueOf(split[0].toUpperCase());
 			builder.append(str.substring(i, matcher.start()));
 			AbstractResourceParser.Attributes attr = null;
 			String path = null;
@@ -96,16 +97,16 @@ public abstract class AbstractFileParser {
 				builder.append( onHandleAuthentication(split[1], auth ));
 				break;
 			case LABEL:
-				attr = AbstractResourceParser.Attributes.valueOf(split[2].toUpperCase());
+				attr = IResourceParser.Attributes.valueOf(split[2].toUpperCase());
 				builder.append( onHandleLabel(split[1], attr ));
 				break;
 			case VALUE:
-				attr = AbstractResourceParser.Attributes.valueOf(split[2].toUpperCase());
+				attr = IResourceParser.Attributes.valueOf(split[2].toUpperCase());
 				builder.append( onHandleValues(function, split[1], attr ));
 				break;
 			default:
 				if( split.length > 2)
-					attr = AbstractResourceParser.Attributes.valueOf(split[2].toUpperCase());
+					attr = IResourceParser.Attributes.valueOf(split[2].toUpperCase());
 				builder.append( onHandleFunction(function, split[1], attr ));
 				break;
 			}

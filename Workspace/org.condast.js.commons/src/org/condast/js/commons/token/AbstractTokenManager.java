@@ -3,11 +3,13 @@ package org.condast.js.commons.token;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import java.io.Closeable;
+import java.io.IOException;
 import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
-public abstract class AbstractTokenManager {
+public abstract class AbstractTokenManager implements Closeable{
 
 	public static String S_TOKEN = "token";
 	
@@ -49,5 +51,10 @@ public abstract class AbstractTokenManager {
 	
 	public boolean clear( long token ) {
 		return tokens.remove(token);
+	}
+
+	@Override
+	public void close() throws IOException {
+		this.tokens.clear();
 	}
 }
