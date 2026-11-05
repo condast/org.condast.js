@@ -8,14 +8,23 @@
 	<modelVersion>4.0.0</modelVersion>
 	<groupId>org.condast.js</groupId>
 	<artifactId>org.condast.js.parent</artifactId>
-	<version>1.0.0-SNAPSHOT</version>
+	<version>${revision}</version>
 	<packaging>pom</packaging>
+
+  	<licenses>
+    	<license>
+      		<name>Apache License, Version 2.0</name>
+      		<url>http://www.apache.org/licenses/LICENSE-2.0.txt</url>
+      		<distribution>repo</distribution>
+    	</license>
+  	</licenses>
 
 	<properties>
 		<maven.compiler.target>1.8</maven.compiler.target>
 		<maven.compiler.source>1.8</maven.compiler.source>
 		<tycho.version>5.0.4</tycho.version>
 		<bundle.name>org.condast.js</bundle.name>
+		<revision>1.0.0-SNAPSHOT</revision>
 		<major.version>1.0.0</major.version>
 		<minor.version>SNAPSHOT</minor.version>
 		<build.name>RAP3X</build.name>
@@ -31,16 +40,35 @@
         <condast.commons>org.condast.commons</condast.commons>
 	</properties>
 
-	<distributionManagement>
-		<repository>
-          <id>nexus-releases</id>
-          <url>http://localhost:8081/repository/maven-releases/</url>
-        </repository>
-        <snapshotRepository>
-          <id>nexus-snapshots</id>
-          <url>http://localhost:8081/repository/maven-snapshots/</url>
-        </snapshotRepository>
-	</distributionManagement>
+	<profiles>
+	    <profile>
+	        <id>local-deploy</id>
+			<distributionManagement>
+				<repository>
+		          <id>local-releases</id>
+		          <url>http://localhost:8081/repository/maven-releases/</url>
+		        </repository>
+		        <snapshotRepository>
+		          <id>local-snapshots</id>
+		          <url>http://localhost:8081/repository/maven-snapshots/</url>
+		        </snapshotRepository>
+			</distributionManagement>
+	    </profile>
+	
+	    <profile>
+	        <id>cloud-deploy</id>
+	        <distributionManagement>
+	            <repository>
+	                <id>cloud-releases</id>
+	                <url>http://localhost:18081/repository/maven-releases/</url>
+	            </repository>
+	            <snapshotRepository>
+	                <id>cloud-snapshots</id>
+	                <url>http://localhost:18081/repository/maven-snapshots/</url>
+	            </snapshotRepository>
+	        </distributionManagement>
+	    </profile>
+	</profiles>
 
 	<modules>
 		<module>../org.condast.js.target</module>
