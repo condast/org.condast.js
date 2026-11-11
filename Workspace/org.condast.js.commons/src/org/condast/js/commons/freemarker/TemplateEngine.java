@@ -14,15 +14,16 @@ import java.util.List;
 import java.util.Map;
 import java.util.logging.Logger;
 
+import freemarker.core.Environment;
 import freemarker.core.HTMLOutputFormat;
 import freemarker.template.Configuration;
-import freemarker.template.SimpleScalar;
 import freemarker.template.Template;
 import freemarker.template.TemplateException;
 import freemarker.template.TemplateExceptionHandler;
 import freemarker.template.TemplateHashModel;
 import freemarker.template.TemplateModel;
 import freemarker.template.TemplateModelException;
+import freemarker.template.TemplateScalarModel;
 
 public class TemplateEngine implements Closeable{
 
@@ -179,21 +180,84 @@ public class TemplateEngine implements Closeable{
 	private class ModelListener implements TemplateHashModel {
 
 	    @Override
-	    public TemplateModel get(String key) throws TemplateModelException {
+	    public TemplateModel get(String key)
+	            throws TemplateModelException {
 
-	    	logger.fine(S_INFO_TEMPLATE_LOOKUP + key);
-	    	for( IModelListener l: listeners ){
-	    		ModelEvent event = new ModelEvent( this, key ); 
-	    		l.notifyModelEvent(event);
-	    		if( event.hasChanged())
-	    			return new SimpleScalar( event.getValue());
-	    	};
-	    	return null;
+	        return new DynamicValue(key);
 	    }
 
 	    @Override
 	    public boolean isEmpty() {
 	        return false;
 	    }
-	}
-}
+
+	    private class DynamicValue
+	            implements TemplateHashModel, TemplateScalarModel {
+
+	        private final String path;
+
+	        public DynamicValue(String path) {
+	            this.path = path;
+	        }
+
+	        @Override
+	        public TemplateModel get(String attribute)
+	                throws TemplateModelException {
+
+	            return new DynamicValue(path + "." + attribute);
+	        }
+
+	        @Override
+	        public String getAsString()
+	                throws TemplateModelException {
+
+	            String label = path.substring(
+	                    path.lastIndexOf('.') + 1);
+
+	            logger.fine(S_INFO_TEMPLATE_LOOKUP + path);
+
+	            TemplateModel model = getModel(path);
+
+	            for (IModelListener listener : listeners) {
+
+	                ModelEvent event = new ModelEvent(
+	                        ModelListener.this, label, model);
+
+	                listener.notifyModelEvent(event);
+
+	                if (event.hasChanged())
+	                    return event.getValue();
+	            }
+
+	            throw new TemplateModelException(
+	                    "No dynamic value found for: " + path);
+	        }
+
+	        @Override
+	        public boolean isEmpty() {
+	            return false;
+	        }
+	    }
+
+	    private TemplateModel getModel(String path)
+	            throws TemplateModelException {
+
+	        Environment environment =
+	                Environment.getCurrentEnvironment();
+
+	        TemplateModel model = environment.getDataModel();
+
+	        for (String attribute : path.split("\\.")) {
+
+	            if (!(model instanceof TemplateHashModel))
+	                return null;
+
+	            model = ((TemplateHashModel) model).get(attribute);
+
+	            if (model == null)
+	                return null;
+	        }
+
+	        return model;
+	    }
+	}}
