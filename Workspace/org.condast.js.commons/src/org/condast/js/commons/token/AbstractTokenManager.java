@@ -22,7 +22,7 @@ public abstract class AbstractTokenManager implements Closeable{
 	public long request() {
 		long seed = Long.MAX_VALUE/2;
 		Random random = new Random(seed);
-		long token = seed + random.nextInt();
+		long token = seed + random.nextLong(seed );
 		tokens.add(token);
 		return token;
 	}
@@ -32,17 +32,10 @@ public abstract class AbstractTokenManager implements Closeable{
 	 * @param request
 	 * @return
 	 */
-	public long request( HttpServletRequest request ) {
+	public long retrieve( HttpServletRequest request ) {
 		HttpSession session = request.getSession();
 		Object tkn = session.getAttribute(S_TOKEN);
-		long token = -1;
-		if (tkn != null )
-			token = (long) tkn;
-		else {
-			token = request();
-			session.setAttribute( S_TOKEN, token);
-		}
-		return token;
+		return (tkn != null )?(long) tkn: -1;
 	}
 	
 	public boolean check( long token ){

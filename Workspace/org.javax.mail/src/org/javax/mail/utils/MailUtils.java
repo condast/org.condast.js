@@ -104,6 +104,11 @@ public class MailUtils {
 		super();
 	}
 
+	public static void sendConfirmationdMail( InputStream in, Properties properties, LoginData login, String recipient, String domain ) throws Exception {
+		String msg = createConfirmationMail( in, login, domain, login.hashCode());
+		sendMail( properties, recipient, S_PLEASE_CONFIRM_TITLE, msg);
+	}
+
 	public static void sendConfirmationdMail( InputStream in, Properties properties, LoginData login, String recipient, String domain, long confirmation ) throws Exception {
 		String msg = createConfirmationMail( in, login, domain, confirmation);
 		sendMail( properties, recipient, S_PLEASE_CONFIRM_TITLE, msg);
