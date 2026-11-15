@@ -9,16 +9,15 @@ import java.util.Random;
 import java.util.Set;
 import java.util.TreeSet;
 
-public abstract class AbstractTokenManager implements Closeable{
+public abstract class AbstractTokenManager implements Closeable, ITokenManager{
 
-	public static String S_TOKEN = "token";
-	
 	private Set<Long> tokens;
 	
 	protected AbstractTokenManager() {
 		tokens = new TreeSet<>();
 	}
 
+	@Override
 	public long request() {
 		long seed = Long.MAX_VALUE/2;
 		Random random = new Random(seed);
@@ -32,16 +31,19 @@ public abstract class AbstractTokenManager implements Closeable{
 	 * @param request
 	 * @return
 	 */
+	@Override
 	public long retrieve( HttpServletRequest request ) {
 		HttpSession session = request.getSession();
 		Object tkn = session.getAttribute(S_TOKEN);
 		return (tkn != null )?(long) tkn: -1;
 	}
 	
+	@Override
 	public boolean check( long token ){
 		return tokens.contains(token);
 	}
 	
+	@Override
 	public boolean clear( long token ) {
 		return tokens.remove(token);
 	}
