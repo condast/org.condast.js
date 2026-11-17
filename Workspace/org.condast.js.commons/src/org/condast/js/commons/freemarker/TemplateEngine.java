@@ -8,6 +8,7 @@ import java.io.Writer;
 import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.Collection;
+import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
 import java.util.List;
@@ -27,12 +28,21 @@ import freemarker.template.TemplateScalarModel;
 
 public class TemplateEngine implements Closeable{
 
+	public enum MenuItems{
+		ITEM,
+		FOLDER,
+		FULL;
+	}
+	
+	public static final String S_MENU_LIST = "LIST";
+
 	public static final String S_CONDAST = "condast";
 	public static final String S_CONDAST_MODEL = "/resources/CondastModel.properties";
 
 	public static final String S_DYNAMIC = "dynamic";
 
 	private static final String S_INFO_TEMPLATE_LOOKUP = "FreeMarker requested key: ";
+
 	
 	private final Configuration configuration;
 
@@ -96,6 +106,10 @@ public class TemplateEngine implements Closeable{
 		this.model.remove(id);
 	}
 
+	public void registerModelListener(String namespace, IModelListener listener) {
+	    this.model.put(namespace,
+	            new ModelListener(Collections.singletonList(listener), true));
+	}
 	/**
 	 * Process the model 
 	 * @param fileName
@@ -148,6 +162,10 @@ public class TemplateEngine implements Closeable{
 		return builder.toString();
 	}
 
+	public void clear() {
+		this.listeners.clear();
+	}
+	
 	@Override
 	public void close() throws IOException {
 		this.providers.clear();
@@ -179,10 +197,21 @@ public class TemplateEngine implements Closeable{
 	
 	private class ModelListener implements TemplateHashModel {
 
+		private List<IModelListener> modelListeners;
+		private boolean fullPath;
+
+		protected ModelListener() {
+	        this(TemplateEngine.this.listeners, false);
+	    }
+		
+		protected ModelListener(List<IModelListener> listeners, boolean fullPath) {
+	        this.modelListeners = listeners;
+	        this.fullPath = fullPath;
+	    }
+
 	    @Override
 	    public TemplateModel get(String key)
 	            throws TemplateModelException {
-
 	        return new DynamicValue(key);
 	    }
 
@@ -203,34 +232,25 @@ public class TemplateEngine implements Closeable{
 	        @Override
 	        public TemplateModel get(String attribute)
 	                throws TemplateModelException {
-
 	            return new DynamicValue(path + "." + attribute);
 	        }
 
 	        @Override
 	        public String getAsString()
 	                throws TemplateModelException {
-
-	            String label = path.substring(
-	                    path.lastIndexOf('.') + 1);
-
+	        	String label = fullPath ? path :
+	                path.substring(path.lastIndexOf('.') + 1);     	
 	            logger.fine(S_INFO_TEMPLATE_LOOKUP + path);
-
 	            TemplateModel model = getModel(path);
-
-	            for (IModelListener listener : listeners) {
-
+	            for (IModelListener listener : modelListeners) {
 	                ModelEvent event = new ModelEvent(
 	                        ModelListener.this, label, model);
-
 	                listener.notifyModelEvent(event);
-
 	                if (event.hasChanged())
 	                    return event.getValue();
 	            }
-
 	            throw new TemplateModelException(
-	                    "No dynamic value found for: " + path);
+                    "No dynamic value found for: " + path);
 	        }
 
 	        @Override
@@ -242,22 +262,36 @@ public class TemplateEngine implements Closeable{
 	    private TemplateModel getModel(String path)
 	            throws TemplateModelException {
 
-	        Environment environment =
-	                Environment.getCurrentEnvironment();
-
+	        Environment environment = Environment.getCurrentEnvironment();
 	        TemplateModel model = environment.getDataModel();
-
 	        for (String attribute : path.split("\\.")) {
-
 	            if (!(model instanceof TemplateHashModel))
 	                return null;
-
 	            model = ((TemplateHashModel) model).get(attribute);
-
 	            if (model == null)
 	                return null;
 	        }
 
 	        return model;
 	    }
-	}}
+	}
+
+	public static String getMenuItem( String item, String entry, long token ) {
+        StringBuilder builder = new StringBuilder();
+        builder.append("<li class='nav-item'>\n");
+        builder.append("\t<a href=\"");
+        builder.append(entry);
+        builder.append("?token=");
+        builder.append(token);
+        builder.append("\"\n");       builder.append("\t\t target='entry-frame'\n");
+        builder.append("\t\t class='nav-link active'\n");
+        builder.append("\t\t aria-current='page'>\n");
+        builder.append("\t\t <svg class='bi me-2' width='16' height='16'>\n");
+        builder.append("\t\t\t <use xlink:href='#home'/>\n");
+        builder.append("\t\t </svg>\n");
+        builder.append("\t\t " + item );
+        builder.append("\t</a>");
+        builder.append("</li>");
+        return builder.toString();
+	}
+}
