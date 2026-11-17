@@ -20,9 +20,8 @@
   	</licenses>
 
 	<properties>
-		<maven.compiler.target>1.8</maven.compiler.target>
-		<maven.compiler.source>1.8</maven.compiler.source>
-		<tycho.version>5.0.4</tycho.version>
+ 		<maven.compiler.release>22</maven.compiler.release>		
+ 		<tycho.version>5.0.4</tycho.version>
 		<bundle.name>org.condast.js</bundle.name>
 		<revision>1.0.0-SNAPSHOT</revision>
 		<major.version>1.0.0</major.version>

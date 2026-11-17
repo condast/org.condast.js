@@ -4,6 +4,8 @@ tmp/
 features/
 plugins/
 
+OSGI-INF/
+
 *.class
 *.tmp
 artifacts.jar
