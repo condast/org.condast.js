@@ -9,11 +9,11 @@ public interface IRapApplicationProvider {
 
 	public String getDomain();
 
-	Set<IEntryPage> getPages();
-
     void configure( String domain, Application application);
 
-    EntryPoint getEntryPoint(String page);
+	Set<IEntryPage> getPages();
 
 	boolean hasEntryPoint(String page);
+
+    EntryPoint getEntryPoint(String page);
 }

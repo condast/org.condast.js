@@ -20,7 +20,7 @@
   	</licenses>
 
 	<properties>
- 		<maven.compiler.release>22</maven.compiler.release>		
+ 		<maven.compiler.release>21</maven.compiler.release>		
  		<tycho.version>5.0.4</tycho.version>
 		<bundle.name>org.condast.js</bundle.name>
 		<revision>1.0.0-SNAPSHOT</revision>
@@ -105,7 +105,7 @@
 				<artifactId>target-platform-configuration</artifactId>
 				<version>${tycho.version}</version>
 				<configuration>
-                    <executionEnvironment>JavaSE-22</executionEnvironment>
+                    <executionEnvironment>JavaSE-21</executionEnvironment>
  					<pomDependencies>consider</pomDependencies>
 					<target>
 						<artifact>

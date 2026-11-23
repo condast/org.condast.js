@@ -105,7 +105,7 @@ public abstract class AbstractCondastEntryPoint<S extends Object> extends Abstra
 				label.setText( createMessage());
 				return;
 			}
-			parent.addDisposeListener( _->close());
+			parent.addDisposeListener( e->close());
 			handler = new RWTUiSessionHandler(parent.getDisplay());
 			//Set the RWT Locale
 			parent.setData( RWT.CUSTOM_VARIANT, domain );
@@ -116,7 +116,7 @@ public abstract class AbstractCondastEntryPoint<S extends Object> extends Abstra
 	        parent.setLayout(new FillLayout( SWT.VERTICAL));
 			Composite composite = createComposite(parent );
 			composite.setData( RWT.CUSTOM_VARIANT, domain );
-			composite.addDisposeListener(_->close());
+			composite.addDisposeListener(e->close());
 			createTimer(false, 1, TimeUnit.MILLISECONDS, this.startTime, this.rate);
 			if(!postProcess(parent)) {
 				message = getClass().getName() + ": " + message;

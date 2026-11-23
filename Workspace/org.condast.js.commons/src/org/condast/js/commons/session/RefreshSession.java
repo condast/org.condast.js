@@ -33,7 +33,7 @@ public class RefreshSession<D extends Object> {
 
 	public void init( Display display ){
 		this.display = display;
-		this.display.addListener(SWT.Dispose, _->{ disposed=true;});
+		this.display.addListener(SWT.Dispose, e->{ disposed=true;});
 	}
 
 	/**

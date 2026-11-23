@@ -43,6 +43,18 @@ public class StringStyler
 	}
 
 	/**
+	 * Style the given string to a form that is used for enum types
+	 * @param input
+	 * @return
+	 */
+	public static String styleToProperty( String input ){
+		if(( input == null ) || ( input.length() == 0))
+			return input;
+		String parsed = input.replace("_", "-");
+		return parsed.toLowerCase();
+	}
+
+	/**
 	 * return a a string with first character lowercase.
 	 * @param input
 	 * @return
