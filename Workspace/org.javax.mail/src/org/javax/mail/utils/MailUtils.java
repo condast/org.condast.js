@@ -21,7 +21,7 @@ import javax.mail.internet.MimeMultipart;
 import org.condast.commons.data.user.ILoginUser;
 import org.condast.commons.data.util.LoginData;
 import org.condast.commons.parser.AbstractResourceParser;
-import org.condast.commons.preferences.config.Config;
+import org.condast.commons.project.IConfig;
 import org.condast.commons.strings.StringStyler;
 
 /**
@@ -223,10 +223,11 @@ public class MailUtils {
 			return result;
 		}
 
+		//TODO
 		@Override
 		protected String onHandleLabel(String id, Attributes attr) {
 			String result = null;
-			Config config = Config.getInstance();
+			IConfig config = null;//Config.getInstance();
 			String path = config.getServerContext() + domain;
 			switch( Parameters.getParameter(id)) {
 			case NAME:

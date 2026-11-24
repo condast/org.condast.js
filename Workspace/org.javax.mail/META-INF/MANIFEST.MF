@@ -13,5 +13,6 @@ Import-Package: javax.mail;version="[1.0.0,2.0.0)",
  org.condast.commons.data.util,
  org.condast.commons.parser,
  org.condast.commons.preferences.config,
+ org.condast.commons.project,
  org.condast.commons.strings
 Export-Package: org.javax.mail.utils
