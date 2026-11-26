@@ -11,7 +11,6 @@ import java.io.InputStreamReader;
 import java.util.HashMap;
 import java.util.Map;
 import java.util.Properties;
-import java.util.logging.Logger;
 
 public class PropertiesModelLoader implements ITemplateModelProvider{
 
@@ -21,14 +20,12 @@ public class PropertiesModelLoader implements ITemplateModelProvider{
 	
 	private Reader reader;
 
-	private Logger logger = Logger.getLogger(this.getClass().getName());
-
 	public PropertiesModelLoader(String id, File file) throws FileNotFoundException {
 		this(id,  new FileReader( file));
 	}
 
 	public PropertiesModelLoader(String id, InputStream inp) {
-		this(id,  new InputStreamReader( inp, StandardCharsets.UTF_8));
+		this(id, new InputStreamReader( inp, StandardCharsets.UTF_8));
 	}
 
 	public PropertiesModelLoader(String id, Reader reader) {

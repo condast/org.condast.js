@@ -1,4 +1,4 @@
-package org.openlayer.map.servlet;
+package org.openlayer.map.http;
 
 import java.io.IOException;
 import java.util.logging.Logger;
