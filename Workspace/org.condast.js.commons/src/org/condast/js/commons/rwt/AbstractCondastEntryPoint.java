@@ -181,7 +181,14 @@ public abstract class AbstractCondastEntryPoint<S extends Object> extends Abstra
 	protected void setHttpSessionTimeout( int timeout ) {
 		RWT.getUISession().getHttpSession().setMaxInactiveInterval(timeout);
 	}
+
 	
+	@Override
+	public boolean equals(Object arg0) {
+		// TODO Auto-generated method stub
+		return super.equals(arg0);
+	}
+
 	@Override
 	public  void close(){
 		try {

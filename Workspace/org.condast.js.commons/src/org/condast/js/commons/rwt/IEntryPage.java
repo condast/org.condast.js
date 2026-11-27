@@ -2,7 +2,7 @@ package org.condast.js.commons.rwt;
 
 import org.eclipse.rap.rwt.application.EntryPoint;
 
-public interface IEntryPage {
+public interface IEntryPage{
 
 	String toString();
 
@@ -11,5 +11,7 @@ public interface IEntryPage {
 	String getTitle();
 
 	EntryPoint getEntryPoint(String domain );
+	
+	public boolean equals( IEntryPage page );
 
 }
