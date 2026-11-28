@@ -30,4 +30,5 @@ Export-Package: org.openlayer.map.control,
 Automatic-Module-Name: org.openlayer.map
 Bundle-ActivationPolicy: lazy
 Service-Component: OSGI-INF/org.openlayer.map.http.MapFilter.xml,
- OSGI-INF/org.openlayer.map.http.WebResources.xml
+ OSGI-INF/org.openlayer.map.http.WebResources.xml,
+ OSGI-INF/org.openlayer.map.servlet.MapFilter.xml
