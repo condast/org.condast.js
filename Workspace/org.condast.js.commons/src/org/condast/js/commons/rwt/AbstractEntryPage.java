@@ -3,7 +3,6 @@ package org.condast.js.commons.rwt;
 import java.util.Objects;
 
 import org.condast.commons.strings.StringStyler;
-import org.eclipse.rap.rwt.application.EntryPoint;
 
 public abstract class AbstractEntryPage<E extends Enum<E>> implements IEntryPage, Comparable<E> {
 
@@ -58,13 +57,6 @@ public abstract class AbstractEntryPage<E extends Enum<E>> implements IEntryPage
     @Override
     public final int hashCode() {
         return toPath().hashCode();
-    }
-
-    protected abstract EntryPoint getEntryPoint();
-    
-    @Override
-    public EntryPoint getEntryPoint(String domain) {
-    	return  this.name.equals( domain)? getEntryPoint(): null;
     }
 
 	@Override

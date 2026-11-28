@@ -10,7 +10,7 @@ public interface IEntryPage{
 
 	String getTitle();
 
-	EntryPoint getEntryPoint(String domain );
+	EntryPoint getEntryPoint();
 	
 	public boolean equals( IEntryPage page );
 
